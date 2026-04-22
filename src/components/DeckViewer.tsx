@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { ChevronLeft, ChevronRight, X, Maximize2 } from "lucide-react";
 
-const TOTAL_SLIDES = 6;
+const TOTAL_SLIDES = 19;
 const slides = Array.from({ length: TOTAL_SLIDES }, (_, i) => `/deck/slide-${i + 1}.jpg`);
 
 interface DeckViewerProps {
