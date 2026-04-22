@@ -37,7 +37,7 @@ export function DeckViewer({ open, onOpenChange }: DeckViewerProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[98vw] sm:max-w-[95vw] md:max-w-6xl w-[98vw] max-h-[95vh] p-0 bg-background border-matrix/40 border shadow-[0_0_40px_rgba(0,255,65,0.15)] flex flex-col overflow-hidden">
+      <DialogContent className="max-w-[98vw] sm:max-w-[95vw] md:max-w-6xl w-[98vw] h-[95vh] p-0 bg-background border-matrix/40 border shadow-[0_0_40px_rgba(0,255,65,0.15)] flex flex-col overflow-hidden">
         <DialogTitle className="sr-only">AI for UK MOD Test &amp; Evaluation — Deck Viewer</DialogTitle>
 
         {/* Terminal header */}
