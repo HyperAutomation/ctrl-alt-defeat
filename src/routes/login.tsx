@@ -80,7 +80,7 @@ function LoginPage() {
           SECURE <span className="text-matrix text-glow">ACCESS</span>
         </h1>
         <p className="text-center text-muted-foreground text-sm mb-8 font-mono">
-          Vault entry restricted to <span className="text-matrix">@keysight.com</span>
+          Vault entry restricted to <span className="text-matrix">@keysight.com</span> / <span className="text-matrix">@jonathon.ai</span>
         </p>
 
         <TerminalCard title="./authenticate">
@@ -119,8 +119,8 @@ function LoginPage() {
                       id={`${mode}-pw`}
                       type="password"
                       required
-                      minLength={8}
-                      placeholder="••••••••"
+                      minLength={6}
+                      placeholder="••••••"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       className="font-mono bg-background/60 border-matrix/30 text-matrix focus-visible:ring-matrix focus-visible:border-matrix"
