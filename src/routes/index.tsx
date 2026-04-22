@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { MatrixRain } from "@/components/MatrixRain";
 import { TerminalCard } from "@/components/TerminalCard";
 import { GithubIcon } from "@/components/GithubIcon";
+import { DeckViewer } from "@/components/DeckViewer";
 import { useAuth } from "@/hooks/useAuth";
 import { Lock, FolderLock } from "lucide-react";
 
@@ -57,8 +59,10 @@ const projects = [
 
 function Index() {
   const { session } = useAuth();
+  const [deckOpen, setDeckOpen] = useState(false);
   return (
     <div className="min-h-screen relative overflow-x-hidden crt-flicker">
+      <DeckViewer open={deckOpen} onOpenChange={setDeckOpen} />
       <MatrixRain />
 
       {/* NAV */}
@@ -104,12 +108,13 @@ function Index() {
           </div>
 
           <div className="flex flex-wrap gap-4 pt-4">
-            <a
-              href="#repos"
+            <button
+              type="button"
+              onClick={() => setDeckOpen(true)}
               className="group inline-flex items-center gap-3 px-6 py-3 bg-matrix text-primary-foreground font-display tracking-widest text-sm uppercase rounded-sm pulse-glow hover:bg-matrix-glow transition-colors"
             >
               <span>► Jack In</span>
-            </a>
+            </button>
             <Link
               to="/research"
               className="inline-flex items-center gap-3 px-6 py-3 border border-matrix/50 text-matrix font-display tracking-widest text-sm uppercase rounded-sm hover:bg-matrix/10 transition-colors glitch"
