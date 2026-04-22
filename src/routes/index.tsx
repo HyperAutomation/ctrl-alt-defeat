@@ -1,7 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { MatrixRain } from "@/components/MatrixRain";
 import { TerminalCard } from "@/components/TerminalCard";
 import { GithubIcon } from "@/components/GithubIcon";
+import { useAuth } from "@/hooks/useAuth";
+import { Lock, FolderLock } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
