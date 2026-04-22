@@ -114,7 +114,7 @@ function Index() {
               rel="noopener noreferrer"
               className="group inline-flex items-center gap-3 px-6 py-3 bg-matrix text-primary-foreground font-display tracking-widest text-sm uppercase rounded-sm pulse-glow hover:bg-matrix-glow transition-colors"
             >
-              <span>► Jack In</span>
+              <span>~/REPOS</span>
             </a>
             <Link
               to="/user-story"
