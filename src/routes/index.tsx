@@ -166,6 +166,12 @@ function Index() {
               ► AI Stress
             </Link>
             <Link
+              to="/ai-context"
+              className="inline-flex items-center gap-3 px-6 py-3 border border-matrix/50 text-matrix font-display tracking-widest text-sm uppercase rounded-sm hover:bg-matrix/10 transition-colors glitch"
+            >
+              ► AI Context
+            </Link>
+            <Link
               to="/research"
               className="inline-flex items-center gap-3 px-6 py-3 border border-matrix/50 text-matrix font-display tracking-widest text-sm uppercase rounded-sm hover:bg-matrix/10 transition-colors glitch"
             >
