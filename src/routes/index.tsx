@@ -108,12 +108,13 @@ function Index() {
           </div>
 
           <div className="flex flex-wrap gap-4 pt-4">
-            <a
-              href="#repos"
+            <button
+              type="button"
+              onClick={() => setDeckOpen(true)}
               className="group inline-flex items-center gap-3 px-6 py-3 bg-matrix text-primary-foreground font-display tracking-widest text-sm uppercase rounded-sm pulse-glow hover:bg-matrix-glow transition-colors"
             >
               <span>► Jack In</span>
-            </a>
+            </button>
             <Link
               to="/research"
               className="inline-flex items-center gap-3 px-6 py-3 border border-matrix/50 text-matrix font-display tracking-widest text-sm uppercase rounded-sm hover:bg-matrix/10 transition-colors glitch"
