@@ -34,7 +34,7 @@ function LoginPage() {
     }
   }, [loading, session, navigate]);
 
-  const handleSubmit = async (mode: "in" | "up") => async (e: FormEvent) => {
+  const handleSubmit = (mode: "in" | "up") => async (e: FormEvent) => {
     e.preventDefault();
     setBusy(true);
     const fn = mode === "in" ? signInEmail : signUpEmail;
