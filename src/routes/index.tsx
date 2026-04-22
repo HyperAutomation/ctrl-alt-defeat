@@ -103,7 +103,7 @@ function Index() {
 
           <div className="max-w-2xl text-lg text-muted-foreground leading-relaxed">
             <p className="typewriter inline-block">
-              A UK hackathon collective shipping open tools for builders.
+              A UK hackathon collective helping apply Artificial Intelligence for System Testing
             </p>
           </div>
 
