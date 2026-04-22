@@ -6,10 +6,10 @@ import { GithubIcon } from "@/components/GithubIcon";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "NEXUS//404 — Hackathon Team" },
-      { name: "description", content: "We break the simulation. Hackathon team building open-source tools at the edge of reality." },
-      { property: "og:title", content: "NEXUS//404 — Hackathon Team" },
-      { property: "og:description", content: "We break the simulation. Hackathon team building open-source tools at the edge of reality." },
+      { title: "CTRL-ALT-DEFEAT.UK — Hackathon Team" },
+      { name: "description", content: "We break the simulation. UK hackathon team building open-source tools at the edge of reality." },
+      { property: "og:title", content: "CTRL-ALT-DEFEAT.UK — Hackathon Team" },
+      { property: "og:description", content: "We break the simulation. UK hackathon team building open-source tools at the edge of reality." },
     ],
   }),
   component: Index,
@@ -27,28 +27,28 @@ const projects = [
     name: "redpill-cli",
     tagline: "Terminal-first AI agent for code generation",
     stack: ["Rust", "Tokio", "OpenAI"],
-    repo: "https://github.com/nexus404/redpill-cli",
+    repo: "https://github.com/ctrl-alt-defeat/redpill-cli",
     stars: "2.4k",
   },
   {
     name: "construct.db",
     tagline: "Edge-native vector database with sub-ms recall",
     stack: ["Go", "WASM", "DuckDB"],
-    repo: "https://github.com/nexus404/construct-db",
+    repo: "https://github.com/ctrl-alt-defeat/construct-db",
     stars: "891",
   },
   {
     name: "zion-stream",
     tagline: "Real-time event mesh for distributed systems",
     stack: ["TypeScript", "NATS", "Bun"],
-    repo: "https://github.com/nexus404/zion-stream",
+    repo: "https://github.com/ctrl-alt-defeat/zion-stream",
     stars: "1.2k",
   },
   {
     name: "agent-smith",
     tagline: "Autonomous fuzzing & exploit detection toolkit",
     stack: ["Python", "LLVM", "Z3"],
-    repo: "https://github.com/nexus404/agent-smith",
+    repo: "https://github.com/ctrl-alt-defeat/agent-smith",
     stars: "3.7k",
   },
 ];
@@ -63,7 +63,7 @@ function Index() {
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2 font-display">
             <span className="text-matrix text-glow text-xl">▌</span>
-            <span className="text-foreground tracking-widest text-sm">NEXUS//404</span>
+            <span className="text-foreground tracking-widest text-sm">CTRL-ALT-DEFEAT.UK</span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-xs uppercase tracking-widest text-muted-foreground">
             <a href="#mission" className="hover:text-matrix transition-colors glitch">~/mission</a>
@@ -72,7 +72,7 @@ function Index() {
             <a href="#contact" className="hover:text-matrix transition-colors glitch">~/contact</a>
           </div>
           <a
-            href="https://github.com/nexus404"
+            href="https://github.com/ctrl-alt-defeat"
             target="_blank"
             rel="noreferrer"
             className="flex items-center gap-2 px-3 py-1.5 border border-matrix/40 rounded-sm text-xs text-matrix hover:bg-matrix/10 hover:border-glow transition-all"
@@ -86,7 +86,7 @@ function Index() {
       <section className="relative z-10 max-w-6xl mx-auto px-6 pt-24 pb-32">
         <div className="space-y-8 float-up">
           <div className="font-mono text-sm text-matrix-dim">
-            <span className="text-matrix">$</span> ./initialize --team=nexus404 --year=2026
+            <span className="text-matrix">$</span> ./initialize --team=ctrl-alt-defeat --region=uk --year=2026
           </div>
 
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl leading-none tracking-tight">
@@ -96,7 +96,7 @@ function Index() {
 
           <div className="max-w-2xl text-lg text-muted-foreground leading-relaxed">
             <p className="typewriter inline-block">
-              A hackathon collective shipping open tools for builders.
+              A UK hackathon collective shipping open tools for builders.
             </p>
           </div>
 
@@ -261,10 +261,10 @@ function Index() {
 
       {/* CONTACT */}
       <section id="contact" className="relative z-10 max-w-6xl mx-auto px-6 py-24">
-        <TerminalCard title="./contact --establish-connection">
+            <TerminalCard title="./contact --establish-connection">
           <div className="space-y-6 font-mono">
             <div className="text-matrix">
-              <span className="text-matrix-dim">root@nexus404:~$</span> echo "let's build something"
+              <span className="text-matrix-dim">root@ctrl-alt-defeat:~$</span> echo "let's build something"
             </div>
             <h3 className="font-display text-3xl md:text-5xl text-foreground">
               JOIN THE <span className="text-matrix text-glow">RESISTANCE</span>
@@ -274,18 +274,18 @@ function Index() {
             </p>
             <div className="flex flex-wrap gap-3 pt-2">
               <a
-                href="mailto:crew@nexus404.dev"
+                href="mailto:crew@ctrl-alt-defeat.uk"
                 className="inline-flex items-center gap-3 px-5 py-3 bg-matrix text-primary-foreground font-display tracking-widest text-sm uppercase rounded-sm hover:bg-matrix-glow transition-colors"
               >
-                ► crew@nexus404.dev
+                ► crew@ctrl-alt-defeat.uk
               </a>
               <a
-                href="https://github.com/nexus404"
+                href="https://github.com/ctrl-alt-defeat"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-3 border border-matrix/50 text-matrix font-display tracking-widest text-sm uppercase rounded-sm hover:bg-matrix/10 transition-colors"
               >
-                <GithubIcon className="w-4 h-4" /> /nexus404
+                <GithubIcon className="w-4 h-4" /> /ctrl-alt-defeat
               </a>
             </div>
           </div>
@@ -295,7 +295,7 @@ function Index() {
       {/* FOOTER */}
       <footer className="relative z-10 border-t border-matrix/20 mt-12">
         <div className="max-w-6xl mx-auto px-6 py-6 flex flex-wrap items-center justify-between gap-3 text-xs text-matrix-dim font-mono">
-          <div>© 2026 NEXUS//404 — There is no spoon.</div>
+          <div>© 2026 CTRL-ALT-DEFEAT.UK — There is no spoon.</div>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-matrix animate-pulse" />
             <span>system online · uplink stable</span>
