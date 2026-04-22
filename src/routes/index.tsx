@@ -1,7 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { MatrixRain } from "@/components/MatrixRain";
 import { TerminalCard } from "@/components/TerminalCard";
 import { GithubIcon } from "@/components/GithubIcon";
+import { useAuth } from "@/hooks/useAuth";
+import { Lock, FolderLock } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -54,6 +56,7 @@ const projects = [
 ];
 
 function Index() {
+  const { session } = useAuth();
   return (
     <div className="min-h-screen relative overflow-x-hidden crt-flicker">
       <MatrixRain />
@@ -71,14 +74,13 @@ function Index() {
             <a href="#repos" className="hover:text-matrix transition-colors glitch">~/repos</a>
             <a href="#contact" className="hover:text-matrix transition-colors glitch">~/contact</a>
           </div>
-          <a
-            href="https://github.com/ctrl-alt-defeat"
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center gap-2 px-3 py-1.5 border border-matrix/40 rounded-sm text-xs text-matrix hover:bg-matrix/10 hover:border-glow transition-all"
+          <Link
+            to={session ? "/vault" : "/login"}
+            className="flex items-center gap-2 px-3 py-1.5 border border-matrix/50 rounded-sm text-xs text-matrix hover:bg-matrix/10 hover:border-glow transition-all font-display uppercase tracking-widest"
           >
-            <GithubIcon className="w-4 h-4" /> github
-          </a>
+            {session ? <FolderLock className="w-4 h-4" /> : <Lock className="w-4 h-4" />}
+            {session ? "vault" : "secure access"}
+          </Link>
         </div>
       </nav>
 
