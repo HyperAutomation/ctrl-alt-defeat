@@ -3,7 +3,11 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { ChevronLeft, ChevronRight, X, Maximize2 } from "lucide-react";
 
 const TOTAL_SLIDES = 19;
-const slides = Array.from({ length: TOTAL_SLIDES }, (_, i) => `/deck/slide-${i + 1}.jpg`);
+const DECK_VERSION = "v2";
+const slides = Array.from(
+  { length: TOTAL_SLIDES },
+  (_, i) => `/deck/slide-${i + 1}.jpg?${DECK_VERSION}`,
+);
 
 interface DeckViewerProps {
   open: boolean;
