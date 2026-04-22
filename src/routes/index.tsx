@@ -97,7 +97,7 @@ function Index() {
           </div>
 
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl leading-none tracking-tight">
-            <span className="block text-foreground">WE BREAK</span>
+            <span className="block text-foreground">WE TEST</span>
             <span className="block text-matrix text-glow-strong">THE SIMULATION.</span>
           </h1>
 
