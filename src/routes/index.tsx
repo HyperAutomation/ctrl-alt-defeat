@@ -142,7 +142,7 @@ function Index() {
       <section id="mission" className="relative z-10 max-w-6xl mx-auto px-6 py-20">
         <TerminalCard title="cat ./mission.txt">
           <pre className="text-matrix font-mono text-sm md:text-base leading-relaxed whitespace-pre-wrap">
-{`> Hello, ${"<"}user${">"}.
+{`> Welcome to the Matrix
 
   We build software like it's a heist.
   48 hours. No sleep. Real shipping.
