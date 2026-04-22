@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { MatrixRain } from "@/components/MatrixRain";
 import { TerminalCard } from "@/components/TerminalCard";
 import { GithubIcon } from "@/components/GithubIcon";
+import { DeckViewer } from "@/components/DeckViewer";
 import { useAuth } from "@/hooks/useAuth";
 import { Lock, FolderLock } from "lucide-react";
 
