@@ -1,0 +1,1291 @@
+{
+  "glossary": [
+    {
+      "term": "Swarm",
+      "def": "A group of uncrewed aircraft operating as a coordinated single operation under a common autonomy stack. In the input, the term is used throughout but is never numerically bounded; CAA-US-014 caps the airborne count but no story defines the minimum or the coordination protocol that qualifies a group as a 'swarm' vs. a 'formation'.",
+      "status": "unverified"
+    },
+    {
+      "term": "BVLOS",
+      "def": "Beyond Visual Line of Sight. Operation where the remote pilot in command cannot see the aircraft directly. Used throughout but not defined in the stories.",
+      "status": "unverified"
+    },
+    {
+      "term": "Operational Design Domain (ODD)",
+      "def": "The set of conditions under which the autonomous system is designed to operate safely (lat/long polygon, altitude band, wind, visibility, daylight). Named in CAA-US-005 but the schema of a 'machine-checkable' ODD is not prescribed.",
+      "status": "unverified"
+    },
+    {
+      "term": "SORA",
+      "def": "Specific Operations Risk Assessment \u2014 the JARUS 2.0 methodology the CAA uses to determine Ground Risk Class, Air Risk Class and Specific Assurance and Integrity Level for Specific-category UAS operations.",
+      "status": "verified"
+    },
+    {
+      "term": "GRC",
+      "def": "Ground Risk Class \u2014 SORA Step 2 output expressing intrinsic ground risk before mitigation.",
+      "status": "verified"
+    },
+    {
+      "term": "ARC",
+      "def": "Air Risk Class \u2014 SORA Step 4 output expressing intrinsic airspace encounter risk.",
+      "status": "verified"
+    },
+    {
+      "term": "SAIL",
+      "def": "Specific Assurance and Integrity Level \u2014 SORA Step 7 output mapping residual risk to required Operational Safety Objectives (OSO).",
+      "status": "verified"
+    },
+    {
+      "term": "OSO",
+      "def": "Operational Safety Objective \u2014 SORA-prescribed mitigation required at a given SAIL and robustness level.",
+      "status": "verified"
+    },
+    {
+      "term": "ConOps",
+      "def": "Concept of Operations \u2014 document describing mission profile, ODD, roles and contingencies.",
+      "status": "verified"
+    },
+    {
+      "term": "TDA",
+      "def": "Temporary Danger Area \u2014 airspace construct applied via CAP 1616 / ANO to segregate a defined volume.",
+      "status": "verified"
+    },
+    {
+      "term": "C2L",
+      "def": "Command and Control Link \u2014 the datalink over which the RPIC commands the aircraft. Classed under RTCA DO-377 / STANAG 4660.",
+      "status": "verified"
+    },
+    {
+      "term": "DAA",
+      "def": "Detect and Avoid \u2014 the function that identifies and resolves a collision hazard with other traffic, per DO-365C / ASTM F3442.",
+      "status": "verified"
+    },
+    {
+      "term": "Autonomous",
+      "def": "Not defined in the corpus. Stories conflate 'autonomous', 'automated', 'AI-driven' and 'learned' without drawing the line between pre-coded behaviour and machine-learned behaviour. This is significant because assurance technique (AMLAS vs. conventional software assurance) hinges on the classification.",
+      "status": "unverified"
+    },
+    {
+      "term": "Emergent behaviour",
+      "def": "Behaviour that arises from interaction of swarm members and cannot be traced to an explicit rule in any single member. Used in CAA-US-013 and CAA-US-015 but the 'emergent vs. coded' distinction is not operationalised.",
+      "status": "unverified"
+    },
+    {
+      "term": "Meaningful Human Control (MHC)",
+      "def": "UK MOD policy position under which a human retains authority over any engagement decision and can intervene. Cited at CAA-US-019; however, the input does not define which classes of decision are 'in scope' for human authorisation vs. delegable to the autonomy.",
+      "status": "unverified"
+    },
+    {
+      "term": "RAISO",
+      "def": "Responsible AI Senior Officer \u2014 defined under JSP 936 Part 1. Cited in CAA-US-001, CAA-US-002, CAA-US-030 but the CAA-facing responsibilities of the RAISO (what they counter-sign, when) are not fully enumerated.",
+      "status": "unverified"
+    },
+    {
+      "term": "Go/no-go gate",
+      "def": "A decision point at the end of a trial phase. Cited in CAA-US-032 but the decision criteria are not specified.",
+      "status": "unverified"
+    },
+    {
+      "term": "Containment",
+      "def": "Action that keeps the aircraft within declared volumes, e.g. geofence-triggered RTB, autoland or flight termination. Cited at CAA-US-008 and CAA-US-021. The input does not clarify whether 'containment' and 'termination' are equivalent or hierarchical.",
+      "status": "unverified"
+    },
+    {
+      "term": "Fly-away",
+      "def": "An unintended departure from the authorised airspace. Used in CAA-US-008 and CAA-US-023 without formal definition; no numeric threshold distinguishes a 'fly-away' from a 'containment event'.",
+      "status": "unverified"
+    },
+    {
+      "term": "Adversarial input",
+      "def": "An input crafted to induce incorrect ML behaviour (e.g. jamming, spoofed ADS-B, adversarial EO patches). Cited in CAA-US-004 and CAA-US-015 but not defined operationally.",
+      "status": "unverified"
+    },
+    {
+      "term": "Out-of-distribution (OOD) input",
+      "def": "An input outside the statistical distribution of the training data. Cited in CAA-US-015; detection mechanism is required but no performance target.",
+      "status": "unverified"
+    },
+    {
+      "term": "Model freeze",
+      "def": "Prohibition on changing an ML model during the trial window. Cited in CAA-US-017; 'cryptographic hash' is required but the hash-verification workflow is not defined.",
+      "status": "unverified"
+    },
+    {
+      "term": "Explainability evidence",
+      "def": "Artefacts (SHAP, LIME, attention maps) that justify a decision. Cited in CAA-US-018. The input does not specify which decisions are 'safety-relevant' enough to require explainability artefacts.",
+      "status": "unverified"
+    },
+    {
+      "term": "Workload limit (RPIC)",
+      "def": "Named in CAA-US-019 as 'published workload limits' but no published reference is cited. The CAA has no published RPAS-swarm workload limit.",
+      "status": "unverified"
+    },
+    {
+      "term": "Accountable Manager",
+      "def": "Role named in CAA-US-002 \u2014 conventional AOC term, but meaning under a Specific Category OA is not defined by the input.",
+      "status": "unverified"
+    },
+    {
+      "term": "Swarm Commander",
+      "def": "Role named in CAA-US-002 and CAA-US-029 \u2014 not a CAP 722 term; the input introduces it without definition or competency reference.",
+      "status": "unverified"
+    },
+    {
+      "term": "Autonomy stack",
+      "def": "The software that implements the aircraft's decision-making. Used informally; distinction from 'flight control software' is unclear.",
+      "status": "unverified"
+    },
+    {
+      "term": "Authorisation (OA)",
+      "def": "Operational Authorisation issued under UK Reg 2019/947 Art 12. Referenced but not defined for swarm activity specifically.",
+      "status": "verified"
+    },
+    {
+      "term": "Engagement",
+      "def": "Used in CAA-US-019 ('an engagement or threat response') \u2014 a defence-specific term the civil regulator is unlikely to apply; overloads the civil reviewer's vocabulary.",
+      "status": "unverified"
+    },
+    {
+      "term": "Responsible Kilometre / ground environment",
+      "def": "The ground area under the aircraft's trajectory. CAA-US-028 uses 'ground-environment survey' but does not define the survey depth, vintage or recency requirement.",
+      "status": "unverified"
+    }
+  ],
+  "stories": [
+    {
+      "gap": false,
+      "title": "Feature: Application Intake & Completeness Check",
+      "story": "As a CAA case officer, I want to receive a complete Operational Authorisation pack so that I can open a valid case.",
+      "trace": "CAA-US-001, CAA-US-002"
+    },
+    {
+      "gap": false,
+      "title": "Feature: SORA 2.0 Assessment for Swarm",
+      "story": "As a CAA SORA assessor, I want swarm-aware SORA evidence so that I can set SAIL and OSO requirements defensibly.",
+      "trace": "CAA-US-003, CAA-US-004"
+    },
+    {
+      "gap": false,
+      "title": "Feature: ConOps & ODD Review",
+      "story": "As a CAA safety-case reviewer, I want a clear ConOps and ODD so that I can judge nominal and worst-credible behaviour.",
+      "trace": "CAA-US-005, CAA-US-006"
+    },
+    {
+      "gap": false,
+      "title": "Feature: Airspace Change & TDA Coordination",
+      "story": "As a CAA airspace regulator, I want a TDA and consultation package so that I can segregate the trial from other users.",
+      "trace": "CAA-US-007, CAA-US-031"
+    },
+    {
+      "gap": false,
+      "title": "Feature: Geofence / Containment Enforcement",
+      "story": "As a CAA airspace regulator, I want automatic containment so that a fly-away cannot become uncontrolled BVLOS.",
+      "trace": "CAA-US-008"
+    },
+    {
+      "gap": false,
+      "title": "Feature: C2 Link and Spectrum Assurance",
+      "story": "As a CAA spectrum specialist, I want authorised, monitored C2 and inter-vehicle links so that link loss is survivable and non-interfering.",
+      "trace": "CAA-US-009, CAA-US-010"
+    },
+    {
+      "gap": false,
+      "title": "Feature: Detect-and-Avoid Performance",
+      "story": "As a CAA DAA assessor, I want DO-365 / F3442-aligned evidence for each aircraft and coordinated swarm de-confliction so that cooperative and non-cooperative encounters are resolved predictably.",
+      "trace": "CAA-US-011, CAA-US-012"
+    },
+    {
+      "gap": false,
+      "title": "Feature: Swarm Decision-Making Architecture Review",
+      "story": "As a CAA autonomy reviewer, I want the decision-making architecture, airborne limits and emergent-behaviour evidence so that I can assure what the swarm will do collectively.",
+      "trace": "CAA-US-013, CAA-US-014, CAA-US-015"
+    },
+    {
+      "gap": false,
+      "title": "Feature: ML Assurance Case",
+      "story": "As a CAA AI/ML assurance specialist, I want an AMLAS / SACE case, a frozen-model manifest and explainability evidence so that ML components are assurable and forensically explainable.",
+      "trace": "CAA-US-016, CAA-US-017, CAA-US-018"
+    },
+    {
+      "gap": false,
+      "title": "Feature: Human Oversight and Crew Fitness",
+      "story": "As a CAA human factors inspector, I want workload, duty and take-over evidence so that meaningful human control is demonstrated throughout.",
+      "trace": "CAA-US-019, CAA-US-020"
+    },
+    {
+      "gap": false,
+      "title": "Feature: Contingency and Flight Termination",
+      "story": "As a CAA flight-ops inspector, I want independent termination, a contingency matrix and ATSU coordination so that the trial can be made safe in any off-nominal state.",
+      "trace": "CAA-US-021, CAA-US-022, CAA-US-023"
+    },
+    {
+      "gap": false,
+      "title": "Feature: Data, MOR & DPIA Obligations",
+      "story": "As a CAA flight safety investigator, I want complete recorded evidence, accepted MOR obligations and a DPIA so that any incident is investigable and privacy is protected.",
+      "trace": "CAA-US-024, CAA-US-025, CAA-US-026"
+    },
+    {
+      "gap": false,
+      "title": "Feature: Insurance & Ground-Environment Survey",
+      "story": "As a CAA authorisation officer, I want insurance and a ground survey so that third-party risk is both transferable and factually grounded.",
+      "trace": "CAA-US-027, CAA-US-028"
+    },
+    {
+      "gap": false,
+      "title": "Feature: Crew Training & Competency",
+      "story": "As a CAA licensing inspector, I want evidenced competency so that the trial is flown by qualified crew.",
+      "trace": "CAA-US-029"
+    },
+    {
+      "gap": false,
+      "title": "Feature: CAA/MAA Interface Management",
+      "story": "As a CAA/MAA liaison, I want a signed apportionment so that regulatory ownership is gap-free.",
+      "trace": "CAA-US-030, CAA-US-031"
+    },
+    {
+      "gap": false,
+      "title": "Feature: Phased Trial Build-Up",
+      "story": "As a CAA programme manager, I want phased gates so that evidence builds progressively and is reversible.",
+      "trace": "CAA-US-032"
+    },
+    {
+      "gap": true,
+      "title": "Gap: MISSING: Public and Stakeholder Engagement",
+      "story": "No user story covers community consultation, press/media handling or prior-notification to landowners. Strongly implied by CAP 1616 and GDPR but absent.",
+      "trace": ""
+    },
+    {
+      "gap": true,
+      "title": "Gap: MISSING: Security Classification Handling",
+      "story": "No user story addresses how classified MOD evidence is presented to the CAA under CAP 722H / JSP 440 without compromise to either side.",
+      "trace": ""
+    },
+    {
+      "gap": false,
+      "title": "Feature: MISSING: Environmental Impact",
+      "story": "No user story covers noise, species disturbance at dusk/night, or battery-fire environmental risk on ground.",
+      "trace": ""
+    },
+    {
+      "gap": true,
+      "title": "Gap: MISSING: Post-Trial Assurance & Close-out",
+      "story": "No user story covers the post-trial lessons-learned, evidence preservation and authorisation close-out.",
+      "trace": ""
+    }
+  ],
+  "scenarios": [
+    {
+      "n": "1",
+      "feature": "Application Intake & Completeness Check",
+      "scenario": "Complete pack submitted",
+      "given": "A CAA case officer receives an OA pack for a BVLOS swarm trial.",
+      "when": "The officer runs the intake checklist.",
+      "then": "Every required artefact (SORA workbook, ConOps, RAISO letter, CAA/MAA routing memo, safety case, ML manifest, insurance certificate, DPIA) is present or a waiver is recorded, and the case is assigned a review team within 10 working days."
+    },
+    {
+      "n": "2",
+      "feature": "Application Intake & Completeness Check",
+      "scenario": "Incomplete pack",
+      "given": "The pack is missing the RAISO nomination and the ML deployment manifest.",
+      "when": "The officer runs the intake checklist.",
+      "then": "The case is not progressed, a deficiency letter is issued, and the applicant is given a defined window to resubmit."
+    },
+    {
+      "n": "3",
+      "feature": "SORA 2.0 Assessment for Swarm",
+      "scenario": "Aggregated kinetic energy",
+      "given": "The applicant declares N airframes each with mass M and terminal velocity V.",
+      "when": "The SORA assessor calculates worst-credible simultaneous loss of control.",
+      "then": "The assessor uses the aggregated KE envelope rather than the single-aircraft KE, and the GRC is recomputed accordingly."
+    },
+    {
+      "n": "4",
+      "feature": "SORA 2.0 Assessment for Swarm",
+      "scenario": "Common-cause failure",
+      "given": "The swarm uses identical hardware and identical autonomy stacks.",
+      "when": "The assessor evaluates independence of airframe reliability figures.",
+      "then": "Independence is rejected unless the applicant has enumerated common-cause failure modes (software defect, GNSS, RF, adversarial) and mitigated each."
+    },
+    {
+      "n": "5",
+      "feature": "Airspace Change & TDA Coordination",
+      "scenario": "Late TDA application",
+      "given": "An airspace change is proposed with less than 90 days to the first sortie.",
+      "when": "The airspace regulator receives the application.",
+      "then": "The application is returned to the applicant because AIP SUP / NOTAM cycles cannot be met; a revised trial start date is required."
+    },
+    {
+      "n": "6",
+      "feature": "Geofence / Containment Enforcement",
+      "scenario": "Geofence breach",
+      "given": "One airborne member approaches the TDA boundary.",
+      "when": "Pre-boundary geofence condition triggers.",
+      "then": "Automatic containment executes before the boundary is crossed; the trigger-to-actuation budget is less than the time-to-boundary at max airspeed; NATS and the CAA duty officer are notified within the documented SLA."
+    },
+    {
+      "n": "7",
+      "feature": "C2 Link and Spectrum Assurance",
+      "scenario": "C2 performance degradation",
+      "given": "C2 link quality drops below the declared threshold.",
+      "when": "The GCS detects the degradation.",
+      "then": "The RPIC is alerted with time, latency and recoverability data, and the documented contingency (hover, orbit, RTB, terminate) auto-initiates if a secondary threshold is crossed."
+    },
+    {
+      "n": "8",
+      "feature": "C2 Link and Spectrum Assurance",
+      "scenario": "Inter-vehicle datalink loss",
+      "given": "Two or more members lose the inter-vehicle link.",
+      "when": "Link timeout expires.",
+      "then": "Each member falls back to standalone DO-365-compliant DAA behaviour, and the swarm degrades gracefully to independent operation."
+    },
+    {
+      "n": "9",
+      "feature": "Detect-and-Avoid Performance",
+      "scenario": "Non-cooperative traffic encounter",
+      "given": "A GA aircraft without ADS-B enters the Operational Volume.",
+      "when": "At least one swarm member detects the intruder.",
+      "then": "The coordinated de-confliction protocol resolves a unique, predictable manoeuvre within the reaction-time budget, and no other member creates a cascading conflict."
+    },
+    {
+      "n": "10",
+      "feature": "Swarm Decision-Making Architecture Review",
+      "scenario": "Out-of-distribution input",
+      "given": "A swarm member encounters a weather or sensor condition outside its ODD or training distribution.",
+      "when": "The OOD detector fires.",
+      "then": "The member executes a pre-declared safe response (hover, orbit, return, terminate) and the swarm coordinator propagates the state change to all members."
+    },
+    {
+      "n": "11",
+      "feature": "ML Assurance Case",
+      "scenario": "Model hash mismatch",
+      "given": "A pre-flight deployment check runs against the ML manifest.",
+      "when": "The hash of a flown model does not match the manifest.",
+      "then": "Flight is prohibited until the discrepancy is resolved, and the occurrence is reported as an ML-specific anomaly."
+    },
+    {
+      "n": "12",
+      "feature": "Human Oversight and Crew Fitness",
+      "scenario": "RPIC take-over request",
+      "given": "The RPIC issues a take-over command during active autonomy.",
+      "when": "The command is received.",
+      "then": "The swarm transitions to the commanded state within the declared latency budget and the event is logged with a time-stamp."
+    },
+    {
+      "n": "13",
+      "feature": "Contingency and Flight Termination",
+      "scenario": "Concurrent contingencies",
+      "given": "A C2 loss and a sensor failure occur on the same airframe within the same decision cycle.",
+      "when": "The contingency matrix is evaluated.",
+      "then": "Priority ordering applies deterministically (termination > containment > RTB > orbit), and the outcome is logged."
+    },
+    {
+      "n": "14",
+      "feature": "Data, MOR & DPIA Obligations",
+      "scenario": "Occurrence reporting",
+      "given": "An occurrence that meets Reg 376/2014 criteria happens in flight.",
+      "when": "Post-flight debrief identifies it.",
+      "then": "An MOR is filed via ECCAIRS within 72 hours."
+    },
+    {
+      "n": "15",
+      "feature": "Data, MOR & DPIA Obligations",
+      "scenario": "ML-specific anomaly (not a Reg 376 occurrence)",
+      "given": "Emergent swarm behaviour is observed but no safety event results.",
+      "when": "Post-flight analysis confirms the anomaly.",
+      "then": "A supplementary report is sent to the CAA even though it is not a Reg 376 occurrence."
+    },
+    {
+      "n": "16",
+      "feature": "CAA/MAA Interface Management",
+      "scenario": "Cross-boundary incident",
+      "given": "An incident straddles civil and military airspace.",
+      "when": "It is detected.",
+      "then": "The joint CAA/MAA investigation path pre-agreed in the apportionment memo is activated; DSA and RAISO are notified simultaneously."
+    },
+    {
+      "n": "17",
+      "feature": "Phased Trial Build-Up",
+      "scenario": "Exit criteria failure",
+      "given": "A phase exit criterion is not met.",
+      "when": "The CAA reviews the evidence.",
+      "then": "The pre-declared regression path is activated \u2014 the next phase is not authorised and the applicant returns to a safer phase."
+    }
+  ],
+  "findings": [
+    {
+      "principle": "D",
+      "severity": "critical",
+      "title": "F-D-01 \u2014 The core noun 'swarm' is never formally defined",
+      "analyst": "Dorothy",
+      "analyst_role": "Definitions Analyst",
+      "tag": "undefined_term",
+      "confidence": "C10",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "Every other story leans on this term. Without a definition, 'swarm limits' (CAA-US-014), 'swarm-level DAA' (CAA-US-012) and 'swarm-wide termination' (CAA-US-021) are each interpretable differently."
+        },
+        {
+          "h": "Current usage",
+          "body": "Used as if self-explanatory in every story, but with no lower/upper bounds on member count, no coordination-protocol threshold, and no distinction from 'formation' or 'coordinated flight'."
+        },
+        {
+          "h": "Proposed definition",
+          "body": "A group of two or more uncrewed aircraft operating under a single OA, sharing a common coordination protocol and a single RPIC, such that loss of coordination with the group is itself a safety-relevant event."
+        }
+      ]
+    },
+    {
+      "principle": "P",
+      "severity": "critical",
+      "title": "F-P-02 \u2014 'Defined latency budget' is used without a budget",
+      "analyst": "Paul",
+      "analyst_role": "Prediction Analyst",
+      "tag": "incomplete_rule",
+      "confidence": "C10",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "A 'budget' without a number is an uncheckable acceptance criterion."
+        },
+        {
+          "h": "Scenario",
+          "body": "Multiple stories (CAA-US-008, CAA-US-012, CAA-US-019, CAA-US-021) cite 'declared latency budget' / 'reaction-time budget' without a numeric value."
+        },
+        {
+          "h": "Realistic alternative",
+          "body": "Follow DO-365C Well-Clear timing (approx. 35 s) for DAA, and DO-377 for C2 latency."
+        },
+        {
+          "h": "Absurd alternative (DeFOSPAM provocation)",
+          "body": "The latency budget is whatever the autonomy stack happens to achieve on the day."
+        }
+      ]
+    },
+    {
+      "principle": "O",
+      "severity": "critical",
+      "title": "F-O-01 \u2014 The 'go/no-go' outcome has no enumerated decision set",
+      "analyst": "Olivia",
+      "analyst_role": "Outcomes Analyst",
+      "tag": "missing_outcome",
+      "confidence": "C9",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "An outcome that is enumerable as a choice but is not enumerated cannot be implemented consistently across CAA reviewers."
+        },
+        {
+          "h": "Outcome (output)",
+          "body": "CAA-US-032 declares that 'the CAA reviews the evidence and issues an explicit go/no-go' but does not enumerate the set of possible decisions (go, no-go, go-with-conditions, pause, terminate)."
+        }
+      ]
+    },
+    {
+      "principle": "O",
+      "severity": "critical",
+      "title": "F-O-04 \u2014 Outcome of a model update during the trial is under-specified",
+      "analyst": "Olivia",
+      "analyst_role": "Outcomes Analyst",
+      "tag": "hanging_outcome",
+      "confidence": "C9",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "Detecting the breach without a stated response risks ad-hoc handling and regulatory inconsistency."
+        },
+        {
+          "h": "Outcome (state_change)",
+          "body": "CAA-US-017 says updates are 'not permitted without a fresh authorisation' \u2014 but does not say what happens if an update is detected mid-trial."
+        }
+      ]
+    },
+    {
+      "principle": "S",
+      "severity": "critical",
+      "title": "F-S-01 \u2014 No scenario for partial-swarm return after partial fly-away",
+      "analyst": "Sophia",
+      "analyst_role": "Scenarios Analyst",
+      "tag": "missing_scenario",
+      "confidence": "C9",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "CAA-US-008 covers the containment of a member and CAA-US-021 covers group termination, but the middle case (one down, rest continue) is unspecified."
+        },
+        {
+          "h": "Missing scenario",
+          "body": "Given the swarm has N members airborne and one experiences a containment event; When that member initiates containment; Then the remaining members' behaviour (continue mission, hold, group-return) must be specified."
+        }
+      ]
+    },
+    {
+      "principle": "P",
+      "severity": "critical",
+      "title": "F-P-01 \u2014 'Published workload limits' is not predictable",
+      "analyst": "Paul",
+      "analyst_role": "Prediction Analyst",
+      "tag": "unpredictable_outcome",
+      "confidence": "C9",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "Neither the CAA nor EASA publishes workload limits for multi-vehicle uncrewed operations; the acceptance criterion is therefore unprovable as written."
+        },
+        {
+          "h": "Scenario",
+          "body": "CAA-US-019: 'a single RPIC can monitor all airborne members within published workload limits'."
+        },
+        {
+          "h": "Realistic alternative",
+          "body": "The applicant uses NASA-TLX or SART to demonstrate workload under a stated threshold, and proposes a cap based on that."
+        },
+        {
+          "h": "Absurd alternative (DeFOSPAM provocation)",
+          "body": "The limit is whatever the applicant's own CEO decides is acceptable."
+        }
+      ]
+    },
+    {
+      "principle": "M",
+      "severity": "critical",
+      "title": "F-M-01 \u2014 No numeric thresholds for SAIL assignment",
+      "analyst": "Milarna",
+      "analyst_role": "Missing Data Analyst",
+      "tag": "missing_scenario",
+      "confidence": "C9",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "SAIL is foundational to every downstream OSO level of evidence."
+        },
+        {
+          "h": "What is missing",
+          "body": "The stories invoke SORA SAIL but never specify the expected SAIL band for this trial (likely SAIL III or IV)."
+        },
+        {
+          "h": "Where expected",
+          "body": "CAA-US-003 or a new constraint story"
+        },
+        {
+          "h": "Impact if left unaddressed",
+          "body": "Applicant and reviewer negotiate SAIL from scratch, costing months."
+        }
+      ]
+    },
+    {
+      "principle": "M",
+      "severity": "critical",
+      "title": "F-M-03 \u2014 No story for pre-flight airworthiness release",
+      "analyst": "Milarna",
+      "analyst_role": "Missing Data Analyst",
+      "tag": "missing_feature",
+      "confidence": "C9",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "The stories assume CAA is sufficient; for this trial the MAA is the airworthiness regulator."
+        },
+        {
+          "h": "What is missing",
+          "body": "For a military RPAS under RA 1600 and DEFSTAN 00-970 Part 9, a Release-to-Service / Authorised Service Modification is required before first flight. No story captures the airworthiness release chain."
+        },
+        {
+          "h": "Where expected",
+          "body": "Between CAA-US-001 and CAA-US-003"
+        },
+        {
+          "h": "Impact if left unaddressed",
+          "body": "Without the release, the trial cannot legally launch even if all CAA evidence is complete."
+        }
+      ]
+    },
+    {
+      "principle": "D",
+      "severity": "major",
+      "title": "F-D-02 \u2014 'Autonomous' / 'automated' / 'AI-driven' are used interchangeably",
+      "analyst": "Dorothy",
+      "analyst_role": "Definitions Analyst",
+      "tag": "synonym_collision",
+      "confidence": "C9",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "Assurance method (AMLAS vs. conventional 00-055) hinges on this distinction."
+        },
+        {
+          "h": "Current usage",
+          "body": "CAA-US-013 refers to 'autonomy stack'; CAA-US-016 says 'AI/ML Assurance'; CAA-US-017 says 'ML model'. The collapse of autonomy-level vocabulary obscures which assurance regime applies."
+        },
+        {
+          "h": "Proposed definition",
+          "body": "Use JSP 936 definitions: 'ML component' = trained model; 'deterministic component' = coded rules; 'autonomy level' per ALFUS scale."
+        }
+      ]
+    },
+    {
+      "principle": "D",
+      "severity": "major",
+      "title": "F-D-03 \u2014 'Swarm Commander' is coined without a competency reference",
+      "analyst": "Dorothy",
+      "analyst_role": "Definitions Analyst",
+      "tag": "undefined_term",
+      "confidence": "C9",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "The competency evidence at CAA-US-029 cannot be assessed without a definition of the role."
+        },
+        {
+          "h": "Current usage",
+          "body": "Introduced in CAA-US-002 and CAA-US-029 as a role distinct from RPIC and Accountable Manager but not defined anywhere in CAP 722."
+        },
+        {
+          "h": "Proposed definition",
+          "body": "A named role holding command authority over swarm-level decisions (formation change, role assignment, group contingency) while the RPIC retains individual-airframe authority."
+        }
+      ]
+    },
+    {
+      "principle": "F",
+      "severity": "major",
+      "title": "F-F-01 \u2014 Community consultation / public engagement is a missing feature",
+      "analyst": "Flo",
+      "analyst_role": "Features Analyst",
+      "tag": "missing_feature",
+      "confidence": "C9",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "CAP 1616 airspace change explicitly requires consultation. CAA-US-007 mentions 'affected airspace users' but not the public or landowners under the Operational Volume."
+        },
+        {
+          "h": "Proposed business story",
+          "body": "As a CAA airspace regulator, I want evidence that the public, landowners and affected airspace users have been consulted, so that CAP 1616 requirements are met and the trial has social licence."
+        }
+      ]
+    },
+    {
+      "principle": "F",
+      "severity": "major",
+      "title": "F-F-02 \u2014 Post-trial close-out is a missing feature",
+      "analyst": "Flo",
+      "analyst_role": "Features Analyst",
+      "tag": "missing_feature",
+      "confidence": "C9",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "Every story covers pre- or in-flight activity. No story covers ending the trial, archiving evidence, or feeding lessons back into CAP 722."
+        },
+        {
+          "h": "Proposed business story",
+          "body": "As a CAA programme manager, I want a defined close-out artefact (lessons-learned, evidence preservation, authorisation withdrawal), so that the trial authorisation does not silently over-run its validity."
+        }
+      ]
+    },
+    {
+      "principle": "F",
+      "severity": "major",
+      "title": "F-F-04 \u2014 Security-classification handling is absent",
+      "analyst": "Flo",
+      "analyst_role": "Features Analyst",
+      "tag": "missing_feature",
+      "confidence": "C9",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "The trial is MOD-sponsored (Alvina context). CAP 722H is cited but no story covers how OFFICIAL-SENSITIVE / SECRET evidence is provided to the CAA."
+        },
+        {
+          "h": "Proposed business story",
+          "body": "As a CAA safety-case reviewer, I want a defined pathway to receive, store and review classified MOD evidence, so that I can assure the trial without either side compromising its security regime."
+        }
+      ]
+    },
+    {
+      "principle": "P",
+      "severity": "major",
+      "title": "F-P-03 \u2014 'Demonstrated link margin' has no numeric threshold",
+      "analyst": "Paul",
+      "analyst_role": "Prediction Analyst",
+      "tag": "incomplete_rule",
+      "confidence": "C9",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "Without a number the acceptance criterion is not falsifiable."
+        },
+        {
+          "h": "Scenario",
+          "body": "CAA-US-009: 'a minimum link margin has been demonstrated at maximum range'."
+        },
+        {
+          "h": "Realistic alternative",
+          "body": "Require \u2265 6 dB fade margin at maximum range with 95 % availability over the sortie window, per typical CAP 722 practice."
+        },
+        {
+          "h": "Absurd alternative (DeFOSPAM provocation)",
+          "body": "Any positive link budget is acceptable."
+        }
+      ]
+    },
+    {
+      "principle": "A",
+      "severity": "major",
+      "title": "F-A-01 \u2014 Vague quantifier 'extensive'",
+      "analyst": "Alexa",
+      "analyst_role": "Ambiguity Analyst",
+      "tag": "vague_quantifier",
+      "confidence": "C9",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "'Extensive' is the textbook DeFOSPAM weasel word \u2014 it shifts the burden of proof to the regulator."
+        },
+        {
+          "h": "Text excerpt",
+          "body": "CAA-US-013: 'extensive Monte Carlo or agent-based simulation'"
+        },
+        {
+          "h": "Interpretation A",
+          "body": "Sufficient to demonstrate convergence at 95 % CI over the ODD."
+        },
+        {
+          "h": "Interpretation B",
+          "body": "A weekend run on a laptop because it 'felt extensive'."
+        }
+      ]
+    },
+    {
+      "principle": "A",
+      "severity": "major",
+      "title": "F-A-02 \u2014 'Where practicable' is a get-out clause",
+      "analyst": "Alexa",
+      "analyst_role": "Ambiguity Analyst",
+      "tag": "weasel_word",
+      "confidence": "C9",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "'Where practicable' without a definition of impracticability permits circular reasoning."
+        },
+        {
+          "h": "Text excerpt",
+          "body": "CAA-US-021: 'functionally and physically independent of the autonomy software and uses a separate RF path where practicable.'"
+        },
+        {
+          "h": "Interpretation A",
+          "body": "If the applicant can show a separate RF path is technically infeasible, a shared path is acceptable."
+        },
+        {
+          "h": "Interpretation B",
+          "body": "The applicant self-declares 'not practicable' and the CAA cannot challenge it."
+        }
+      ]
+    },
+    {
+      "principle": "D",
+      "severity": "major",
+      "title": "F-D-04 \u2014 'Containment' and 'termination' are used without a hierarchy",
+      "analyst": "Dorothy",
+      "analyst_role": "Definitions Analyst",
+      "tag": "conflicting_definition",
+      "confidence": "C8",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "A developer cannot implement the stories without knowing whether containment succeeds include termination or stop short of it."
+        },
+        {
+          "h": "Current usage",
+          "body": "CAA-US-008 uses 'containment' for geofence-triggered actions; CAA-US-021 uses 'termination' as an independent function; CAA-US-022 references both without ordering."
+        },
+        {
+          "h": "Proposed definition",
+          "body": "Containment: keep the aircraft within declared volumes (may include RTB, orbit, autoland). Termination: intentional cessation of flight (forced landing or destructive). Termination is a subset of containment but is always available independently."
+        }
+      ]
+    },
+    {
+      "principle": "F",
+      "severity": "major",
+      "title": "F-F-03 \u2014 Night operations and dusk/dawn are implicit",
+      "analyst": "Flo",
+      "analyst_role": "Features Analyst",
+      "tag": "implied_feature",
+      "confidence": "C8",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "CAA-US-005 mentions 'daylight' in the ODD example but no story constrains dusk, dawn or night explicitly \u2014 yet EO-sensor-based DAA (CAA-US-011) is strongly light-dependent."
+        },
+        {
+          "h": "Proposed business story",
+          "body": "As a CAA flight-ops inspector, I want the authorisation to state permitted light levels, so that the DAA / EO sensor performance envelope is matched to the actual flight window."
+        }
+      ]
+    },
+    {
+      "principle": "O",
+      "severity": "major",
+      "title": "F-O-02 \u2014 Null outcome for inadvertent personal-data capture is not stated",
+      "analyst": "Olivia",
+      "analyst_role": "Outcomes Analyst",
+      "tag": "null_outcome",
+      "confidence": "C8",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "Without a declared in-flight response, post-flight redaction is the only control \u2014 too late if storage itself is the risk."
+        },
+        {
+          "h": "Outcome (state_change)",
+          "body": "CAA-US-026 asks for a DPIA and redaction procedure but does not state what the system does at the moment of inadvertent capture (e.g. whether the sensor continues recording or auto-masks)."
+        }
+      ]
+    },
+    {
+      "principle": "S",
+      "severity": "major",
+      "title": "F-S-02 \u2014 No scenario for concurrent DAA and C2-loss events",
+      "analyst": "Sophia",
+      "analyst_role": "Scenarios Analyst",
+      "tag": "missing_scenario",
+      "confidence": "C8",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "CAA-US-022 lists the matrix generically but does not test this combination explicitly."
+        },
+        {
+          "h": "Missing scenario",
+          "body": "Given a DAA conflict has been detected and a C2 link loss occurs within the resolution time-budget; When the swarm executes a cooperative avoidance manoeuvre; Then the avoidance manoeuvre must complete autonomously without RPIC concurrence."
+        }
+      ]
+    },
+    {
+      "principle": "S",
+      "severity": "major",
+      "title": "F-S-03 \u2014 No scenario for operations in reduced visibility or icing",
+      "analyst": "Sophia",
+      "analyst_role": "Scenarios Analyst",
+      "tag": "edge_case",
+      "confidence": "C8",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "CAA-US-005 mentions wind and visibility as ODD parameters but does not specify the response to degraded conditions."
+        },
+        {
+          "h": "Missing scenario",
+          "body": "Given visibility or icing conditions exceed the declared ODD; When any member encounters these conditions; Then a coordinated response moves the swarm out of the deteriorating volume or lands it."
+        }
+      ]
+    },
+    {
+      "principle": "P",
+      "severity": "major",
+      "title": "F-P-04 \u2014 'Confidence intervals' without a level are unpredictable",
+      "analyst": "Paul",
+      "analyst_role": "Prediction Analyst",
+      "tag": "unpredictable_outcome",
+      "confidence": "C8",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "The acceptance criterion rewards or penalises applicants arbitrarily."
+        },
+        {
+          "h": "Scenario",
+          "body": "CAA-US-016 requires ML metrics 'expressed as confidence intervals' but no level (90 %, 95 %, 99 %) is stated."
+        },
+        {
+          "h": "Realistic alternative",
+          "body": "Require 95 % CI or matched to SAIL level."
+        },
+        {
+          "h": "Absurd alternative (DeFOSPAM provocation)",
+          "body": "Any non-trivial interval is accepted."
+        }
+      ]
+    },
+    {
+      "principle": "M",
+      "severity": "major",
+      "title": "F-M-02 \u2014 No CRUD coverage for authorisation conditions",
+      "analyst": "Milarna",
+      "analyst_role": "Missing Data Analyst",
+      "tag": "missing_crud",
+      "confidence": "C8",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "The OA is a living instrument; the stories treat it as static."
+        },
+        {
+          "h": "What is missing",
+          "body": "Stories describe issue of conditions (create) and review at phase gates (read), but there is no 'update a condition mid-trial' or 'withdraw an authorisation' story."
+        },
+        {
+          "h": "Where expected",
+          "body": "Adjacent to CAA-US-032"
+        },
+        {
+          "h": "Impact if left unaddressed",
+          "body": "Neither the CAA nor the applicant knows how conditions change when new evidence emerges."
+        }
+      ]
+    },
+    {
+      "principle": "M",
+      "severity": "major",
+      "title": "F-M-04 \u2014 No non-functional performance envelope declared",
+      "analyst": "Milarna",
+      "analyst_role": "Missing Data Analyst",
+      "tag": "missing_nfr",
+      "confidence": "C8",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "DO-178C, DEFSTAN 00-055 and AMLAS all require timing assurance for safety-relevant software."
+        },
+        {
+          "h": "What is missing",
+          "body": "Performance NFRs for the autonomy stack (decision cycle period, worst-case execution time, CPU/GPU utilisation) are absent."
+        },
+        {
+          "h": "Where expected",
+          "body": "CAA-US-013 or a new story"
+        },
+        {
+          "h": "Impact if left unaddressed",
+          "body": "A timing-induced failure (deadline miss) is indistinguishable from an algorithmic failure in post-incident analysis."
+        }
+      ]
+    },
+    {
+      "principle": "M",
+      "severity": "major",
+      "title": "F-M-05 \u2014 No cyber-resilience test story",
+      "analyst": "Milarna",
+      "analyst_role": "Missing Data Analyst",
+      "tag": "missing_feature",
+      "confidence": "C8",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "The autonomy stack, GCS and C2 link are all soft attack surfaces."
+        },
+        {
+          "h": "What is missing",
+          "body": "CAP 722H is cited in passing but no story asks for penetration testing, a cyber-incident response plan, or SBOM."
+        },
+        {
+          "h": "Where expected",
+          "body": "Adjacent to CAA-US-004 / CAA-US-009"
+        },
+        {
+          "h": "Impact if left unaddressed",
+          "body": "A cyber event during the trial has no pre-declared containment."
+        }
+      ]
+    },
+    {
+      "principle": "M",
+      "severity": "major",
+      "title": "F-M-07 \u2014 No authority to inspect, suspend or revoke between phases",
+      "analyst": "Milarna",
+      "analyst_role": "Missing Data Analyst",
+      "tag": "missing_feature",
+      "confidence": "C8",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "CAP 722 and ANO give the CAA powers of inspection; the stories do not exercise them."
+        },
+        {
+          "h": "What is missing",
+          "body": "The CAA's right to inspect the applicant's facility, suspend flights pending inspection, or revoke between phases is absent."
+        },
+        {
+          "h": "Where expected",
+          "body": "CAA-US-032 or a new powers story"
+        },
+        {
+          "h": "Impact if left unaddressed",
+          "body": "Phase gating without inspection is a rubber-stamp exercise."
+        }
+      ]
+    },
+    {
+      "principle": "O",
+      "severity": "major",
+      "title": "F-O-03 \u2014 No outcome stated when the applicant refuses an authorisation condition",
+      "analyst": "Olivia",
+      "analyst_role": "Outcomes Analyst",
+      "tag": "missing_outcome",
+      "confidence": "C7",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "The CAA's escalation path (refuse OA, offer a reduced scope OA, refer to MAA) is itself an outcome class."
+        },
+        {
+          "h": "Outcome (output)",
+          "body": "The stories describe conditions the CAA will impose (CAA-US-008 SLA, CAA-US-014 numeric caps, CAA-US-017 model freeze) but never state what happens if the applicant refuses."
+        }
+      ]
+    },
+    {
+      "principle": "S",
+      "severity": "major",
+      "title": "F-S-04 \u2014 No data-driven scenario table for airborne-count limits",
+      "analyst": "Sophia",
+      "analyst_role": "Scenarios Analyst",
+      "tag": "data_driven",
+      "confidence": "C7",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "CAA-US-014 specifies the limit as a numeric condition but does not table the enforcement behaviour."
+        },
+        {
+          "h": "Missing scenario",
+          "body": "Scenario Outline: airborne count limits \u2014 Given N airborne members, When a Nth+1 launch is attempted, Then the launch is inhibited at the GCS."
+        }
+      ]
+    },
+    {
+      "principle": "P",
+      "severity": "major",
+      "title": "F-P-05 \u2014 'Monte Carlo statistics' without sample-size floor",
+      "analyst": "Paul",
+      "analyst_role": "Prediction Analyst",
+      "tag": "unpredictable_outcome",
+      "confidence": "C7",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "Without a floor the regulator cannot compare applicants."
+        },
+        {
+          "h": "Scenario",
+          "body": "CAA-US-013 asks for 'behavioural envelope statistics' from Monte Carlo or agent-based simulation."
+        },
+        {
+          "h": "Realistic alternative",
+          "body": "Require sample size sufficient to estimate failure rate at SAIL-appropriate confidence (e.g. 3 \u00d7 10\u207b\u2074 for SAIL IV)."
+        },
+        {
+          "h": "Absurd alternative (DeFOSPAM provocation)",
+          "body": "A single simulation run is treated as evidence."
+        }
+      ]
+    },
+    {
+      "principle": "M",
+      "severity": "major",
+      "title": "F-M-06 \u2014 No story for human-in-the-loop testing of the GCS",
+      "analyst": "Milarna",
+      "analyst_role": "Missing Data Analyst",
+      "tag": "missing_feature",
+      "confidence": "C7",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "Measured workload under realistic failure scenarios is the HF community's expected evidence."
+        },
+        {
+          "h": "What is missing",
+          "body": "CAA-US-019 references workload limits but does not require live human-in-the-loop testing of the GCS with the operational crew under off-nominal scenarios."
+        },
+        {
+          "h": "Where expected",
+          "body": "Adjacent to CAA-US-019/020"
+        },
+        {
+          "h": "Impact if left unaddressed",
+          "body": "Workload analysis is modelled but not measured."
+        }
+      ]
+    },
+    {
+      "principle": "D",
+      "severity": "minor",
+      "title": "F-D-05 \u2014 The defence term 'engagement' is used in a civil-regulator context",
+      "analyst": "Dorothy",
+      "analyst_role": "Definitions Analyst",
+      "tag": "undefined_term",
+      "confidence": "C8",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "Mixing civil and defence vocabulary invites misreading and undermines the CAA/MAA apportionment memo in CAA-US-030."
+        },
+        {
+          "h": "Current usage",
+          "body": "CAA-US-019 acceptance criterion references 'an engagement or threat response' \u2014 this is defence vocabulary that does not map onto CAA decision-making."
+        },
+        {
+          "h": "Proposed definition",
+          "body": "Replace with 'a safety-critical or use-of-force decision' so the CAA reviewer does not have to interpret kinetic terminology."
+        }
+      ]
+    },
+    {
+      "principle": "A",
+      "severity": "minor",
+      "title": "F-A-03 \u2014 'Pre-briefed' vs. 'pre-declared' used inconsistently",
+      "analyst": "Alexa",
+      "analyst_role": "Ambiguity Analyst",
+      "tag": "inconsistency",
+      "confidence": "C8",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "Auditability hinges on this distinction \u2014 oral briefings are not evidence."
+        },
+        {
+          "h": "Text excerpt",
+          "body": "CAA-US-023 uses 'pre-briefed'; CAA-US-008, CAA-US-015 and CAA-US-022 use 'pre-declared'. CAA-US-032 uses 'pre-declared'."
+        },
+        {
+          "h": "Interpretation A",
+          "body": "Pre-briefed means an oral briefing occurred; pre-declared means a written declaration exists."
+        },
+        {
+          "h": "Interpretation B",
+          "body": "They are the same thing and the drafter switched words for variety."
+        }
+      ]
+    },
+    {
+      "principle": "F",
+      "severity": "minor",
+      "title": "F-F-05 \u2014 Environmental and noise assessment is missing",
+      "analyst": "Flo",
+      "analyst_role": "Features Analyst",
+      "tag": "missing_feature",
+      "confidence": "C7",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "CAA-US-028 touches ground environment but not wider environmental impact."
+        },
+        {
+          "h": "Proposed business story",
+          "body": "As a CAA environmental policy team member, I want an environmental assessment (noise, species disturbance, battery-fire ground risk), so that the trial does not breach DEFRA / Natural England expectations."
+        }
+      ]
+    },
+    {
+      "principle": "A",
+      "severity": "minor",
+      "title": "F-A-04 \u2014 Weasel word 'reasonable' hidden in story 029",
+      "analyst": "Alexa",
+      "analyst_role": "Ambiguity Analyst",
+      "tag": "weasel_word",
+      "confidence": "C7",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "'Recent' without a period is the most common currency-definition trap in UK aviation."
+        },
+        {
+          "h": "Text excerpt",
+          "body": "CAA-US-029: 'recent simulator and live-flying currency records exist'."
+        },
+        {
+          "h": "Interpretation A",
+          "body": "Recent = within the last 90 days per CAP 722 analogues."
+        },
+        {
+          "h": "Interpretation B",
+          "body": "Recent = any time this calendar year."
+        }
+      ]
+    },
+    {
+      "principle": "A",
+      "severity": "minor",
+      "title": "F-A-05 \u2014 'Significant multipath' contains undefined adjective",
+      "analyst": "Alexa",
+      "analyst_role": "Ambiguity Analyst",
+      "tag": "ambiguous_language",
+      "confidence": "C7",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "The phrase passes any review that the applicant writes."
+        },
+        {
+          "h": "Text excerpt",
+          "body": "CAA-US-009: 'fade and multipath analysis' \u2014 the absence of a threshold turns the analysis into a narrative, not a pass/fail."
+        },
+        {
+          "h": "Interpretation A",
+          "body": "An FDTD-based multipath simulation against the terrain model, at 1 m resolution."
+        },
+        {
+          "h": "Interpretation B",
+          "body": "A back-of-envelope calculation of expected reflection loss."
+        }
+      ]
+    },
+    {
+      "principle": "A",
+      "severity": "minor",
+      "title": "F-A-06 \u2014 'Declared' vs. 'documented' used as synonyms but differ in legal weight",
+      "analyst": "Alexa",
+      "analyst_role": "Ambiguity Analyst",
+      "tag": "inconsistency",
+      "confidence": "C7",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "Audit evidence turns on this distinction."
+        },
+        {
+          "h": "Text excerpt",
+          "body": "Multiple stories use both words. In regulator practice, a 'declaration' is a regulator-facing legal instrument; 'documented' can be internal-only."
+        },
+        {
+          "h": "Interpretation A",
+          "body": "Declared items must be counter-signed; documented items need only exist in the applicant's files."
+        },
+        {
+          "h": "Interpretation B",
+          "body": "They are treated as interchangeable by the reviewer."
+        }
+      ]
+    },
+    {
+      "principle": "M",
+      "severity": "minor",
+      "title": "F-M-08 \u2014 No explicit evidence-preservation period post-trial",
+      "analyst": "Milarna",
+      "analyst_role": "Missing Data Analyst",
+      "tag": "missing_feature",
+      "confidence": "C7",
+      "sections": [
+        {
+          "h": "Detail",
+          "body": "AMLAS and CAP 722 both expect long-term evidence preservation."
+        },
+        {
+          "h": "What is missing",
+          "body": "CAA-US-024 sets retention for flight data, but wider evidence (assurance case, training records, ML manifests) has no retention period."
+        },
+        {
+          "h": "Where expected",
+          "body": "CAA-US-024 or close-out story"
+        },
+        {
+          "h": "Impact if left unaddressed",
+          "body": "Post-trial re-investigation (e.g. if a failure manifests later) cannot be supported."
+        }
+      ]
+    }
+  ]
+}
