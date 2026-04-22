@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as VaultRouteImport } from './routes/vault'
+import { Route as UserStoryRouteImport } from './routes/user-story'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as IndexRouteImport } from './routes/index'
@@ -20,6 +21,11 @@ import { Route as ResearchSlugRouteImport } from './routes/research.$slug'
 const VaultRoute = VaultRouteImport.update({
   id: '/vault',
   path: '/vault',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UserStoryRoute = UserStoryRouteImport.update({
+  id: '/user-story',
+  path: '/user-story',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResearchRoute = ResearchRouteImport.update({
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/research': typeof ResearchRouteWithChildren
+  '/user-story': typeof UserStoryRoute
   '/vault': typeof VaultRoute
   '/research/$slug': typeof ResearchSlugRoute
   '/share/$token': typeof ShareTokenRoute
@@ -65,6 +72,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
+  '/user-story': typeof UserStoryRoute
   '/vault': typeof VaultRoute
   '/research/$slug': typeof ResearchSlugRoute
   '/share/$token': typeof ShareTokenRoute
@@ -75,6 +83,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
   '/research': typeof ResearchRouteWithChildren
+  '/user-story': typeof UserStoryRoute
   '/vault': typeof VaultRoute
   '/research/$slug': typeof ResearchSlugRoute
   '/share/$token': typeof ShareTokenRoute
@@ -86,6 +95,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/research'
+    | '/user-story'
     | '/vault'
     | '/research/$slug'
     | '/share/$token'
@@ -94,6 +104,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/login'
+    | '/user-story'
     | '/vault'
     | '/research/$slug'
     | '/share/$token'
@@ -103,6 +114,7 @@ export interface FileRouteTypes {
     | '/'
     | '/login'
     | '/research'
+    | '/user-story'
     | '/vault'
     | '/research/$slug'
     | '/share/$token'
@@ -113,6 +125,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LoginRoute: typeof LoginRoute
   ResearchRoute: typeof ResearchRouteWithChildren
+  UserStoryRoute: typeof UserStoryRoute
   VaultRoute: typeof VaultRoute
   ShareTokenRoute: typeof ShareTokenRoute
 }
@@ -124,6 +137,13 @@ declare module '@tanstack/react-router' {
       path: '/vault'
       fullPath: '/vault'
       preLoaderRoute: typeof VaultRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/user-story': {
+      id: '/user-story'
+      path: '/user-story'
+      fullPath: '/user-story'
+      preLoaderRoute: typeof UserStoryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/research': {
@@ -189,6 +209,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LoginRoute: LoginRoute,
   ResearchRoute: ResearchRouteWithChildren,
+  UserStoryRoute: UserStoryRoute,
   VaultRoute: VaultRoute,
   ShareTokenRoute: ShareTokenRoute,
 }
