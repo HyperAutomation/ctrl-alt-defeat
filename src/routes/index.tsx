@@ -59,8 +59,10 @@ const projects = [
 
 function Index() {
   const { session } = useAuth();
+  const [deckOpen, setDeckOpen] = useState(false);
   return (
     <div className="min-h-screen relative overflow-x-hidden crt-flicker">
+      <DeckViewer open={deckOpen} onOpenChange={setDeckOpen} />
       <MatrixRain />
 
       {/* NAV */}
