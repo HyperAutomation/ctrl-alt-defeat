@@ -237,7 +237,7 @@ function Index() {
               href={p.repo}
               target="_blank"
               rel="noreferrer"
-              className="group relative block bg-card/60 backdrop-blur-sm border border-matrix/30 rounded-md p-6 hover:border-matrix hover:border-glow transition-all hover:-translate-y-1 overflow-hidden float-up"
+              className={`group relative block bg-card/60 backdrop-blur-sm border ${p.primary ? "border-matrix border-glow md:col-span-2" : "border-matrix/30"} rounded-md p-6 hover:border-matrix hover:border-glow transition-all hover:-translate-y-1 overflow-hidden float-up`}
               style={{ animationDelay: `${i * 80}ms` }}
             >
               {/* corner glyph */}
