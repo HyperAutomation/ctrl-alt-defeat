@@ -3,7 +3,12 @@ import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 
-const ALLOWED_DOMAIN = "@keysight.com";
+const ALLOWED_DOMAINS = ["@keysight.com", "@jonathon.ai"];
+
+const isAllowedEmail = (email: string) =>
+  ALLOWED_DOMAINS.some((d) => email.toLowerCase().endsWith(d));
+
+const DOMAIN_ERROR = "Only @keysight.com or @jonathon.ai emails are permitted.";
 
 interface AuthContextType {
   session: Session | null;
@@ -33,16 +38,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signInEmail = async (email: string, password: string) => {
-    if (!email.toLowerCase().endsWith(ALLOWED_DOMAIN)) {
-      return { error: `Only ${ALLOWED_DOMAIN} emails are permitted.` };
+    if (!isAllowedEmail(email)) {
+      return { error: DOMAIN_ERROR };
     }
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     return error ? { error: error.message } : {};
   };
 
   const signUpEmail = async (email: string, password: string) => {
-    if (!email.toLowerCase().endsWith(ALLOWED_DOMAIN)) {
-      return { error: `Only ${ALLOWED_DOMAIN} emails are permitted.` };
+    if (!isAllowedEmail(email)) {
+      return { error: DOMAIN_ERROR };
     }
     const { error } = await supabase.auth.signUp({
       email,
