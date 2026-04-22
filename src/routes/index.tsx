@@ -108,8 +108,14 @@ function Index() {
               href="#repos"
               className="group inline-flex items-center gap-3 px-6 py-3 bg-matrix text-primary-foreground font-display tracking-widest text-sm uppercase rounded-sm pulse-glow hover:bg-matrix-glow transition-colors"
             >
-              <span>► Enter the Grid</span>
+              <span>► Jack In</span>
             </a>
+            <Link
+              to="/research"
+              className="inline-flex items-center gap-3 px-6 py-3 border border-matrix/50 text-matrix font-display tracking-widest text-sm uppercase rounded-sm hover:bg-matrix/10 transition-colors glitch"
+            >
+              ► AI Research Wiki
+            </Link>
             <a
               href="#crew"
               className="inline-flex items-center gap-3 px-6 py-3 border border-matrix/50 text-matrix font-display tracking-widest text-sm uppercase rounded-sm hover:bg-matrix/10 transition-colors glitch"
