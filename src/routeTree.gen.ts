@@ -13,6 +13,7 @@ import { Route as VaultRouteImport } from './routes/vault'
 import { Route as UserStoryRouteImport } from './routes/user-story'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as AiRequirementsRouteImport } from './routes/ai-requirements'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ResearchIndexRouteImport } from './routes/research.index'
 import { Route as ShareTokenRouteImport } from './routes/share.$token'
@@ -38,6 +39,11 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AiRequirementsRoute = AiRequirementsRouteImport.update({
+  id: '/ai-requirements',
+  path: '/ai-requirements',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -61,6 +67,7 @@ const ResearchSlugRoute = ResearchSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ai-requirements': typeof AiRequirementsRoute
   '/login': typeof LoginRoute
   '/research': typeof ResearchRouteWithChildren
   '/user-story': typeof UserStoryRoute
@@ -71,6 +78,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ai-requirements': typeof AiRequirementsRoute
   '/login': typeof LoginRoute
   '/user-story': typeof UserStoryRoute
   '/vault': typeof VaultRoute
@@ -81,6 +89,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ai-requirements': typeof AiRequirementsRoute
   '/login': typeof LoginRoute
   '/research': typeof ResearchRouteWithChildren
   '/user-story': typeof UserStoryRoute
@@ -93,6 +102,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/ai-requirements'
     | '/login'
     | '/research'
     | '/user-story'
@@ -103,6 +113,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/ai-requirements'
     | '/login'
     | '/user-story'
     | '/vault'
@@ -112,6 +123,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/ai-requirements'
     | '/login'
     | '/research'
     | '/user-story'
@@ -123,6 +135,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AiRequirementsRoute: typeof AiRequirementsRoute
   LoginRoute: typeof LoginRoute
   ResearchRoute: typeof ResearchRouteWithChildren
   UserStoryRoute: typeof UserStoryRoute
@@ -158,6 +171,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-requirements': {
+      id: '/ai-requirements'
+      path: '/ai-requirements'
+      fullPath: '/ai-requirements'
+      preLoaderRoute: typeof AiRequirementsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -207,6 +227,7 @@ const ResearchRouteWithChildren = ResearchRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AiRequirementsRoute: AiRequirementsRoute,
   LoginRoute: LoginRoute,
   ResearchRoute: ResearchRouteWithChildren,
   UserStoryRoute: UserStoryRoute,
@@ -216,3 +237,12 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { createStart } from '@tanstack/react-start'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+  }
+}
