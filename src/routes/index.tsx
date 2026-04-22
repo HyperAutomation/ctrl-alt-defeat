@@ -299,12 +299,12 @@ function Index() {
                 ► crew@ctrl-alt-defeat.uk
               </a>
               <a
-                href="https://github.com/ctrl-alt-defeat"
+                href="https://github.com/HyperAutomation"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 px-5 py-3 border border-matrix/50 text-matrix font-display tracking-widest text-sm uppercase rounded-sm hover:bg-matrix/10 transition-colors"
               >
-                <GithubIcon className="w-4 h-4" /> /ctrl-alt-defeat
+                <GithubIcon className="w-4 h-4" /> /HyperAutomation
               </a>
             </div>
           </div>
