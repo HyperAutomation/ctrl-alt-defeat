@@ -116,6 +116,12 @@ function Index() {
               <span>► Jack In</span>
             </button>
             <Link
+              to="/user-story"
+              className="inline-flex items-center gap-3 px-6 py-3 border border-matrix/50 text-matrix font-display tracking-widest text-sm uppercase rounded-sm hover:bg-matrix/10 transition-colors glitch"
+            >
+              ► AI User Story
+            </Link>
+            <Link
               to="/research"
               className="inline-flex items-center gap-3 px-6 py-3 border border-matrix/50 text-matrix font-display tracking-widest text-sm uppercase rounded-sm hover:bg-matrix/10 transition-colors glitch"
             >
