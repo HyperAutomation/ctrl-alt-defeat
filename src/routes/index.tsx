@@ -311,6 +311,35 @@ function Index() {
         <ScreenshotGallery />
       </section>
 
+      {/* DEMO VIDEO */}
+      <section id="demo" className="relative z-10 max-w-6xl mx-auto px-6 py-20">
+        <div className="mb-8">
+          <div className="text-matrix-dim text-sm font-mono mb-2">// ./playback --stream</div>
+          <h2 className="font-display text-4xl md:text-5xl text-foreground tracking-tight">
+            LIVE <span className="text-matrix text-glow">DEMO</span>
+          </h2>
+          <p className="text-sm text-muted-foreground mt-3 max-w-xl">
+            Walkthrough of the system in motion — captured from the field.
+          </p>
+        </div>
+        <div className="relative bg-card/60 backdrop-blur-sm border border-matrix/30 rounded-md overflow-hidden hover:border-matrix transition-all">
+          <div className="flex items-center justify-between border-b border-matrix/20 px-4 py-2 font-mono text-[11px] text-matrix-dim bg-background/70">
+            <span><span className="text-matrix">$</span> play ./demo/ctrl-alt-defeat.mp4</span>
+            <span className="uppercase tracking-widest">► youtube · embedded</span>
+          </div>
+          <div className="relative aspect-video">
+            <iframe
+              src="https://www.youtube.com/embed/-oXcI6A56y0"
+              title="Ctrl-Alt-Defeat — Live Demo"
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+              className="absolute inset-0 w-full h-full border-0"
+            />
+          </div>
+        </div>
+      </section>
+
       {/* CONTACT */}
       <section id="contact" className="relative z-10 max-w-6xl mx-auto px-6 py-24">
             <TerminalCard title="./contact --establish-connection">
