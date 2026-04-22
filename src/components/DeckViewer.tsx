@@ -2,12 +2,22 @@ import { useEffect, useState, useCallback } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { ChevronLeft, ChevronRight, X, Maximize2 } from "lucide-react";
 
-const TOTAL_SLIDES = 19;
-const DECK_VERSION = "v2";
-const slides = Array.from(
-  { length: TOTAL_SLIDES },
-  (_, i) => `/deck/slide-${i + 1}.jpg?${DECK_VERSION}`,
+// Eagerly import all slide images so Vite bundles & fingerprints them.
+// Using import.meta.glob avoids one import line per slide and keeps order.
+const slideModules = import.meta.glob<{ default: string }>(
+  "../assets/deck/slide-*.jpg",
+  { eager: true },
 );
+
+const slides = Object.entries(slideModules)
+  .sort(([a], [b]) => {
+    const na = parseInt(a.match(/slide-(\d+)/)?.[1] ?? "0", 10);
+    const nb = parseInt(b.match(/slide-(\d+)/)?.[1] ?? "0", 10);
+    return na - nb;
+  })
+  .map(([, mod]) => mod.default);
+
+const TOTAL_SLIDES = slides.length;
 
 interface DeckViewerProps {
   open: boolean;
