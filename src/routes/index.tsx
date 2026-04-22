@@ -11,9 +11,9 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "CTRL-ALT-DEFEAT.UK — Hackathon Team" },
-      { name: "description", content: "We break the simulation. UK hackathon team building open-source tools at the edge of reality." },
+      { name: "description", content: "We test the simulation. UK hackathon team building open-source tools at the edge of reality." },
       { property: "og:title", content: "CTRL-ALT-DEFEAT.UK — Hackathon Team" },
-      { property: "og:description", content: "We break the simulation. UK hackathon team building open-source tools at the edge of reality." },
+      { property: "og:description", content: "We test the simulation. UK hackathon team building open-source tools at the edge of reality." },
     ],
   }),
   component: Index,
@@ -97,7 +97,7 @@ function Index() {
           </div>
 
           <h1 className="font-display text-5xl md:text-7xl lg:text-8xl leading-none tracking-tight">
-            <span className="block text-foreground">WE BREAK</span>
+            <span className="block text-foreground">WE TEST</span>
             <span className="block text-matrix text-glow-strong">THE SIMULATION.</span>
           </h1>
 
