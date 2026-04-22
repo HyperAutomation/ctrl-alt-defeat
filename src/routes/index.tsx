@@ -72,6 +72,7 @@ function Index() {
             <a href="#mission" className="hover:text-matrix transition-colors glitch">~/mission</a>
             <a href="#crew" className="hover:text-matrix transition-colors glitch">~/crew</a>
             <a href="#repos" className="hover:text-matrix transition-colors glitch">~/repos</a>
+            <Link to="/research" className="hover:text-matrix transition-colors glitch">~/research</Link>
             <a href="#contact" className="hover:text-matrix transition-colors glitch">~/contact</a>
           </div>
           <Link
