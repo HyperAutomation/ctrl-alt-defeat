@@ -116,12 +116,6 @@ function Index() {
             >
               ► AI Research Wiki
             </Link>
-            <a
-              href="#crew"
-              className="inline-flex items-center gap-3 px-6 py-3 border border-matrix/50 text-matrix font-display tracking-widest text-sm uppercase rounded-sm hover:bg-matrix/10 transition-colors glitch"
-            >
-              Meet the Crew
-            </a>
           </div>
 
           <div className="grid grid-cols-3 gap-4 pt-12 max-w-xl">
