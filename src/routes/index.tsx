@@ -316,13 +316,13 @@ function Index() {
             <TerminalCard title="./contact --establish-connection">
           <div className="space-y-6 font-mono">
             <div className="text-matrix">
-              <span className="text-matrix-dim">root@ctrl-alt-defeat:~$</span> echo "let's build something"
+              <span className="text-matrix-dim">root@ctrl-alt-defeat:~$</span> echo "test the real world"
             </div>
             <h3 className="font-display text-3xl md:text-5xl text-foreground">
-              JOIN THE <span className="text-matrix text-glow">RESISTANCE</span>
+              JOIN THE <span className="text-matrix text-glow">MATRIX</span>
             </h3>
             <p className="text-muted-foreground max-w-xl">
-              Hackathons, sponsorships, collabs, or just to say hi — open a channel.
+              Hackathons, government contracts — donations welcome.
             </p>
             <div className="flex flex-wrap gap-3 pt-2">
               <a
