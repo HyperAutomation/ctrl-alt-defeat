@@ -15,6 +15,7 @@ import { Route as ResearchRouteImport } from './routes/research'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AiStressRouteImport } from './routes/ai-stress'
 import { Route as AiRequirementsRouteImport } from './routes/ai-requirements'
+import { Route as AiContextRouteImport } from './routes/ai-context'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ResearchIndexRouteImport } from './routes/research.index'
 import { Route as ShareTokenRouteImport } from './routes/share.$token'
@@ -50,6 +51,11 @@ const AiRequirementsRoute = AiRequirementsRouteImport.update({
   path: '/ai-requirements',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AiContextRoute = AiContextRouteImport.update({
+  id: '/ai-context',
+  path: '/ai-context',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -73,6 +79,7 @@ const ResearchSlugRoute = ResearchSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ai-context': typeof AiContextRoute
   '/ai-requirements': typeof AiRequirementsRoute
   '/ai-stress': typeof AiStressRoute
   '/login': typeof LoginRoute
@@ -85,6 +92,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ai-context': typeof AiContextRoute
   '/ai-requirements': typeof AiRequirementsRoute
   '/ai-stress': typeof AiStressRoute
   '/login': typeof LoginRoute
@@ -97,6 +105,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ai-context': typeof AiContextRoute
   '/ai-requirements': typeof AiRequirementsRoute
   '/ai-stress': typeof AiStressRoute
   '/login': typeof LoginRoute
@@ -111,6 +120,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/ai-context'
     | '/ai-requirements'
     | '/ai-stress'
     | '/login'
@@ -123,6 +133,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/ai-context'
     | '/ai-requirements'
     | '/ai-stress'
     | '/login'
@@ -134,6 +145,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/ai-context'
     | '/ai-requirements'
     | '/ai-stress'
     | '/login'
@@ -147,6 +159,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AiContextRoute: typeof AiContextRoute
   AiRequirementsRoute: typeof AiRequirementsRoute
   AiStressRoute: typeof AiStressRoute
   LoginRoute: typeof LoginRoute
@@ -200,6 +213,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AiRequirementsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ai-context': {
+      id: '/ai-context'
+      path: '/ai-context'
+      fullPath: '/ai-context'
+      preLoaderRoute: typeof AiContextRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -247,6 +267,7 @@ const ResearchRouteWithChildren = ResearchRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AiContextRoute: AiContextRoute,
   AiRequirementsRoute: AiRequirementsRoute,
   AiStressRoute: AiStressRoute,
   LoginRoute: LoginRoute,
