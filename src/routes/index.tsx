@@ -4,6 +4,7 @@ import { MatrixRain } from "@/components/MatrixRain";
 import { TerminalCard } from "@/components/TerminalCard";
 import { GithubIcon } from "@/components/GithubIcon";
 import { DeckViewer } from "@/components/DeckViewer";
+import { ScreenshotGallery } from "@/components/ScreenshotGallery";
 import { useAuth } from "@/hooks/useAuth";
 import { Lock, FolderLock } from "lucide-react";
 
@@ -105,6 +106,7 @@ function Index() {
             <button type="button" onClick={() => setDeckOpen(true)} className="hover:text-matrix transition-colors glitch uppercase tracking-widest">~/mission</button>
             
             <a href="#repos" className="hover:text-matrix transition-colors glitch">~/REPOS</a>
+            <a href="#gallery" className="hover:text-matrix transition-colors glitch">~/gallery</a>
             <Link to="/research" className="hover:text-matrix transition-colors glitch">~/research</Link>
             
           </div>
@@ -276,6 +278,25 @@ function Index() {
             </a>
           ))}
         </div>
+      </section>
+
+      {/* GALLERY */}
+      <section id="gallery" className="relative z-10 max-w-6xl mx-auto px-6 py-20">
+        <div className="mb-12 flex items-end justify-between flex-wrap gap-4">
+          <div>
+            <div className="text-matrix-dim text-sm font-mono mb-2">// ./screenshots --interactive</div>
+            <h2 className="font-display text-4xl md:text-5xl text-foreground tracking-tight">
+              FIELD <span className="text-matrix text-glow">CAPTURES</span>
+            </h2>
+            <p className="text-sm text-muted-foreground mt-3 max-w-xl">
+              Live shots from the lab — AI generating requirements, Gherkin and verification artifacts in real workflows.
+            </p>
+          </div>
+          <div className="text-xs uppercase tracking-widest text-muted-foreground">
+            click to expand · ← → to navigate
+          </div>
+        </div>
+        <ScreenshotGallery />
       </section>
 
       {/* CONTACT */}
