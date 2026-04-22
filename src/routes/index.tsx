@@ -74,7 +74,7 @@ function Index() {
           </div>
           <div className="hidden md:flex items-center gap-8 text-xs uppercase tracking-widest text-muted-foreground">
             <a href="#mission" className="hover:text-matrix transition-colors glitch">~/mission</a>
-            <a href="#crew" className="hover:text-matrix transition-colors glitch">~/crew</a>
+            
             <a href="#repos" className="hover:text-matrix transition-colors glitch">~/repos</a>
             <Link to="/research" className="hover:text-matrix transition-colors glitch">~/research</Link>
             
