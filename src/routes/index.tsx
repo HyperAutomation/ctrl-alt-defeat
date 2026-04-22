@@ -11,9 +11,9 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "CTRL-ALT-DEFEAT.UK — Hackathon Team" },
-      { name: "description", content: "We break the simulation. UK hackathon team building open-source tools at the edge of reality." },
+      { name: "description", content: "We test the simulation. UK hackathon team building open-source tools at the edge of reality." },
       { property: "og:title", content: "CTRL-ALT-DEFEAT.UK — Hackathon Team" },
-      { property: "og:description", content: "We break the simulation. UK hackathon team building open-source tools at the edge of reality." },
+      { property: "og:description", content: "We test the simulation. UK hackathon team building open-source tools at the edge of reality." },
     ],
   }),
   component: Index,
