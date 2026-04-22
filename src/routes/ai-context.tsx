@@ -34,7 +34,7 @@ function AiContextPage() {
       </nav>
 
       <section className="relative z-10 max-w-6xl w-full mx-auto px-6 pt-10 pb-4 shrink-0">
-        <div className="text-matrix-dim text-sm font-mono mb-2">// ./graphify --render</div>
+        
         <h1 className="font-display text-4xl md:text-5xl text-foreground tracking-tight">
           AI <span className="text-matrix text-glow">CONTEXT</span>
         </h1>
