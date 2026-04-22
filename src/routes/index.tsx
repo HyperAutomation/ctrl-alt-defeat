@@ -102,7 +102,7 @@ function Index() {
             <span className="text-foreground tracking-widest text-sm">CTRL-ALT-DEFEAT.UK</span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-xs uppercase tracking-widest text-muted-foreground">
-            <a href="#mission" className="hover:text-matrix transition-colors glitch">~/mission</a>
+            <button type="button" onClick={() => setDeckOpen(true)} className="hover:text-matrix transition-colors glitch uppercase tracking-widest">~/mission</button>
             
             <a href="#repos" className="hover:text-matrix transition-colors glitch">~/REPOS</a>
             <Link to="/research" className="hover:text-matrix transition-colors glitch">~/research</Link>
