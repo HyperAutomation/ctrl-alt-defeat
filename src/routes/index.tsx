@@ -159,52 +159,6 @@ function Index() {
         </TerminalCard>
       </section>
 
-      {/* CREW */}
-      <section id="crew" className="relative z-10 max-w-6xl mx-auto px-6 py-20">
-        <div className="mb-12">
-          <div className="text-matrix-dim text-sm font-mono mb-2">// ./crew --list</div>
-          <h2 className="font-display text-4xl md:text-5xl text-foreground tracking-tight">
-            THE <span className="text-matrix text-glow">CREW</span>
-          </h2>
-        </div>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {team.map((m, i) => (
-            <div
-              key={m.handle}
-              className="group relative bg-card/60 backdrop-blur-sm border border-matrix/30 rounded-md p-6 hover:border-matrix transition-all hover:-translate-y-1 hover:border-glow float-up"
-              style={{ animationDelay: `${i * 100}ms` }}
-            >
-              <div className="absolute top-3 right-3 font-display text-xs text-matrix/40">
-                #{m.glyph}
-              </div>
-              <div className="w-14 h-14 mb-4 rounded-sm bg-matrix/10 border border-matrix/40 flex items-center justify-center font-display text-2xl text-matrix text-glow group-hover:bg-matrix/20 transition-colors">
-                {m.handle.charAt(0).toUpperCase()}
-              </div>
-              <div className="font-display text-lg text-matrix glitch cursor-default">
-                @{m.handle}
-              </div>
-              <div className="text-xs uppercase tracking-widest text-muted-foreground mt-1">
-                {m.role}
-              </div>
-              <p className="text-sm text-foreground/70 mt-4 leading-relaxed">{m.desc}</p>
-              <div className="mt-5 pt-4 border-t border-matrix/20 flex items-center justify-between">
-                <span className="text-xs text-matrix-dim">[ active ]</span>
-                <a
-                  href={`https://github.com/${m.handle}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="text-matrix hover:text-matrix-glow transition-colors"
-                  aria-label={`${m.handle} on GitHub`}
-                >
-                  <GithubIcon className="w-4 h-4" />
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* REPOS */}
       <section id="repos" className="relative z-10 max-w-6xl mx-auto px-6 py-20">
         <div className="mb-12 flex items-end justify-between flex-wrap gap-4">
