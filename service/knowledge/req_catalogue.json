@@ -1,0 +1,102 @@
+[
+  {
+    "req_id": "REQ001",
+    "name": "Application Intake & Completeness Check",
+    "description": "As a CAA case officer I want to receive a complete Operational Authorisation pack so that I can open a valid case."
+  },
+  {
+    "req_id": "REQ002",
+    "name": "SORA 2.0 Assessment for Swarm",
+    "description": "As a CAA SORA assessor I want swarm-aware SORA evidence so that I can set SAIL and OSO requirements defensibly."
+  },
+  {
+    "req_id": "REQ003",
+    "name": "ConOps & ODD Review",
+    "description": "As a CAA safety-case reviewer I want a clear ConOps and ODD so that I can judge nominal and worst-credible behaviour."
+  },
+  {
+    "req_id": "REQ004",
+    "name": "Airspace Change & TDA Coordination",
+    "description": "As a CAA airspace regulator I want a TDA and consultation package so that I can segregate the trial from other users."
+  },
+  {
+    "req_id": "REQ005",
+    "name": "Geofence / Containment Enforcement",
+    "description": "As a CAA airspace regulator I want automatic containment so that a fly-away cannot become uncontrolled BVLOS."
+  },
+  {
+    "req_id": "REQ006",
+    "name": "C2 Link and Spectrum Assurance",
+    "description": "As a CAA spectrum specialist I want authorised monitored C2 and inter-vehicle links so that link loss is survivable and non-interfering."
+  },
+  {
+    "req_id": "REQ007",
+    "name": "Detect-and-Avoid Performance",
+    "description": "As a CAA DAA assessor I want DO-365 / F3442-aligned evidence for each aircraft and coordinated swarm de-confliction so that cooperative and non-cooperative encounters are resolved predictably."
+  },
+  {
+    "req_id": "REQ008",
+    "name": "Swarm Decision-Making Architecture Review",
+    "description": "As a CAA autonomy reviewer I want the decision-making architecture airborne limits and emergent-behaviour evidence so that I can assure what the swarm will do collectively."
+  },
+  {
+    "req_id": "REQ009",
+    "name": "ML Assurance Case",
+    "description": "As a CAA AI/ML assurance specialist I want an AMLAS / SACE case a frozen-model manifest and explainability evidence so that ML components are assurable and forensically explainable."
+  },
+  {
+    "req_id": "REQ010",
+    "name": "Human Oversight and Crew Fitness",
+    "description": "As a CAA human factors inspector I want workload duty and take-over evidence so that meaningful human control is demonstrated throughout."
+  },
+  {
+    "req_id": "REQ011",
+    "name": "Contingency and Flight Termination",
+    "description": "As a CAA flight-ops inspector I want independent termination a contingency matrix and ATSU coordination so that the trial can be made safe in any off-nominal state."
+  },
+  {
+    "req_id": "REQ012",
+    "name": "Data MOR & DPIA Obligations",
+    "description": "As a CAA flight safety investigator I want complete recorded evidence accepted MOR obligations and a DPIA so that any incident is investigable and privacy is protected."
+  },
+  {
+    "req_id": "REQ013",
+    "name": "Insurance & Ground-Environment Survey",
+    "description": "As a CAA authorisation officer I want insurance and a ground survey so that third-party risk is both transferable and factually grounded."
+  },
+  {
+    "req_id": "REQ014",
+    "name": "Crew Training & Competency",
+    "description": "As a CAA licensing inspector I want evidenced competency so that the trial is flown by qualified crew."
+  },
+  {
+    "req_id": "REQ015",
+    "name": "CAA/MAA Interface Management",
+    "description": "As a CAA/MAA liaison I want a signed apportionment so that regulatory ownership is gap-free."
+  },
+  {
+    "req_id": "REQ016",
+    "name": "Phased Trial Build-Up",
+    "description": "As a CAA programme manager I want phased gates so that evidence builds progressively and is reversible."
+  },
+  {
+    "req_id": "REQ017",
+    "name": "Public and Stakeholder Engagement",
+    "description": "No user story covers community consultation press/media handling or prior-notification to landowners. Strongly implied by CAP 1616 and GDPR but absent."
+  },
+  {
+    "req_id": "REQ018",
+    "name": "Security Classification Handling",
+    "description": "No user story addresses how classified MOD evidence is presented to the CAA under CAP 722H / JSP 440 without compromise to either side."
+  },
+  {
+    "req_id": "REQ019",
+    "name": "Environmental Impact",
+    "description": "No user story covers noise species disturbance at dusk/night or battery-fire environmental risk on ground."
+  },
+  {
+    "req_id": "REQ020",
+    "name": "Post-Trial Assurance & Close-out",
+    "description": "No user story covers the post-trial lessons-learned evidence preservation and authorisation close-out."
+  }
+]

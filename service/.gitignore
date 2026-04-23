@@ -1,0 +1,19 @@
+# Virtualenv
+.venv/
+venv/
+
+# Python bytecode / caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Runtime workspace uploads (operator evidence packs)
+_workspaces/
+
+# Build artefacts
+*.egg-info/
+build/
+dist/

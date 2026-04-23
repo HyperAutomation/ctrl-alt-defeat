@@ -1,0 +1,61 @@
+# DTFEA rubric — normalised from context/bvlos-autonomous-swarms/STRESS-Report.md
+# Each pillar lists the question set the pillar analyst applies to a submission.
+# Gate 1: any pillar < 60% maturity -> refuse or return-for-clarification.
+# Gate 2: any critical finding with confidence >= 9 -> refuse unless mitigated
+#         or formally accepted by the panel with written rationale.
+
+pillars:
+  D:
+    analyst: Dana
+    title: Data
+    questions:
+      - What data does this depend on? Is provenance known?
+      - Is bias, drift, class imbalance, sensor-coverage surfaced?
+      - Are datasets versioned and tied to the ODD?
+      - Are label-accuracy metrics published?
+      - Is a dataset sheet maintained and updated?
+  T:
+    analyst: Trevor
+    title: Trust
+    questions:
+      - Who has to trust this output?
+      - Are model cards, uncertainty bounds, explainability present for each consumer role?
+      - Are meaningful-human-control triggers and thresholds defined?
+      - Are calibration studies tabulated?
+      - Is the explainability strategy matched to each consumer?
+  F:
+    analyst: Fiona
+    title: Failure
+    questions:
+      - What happens when this fails, silently or loudly?
+      - Is there redundancy, independent containment, OOD detection, forensic audit?
+      - Is there a canary/sandbox rollout path?
+      - Are failure modes bounded by the SACE severity levels?
+      - Is there independent flight termination?
+  E:
+    analyst: Evan
+    title: Evidence
+    questions:
+      - What evidence will convince a regulator?
+      - Are acceptance criteria tabulated?
+      - Are test plans, re-evidencing cycles, state-space coverage defined?
+      - Are go/no-go thresholds declared?
+      - Is every claim traceable to an artefact?
+  A:
+    analyst: Aria
+    title: Authority
+    questions:
+      - Who is accountable when this goes wrong?
+      - Is the human-in-the-loop role named?
+      - Is inter-organisational apportionment signed (CAA/MAA where applicable)?
+      - Is a Security Classification Custodian named where classified evidence is presented?
+      - Is RAISO sign-off captured where AI is load-bearing?
+
+scoring:
+  severity_weights:
+    critical: 1.0
+    major: 0.6
+    minor: 0.3
+  expected_checks_per_pillar: 5
+  gate1_pillar_floor: 60
+  gate2_critical_confidence_threshold: 9
