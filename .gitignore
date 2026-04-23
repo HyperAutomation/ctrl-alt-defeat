@@ -20,6 +20,21 @@ dist-ssr
 .wrangler/
 .dev.vars
 
+# Claude Code local settings
+.claude/
+
+# Secrets — keep all nested .env files out of git.
+# The root .env is already tracked and retained; this only affects new files.
+**/.env
+**/.env.local
+!/.env
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
