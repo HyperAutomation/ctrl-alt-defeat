@@ -362,7 +362,7 @@ function Index() {
               rel="noopener noreferrer"
               className="text-matrix text-glow hover:underline"
             >
-              <span>DEMO</span>
+              <span>E2E DEMO</span>
             </a>
           </h2>
           <p className="text-sm text-muted-foreground mt-3 max-w-xl">
