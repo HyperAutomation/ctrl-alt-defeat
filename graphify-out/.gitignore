@@ -1,0 +1,12 @@
+# Internal graphify working files — not reproducible artefacts
+.graphify_python
+.graphify_*.json
+.graphify_*.txt
+.graphify_*.csv
+
+# Extraction cache — regeneratable from source, hashes don't diff well
+cache/
+
+# Ephemeral scratch from subagents
+*.tmp
+needs_update
