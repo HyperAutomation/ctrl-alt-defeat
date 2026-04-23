@@ -1,0 +1,70 @@
+name: graph-ingest
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Skip the write, just verify connectivity + parse counts"
+        type: boolean
+        default: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: aura
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check required secrets are present
+        env:
+          NEO4J_URI: ${{ secrets.NEO4J_URI }}
+          NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
+          NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+        run: |
+          missing=()
+          [ -z "$NEO4J_URI" ] && missing+=("NEO4J_URI")
+          [ -z "$NEO4J_USERNAME" ] && missing+=("NEO4J_USERNAME")
+          [ -z "$NEO4J_PASSWORD" ] && missing+=("NEO4J_PASSWORD")
+          if [ ${#missing[@]} -ne 0 ]; then
+            echo "::error::Missing required secrets: ${missing[*]}"
+            echo "Add them via: gh secret set <NAME> --env aura --body <value>"
+            exit 1
+          fi
+          echo "Secrets OK"
+
+      - name: Ingest graph/graph.json into Neo4j
+        if: ${{ inputs.dry_run != true }}
+        env:
+          NEO4J_URI: ${{ secrets.NEO4J_URI }}
+          NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
+          NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+        run: node --experimental-strip-types scripts/ingest-graph.ts
+
+      - name: Dry run (connectivity + parse only)
+        if: ${{ inputs.dry_run == true }}
+        env:
+          NEO4J_URI: ${{ secrets.NEO4J_URI }}
+          NEO4J_USERNAME: ${{ secrets.NEO4J_USERNAME }}
+          NEO4J_PASSWORD: ${{ secrets.NEO4J_PASSWORD }}
+        run: |
+          node -e "
+            const neo4j = require('neo4j-driver');
+            const fs = require('fs');
+            (async () => {
+              const g = JSON.parse(fs.readFileSync('graph/graph.json','utf8'));
+              console.log('Parsed:', g.nodes.length, 'nodes,', g.links.length, 'links,', (g.graph.hyperedges||[]).length, 'hyperedges');
+              const d = neo4j.driver(process.env.NEO4J_URI, neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD));
+              await d.verifyConnectivity();
+              console.log('Bolt connectivity OK');
+              await d.close();
+            })().catch(e => { console.error(e); process.exit(1); });
+          "

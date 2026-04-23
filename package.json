@@ -11,7 +11,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "e2e": "playwright test",
-    "graph:ingest": "node --env-file=graph/.env --experimental-strip-types scripts/ingest-graph.ts"
+    "graph:ingest": "node --env-file-if-exists=graph/.env --experimental-strip-types scripts/ingest-graph.ts"
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.25.5",
