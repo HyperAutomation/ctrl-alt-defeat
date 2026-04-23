@@ -192,6 +192,14 @@ function Index() {
             >
               ► AI Assurance
             </a>
+            <a
+              href="https://www.keysight.com/us/en/assets/3123-1299/white-papers/AI-and-Software-Testing-Building-Systems-You-Can-Trust.pdf?utm_campaign=Enterprise+IT+Program&_hsmi=233995736&_hsenc=p2ANqtz-9thJKRLE9TcU0AYcT2Crqyr9W_wa4vYuG4AeVpX5jQ_oSg9dus2AdWnlZDaoZ7ehGwKyh6TZiScywJ2J6VltqKc8FaT05eyt3ioI2fFkoPS3sF5-w&utm_content=FY23_SWDEV_WW_ALL_ENTERPRISE-IT_16NOV22_JonathanWrightBook&utm_source=email"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 px-6 py-3 border border-matrix/50 text-matrix font-display tracking-widest text-sm uppercase rounded-sm hover:bg-matrix/10 transition-colors glitch"
+            >
+              ► AI Book
+            </a>
           </div>
 
           <div className="grid grid-cols-3 gap-4 pt-12 max-w-xl">
