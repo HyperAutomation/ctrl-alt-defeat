@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import excelReq from "@/assets/gallery/excel-requirements.png";
 import eggplant from "@/assets/gallery/eggplant-generator.png";
+import devUiWorkflow from "@/assets/gallery/dev-ui-workflow.png";
+import reqqaRequirements from "@/assets/gallery/reqqa-requirements.png";
 
 type Shot = {
   src: string;
@@ -24,6 +26,20 @@ const shots: Shot[] = [
     caption:
       "Auto-generated Gherkin user stories for CAA case officers, SORA assessors, safety reviewers and airspace regulators — sourced from CAP 722A/B context files.",
     tag: "eggplant · gherkin · CAA",
+  },
+  {
+    src: devUiWorkflow,
+    title: "SORA Approval — Applicant Workflow",
+    caption:
+      "Live Dev UI execution timeline of the SORA Approval workflow — operation_classifier fanning out to artefact_detector, regulatory_mapper and sora_evaluator, merging into decision_drafter and binder with full event trace.",
+    tag: "dev ui · workflow · SORA",
+  },
+  {
+    src: reqqaRequirements,
+    title: "ReqQA — SQUAD-STATE Requirements List",
+    caption:
+      "Requirements QA workspace for User50 SQUAD-STATE — 30 mission-origin requirements with priority, hazard flags, R-D/R-F analysis columns and per-row Analyse / Generate Stories actions.",
+    tag: "reqqa · requirements · QA",
   },
 ];
 
