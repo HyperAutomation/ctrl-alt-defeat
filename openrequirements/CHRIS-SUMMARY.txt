@@ -1,0 +1,304 @@
+================================================================================
+COLLABORATION ANALYST (CHRIS) - UBIQUITOUS LANGUAGE & COLLABORATION GAP ANALYSIS
+CAA/MAA Joint Approval Workbench (BVLOS Autonomous Swarm Trials)
+================================================================================
+
+## ANALYSIS OVERVIEW
+
+Input data processed:
+- Dorothy's 88 glossary terms (DeFOSPAM glossary)
+- 125 DeFOSPAM findings across 7 analysts (Dorothy, Flo, Olivia, Sophia, Paul, Alexa, Milarna)
+- 15 Vibe scales operationalizing requirements via Tom Gilb's Planguage methodology
+- 20 user stories (REQ001-REQ020) covering CAA/MAA trial approval
+
+Analysis model: Specification by Example (SBE) collaboration patterns
+- 42 canonical ubiquitous language terms (merged from Dorothy's 88 glossary)
+- 10 workshop recommendations (focused on collaboration gaps)
+- 12 critical collaboration gap findings (confidence >= 9/10)
+
+================================================================================
+## CANONICAL UBIQUITOUS LANGUAGE (42 TERMS)
+================================================================================
+
+Terms grouped by domain:
+
+REGULATORY FRAMEWORK (6 terms):
+  - Operational Authorisation pack (agreed)
+  - CAA, MAA, VLOS, BVLOS (all agreed)
+
+RISK ASSESSMENT (3 terms):
+  - SORA, SAIL, OSO (all agreed)
+
+SAFETY & ASSURANCE (3 terms - PROPOSED):
+  - swarm-aware (undefined, requires workshop)
+  - meaningful human control (unmeasurable, requires workshop)
+  - defensibly (no criteria, requires workshop)
+
+CONTAINMENT/GEOFENCE (3 terms):
+  - containment (proposed, 5 design criteria missing)
+  - geofence (agreed)
+  - fly-away (agreed)
+
+COMMUNICATIONS (3 terms):
+  - C2 link (agreed)
+  - inter-vehicle links (agreed)
+  - link loss survivable (proposed, time/action/crew role undefined)
+
+OPERATIONAL DESIGN DOMAIN (4 terms):
+  - ODD (agreed)
+  - ConOps (agreed)
+  - nominal behaviour (agreed)
+  - worst-credible behaviour (proposed, credible/incredible boundary undefined)
+
+AIRSPACE & TRAFFIC (3 terms):
+  - TDA, NOTAM, ATSU (all agreed)
+
+DETECT-AND-AVOID (2 terms):
+  - DAA (agreed)
+  - resolved predictably (proposed, mechanism undefined)
+
+AUTONOMY & ML (5 terms - PROPOSED):
+  - swarm decision-making architecture (architecture not specified)
+  - emergent behaviour (high-risk, verification approach undefined)
+  - forensically explainable (infeasible for deep learning, fallback needed)
+  - frozen model (7 manifest criteria undefined)
+  - AMLAS (agreed, emerging standard)
+
+DATA & INVESTIGATION (3 terms):
+  - complete recorded evidence (proposed, scope different from pack completeness)
+  - MOR (agreed)
+  - DPIA (agreed)
+
+HUMAN FACTORS (2 terms - PROPOSED):
+  - workload (thresholds undefined)
+  - take-over (time, authority, reversibility undefined)
+
+FLIGHT TERMINATION (2 terms - PROPOSED):
+  - independent termination (mechanism undefined)
+  - contingency matrix (format, coverage undefined)
+
+AUTHORIZATION & GOVERNANCE (4 terms - PROPOSED):
+  - approve-with-conditions (conditions/enforcement undefined)
+  - refuse-with-reasons (path to re-application undefined)
+  - return-for-clarification (clarification scope undefined)
+  - reversible gates (trigger conditions, process undefined)
+
+SUMMARY: 42 canonical terms identified
+  - 19 terms STATUS: AGREED (no workshop needed)
+  - 23 terms STATUS: PROPOSED (workshops required to reach agreement)
+
+================================================================================
+## TOP 5 WORKSHOPS RECOMMENDED
+================================================================================
+
+Priority: CRITICAL (all five require immediate scheduling)
+
+WS-001: Swarm-Aware SORA Assessment Framework
+  Feature: REQ002 (SORA Assessment for Swarm)
+  Participants: CAA SORA assessor, applicant systems engineer, autonomy engineer, test engineer
+  Duration: 3 hours
+  Goal: Define "swarm-aware" operationally and map swarm-specific evidence requirements
+  Key questions resolved:
+    - What distinguishes swarm SORA from single-aircraft SORA?
+    - What swarm failure modes must SORA address?
+    - How do interdependencies affect SAIL levels?
+  Outputs: Swarm SORA methodology, evidence checklist, SAIL assignment criteria
+
+WS-002: Automatic Containment Design Specification
+  Feature: REQ005 (Geofence/Containment Enforcement)
+  Participants: CAA airspace regulator, applicant safety engineer, autonomy engineer, avionics engineer, test engineer
+  Duration: 4 hours
+  Goal: Define geofence tolerance, fail-safe mechanism, design standard, environmental factors, verification approach
+  Key questions resolved:
+    - What is physical geofence boundary tolerance (+/- X meters)?
+    - What is fail-safe if onboard logic fails?
+    - What design standard applies (DO-254 DAL B, DEFSTAN)?
+    - What environmental factors affect containment (GPS drift, wind)?
+    - How is containment verified (Monte Carlo, flight test)?
+  Outputs: Containment design spec, geofence tolerance design, verification plan
+
+WS-003: Meaningful Human Control & Crew Workload
+  Feature: REQ010 (Human Oversight and Crew Fitness)
+  Participants: CAA human factors inspector, applicant crew lead, test pilot, autonomy engineer, human factors specialist
+  Duration: 3.5 hours
+  Goal: Define meaningful human control with measurable criteria
+  Key questions resolved:
+    - What situational awareness frequency and display comprehensiveness required?
+    - Which decisions require explicit crew authorization?
+    - What is acceptable takeover time (<=X seconds)?
+    - What workload limits ensure crew can maintain control?
+  Outputs: Meaningful human control definition, situational awareness spec, workload assessment criteria
+
+WS-004: Link Loss Survivability & C2 Assurance
+  Feature: REQ006 (C2 Link and Spectrum Assurance)
+  Participants: CAA spectrum specialist, applicant communications engineer, test engineer
+  Duration: 2.5 hours
+  Goal: Define time-to-loss threshold, survivable action, crew role
+  Key questions resolved:
+    - How long can link be lost before action triggered?
+    - What is onboard action (Return-to-Launch, hold, safe descent)?
+    - Are C2 loss and inter-vehicle loss independently survivable?
+    - Can crew intervene to override default action?
+  Outputs: Time-to-loss and action spec, link survivability verification plan
+
+WS-005: Detect-and-Avoid Predictable Resolution
+  Feature: REQ007 (Detect-and-Avoid Performance)
+  Participants: CAA DAA assessor, applicant autonomy engineer, test engineer
+  Duration: 3.5 hours
+  Goal: Define predictable conflict resolution mechanism for cooperative and non-cooperative encounters
+  Key questions resolved:
+    - What avoidance maneuver is preferred (climb, turn, descent)? Why?
+    - How does swarm coordinate during DAA (formation or independent)?
+    - Can crew override DAA decisions?
+    - How is DAA compliance verified (DO-365/F3442)?
+  Outputs: DAA maneuver selection logic, swarm coordination rules, verification plan
+
+================================================================================
+## TOP 3 COLLABORATION GAPS
+================================================================================
+
+Severity: CRITICAL (all three directly block trial approval)
+
+GAP #1: Swarm-Aware SORA Evidence Undefined (REQ002)
+  Root cause: SORA assessor + applicant + autonomy engineer never agreed on what "swarm-aware" means
+  Impact: Two assessors can defensibly reach different SAIL levels for identical systems -> inconsistent authorizations
+  Dorothy-1 finding (confidence 10/10): Term used but never defined
+  Solution: WS-001 (all-team workshop) to operationalize swarm-aware evidence requirements
+  Ubiquitous language entry: "swarm-aware" (proposed status, requires workshop agreement)
+
+GAP #2: Meaningful Human Control Lacks Measurable Criteria (REQ010)
+  Root cause: Human factors inspector + applicant crew + autonomy engineer never agreed on what "meaningful" means
+  Impact: Assessors cannot evaluate whether crew evidence is sufficient; different standards across trials
+  Dorothy-2 finding (confidence 10/10): Term is subjective and borrowed from LAWS debate; no operational thresholds
+  Solution: WS-003 (all-team workshop) to define situational awareness, authority, takeover time, workload limits
+  Ubiquitous language entry: "meaningful human control" (proposed status, requires measurable criteria)
+
+GAP #3: Containment Design Criteria Absent (REQ005)
+  Root cause: Safety-critical mechanism specified as outcome need ("automatic containment") without design criteria
+  Impact: Developer cannot implement; different implementations will have inconsistent safety levels
+  Dorothy-4 finding (confidence 10/10): Five critical subcriteria undefined:
+    1. Geofence boundary tolerance (no tolerance specified)
+    2. Fail-safe mechanism (if onboard logic fails, what happens?)
+    3. Design standard (DO-254? DEFSTAN? Custom?)
+    4. Environmental factors (GPS drift, wind, multipath not addressed)
+    5. Verification approach (Monte Carlo? Flight test? Simulation?)
+  Solution: WS-002 (all-team workshop) to specify design and verification criteria
+  Ubiquitous language entry: "containment" (proposed status, requires design specification)
+
+================================================================================
+## ADDITIONAL FINDINGS (9 CRITICAL)
+================================================================================
+
+Finding 4: Worst-Credible Behavior Boundary Undefined (REQ003)
+  Dorothy-5 (confidence 10/10): Is worst-credible single-failure? Common-mode? Pilot error?
+  Impact: Narrow interpretation misses failure modes; broad interpretation demands infeasible mitigations
+  Solution: WS-008 (all-team workshop) to define credible/incredible boundary
+
+Finding 5: Link Loss Survival Mechanism Undefined (REQ006)
+  Flo-1 (confidence 10/10): Time-to-loss, action, crew role all undefined
+  Impact: Developer cannot implement link-loss logic
+  Solution: WS-004 (three-amigos session) to define mechanism and timeline
+
+Finding 6: Pack Completeness Ambiguous (REQ001 & REQ012)
+  Dorothy-8 (confidence 10/10): "Complete" used in two contexts with different criteria
+  Impact: Confusion about what completeness means (application vs investigation)
+  Solution: Disambiguate in dev-analyst pairing; create separate language entries
+
+Finding 7: DAA Resolution Not Specified (REQ007)
+  Paul-1 (confidence 10/10): Maneuver selection logic not specified
+  Impact: Developer cannot implement; different avoidance strategies create different hazards
+  Solution: WS-005 (all-team workshop) to define maneuver selection and crew override
+
+Finding 8: ML Explainability Unrealistic (REQ009)
+  Dorothy-6 (confidence 10/10): Forensic explainability infeasible for deep learning
+  Impact: Applicants face impossible standards; fallback strategy needed
+  Solution: WS-006 (all-team workshop) to define acceptable techniques and fallback
+
+Finding 9: Frozen Model Manifest Incomplete (REQ009)
+  Dorothy-7 (confidence 10/10): Seven critical manifest criteria undefined
+  Impact: Applicant and investigator have conflicting expectations
+  Solution: WS-006 (all-team workshop) to define manifest structure and retention
+
+Finding 10: Flight Termination Mechanism Not Specified (REQ011)
+  Paul-2 (confidence 10/10): Outcome need (safe termination) without mechanism
+  Impact: Developer cannot implement; different mechanisms create different hazards
+  Solution: WS-007 (all-team workshop) to specify termination mechanism and time-to-effect
+
+Finding 11: Defensibly Undefined (REQ002)
+  Dorothy-3 (confidence 10/10): High-stakes term with no criteria
+  Impact: Two assessors might defensibly reach different conclusions
+  Solution: Dev-analyst pairing to define with reference to JARUS methodology and CAA precedent
+
+Finding 12: Four Critical Features Missing User Stories (REQ017-REQ020)
+  Regulatory requirements implicit but unspecified:
+    - REQ017: Public & Stakeholder Engagement (CAP 1616)
+    - REQ018: Security Classification Handling (CAP 722H/JSP 440)
+    - REQ019: Environmental Impact Assessment
+    - REQ020: Post-Trial Lessons-Learned & Close-out Archive
+  Impact: System cannot enforce regulatory obligations; no acceptance criteria
+  Solution: All-team workshop to create user stories with explicit acceptance criteria
+
+================================================================================
+## KEY INSIGHTS
+================================================================================
+
+1. ISOLATION SIGNALS (12 findings):
+   Specifications were written without collaborative input from all stakeholder perspectives.
+   - Technical requirements specify outcome need but not mechanism
+   - Safety-critical terms (defensibly, meaningful, containment) defined without regulator/applicant agreement
+   - Missing perspectives: autonomy engineers (for swarm-aware, emergent behavior), human factors specialists (for workload, take-over), test engineers (for verification approaches)
+
+2. TERMINOLOGY CONFLICTS (3 findings):
+   Same term used with different meanings across requirements:
+   - "complete" means different things in REQ001 (application intake) vs REQ012 (incident investigation)
+   - "defensibly" assessing SORA (REQ002) with no criteria
+   - "worst-credible" behavior boundary (REQ003) undefined
+
+3. MISSING PERSPECTIVES:
+   - Autonomy engineers: Not consulted on swarm-aware SORA, emergent behavior, decision-making architecture
+   - Test engineers: Not consulted on verification approaches for containment, link loss, contingency
+   - Investigators: Not consulted on evidence completeness, MOR triggers, data preservation
+   - Human factors specialists: Not consulted on meaningful control, workload, take-over
+   - Environmental experts: Not consulted on environmental impact (REQ019)
+   - Security officers: Not consulted on classified evidence handling (REQ018)
+
+4. REGULATORY GAPS:
+   Four critical features (REQ017-REQ020) are regulatory obligations but lack user stories:
+   - CAP 1616 (public engagement) - implied but unspecified
+   - CAP 722H / JSP 440 (classified evidence) - implied but unspecified
+   - Environmental regulations - implied but unspecified
+   - Institutional learning / audit trail - implied but unspecified
+
+5. VIBE SCALES ALIGNMENT:
+   Vibe requirements (Tom Gilb's Planguage) operationalize goals but surface gaps:
+   - PackCompleteness scale (REQ001) operationalizes "complete" for application intake
+   - Identifies same ambiguity Dorothy-8 found (same term, different meanings in REQ012)
+   - Scales provide quantitative targets that user stories lack
+
+================================================================================
+## NEXT STEPS
+================================================================================
+
+IMMEDIATE (Week 1):
+  1. Schedule WS-001 (Swarm-Aware SORA) - highest risk gap
+  2. Schedule WS-002 (Containment Design) - safety-critical
+  3. Schedule WS-003 (Meaningful Human Control) - regulatory credibility
+
+SHORT-TERM (Week 2-3):
+  4. Schedule WS-004 (Link Loss Survivability)
+  5. Schedule WS-005 (DAA Predictable Resolution)
+  6. Schedule WS-006 (ML Assurance)
+  7. Schedule WS-007 (Flight Termination & Contingency)
+
+MEDIUM-TERM (Week 4):
+  8. Schedule WS-008 (Worst-Credible Behavior)
+  9. Schedule WS-009 (Phased Trial Gates)
+ 10. Schedule WS-010 (Data Recording & Post-Trial Archival)
+ 11. Create user stories for REQ017-REQ020 (missing regulatory requirements)
+
+OUTPUT FILES:
+  - chris-language.json: 42 canonical ubiquitous language terms (agreed + proposed)
+  - chris-workshops.json: 10 workshop recommendations with detailed agendas
+  - chris-findings.json: 12 critical collaboration gap findings (confidence 9-10/10)
+
+================================================================================

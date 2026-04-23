@@ -1,0 +1,2417 @@
+[
+  {
+    "refined_id": "RSPEC-001",
+    "original_scenario_id": "SCN-001",
+    "feature": "F01: Application Intake",
+    "source_req": "REQ001",
+    "original_scenario": "Given: An applicant has assembled a complete Operational Authorisation pack with all required artefacts (ConOps, ODD, SORA evidence, insurance, crew credentials, etc.)\nWhen: The applicant submits the pack to the CAA case officer intake system\nThen: The system accepts the submission, opens a valid case, and transitions to Completeness Check (F02)",
+    "refined_specification": {
+      "given": "An applicant has assembled a complete Operational Authorisation pack with all required artefacts (ConOps, ODD, SORA evidence, insurance, crew credentials, etc.)",
+      "when": "The applicant submits the Operational Authorisation pack the pack to the CAA case officer intake system",
+      "then": "The system accepts the submission, opens a valid case, and transitions to Completeness Check (F02) per regulatory standards, recording case ID and submission timestamp such that Operational Authorisation pack requirements are met",
+      "and": "A unique case ID is generated, submitted timestamp is recorded, and case officer receives notification"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 5.2,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 6.2
+    },
+    "avg_quality": 8.233333333333334,
+    "tags": [
+      "@major",
+      "@regression",
+      "@intake"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-002",
+    "original_scenario_id": "SCN-002",
+    "feature": "F02: Completeness Check",
+    "source_req": "REQ001",
+    "original_scenario": "Given: A submitted pack undergoes automated validation against the completeness checklist\nWhen: All required artefacts (ConOps, ODD, DAA evidence, insurance, crew training, etc.) are present\nThen: System flags pack as COMPLETE and notifies case officer that case can proceed to SORA assessment",
+    "refined_specification": {
+      "given": "A submitted pack undergoes automated validation against the completeness checklist",
+      "when": "All required artefacts (ConOps, ODD, DAA evidence, insurance, crew training, etc.) are present",
+      "then": "System flags pack as COMPLETE and notifies case officer that case can proceed to SORA assessment per regulatory standards, recording case ID and submission timestamp such that Operational Authorisation pack requirements are met",
+      "and": "Case status becomes INTAKE_COMPLETE; timestamp recorded"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.6,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 4.6
+    },
+    "avg_quality": 7.866666666666667,
+    "tags": [
+      "@major",
+      "@regression",
+      "@intake"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-003",
+    "original_scenario_id": "SCN-003",
+    "feature": "F02: Completeness Check",
+    "source_req": "REQ001",
+    "original_scenario": "Given: A submitted pack is missing a critical artefact (e.g., SORA evidence or crew credentials)\nWhen: Automated completeness check runs\nThen: System flags the specific missing artefact, sets case to RETURN_FOR_CLARIFICATION status, and generates coaching feedback",
+    "refined_specification": {
+      "given": "A submitted pack is missing a critical artefact (e.g., SORA evidence or crew credentials)",
+      "when": "Automated completeness validation runs runs",
+      "then": "System flags the specific missing artefact, sets case to RETURN_FOR_CLARIFICATION status, and generates coaching feedback per regulatory standards, recording case ID and submission timestamp such that Operational Authorisation pack requirements are met",
+      "and": "Applicant receives structured feedback identifying exactly what is missing and deadline for resubmission"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.6,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 4.6
+    },
+    "avg_quality": 7.866666666666667,
+    "tags": [
+      "@major",
+      "@regression",
+      "@intake"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-004",
+    "original_scenario_id": "SCN-004",
+    "feature": "F02: Completeness Check",
+    "source_req": "REQ001",
+    "original_scenario": "Given: An applicant in Applicant Intake Mode has submitted partial artefacts (e.g., ConOps draft, incomplete SORA evidence)\nWhen: Applicant requests coaching feedback before formal submission\nThen: System provides targeted coaching on what is missing and quality issues without rejecting the case",
+    "refined_specification": {
+      "given": "An applicant in Applicant Intake Mode has submitted partial artefacts (e.g., ConOps draft, incomplete SORA evidence)",
+      "when": "Applicant requests coaching feedback before formal submission",
+      "then": "System provides targeted coaching on what is missing and quality issues without rejecting the case per regulatory standards, recording case ID and submission timestamp such that Operational Authorisation pack requirements are met",
+      "and": "Applicant retains ability to revise and resubmit before formal INTAKE_COMPLETE flag"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.9,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 5.4
+    },
+    "avg_quality": 8.049999999999999,
+    "tags": [
+      "@major",
+      "@regression",
+      "@intake"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-005",
+    "original_scenario_id": "SCN-005",
+    "feature": "F02: Completeness Check",
+    "source_req": "REQ001",
+    "original_scenario": "Given: A pack was returned for clarification due to missing artefacts; applicant has resubmitted revised pack\nWhen: Second completeness check runs on resubmitted pack\nThen: System validates all previously flagged items are now present and case transitions to INTAKE_COMPLETE",
+    "refined_specification": {
+      "given": "A pack was returned for clarification due to missing artefacts; applicant has resubmitted revised pack",
+      "when": "Second completeness validation runs runs on resubmitted pack",
+      "then": "System validates all previously flagged items are now present and case transitions to INTAKE_COMPLETE per regulatory standards, recording case ID and submission timestamp such that Operational Authorisation pack requirements are met",
+      "and": "Case officer is notified of successful re-submission; version history shows both original and revised submissions"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.3,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 3.8
+    },
+    "avg_quality": 7.683333333333333,
+    "tags": [
+      "@major",
+      "@regression",
+      "@intake"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-006",
+    "original_scenario_id": "SCN-006",
+    "feature": "F03: SORA 2.0 Assessment (Swarm-Aware)",
+    "source_req": "REQ002",
+    "original_scenario": "Given: Pack contains swarm-aware SORA evidence demonstrating coordinated multi-aircraft behaviour, inter-vehicle link robustness, and collective decision-making limits\nWhen: SORA assessor reviews evidence and applies SORA 2.0 methodology with swarm context\nThen: SAIL (Specific Assurance and Integrity Level) and OSO (Operational Safety Objectives) are derived defensibly",
+    "refined_specification": {
+      "given": "Pack contains swarm-aware SORA evidence demonstrating coordinated multi-aircraft behaviour, inter-vehicle link robustness, and collective decision-making limits",
+      "when": "SORA assessor reviews evidence and applies SORA 2.0 methodology with swarm context",
+      "then": "SAIL (Specific Assurance and Integrity Level) and OSO (Operational Safety Objectives) are derived defensibly per regulatory standards, recording case ID and submission timestamp such that Operational Authorisation pack requirements are met",
+      "and": "Assessment record is created with clear traceability to swarm-specific evidence; SAIL/OSO documented in case file"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 6.4,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 9.4
+    },
+    "avg_quality": 8.966666666666667,
+    "tags": [
+      "@major",
+      "@regression",
+      "@sora"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-007",
+    "original_scenario_id": "SCN-007",
+    "feature": "F03: SORA 2.0 Assessment (Swarm-Aware)",
+    "source_req": "REQ002",
+    "original_scenario": "Given: Pack contains standard single-aircraft SORA evidence but lacks swarm-specific evidence on coordinated de-confliction and collective behaviour limits\nWhen: SORA assessor attempts to derive SAIL using swarm context\nThen: System flags insufficient swarm-aware evidence; case marked for expert panel review rather than auto-green",
+    "refined_specification": {
+      "given": "Pack contains standard single-aircraft SORA evidence but lacks swarm-specific evidence on coordinated de-confliction and collective behaviour limits",
+      "when": "SORA assessor attempts to derive SAIL using swarm context",
+      "then": "System flags insufficient swarm-aware evidence; case marked for expert panel review rather than auto-green per regulatory standards, recording case ID and submission timestamp such that Operational Authorisation pack requirements are met",
+      "and": "SORA assessor documents reason for manual escalation; applicant is notified of evidence gap"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 5.2,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 6.2
+    },
+    "avg_quality": 8.233333333333334,
+    "tags": [
+      "@major",
+      "@regression",
+      "@sora"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-008",
+    "original_scenario_id": "SCN-008",
+    "feature": "F03: SORA 2.0 Assessment (Swarm-Aware)",
+    "source_req": "REQ002",
+    "original_scenario": "Given: Initial SORA/SAIL derived; ConOps subsequently revised during phased trial (e.g., increased swarm size or autonomy scope)\nWhen: Case gates to next phase with new operational envelope\nThen: System triggers re-assessment of SORA with updated ConOps; previous SAIL may become invalid",
+    "refined_specification": {
+      "given": "Initial SORA/SAIL derived; ConOps subsequently revised during phased trial (e.g., increased swarm size or autonomy scope)",
+      "when": "Case gates to next phase with new operational envelope",
+      "then": "System triggers re-assessment of SORA with updated ConOps; previous SAIL may become invalid enabling defensible SAIL and OSO determination",
+      "and": "Assessment history captures both original and revised SAIL determinations"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 6,
+      "not_a_script": 10,
+      "business_focused": 5.5,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 7.0
+    },
+    "avg_quality": 7.916666666666667,
+    "tags": [
+      "@major",
+      "@regression",
+      "@sora"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-009",
+    "original_scenario_id": "SCN-009",
+    "feature": "F04: ConOps & ODD Review",
+    "source_req": "REQ003",
+    "original_scenario": "Given: Pack contains detailed ConOps (flight profiles, crew roles, decision procedures) and ODD (environmental limits, GNSS availability, airspace constraints)\nWhen: Safety-case reviewer assesses ConOps and ODD clarity\nThen: Reviewer confirms understanding of nominal swarm behaviour and identifies credible worst-case scenarios (link loss, geofence breach, non-cooperative encounter)",
+    "refined_specification": {
+      "given": "Pack contains detailed ConOps (flight profiles, crew roles, decision procedures) and ODD (environmental limits, GNSS availability, airspace constraints)",
+      "when": "Safety-case reviewer assesses ConOps and ODD clarity",
+      "then": "Reviewer confirms understanding of nominal swarm behaviour and identifies credible worst-case scenarios (link loss, geofence breach, non-cooperative encounter) per regulatory standards, recording case ID and submission timestamp such that Operational Authorisation pack requirements are met",
+      "and": "ConOps/ODD marked APPROVED; documented in case file with reviewer sign-off"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 6.699999999999999,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 10
+    },
+    "avg_quality": 9.116666666666667,
+    "tags": [
+      "@major",
+      "@regression",
+      "@safety-case"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-010",
+    "original_scenario_id": "SCN-010",
+    "feature": "F04: ConOps & ODD Review",
+    "source_req": "REQ003",
+    "original_scenario": "Given: ConOps submitted is vague on crew takeover procedures or contingency triggers\nWhen: Safety-case reviewer reads ConOps\nThen: Reviewer cannot confidently judge worst-credible behaviour; flags ConOps as INCOMPLETE",
+    "refined_specification": {
+      "given": "ConOps submitted is vague on crew takeover procedures or contingency triggers",
+      "when": "Safety-case reviewer reads ConOps",
+      "then": "Reviewer cannot confidently judge worst-credible behaviour; flags ConOps as INCOMPLETE per regulatory standards, recording case ID and submission timestamp such that Operational Authorisation pack requirements are met",
+      "and": "Applicant is requested to provide detailed failure mode procedures (e.g., link-loss response, geofence-trigger RTL) before proceeding"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.9,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 5.4
+    },
+    "avg_quality": 8.049999999999999,
+    "tags": [
+      "@major",
+      "@regression",
+      "@safety-case"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-011",
+    "original_scenario_id": "SCN-011",
+    "feature": "F04: ConOps & ODD Review",
+    "source_req": "REQ003",
+    "original_scenario": "Given: ConOps states operation in urban area with periodic GNSS loss; ODD does not explicitly define GNSS-denial procedures or swarm de-confliction alternatives\nWhen: Safety reviewer assesses coverage of worst-credible GNSS-loss scenario\nThen: Reviewer identifies gap: ODD does not bound behaviour during GNSS-denial; flag for clarification",
+    "refined_specification": {
+      "given": "ConOps states operation in urban area with periodic GNSS loss; ODD does not explicitly define GNSS-denial procedures or swarm de-confliction alternatives",
+      "when": "Safety reviewer assesses coverage of worst-credible GNSS-loss scenario",
+      "then": "Reviewer identifies gap: ODD does not bound behaviour during GNSS-denial; flag for clarification for crew training and safety case hazard analysis such that ConOps requirements are met",
+      "and": "Applicant must specify either: (a) geospatial exclusion of GNSS-poor zones, or (b) autonomous backup procedure (e.g., inertial-estimate + inter-vehicle ranging)"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.9,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 5.4
+    },
+    "avg_quality": 8.049999999999999,
+    "tags": [
+      "@major",
+      "@regression",
+      "@safety-case"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-012",
+    "original_scenario_id": "SCN-012",
+    "feature": "F05: Airspace Change & TDA Coordination",
+    "source_req": "REQ004",
+    "original_scenario": "Given: Applicant has submitted TDA request with airspace coordinates, time-window, and consultation package identifying stakeholders and prior-notification plan\nWhen: Airspace regulator reviews TDA request and consultation evidence\nThen: TDA is approved, NOTAM issued, and stakeholder consultation recorded; trial airspace is segregated from civilian traffic",
+    "refined_specification": {
+      "given": "Applicant has submitted TDA request with airspace coordinates, time-window, and consultation package identifying stakeholders and prior-notification plan",
+      "when": "Airspace regulator reviews TDA request and consultation evidence",
+      "then": "TDA is approved, NOTAM issued, and stakeholder consultation recorded; trial airspace is segregated from civilian traffic such that Operational Authorisation pack requirements are met",
+      "and": "TDA coordinates pinned to case file; NOTAM activation datetime set; consultation log archived"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.9,
+      "self_explanatory": 9,
+      "focused": 7,
+      "domain_language": 5.4
+    },
+    "avg_quality": 7.55,
+    "tags": [
+      "@major",
+      "@regression",
+      "@airspace"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-013",
+    "original_scenario_id": "SCN-013",
+    "feature": "F05: Airspace Change & TDA Coordination",
+    "source_req": "REQ004",
+    "original_scenario": "Given: TDA request overlaps with existing procedure box or military airspace training corridor\nWhen: Airspace regulator checks TDA against current airspace utilization\nThen: Conflict detected; TDA cannot be approved as requested; regulator negotiates with conflicting user or proposes alternative time-window",
+    "refined_specification": {
+      "given": "TDA request overlaps with existing procedure box or military airspace training corridor",
+      "when": "Airspace regulator checks TDA against current airspace utilization",
+      "then": "Conflict detected; TDA cannot be approved as requested; regulator negotiates with conflicting user or proposes alternative time-window to segregate the trial from other airspace users such that ATSU requirements are met",
+      "and": "Case placed on hold; applicant is informed of conflict and offered remediation options"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.9,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 5.4
+    },
+    "avg_quality": 8.049999999999999,
+    "tags": [
+      "@major",
+      "@regression",
+      "@airspace"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-014",
+    "original_scenario_id": "SCN-014",
+    "feature": "F05: Airspace Change & TDA Coordination",
+    "source_req": "REQ004, REQ017",
+    "original_scenario": "Given: Consultation package does not identify nearby landowners, schools, or noise-sensitive sites per CAP 1616\nWhen: Airspace regulator reviews stakeholder list\nThen: Regulator flags consultation package as incomplete; case cannot proceed without comprehensive stakeholder identification",
+    "refined_specification": {
+      "given": "Consultation package does not identify nearby landowners, schools, or noise-sensitive sites per CAP 1616",
+      "when": "Airspace regulator reviews stakeholder list",
+      "then": "Regulator flags consultation package as incomplete; case cannot proceed without comprehensive stakeholder identification per regulatory standards, recording case ID and submission timestamp such that Operational Authorisation pack requirements are met",
+      "and": "Applicant is directed to conduct prior-notification planning per CAP 1616; case placed in RETURN_FOR_CLARIFICATION"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.3,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 3.8
+    },
+    "avg_quality": 7.683333333333333,
+    "tags": [
+      "@major",
+      "@regression",
+      "@airspace"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-015",
+    "original_scenario_id": "SCN-015",
+    "feature": "F06: Geofence & Containment Enforcement",
+    "source_req": "REQ005",
+    "original_scenario": "Given: Swarm aircraft drifts toward geofence boundary during autonomous flight; aircraft deviation from authorized area is within 50m tolerance\nWhen: Onboard geofence enforcement system detects boundary approach\nThen: Automatic Return-to-Launch (RTL) is triggered; all swarm members initiate coordinated return",
+    "refined_specification": {
+      "given": "Swarm aircraft drifts toward geofence boundary during autonomous flight; aircraft deviation from authorized area is within 50m tolerance",
+      "when": "Onboard geofence enforcement system detects boundary approach",
+      "then": "Automatic Return-to-Launch (RTL) is triggered; all swarm members initiate coordinated return to prevent fly-away and uncontrolled BVLOS such that geofence requirements are met",
+      "and": "RTL execution is logged; case officer receives post-flight alert; incident marked as GEOFENCE_RTL_TRIGGERED"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.9,
+      "self_explanatory": 9,
+      "focused": 7,
+      "domain_language": 5.4
+    },
+    "avg_quality": 7.55,
+    "tags": [
+      "@major",
+      "@regression",
+      "@containment"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-016",
+    "original_scenario_id": "SCN-016",
+    "feature": "F06: Geofence & Containment Enforcement",
+    "source_req": "REQ005, REQ011",
+    "original_scenario": "Given: Swarm aircraft deviates from authorized area beyond 200m (configured tolerance); containment is at risk\nWhen: Onboard geofence system detects breach beyond tolerance threshold\nThen: Independent flight termination system is activated (independent of C2 link); all swarm members initiate rapid descent and safe power-down",
+    "refined_specification": {
+      "given": "Swarm aircraft deviates from authorized area beyond 200m (configured tolerance); containment is at risk",
+      "when": "Onboard geofence system detects breach beyond tolerance threshold",
+      "then": "Independent flight termination system is activated (independent of C2 link); all swarm members initiate rapid descent and safe power-down enabling defensible SAIL and OSO determination such that SORA requirements are met",
+      "and": "Termination execution logged in forensic data; case officer alerted immediately; post-flight investigation triggered"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 5.8,
+      "self_explanatory": 9,
+      "focused": 7,
+      "domain_language": 7.800000000000001
+    },
+    "avg_quality": 8.1,
+    "tags": [
+      "@major",
+      "@regression",
+      "@containment"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-017",
+    "original_scenario_id": "SCN-017",
+    "feature": "F06: Geofence & Containment Enforcement",
+    "source_req": "REQ005",
+    "original_scenario": "Given: Geofence enforcement system experiences hardware/software failure; boundary checking is unavailable\nWhen: Swarm enters autonomous flight phase with failed geofence\nThen: System detects geofence unavailability and initiates CONTINGENCY_MODE_ACTIVATION",
+    "refined_specification": {
+      "given": "Geofence enforcement system experiences hardware/software failure; boundary checking is unavailable",
+      "when": "Swarm enters autonomous flight phase with failed geofence",
+      "then": "System detects geofence unavailability and initiates CONTINGENCY_MODE_ACTIVATION to prevent fly-away and uncontrolled BVLOS such that containment requirements are met",
+      "and": "Crew is immediately notified of geofence loss; flight is aborted and aircraft diverted to safe landing zone per ConOps contingency"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 5.2,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 6.2
+    },
+    "avg_quality": 8.233333333333334,
+    "tags": [
+      "@major",
+      "@regression",
+      "@containment"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-018",
+    "original_scenario_id": "SCN-018",
+    "feature": "F06: Geofence & Containment Enforcement",
+    "source_req": "REQ005",
+    "original_scenario": "Given: Geofence configured with three zones: (1) primary trial boundary, (2) intermediate caution zone 100m inside, (3) inner safe-zone with crew stations\nWhen: Aircraft trajectory approaches each zone boundary\nThen: Zone-specific actions triggered: caution zone \u2192 reduced autonomy + operator alert; primary boundary \u2192 RTL; breach \u2192 termination",
+    "refined_specification": {
+      "given": "Geofence configured with three zones: (1) primary trial boundary, (2) intermediate caution zone 100m inside, (3) inner safe-zone with crew stations",
+      "when": "Aircraft trajectory approaches each zone boundary",
+      "then": "Zone-specific actions triggered: caution zone \u2192 reduced autonomy + operator alert; primary boundary \u2192 RTL; breach \u2192 termination to prevent fly-away and uncontrolled BVLOS such that geofence requirements are met",
+      "and": "Scenario data:"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.6,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 4.6
+    },
+    "avg_quality": 7.866666666666667,
+    "tags": [
+      "@major",
+      "@regression",
+      "@containment"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-019",
+    "original_scenario_id": "SCN-019",
+    "feature": "F07: C2 Link & Spectrum Assurance",
+    "source_req": "REQ006",
+    "original_scenario": "Given: C2 link experiences momentary outage (100ms\u20131s) during autonomous swarm flight due to electromagnetic interference or multipath fading\nWhen: Link loss detected by onboard monitor; swarm continues autonomous operation\nThen: Swarm members rely on inter-vehicle links and pre-planned autonomy; link recovery occurs within hold-safe timeout",
+    "refined_specification": {
+      "given": "C2 link experiences momentary outage (100ms\u20131s) during autonomous swarm flight due to electromagnetic interference or multipath fading",
+      "when": "Link loss detected by onboard monitor; swarm continues autonomous operation",
+      "then": "Swarm members rely on inter-vehicle links and pre-planned autonomy; link recovery occurs within hold-safe timeout to ensure link loss is survivable and non-interfering such that C2 link requirements are met",
+      "and": "Link loss event logged; case officer receives post-flight notification of outage duration and recovery; no safety impact"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 5.2,
+      "self_explanatory": 9,
+      "focused": 7,
+      "domain_language": 6.2
+    },
+    "avg_quality": 7.733333333333334,
+    "tags": [
+      "@major",
+      "@regression",
+      "@c2"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-020",
+    "original_scenario_id": "SCN-020",
+    "feature": "F07: C2 Link & Spectrum Assurance",
+    "source_req": "REQ006, REQ011",
+    "original_scenario": "Given: C2 link remains unavailable for > 10 seconds (configured threshold) during flight\nWhen: Loss duration exceeds hold-safe timeout\nThen: Swarm enters CONTINGENCY_MODE: autonomous navigation via pre-planned waypoints or inter-vehicle consensus continues until RTL is triggered",
+    "refined_specification": {
+      "given": "C2 link remains unavailable for > 10 seconds (configured threshold) during flight",
+      "when": "Loss duration exceeds hold-safe timeout",
+      "then": "Swarm enters CONTINGENCY_MODE: autonomous navigation via pre-planned waypoints or inter-vehicle consensus continues until RTL is triggered to ensure link loss is survivable and non-interfering such that C2 link requirements are met",
+      "and": "Flight is diverted to predetermined safe landing zone; crew is unable to command but swarm remains safe and recoverable"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.9,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 5.4
+    },
+    "avg_quality": 8.049999999999999,
+    "tags": [
+      "@major",
+      "@regression",
+      "@c2"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-021",
+    "original_scenario_id": "SCN-021",
+    "feature": "F07: C2 Link & Spectrum Assurance",
+    "source_req": "REQ006",
+    "original_scenario": "Given: Swarm is executing distributed consensus maneuver (e.g., coordinated altitude change); C2 link is lost\nWhen: Loss occurs mid-maneuver when inter-vehicle coordination is critical\nThen: Swarm members lose ground control authority but maintain inter-vehicle links; they follow distributed contingency algorithm to safely freeze maneuver",
+    "refined_specification": {
+      "given": "Swarm is executing distributed consensus maneuver (e.g., coordinated altitude change); C2 link is lost",
+      "when": "Loss occurs mid-maneuver when inter-vehicle coordination is critical",
+      "then": "Swarm members lose ground control authority but maintain inter-vehicle links; they follow distributed contingency algorithm to safely freeze maneuver to ensure link loss is survivable and non-interfering such that C2 link requirements are met",
+      "and": "Post-flight analysis shows whether consensus algorithm successfully prevented collision; high-risk scenario documented in lessons-learned"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 5.2,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 6.2
+    },
+    "avg_quality": 8.233333333333334,
+    "tags": [
+      "@major",
+      "@regression",
+      "@c2"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-022",
+    "original_scenario_id": "SCN-022",
+    "feature": "F07: C2 Link & Spectrum Assurance",
+    "source_req": "REQ006",
+    "original_scenario": "Given: C2 system transmits on authorized frequency with approved power level; spectrum monitoring equipment is in place\nWhen: Spectrum specialist reviews monitoring data and adjacent-frequency user complaints\nThen: No harmful interference detected; UAS emissions are within approved limits; spectrum coexistence confirmed",
+    "refined_specification": {
+      "given": "C2 system transmits on authorized frequency with approved power level; spectrum monitoring equipment is in place",
+      "when": "Spectrum specialist reviews monitoring data and adjacent-frequency user complaints",
+      "then": "No harmful interference detected; UAS emissions are within approved limits; spectrum coexistence confirmed to ensure link loss is survivable and non-interfering such that C2 link requirements are met",
+      "and": "Monitoring report generated; compliance verified in case file"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.9,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 5.4
+    },
+    "avg_quality": 8.049999999999999,
+    "tags": [
+      "@major",
+      "@regression",
+      "@c2"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-023",
+    "original_scenario_id": "SCN-023",
+    "feature": "F07: C2 Link & Spectrum Assurance",
+    "source_req": "REQ006",
+    "original_scenario": "Given: One aircraft loses RF link to its neighboring swarm members but maintains C2 link to ground\nWhen: Inter-vehicle link timeout occurs\nThen: Affected aircraft switches to ground-only contingency mode; ground crew re-establishes command authority",
+    "refined_specification": {
+      "given": "One aircraft loses RF link to its neighboring swarm members but maintains C2 link to ground",
+      "when": "Inter-vehicle link timeout occurs",
+      "then": "Affected aircraft switches to ground-only contingency mode; ground crew re-establishes command authority to ensure link loss is survivable and non-interfering such that C2 link requirements are met",
+      "and": "Remaining swarm members continue coordinated operation; separated aircraft is safely recovered or redirected"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.9,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 5.4
+    },
+    "avg_quality": 8.049999999999999,
+    "tags": [
+      "@major",
+      "@regression",
+      "@c2"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-024",
+    "original_scenario_id": "SCN-024",
+    "feature": "F08: Detect-and-Avoid (DAA) Performance Assurance",
+    "source_req": "REQ007",
+    "original_scenario": "Given: Swarm encounters another aircraft equipped with transponder (cooperative); position, altitude, and velocity known via ADS-B\nWhen: DAA system detects cooperative intruder and initiates avoidance\nThen: Avoidance maneuver (altitude change or lateral displacement) is executed autonomously; safe separation is maintained per DO-365 standards",
+    "refined_specification": {
+      "given": "Swarm encounters another aircraft equipped with transponder (cooperative); position, altitude, and velocity known via ADS-B",
+      "when": "DAA system detects cooperative intruder and initiates avoidance",
+      "then": "Avoidance maneuver (altitude change or lateral displacement) is executed autonomously; safe separation is maintained per DO-365 standards such that cooperative and non-cooperative encounters are resolved predictably",
+      "and": "Encounter logged with intruder track data; post-flight analysis confirms resolution was predictable and safe"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 5.2,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 6.2
+    },
+    "avg_quality": 8.233333333333334,
+    "tags": [
+      "@major",
+      "@regression",
+      "@daa"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-025",
+    "original_scenario_id": "SCN-025",
+    "feature": "F08: Detect-and-Avoid (DAA) Performance Assurance",
+    "source_req": "REQ007",
+    "original_scenario": "Given: Swarm encounters an aircraft without transponder (non-cooperative, position unknown); detected only by onboard radar/vision\nWhen: DAA system senses intruder and initiates evasive maneuver\nThen: Swarm executes conservative avoidance (e.g., altitude climb); encounter is resolved without collision",
+    "refined_specification": {
+      "given": "Swarm encounters an aircraft without transponder (non-cooperative, position unknown); detected only by onboard radar/vision",
+      "when": "DAA system senses intruder and initiates evasive maneuver",
+      "then": "Swarm executes conservative avoidance (e.g., altitude climb); encounter is resolved without collision such that cooperative and non-cooperative encounters are resolved predictably",
+      "and": "Post-flight analysis shows conservatism was sufficient; encounter logged as resolved safely despite information asymmetry"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 5.5,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 7.0
+    },
+    "avg_quality": 8.416666666666666,
+    "tags": [
+      "@major",
+      "@regression",
+      "@daa"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-026",
+    "original_scenario_id": "SCN-026",
+    "feature": "F08: Detect-and-Avoid (DAA) Performance Assurance",
+    "source_req": "REQ007, REQ008",
+    "original_scenario": "Given: Swarm is executing formation maneuver; external intruder is detected; swarm must simultaneously avoid intruder and maintain internal separation\nWhen: DAA triggers avoidance; swarm consensus algorithm must coordinate avoidance without internal collision\nThen: Coordinated de-confliction ensures swarm members all execute compatible avoidance; safe separation maintained both internally and from intruder",
+    "refined_specification": {
+      "given": "Swarm is executing formation maneuver; external intruder is detected; swarm must simultaneously avoid intruder and maintain internal separation",
+      "when": "DAA triggers avoidance; swarm consensus algorithm must coordinate avoidance without internal collision",
+      "then": "Coordinated de-confliction ensures swarm members all execute compatible avoidance; safe separation maintained both internally and from intruder such that cooperative and non-cooperative encounters are resolved predictably",
+      "and": "Encounter logged with inter-aircraft separation metrics; demonstrates coordinated swarm DAA capability"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 5.5,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 7.0
+    },
+    "avg_quality": 8.416666666666666,
+    "tags": [
+      "@major",
+      "@regression",
+      "@daa"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-027",
+    "original_scenario_id": "SCN-027",
+    "feature": "F08: Detect-and-Avoid (DAA) Performance Assurance",
+    "source_req": "REQ007, REQ003",
+    "original_scenario": "Given: Swarm is operating in GNSS-denied area (urban canyon, indoor); DAA is primary separation mechanism\nWhen: Encounter is detected via onboard radar/vision in GNSS-denied corner case\nThen: DAA relies on local sensor data only (no GPS-aided fusion); avoidance is executed conservatively",
+    "refined_specification": {
+      "given": "Swarm is operating in GNSS-denied area (urban canyon, indoor); DAA is primary separation mechanism",
+      "when": "Encounter is detected via onboard radar/vision in GNSS-denied corner case",
+      "then": "DAA relies on local sensor data only (no GPS-aided fusion); avoidance is executed conservatively such that cooperative and non-cooperative encounters are resolved predictably",
+      "and": "Post-flight analysis shows whether GNSS-denial impacts avoidance confidence; logs captured for forensic review"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 5.5,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 7.0
+    },
+    "avg_quality": 8.416666666666666,
+    "tags": [
+      "@major",
+      "@regression",
+      "@daa"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-028",
+    "original_scenario_id": "SCN-028",
+    "feature": "F08: Detect-and-Avoid (DAA) Performance Assurance",
+    "source_req": "REQ007",
+    "original_scenario": "Given: Onboard DAA system experiences hardware/sensor failure; encounter detection is unavailable\nWhen: Intruder approaches swarm (cooperative or non-cooperative)\nThen: System detects DAA unavailability; flight is immediately aborted and swarm is diverted to nearest safe landing",
+    "refined_specification": {
+      "given": "Onboard DAA system experiences hardware/sensor failure; encounter detection is unavailable",
+      "when": "Intruder approaches swarm (cooperative or non-cooperative)",
+      "then": "System detects DAA unavailability; flight is immediately aborted and swarm is diverted to nearest safe landing such that cooperative and non-cooperative encounters are resolved predictably",
+      "and": "Crew is alerted; incident is investigated; case may require DAA system redesign or additional operational constraints"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 5.8,
+      "self_explanatory": 9,
+      "focused": 7,
+      "domain_language": 7.800000000000001
+    },
+    "avg_quality": 8.1,
+    "tags": [
+      "@major",
+      "@regression",
+      "@daa"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-029",
+    "original_scenario_id": "SCN-029",
+    "feature": "F09: Swarm Decision-Making Architecture Review",
+    "source_req": "REQ008",
+    "original_scenario": "Given: Swarm architecture is distributed consensus-based (no single lead); airborne limits enforce velocity, altitude, and heading constraints; emergent behaviour test data demonstrates predictability\nWhen: Autonomy reviewer assesses architecture documentation and test evidence\nThen: Reviewer confirms collective behaviour meets ODD bounds; emergent phenomena (e.g., adaptive formation tightening) are explained and modeled",
+    "refined_specification": {
+      "given": "Swarm architecture is distributed consensus-based (no single lead); airborne limits enforce velocity, altitude, and heading constraints; emergent behaviour test data demonstrates predictability",
+      "when": "Autonomy reviewer assesses architecture documentation and test evidence",
+      "then": "Reviewer confirms collective behaviour meets ODD bounds; emergent phenomena (e.g., adaptive formation tightening) are explained and modeled for crew training and safety case hazard analysis such that ConOps requirements are met",
+      "and": "Architecture marked APPROVED; emergent behaviour evidence linked to case file"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 5.2,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 6.2
+    },
+    "avg_quality": 8.233333333333334,
+    "tags": [
+      "@major",
+      "@regression",
+      "@swarm"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-030",
+    "original_scenario_id": "SCN-030",
+    "feature": "F09: Swarm Decision-Making Architecture Review",
+    "source_req": "REQ008",
+    "original_scenario": "Given: Swarm architecture enforces local velocity/altitude limits; test evidence shows undesired emergent behaviour (e.g., collective oscillation, deadlock in consensus)\nWhen: Autonomy reviewer analyzes emergent behaviour test results\nThen: Undesired behaviour identified; reviewer flags architecture as INCOMPLETE",
+    "refined_specification": {
+      "given": "Swarm architecture enforces local velocity/altitude limits; test evidence shows undesired emergent behaviour (e.g., collective oscillation, deadlock in consensus)",
+      "when": "Autonomy reviewer analyzes emergent behaviour test results",
+      "then": "Undesired behaviour identified; reviewer flags architecture as INCOMPLETE per regulatory standards, recording case ID and submission timestamp such that Operational Authorisation pack requirements are met",
+      "and": "Applicant must either: (a) redesign consensus algorithm, (b) tighten airborne limits further, or (c) add ground-based override mechanism"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.9,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 5.4
+    },
+    "avg_quality": 8.049999999999999,
+    "tags": [
+      "@major",
+      "@regression",
+      "@swarm"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-031",
+    "original_scenario_id": "SCN-031",
+    "feature": "F09: Swarm Decision-Making Architecture Review",
+    "source_req": "REQ008",
+    "original_scenario": "Given: Swarm architecture uses designate lead aircraft for decision-making; failover protocol transfers authority to ground crew if lead is incapacitated\nWhen: Autonomy reviewer assesses lead-aircraft architecture and failover procedure\nThen: Reviewer validates that leadership failover maintains swarm cohesion and prevents collision during transition",
+    "refined_specification": {
+      "given": "Swarm architecture uses designate lead aircraft for decision-making; failover protocol transfers authority to ground crew if lead is incapacitated",
+      "when": "Autonomy reviewer assesses lead-aircraft architecture and failover procedure",
+      "then": "Reviewer validates that leadership failover maintains swarm cohesion and prevents collision during transition to assure collective behavior and emergent failure modes such that emergent behavior requirements are met",
+      "and": "Failover procedure documented; test results confirm safe transition; architecture approved"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.9,
+      "self_explanatory": 9,
+      "focused": 7,
+      "domain_language": 5.4
+    },
+    "avg_quality": 7.55,
+    "tags": [
+      "@major",
+      "@regression",
+      "@swarm"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-032",
+    "original_scenario_id": "SCN-032",
+    "feature": "F10: ML/AI Assurance Case & Model Manifest",
+    "source_req": "REQ009",
+    "original_scenario": "Given: Pack includes AMLAS/SACE assurance case for ML components (e.g., environmental classification, traffic prediction); frozen-model manifest documents exact model version, training data, and performance metrics; explainability framework (SHAP, attention maps) is documented\nWhen: ML assurance specialist reviews AMLAS case and manifest\nThen: Reviewer verifies model version is pinned and reproducible; explainability evidence supports forensic audit trail",
+    "refined_specification": {
+      "given": "Pack includes AMLAS/SACE assurance case for ML components (e.g., environmental classification, traffic prediction); frozen-model manifest documents exact model version, training data, and performance metrics; explainability framework (SHAP, attention maps) is documented",
+      "when": "ML assurance specialist reviews AMLAS case and manifest",
+      "then": "Reviewer verifies model version is pinned and reproducible; explainability evidence supports forensic audit trail such that Operational Authorisation pack requirements are met",
+      "and": "ML assurance marked APPROVED; manifest stored in immutable archive; explainability evidence linked to case file"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.9,
+      "self_explanatory": 9,
+      "focused": 7,
+      "domain_language": 5.4
+    },
+    "avg_quality": 7.55,
+    "tags": [
+      "@major",
+      "@regression",
+      "@ml"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-033",
+    "original_scenario_id": "SCN-033",
+    "feature": "F10: ML/AI Assurance Case & Model Manifest",
+    "source_req": "REQ009",
+    "original_scenario": "Given: Swarm uses ML model for real-time decision-making (e.g., autonomy mode selection); incident occurs; post-incident investigation requires forensic explanation of ML decision\nWhen: Investigator attempts to trace why model made specific decision\nThen: Explainability evidence is absent or sparse; investigator cannot confidently explain decision to regulator",
+    "refined_specification": {
+      "given": "Swarm uses ML model for real-time decision-making (e.g., autonomy mode selection); incident occurs; post-incident investigation requires forensic explanation of ML decision",
+      "when": "Investigator attempts to trace why model made specific decision",
+      "then": "Explainability evidence is absent or sparse; investigator cannot confidently explain decision to regulator to assure collective behavior and emergent failure modes such that swarm requirements are met",
+      "and": "Case marked CRITICAL FINDING: ML forensic explainability is insufficient; design must include per-decision explanation logging"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 5.2,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 6.2
+    },
+    "avg_quality": 8.233333333333334,
+    "tags": [
+      "@major",
+      "@regression",
+      "@ml"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-034",
+    "original_scenario_id": "SCN-034",
+    "feature": "F10: ML/AI Assurance Case & Model Manifest",
+    "source_req": "REQ009",
+    "original_scenario": "Given: Case closes; post-trial audit discovers deployed model version differs from manifest-documented version\nWhen: Audit compares manifest record to actual deployed code\nThen: Version mismatch flagged; case integrity questioned; forensic confidence reduced",
+    "refined_specification": {
+      "given": "Case closes; post-trial audit discovers deployed model version differs from manifest-documented version",
+      "when": "Audit compares manifest record to actual deployed code",
+      "then": "Version mismatch flagged; case integrity questioned; forensic confidence reduced such that ML requirements are met",
+      "and": "Finding logged; lessons-learned note added regarding manifest-synchronization procedures; process improvement recommended"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.3,
+      "self_explanatory": 9,
+      "focused": 7,
+      "domain_language": 3.8
+    },
+    "avg_quality": 7.183333333333333,
+    "tags": [
+      "@major",
+      "@regression",
+      "@ml"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-035",
+    "original_scenario_id": "SCN-035",
+    "feature": "F11: Human Oversight & Workload Assessment",
+    "source_req": "REQ010",
+    "original_scenario": "Given: Human factors assessment shows crew mental workload (NASA-TLX or equivalent) remains below 70% during nominal and off-nominal scenarios; take-over procedure requires < 3 seconds to resume command\nWhen: Human factors inspector reviews workload assessment and take-over procedure documentation\nThen: Inspector confirms meaningful human control is demonstrated; crew can perceive, understand, and intervene in safety-critical scenarios",
+    "refined_specification": {
+      "given": "Human factors assessment shows crew mental workload (NASA-TLX or equivalent) remains below 70% during nominal and off-nominal scenarios; take-over procedure requires < 3 seconds to resume command",
+      "when": "Human factors inspector reviews workload assessment and take-over procedure documentation",
+      "then": "Inspector confirms meaningful human control is demonstrated; crew can perceive, understand, and intervene in safety-critical scenarios such that ConOps requirements are met",
+      "and": "Human oversight marked APPROVED; workload metrics documented in case file"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 5.5,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 7.0
+    },
+    "avg_quality": 8.416666666666666,
+    "tags": [
+      "@major",
+      "@regression",
+      "@human-factors"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-036",
+    "original_scenario_id": "SCN-036",
+    "feature": "F11: Human Oversight & Workload Assessment",
+    "source_req": "REQ010",
+    "original_scenario": "Given: Simulation/test data shows crew workload exceeds 85% during simultaneous encounter + contingency scenario\nWhen: Human factors inspector analyzes workload data\nThen: Inspector flags workload as EXCESSIVE; meaningful human control is questioned for this scenario",
+    "refined_specification": {
+      "given": "Simulation/test data shows crew workload exceeds 85% during simultaneous encounter + contingency scenario",
+      "when": "Human factors inspector analyzes workload data",
+      "then": "Inspector flags workload as EXCESSIVE; meaningful human control is questioned for this scenario such that DAA requirements are met",
+      "and": "Applicant must either: (a) simplify crew procedures, (b) add automation to reduce workload, or (c) restrict operation to exclude this scenario from trial envelope"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.9,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 5.4
+    },
+    "avg_quality": 8.049999999999999,
+    "tags": [
+      "@major",
+      "@regression",
+      "@human-factors"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-037",
+    "original_scenario_id": "SCN-037",
+    "feature": "F11: Human Oversight & Workload Assessment",
+    "source_req": "REQ010",
+    "original_scenario": "Given: ConOps references crew take-over capability but does not specify procedure; no test evidence of actual take-over feasibility\nWhen: Human factors inspector requests take-over procedure and test results\nThen: Applicant cannot provide tested procedure; take-over time and success rate remain unverified",
+    "refined_specification": {
+      "given": "ConOps references crew take-over capability but does not specify procedure; no test evidence of actual take-over feasibility",
+      "when": "Human factors inspector requests take-over procedure and test results",
+      "then": "Applicant cannot provide tested procedure; take-over time and success rate remain unverified for crew training and safety case hazard analysis such that ConOps requirements are met",
+      "and": "Case marked INCOMPLETE; meaningful human control cannot be demonstrated; procedural redesign required"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.6,
+      "self_explanatory": 9,
+      "focused": 7,
+      "domain_language": 4.6
+    },
+    "avg_quality": 7.366666666666667,
+    "tags": [
+      "@major",
+      "@regression",
+      "@human-factors"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-038",
+    "original_scenario_id": "SCN-038",
+    "feature": "F12: Flight Termination & Contingency Assurance",
+    "source_req": "REQ011",
+    "original_scenario": "Given: Swarm experiences dual failure: C2 link loss + autonomy fault; independent termination system activates per geofence trigger\nWhen: On-board termination trigger fires (geofence breach or energy threshold)\nThen: All aircraft simultaneously power down and initiate safe descent; recovery is complete within impact zone",
+    "refined_specification": {
+      "given": "Swarm experiences dual failure: C2 link loss + autonomy fault; independent termination system activates per geofence trigger",
+      "when": "On-board termination trigger fires (geofence breach or energy threshold)",
+      "then": "All aircraft simultaneously power down and initiate safe descent; recovery is complete within impact zone per regulatory standards, recording case ID and submission timestamp such that Operational Authorisation pack requirements are met",
+      "and": "Termination event logged; case officer alerted; incident classified as CONTROLLED_TERMINATION"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 5.8,
+      "self_explanatory": 9,
+      "focused": 7,
+      "domain_language": 7.800000000000001
+    },
+    "avg_quality": 8.1,
+    "tags": [
+      "@major",
+      "@regression",
+      "@flight-ops"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-039",
+    "original_scenario_id": "SCN-039",
+    "feature": "F12: Flight Termination & Contingency Assurance",
+    "source_req": "REQ011",
+    "original_scenario": "Given: C2 link lost during flight; contingency matrix specifies response: 'link loss > 10s \u2192 navigate to nearest safe landing waypoint'\nWhen: Swarm recognizes link loss and timeout triggers contingency navigation\nThen: Pre-planned waypoint sequence executes; swarm navigates autonomously to safe landing site per ConOps",
+    "refined_specification": {
+      "given": "C2 link lost during flight; contingency matrix specifies response: 'link loss > 10s \u2192 navigate to nearest safe landing waypoint'",
+      "when": "Swarm recognizes link loss and timeout triggers contingency navigation",
+      "then": "Pre-planned waypoint sequence executes; swarm navigates autonomously to safe landing site per ConOps for crew training and safety case hazard analysis such that ODD requirements are met",
+      "and": "Contingency execution logged; post-flight analysis confirms waypoint selection was safe; incident classified as CONTINGENCY_SUCCESS"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 5.8,
+      "self_explanatory": 9,
+      "focused": 7,
+      "domain_language": 7.800000000000001
+    },
+    "avg_quality": 8.1,
+    "tags": [
+      "@major",
+      "@regression",
+      "@flight-ops"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-040",
+    "original_scenario_id": "SCN-040",
+    "feature": "F12: Flight Termination & Contingency Assurance",
+    "source_req": "REQ011",
+    "original_scenario": "Given: Incident occurs that is not enumerated in contingency matrix (e.g., unexpected swarm member incapacitation while others are airborne)\nWhen: Crew attempts to follow contingency procedures but finds no matching scenario\nThen: Crew must improvise; flight outcome is uncertain; post-incident review reveals gap in contingency planning",
+    "refined_specification": {
+      "given": "Incident occurs that is not enumerated in contingency matrix (e.g., unexpected swarm member incapacitation while others are airborne)",
+      "when": "Crew attempts to follow contingency procedures but finds no matching scenario",
+      "then": "Crew must improvise; flight outcome is uncertain; post-incident review reveals gap in contingency planning to assure collective behavior and emergent failure modes such that swarm requirements are met",
+      "and": "Case finding: contingency matrix is incomplete; design must include more comprehensive off-nominal scenario enumeration"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.9,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 5.4
+    },
+    "avg_quality": 8.049999999999999,
+    "tags": [
+      "@major",
+      "@regression",
+      "@flight-ops"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-041",
+    "original_scenario_id": "SCN-041",
+    "feature": "F12: Flight Termination & Contingency Assurance",
+    "source_req": "REQ011",
+    "original_scenario": "Given: Trial operator has coordinated with ATSU; TDA is activated, NOTAM issued, and ATC is aware of trial\nWhen: Flight commences within TDA boundaries\nThen: ATSU maintains awareness; any conflicting traffic is diverted outside TDA; trial proceeds without air traffic conflict",
+    "refined_specification": {
+      "given": "Trial operator has coordinated with ATSU; TDA is activated, NOTAM issued, and ATC is aware of trial",
+      "when": "Flight commences within TDA boundaries",
+      "then": "ATSU maintains awareness; any conflicting traffic is diverted outside TDA; trial proceeds without air traffic conflict to segregate the trial from other airspace users",
+      "and": "ATSU coordination log recorded; case file documents ATC liaison"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.9,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 5.4
+    },
+    "avg_quality": 8.049999999999999,
+    "tags": [
+      "@major",
+      "@regression",
+      "@flight-ops"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-042",
+    "original_scenario_id": "SCN-042",
+    "feature": "F12: Flight Termination & Contingency Assurance",
+    "source_req": "REQ011",
+    "original_scenario": "Given: During flight, one swarm member reports rapid altitude loss; structural damage or battery failure suspected\nWhen: Swarm de-confliction algorithm detects the failing member\nThen: Remaining swarm members immediately increase separation; failing member's trajectory is calculated; emergency termination considered if landing is not viable",
+    "refined_specification": {
+      "given": "During flight, one swarm member reports rapid altitude loss; structural damage or battery failure suspected",
+      "when": "Swarm de-confliction algorithm detects the failing member",
+      "then": "Remaining swarm members immediately increase separation; failing member's trajectory is calculated; emergency termination considered if landing is not viable such that cooperative and non-cooperative encounters are resolved predictably",
+      "and": "Incident logged; off-nominal response tested post-flight; contingency procedure revised if inadequate"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 5.2,
+      "self_explanatory": 9,
+      "focused": 7,
+      "domain_language": 6.2
+    },
+    "avg_quality": 7.733333333333334,
+    "tags": [
+      "@major",
+      "@regression",
+      "@flight-ops"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-043",
+    "original_scenario_id": "SCN-043",
+    "feature": "F13: Incident Data Recording & MOR Handling",
+    "source_req": "REQ012",
+    "original_scenario": "Given: During trial, a minor incident occurs (e.g., unexplained brief altitude drop); complete flight data is recorded continuously at 100Hz for aircraft state, crew commands, autonomy decisions, and external events\nWhen: Post-flight analysis begins; investigator reviews recorded data\nThen: Complete dataset enables root cause analysis; incident is classified for MOR threshold assessment",
+    "refined_specification": {
+      "given": "During trial, a minor incident occurs (e.g., unexplained brief altitude drop); complete flight data is recorded continuously at 100Hz for aircraft state, crew commands, autonomy decisions, and external events",
+      "when": "Post-flight analysis begins; investigator reviews recorded data",
+      "then": "Complete dataset enables root cause analysis; incident is classified for MOR threshold assessment per regulatory standards, recording case ID and submission timestamp such that Operational Authorisation pack requirements are met",
+      "and": "If MOR-reportable, formal report is filed with CAA within required timeframe; data archive is retained per regulations"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.6,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 4.6
+    },
+    "avg_quality": 7.866666666666667,
+    "tags": [
+      "@major",
+      "@regression",
+      "@incident-data"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-044",
+    "original_scenario_id": "SCN-044",
+    "feature": "F13: Incident Data Recording & MOR Handling",
+    "source_req": "REQ012",
+    "original_scenario": "Given: Incident occurs (near-collision); post-flight review discovers recording was interrupted due to disk full or sensor failure\nWhen: Investigator attempts to reconstruct incident sequence\nThen: Critical time-window of data is absent; investigator cannot confidently determine root cause",
+    "refined_specification": {
+      "given": "Incident occurs (near-collision); post-flight review discovers recording was interrupted due to disk full or sensor failure",
+      "when": "Investigator attempts to reconstruct incident sequence",
+      "then": "Critical time-window of data is absent; investigator cannot confidently determine root cause to make the trial safe in any off-nominal state such that independent termination requirements are met",
+      "and": "Finding: data recording completeness is insufficient; design must ensure continuous recording with redundancy"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.6,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 4.6
+    },
+    "avg_quality": 7.866666666666667,
+    "tags": [
+      "@major",
+      "@regression",
+      "@incident-data"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-045",
+    "original_scenario_id": "SCN-045",
+    "feature": "F13: Incident Data Recording & MOR Handling",
+    "source_req": "REQ012",
+    "original_scenario": "Given: DPIA documentation specifies which personal data is collected (crew IDs, ground observer IDs), retention duration (30 days), and purpose (incident investigation only)\nWhen: Case officer reviews DPIA against actual data collection procedures\nThen: DPIA is accurate and compliant with GDPR; personal data is minimized and protected",
+    "refined_specification": {
+      "given": "DPIA documentation specifies which personal data is collected (crew IDs, ground observer IDs), retention duration (30 days), and purpose (incident investigation only)",
+      "when": "Case officer reviews DPIA against actual data collection procedures",
+      "then": "DPIA is accurate and compliant with GDPR; personal data is minimized and protected such that meaningful human control is maintained throughout",
+      "and": "DPIA marked APPROVED; privacy compliance confirmed in case file"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.6,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 4.6
+    },
+    "avg_quality": 7.866666666666667,
+    "tags": [
+      "@major",
+      "@regression",
+      "@incident-data"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-046",
+    "original_scenario_id": "SCN-046",
+    "feature": "F13: Incident Data Recording & MOR Handling",
+    "source_req": "REQ012",
+    "original_scenario": "Given: Incident occurs that is borderline MOR-reportable (e.g., mild structural damage, no injury); guidance is unclear on threshold\nWhen: Applicant/operator must decide whether to file MOR\nThen: Conservative approach taken: MOR is filed to be safe; CAA reviews and either classifies as MOR or closes as non-reportable",
+    "refined_specification": {
+      "given": "Incident occurs that is borderline MOR-reportable (e.g., mild structural damage, no injury); guidance is unclear on threshold",
+      "when": "Applicant/operator must decide whether to file MOR",
+      "then": "Conservative approach taken: MOR is filed to be safe; CAA reviews and either classifies as MOR or closes as non-reportable to enable forensic investigation and GDPR compliance such that recorded evidence requirements are met",
+      "and": "Post-incident, applicant requests clarification on future threshold; case log documents ambiguity resolved"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.6,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 4.6
+    },
+    "avg_quality": 7.866666666666667,
+    "tags": [
+      "@major",
+      "@regression",
+      "@incident-data"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-047",
+    "original_scenario_id": "SCN-047",
+    "feature": "F14: Insurance Artefact Upload & Review",
+    "source_req": "REQ013",
+    "original_scenario": "Given: Applicant submits insurance certificate from approved provider; coverage limit is \u00a310M; exclusions are reviewed\nWhen: Authorisation officer validates insurance documents\nThen: Insurance is verified as in-force, coverage is adequate for trial scope, exclusions are acceptable",
+    "refined_specification": {
+      "given": "Applicant submits insurance certificate from approved provider; coverage limit is \u00a310M; exclusions are reviewed",
+      "when": "Authorisation officer validates insurance documents",
+      "then": "Insurance is verified as in-force, coverage is adequate for trial scope, exclusions are acceptable per regulatory standards, recording case ID and submission timestamp such that Operational Authorisation pack requirements are met",
+      "and": "Insurance marked APPROVED; policy details archived in case file; third-party risk is transferable"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.3,
+      "self_explanatory": 9,
+      "focused": 7,
+      "domain_language": 3.8
+    },
+    "avg_quality": 7.183333333333333,
+    "tags": [
+      "@major",
+      "@regression",
+      "@risk-mgmt"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-048",
+    "original_scenario_id": "SCN-048",
+    "feature": "F14: Insurance Artefact Upload & Review",
+    "source_req": "REQ013",
+    "original_scenario": "Given: Insurance policy submitted is for general aviation; exclusion clause states 'unmanned aircraft systems excluded from coverage'\nWhen: Authorisation officer reviews policy details\nThen: Insurance is flagged as INADEQUATE; policy does not cover trial operations",
+    "refined_specification": {
+      "given": "Insurance policy submitted is for general aviation; exclusion clause states 'unmanned aircraft systems excluded from coverage'",
+      "when": "Authorisation officer reviews policy details",
+      "then": "Insurance is flagged as INADEQUATE; policy does not cover trial operations per regulatory standards, recording case ID and submission timestamp such that Operational Authorisation pack requirements are met",
+      "and": "Applicant must obtain UAS-specific insurance with adequate coverage; case cannot proceed without proper insurance"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.3,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 3.8
+    },
+    "avg_quality": 7.683333333333333,
+    "tags": [
+      "@major",
+      "@regression",
+      "@risk-mgmt"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-049",
+    "original_scenario_id": "SCN-049",
+    "feature": "F15: Ground Survey Upload & Parse",
+    "source_req": "REQ013",
+    "original_scenario": "Given: Ground survey documents trial area: rural location, nearest residence 2km away, no schools or hospitals within 5km, no critical infrastructure overhead\nWhen: Authorisation officer reviews survey data and risk assessment\nThen: Risk assessment is factually grounded in observed conditions; third-party exposure is low; survey is marked APPROVED",
+    "refined_specification": {
+      "given": "Ground survey documents trial area: rural location, nearest residence 2km away, no schools or hospitals within 5km, no critical infrastructure overhead",
+      "when": "Authorisation officer reviews survey data and risk assessment",
+      "then": "Risk assessment is factually grounded in observed conditions; third-party exposure is low; survey is marked APPROVED enabling defensible SAIL and OSO determination such that SORA requirements are met",
+      "and": "Survey geospatial data (population density, hazards) is parsed and overlaid on TDA map; risk justification confirmed"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.9,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 5.4
+    },
+    "avg_quality": 8.049999999999999,
+    "tags": [
+      "@major",
+      "@regression",
+      "@risk-mgmt"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-050",
+    "original_scenario_id": "SCN-050",
+    "feature": "F15: Ground Survey Upload & Parse",
+    "source_req": "REQ013",
+    "original_scenario": "Given: Ground survey is submitted but does not identify power transmission lines, cellular towers, or critical facilities near trial area\nWhen: Authorisation officer reviews survey completeness\nThen: Survey is flagged as INCOMPLETE; critical hazards are not documented",
+    "refined_specification": {
+      "given": "Ground survey is submitted but does not identify power transmission lines, cellular towers, or critical facilities near trial area",
+      "when": "Authorisation officer reviews survey completeness",
+      "then": "Survey is flagged as INCOMPLETE; critical hazards are not documented per regulatory standards, recording case ID and submission timestamp such that Operational Authorisation pack requirements are met",
+      "and": "Applicant must conduct supplementary survey to identify all hazards; risk assessment cannot be finalized until complete"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.3,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 3.8
+    },
+    "avg_quality": 7.683333333333333,
+    "tags": [
+      "@major",
+      "@regression",
+      "@risk-mgmt"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-051",
+    "original_scenario_id": "SCN-051",
+    "feature": "F16: Crew Training & Competency Evidence Review",
+    "source_req": "REQ014",
+    "original_scenario": "Given: Pilot credentials include: (1) valid commercial UAS license, (2) type rating for swarm aircraft, (3) completion of swarm-specific training course, (4) simulator checkride evidence\nWhen: Licensing inspector reviews crew credentials and training records\nThen: All competency domains are verified; crew is qualified for trial scope; credentials marked APPROVED",
+    "refined_specification": {
+      "given": "Pilot credentials include: (1) valid commercial UAS license, (2) type rating for swarm aircraft, (3) completion of swarm-specific training course, (4) simulator checkride evidence",
+      "when": "Licensing inspector reviews crew credentials and training records",
+      "then": "All competency domains are verified; crew is qualified for trial scope; credentials marked APPROVED to assure collective behavior and emergent failure modes such that swarm requirements are met",
+      "and": "Competency evidence is archived in case file; training records linked for future reference"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 9,
+      "business_focused": 4.6,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 4.6
+    },
+    "avg_quality": 7.7,
+    "tags": [
+      "@major",
+      "@regression",
+      "@crew"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-052",
+    "original_scenario_id": "SCN-052",
+    "feature": "F16: Crew Training & Competency Evidence Review",
+    "source_req": "REQ014",
+    "original_scenario": "Given: Pilot holds commercial UAS license but training records show no swarm-specific instruction or type rating\nWhen: Licensing inspector assesses crew competency\nThen: Inspector flags missing swarm operations qualification; crew is not approved for swarm trial",
+    "refined_specification": {
+      "given": "Pilot holds commercial UAS license but training records show no swarm-specific instruction or type rating",
+      "when": "Licensing inspector assesses crew competency",
+      "then": "Inspector flags missing swarm operations qualification; crew is not approved for swarm trial to assure collective behavior and emergent failure modes such that emergent behavior requirements are met",
+      "and": "Applicant must enroll pilot in swarm operations training course; case cannot proceed until competency is demonstrated"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 9,
+      "business_focused": 4.6,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 4.6
+    },
+    "avg_quality": 7.7,
+    "tags": [
+      "@major",
+      "@regression",
+      "@crew"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-053",
+    "original_scenario_id": "SCN-053",
+    "feature": "F16: Crew Training & Competency Evidence Review",
+    "source_req": "REQ014",
+    "original_scenario": "Given: Crew training completed 5 years ago; no recent recurrency training or checkride on file\nWhen: Licensing inspector reviews training recency\nThen: Inspector flags training as STALE; competency currency cannot be assumed",
+    "refined_specification": {
+      "given": "Crew training completed 5 years ago; no recent recurrency training or checkride on file",
+      "when": "Licensing inspector reviews training recency",
+      "then": "Inspector flags training as STALE; competency currency cannot be assumed per regulatory standards, recording case ID and submission timestamp such that Operational Authorisation pack requirements are met",
+      "and": "Applicant must provide evidence of recent recurrency training (within past 12 months); case cannot open without current credentials"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.3,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 3.8
+    },
+    "avg_quality": 7.683333333333333,
+    "tags": [
+      "@major",
+      "@regression",
+      "@crew"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-054",
+    "original_scenario_id": "SCN-054",
+    "feature": "F17: CAA/MAA Apportionment & Duty Holder Signature",
+    "source_req": "REQ015",
+    "original_scenario": "Given: Apportionment document specifies: CAA owns airspace segregation and DAA assurance; MAA owns classified evidence handling and security compliance\nWhen: Document is signed by authorized CAA and MAA representatives\nThen: Regulatory ownership is clarified and gap-free; both parties acknowledge their responsibilities",
+    "refined_specification": {
+      "given": "Apportionment document specifies: CAA owns airspace segregation and DAA assurance; MAA owns classified evidence handling and security compliance",
+      "when": "Document is signed by authorized CAA and MAA representatives",
+      "then": "Regulatory ownership is clarified and gap-free; both parties acknowledge their responsibilities to segregate the trial from other airspace users such that TDA requirements are met",
+      "and": "Signed apportionment is archived in case file; regulatory interface is documented"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.6,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 4.6
+    },
+    "avg_quality": 7.866666666666667,
+    "tags": [
+      "@major",
+      "@regression",
+      "@governance"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-055",
+    "original_scenario_id": "SCN-055",
+    "feature": "F17: CAA/MAA Apportionment & Duty Holder Signature",
+    "source_req": "REQ015",
+    "original_scenario": "Given: Apportionment document is drafted but neither CAA nor MAA has signed; responsibility for classified evidence handling is ambiguous\nWhen: Case officer requires signed apportionment before case opening\nThen: Case is blocked; apportionment must be signed by both parties before proceeding",
+    "refined_specification": {
+      "given": "Apportionment document is drafted but neither CAA nor MAA has signed; responsibility for classified evidence handling is ambiguous",
+      "when": "Case officer requires signed apportionment before case opening",
+      "then": "Case is blocked; apportionment must be signed by both parties before proceeding",
+      "and": "Applicant is directed to obtain signatures; case remains in AWAIT_APPORTIONMENT status"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.0,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 3.0
+    },
+    "avg_quality": 7.5,
+    "tags": [
+      "@major",
+      "@regression",
+      "@governance"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-056",
+    "original_scenario_id": "SCN-056",
+    "feature": "F17: CAA/MAA Apportionment & Duty Holder Signature",
+    "source_req": "REQ015",
+    "original_scenario": "Given: Apportionment specifies CAA responsibility for airspace and MAA responsibility for defense aspects, but classified evidence custody (CAA? MAA? Joint?) is unspecified\nWhen: Case officer reviews signed apportionment\nThen: Gap is identified; responsibility allocation is incomplete",
+    "refined_specification": {
+      "given": "Apportionment specifies CAA responsibility for airspace and MAA responsibility for defense aspects, but classified evidence custody (CAA? MAA? Joint?) is unspecified",
+      "when": "Case officer reviews signed apportionment",
+      "then": "Gap is identified; responsibility allocation is incomplete per regulatory standards, recording case ID and submission timestamp such that Operational Authorisation pack requirements are met",
+      "and": "Apportionment must be revised and re-signed before case can proceed; gap-free ownership is required"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.3,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 3.8
+    },
+    "avg_quality": 7.683333333333333,
+    "tags": [
+      "@major",
+      "@regression",
+      "@governance"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-057",
+    "original_scenario_id": "SCN-057",
+    "feature": "F18: Phased Trial Gates & Progressive Evidence Build",
+    "source_req": "REQ016",
+    "original_scenario": "Given: Phase 1 is defined as: max 2 aircraft, pre-planned waypoints, segregated airspace, no autonomous decision-making; evidence threshold for Phase 1 is: 10 successful flights, zero incidents\nWhen: Applicant requests Phase 2 progression after completing Phase 1 evidence requirements\nThen: Independent panel reviews Phase 1 evidence (10 flight logs, post-flight summaries, sensor data); all criteria met",
+    "refined_specification": {
+      "given": "Phase 1 is defined as: max 2 aircraft, pre-planned waypoints, segregated airspace, no autonomous decision-making; evidence threshold for Phase 1 is: 10 successful flights, zero incidents",
+      "when": "Applicant requests Phase 2 progression after completing Phase 1 evidence requirements",
+      "then": "Independent panel reviews Phase 1 evidence (10 flight logs, post-flight summaries, sensor data); all criteria met to segregate the trial from other airspace users such that TDA requirements are met",
+      "and": "Panel approves Phase 2 progression; Phase 2 (max 4 aircraft, increased autonomy) is authorized; evidence begins for Phase 2"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.6,
+      "self_explanatory": 9,
+      "focused": 7,
+      "domain_language": 4.6
+    },
+    "avg_quality": 7.366666666666667,
+    "tags": [
+      "@major",
+      "@regression",
+      "@phased-trial"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-058",
+    "original_scenario_id": "SCN-058",
+    "feature": "F18: Phased Trial Gates & Progressive Evidence Build",
+    "source_req": "REQ016",
+    "original_scenario": "Given: During Phase 2 flights, a near-miss incident occurs involving geofence malfunction; evidence suggests Phase 2 autonomy level is not adequately validated\nWhen: Panel reviews incident and Phase 2 evidence completeness\nThen: Panel fails Phase 2 gate due to incident; Phase 2 authorization is withdrawn",
+    "refined_specification": {
+      "given": "During Phase 2 flights, a near-miss incident occurs involving geofence malfunction; evidence suggests Phase 2 autonomy level is not adequately validated",
+      "when": "Panel reviews incident and Phase 2 evidence completeness",
+      "then": "Panel fails Phase 2 gate due to incident; Phase 2 authorization is withdrawn per regulatory standards, recording case ID and submission timestamp such that Operational Authorisation pack requirements are met",
+      "and": "Trial reverts to Phase 1 operations; applicant must investigate incident, redesign containment logic, and accumulate additional evidence before Phase 2 re-attempt"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.6,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 4.6
+    },
+    "avg_quality": 7.866666666666667,
+    "tags": [
+      "@major",
+      "@regression",
+      "@phased-trial"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-059",
+    "original_scenario_id": "SCN-059",
+    "feature": "F18: Phased Trial Gates & Progressive Evidence Build",
+    "source_req": "REQ016",
+    "original_scenario": "Given: Phase 2 gate initially failed due to geofence issue; applicant has redesigned geofence logic and conducted 10 new validation flights\nWhen: Applicant resubmits Phase 2 evidence after remediation\nThen: Panel reviews new evidence (10 additional flights, geofence redesign analysis); all pass criteria are met",
+    "refined_specification": {
+      "given": "Phase 2 gate initially failed due to geofence issue; applicant has redesigned geofence logic and conducted 10 new validation flights",
+      "when": "Applicant resubmits Phase 2 evidence after remediation",
+      "then": "Panel reviews new evidence (10 additional flights, geofence redesign analysis); all pass criteria are met to prevent fly-away and uncontrolled BVLOS such that containment requirements are met",
+      "and": "Phase 2 gate is re-passed; Phase 2 authorization is restored; trial progression continues"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.9,
+      "self_explanatory": 9,
+      "focused": 7,
+      "domain_language": 5.4
+    },
+    "avg_quality": 7.55,
+    "tags": [
+      "@major",
+      "@regression",
+      "@phased-trial"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-060",
+    "original_scenario_id": "SCN-060",
+    "feature": "F18: Phased Trial Gates & Progressive Evidence Build",
+    "source_req": "REQ016",
+    "original_scenario": "Given: Trial structure defines 3 phases with cumulative evidence requirements\nWhen: Each phase gate is assessed against required evidence portfolio\nThen: Evidence sufficiency is evaluated per data-driven criteria",
+    "refined_specification": {
+      "given": "Trial structure defines 3 phases with cumulative evidence requirements",
+      "when": "Each phase gate is assessed against required evidence portfolio",
+      "then": "Evidence sufficiency is evaluated per data-driven criteria to enable forensic investigation and GDPR compliance such that recorded evidence requirements are met",
+      "and": "Scenario data:"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.3,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 3.8
+    },
+    "avg_quality": 7.683333333333333,
+    "tags": [
+      "@major",
+      "@regression",
+      "@phased-trial"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-061",
+    "original_scenario_id": "SCN-061",
+    "feature": "F19: Public & Stakeholder Engagement",
+    "source_req": "REQ017",
+    "original_scenario": "Given: Trial operator has conducted CAP 1616 consultation: identified landowners within 1km, held community meeting, issued press release, addressed stakeholder concerns\nWhen: Case officer reviews consultation documentation\nThen: Consultation is complete and documented; stakeholder feedback is recorded; trial proceeds with community awareness",
+    "refined_specification": {
+      "given": "Trial operator has conducted CAP 1616 consultation: identified landowners within 1km, held community meeting, issued press release, addressed stakeholder concerns",
+      "when": "Case officer reviews consultation documentation",
+      "then": "Consultation is complete and documented; stakeholder feedback is recorded; trial proceeds with community awareness per regulatory standards, recording case ID and submission timestamp such that Operational Authorisation pack requirements are met",
+      "and": "Consultation log archived in case file; demonstrates transparency and regulatory compliance"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.3,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 3.8
+    },
+    "avg_quality": 7.683333333333333,
+    "tags": [
+      "@major",
+      "@regression",
+      "@workbench"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-062",
+    "original_scenario_id": "SCN-062",
+    "feature": "F19: Public & Stakeholder Engagement",
+    "source_req": "REQ017",
+    "original_scenario": "Given: REQ017 (public/stakeholder engagement) is absent from user stories but is implied by CAP 1616 and GDPR\nWhen: Trial proceeds without documented consultation\nThen: System behavior is undefined: does case open anyway? Is consultation deferred to post-flight? Or is case blocked?",
+    "refined_specification": {
+      "given": "REQ017 (public/stakeholder engagement) is absent from user stories but is implied by CAP 1616 and GDPR",
+      "when": "Trial proceeds without documented consultation",
+      "then": "System behavior is undefined: does case open anyway? Is consultation deferred to post-flight? Or is case blocked? for crew training and safety case hazard analysis such that ConOps requirements are met",
+      "and": "CRITICAL FINDING: REQ017 must be explicitly addressed; system behavior for community engagement missing"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.3,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 3.8
+    },
+    "avg_quality": 7.683333333333333,
+    "tags": [
+      "@major",
+      "@regression",
+      "@workbench"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-063",
+    "original_scenario_id": "SCN-063",
+    "feature": "F20: Security Classification Handling",
+    "source_req": "REQ018",
+    "original_scenario": "Given: Trial involves classified defense aspects; MOD evidence is marked OFFICIAL SENSITIVE; CAA and MOD have agreed compartmented handling procedures per CAP 722H / JSP 440\nWhen: Classified evidence is submitted to CAA under secure custody arrangement\nThen: Evidence is tagged classified, stored in restricted access area, reviewed only by CAA security-cleared staff",
+    "refined_specification": {
+      "given": "Trial involves classified defense aspects; MOD evidence is marked OFFICIAL SENSITIVE; CAA and MOD have agreed compartmented handling procedures per CAP 722H / JSP 440",
+      "when": "Classified evidence is submitted to CAA under secure custody arrangement",
+      "then": "Evidence is tagged classified, stored in restricted access area, reviewed only by CAA security-cleared staff",
+      "and": "CAA assurance case references classified evidence without disclosing content; regulatory defensibility is maintained without security breach"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.0,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 3.0
+    },
+    "avg_quality": 7.5,
+    "tags": [
+      "@major",
+      "@regression",
+      "@workbench"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-064",
+    "original_scenario_id": "SCN-064",
+    "feature": "F20: Security Classification Handling",
+    "source_req": "REQ018",
+    "original_scenario": "Given: REQ018 (classification handling) is absent from user stories but is critical for defense trials\nWhen: Trial involves classified evidence; system must handle it securely\nThen: System behavior is undefined: how are classified docs ingested, stored, accessed? Which staff are authorized? What is disclosure protocol?",
+    "refined_specification": {
+      "given": "REQ018 (classification handling) is absent from user stories but is critical for defense trials",
+      "when": "Trial involves classified evidence; system must handle it securely",
+      "then": "System behavior is undefined: how are classified docs ingested, stored, accessed? Which staff are authorized? What is disclosure protocol? for crew training and safety case hazard analysis such that ConOps requirements are met",
+      "and": "CRITICAL FINDING: REQ018 must be explicitly specified; classification handling system is absent"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.3,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 3.8
+    },
+    "avg_quality": 7.683333333333333,
+    "tags": [
+      "@major",
+      "@regression",
+      "@workbench"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-065",
+    "original_scenario_id": "SCN-065",
+    "feature": "F21: Environmental Impact Assessment",
+    "source_req": "REQ019",
+    "original_scenario": "Given: Trial area has environmental survey identifying: bird nesting sites (dusk sensitivity), noise-sensitive species, battery fire risk mitigation plan\nWhen: Environmental assessor reviews impact documentation\nThen: Environmental impacts are assessed; mitigation measures are documented; compliance with CAP 722 environmental obligations confirmed",
+    "refined_specification": {
+      "given": "Trial area has environmental survey identifying: bird nesting sites (dusk sensitivity), noise-sensitive species, battery fire risk mitigation plan",
+      "when": "Environmental assessor reviews impact documentation",
+      "then": "Environmental impacts are assessed; mitigation measures are documented; compliance with CAP 722 environmental obligations confirmed enabling defensible SAIL and OSO determination such that SORA requirements are met",
+      "and": "Assessment marked APPROVED; environmental evidence archived in case file"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.9,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 5.4
+    },
+    "avg_quality": 8.049999999999999,
+    "tags": [
+      "@major",
+      "@regression",
+      "@workbench"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-066",
+    "original_scenario_id": "SCN-066",
+    "feature": "F21: Environmental Impact Assessment",
+    "source_req": "REQ019",
+    "original_scenario": "Given: REQ019 (environmental impact) is absent from user stories but is critical for CAA authorization\nWhen: Trial environment includes noise-sensitive or ecologically-sensitive areas\nThen: System behavior is undefined: does case require environmental assessment? What is assessment scope? Who reviews?",
+    "refined_specification": {
+      "given": "REQ019 (environmental impact) is absent from user stories but is critical for CAA authorization",
+      "when": "Trial environment includes noise-sensitive or ecologically-sensitive areas",
+      "then": "System behavior is undefined: does case require environmental assessment? What is assessment scope? Who reviews? for crew training and safety case hazard analysis such that ConOps requirements are met",
+      "and": "CRITICAL FINDING: REQ019 must be explicitly addressed; environmental assessment framework is absent"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.3,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 3.8
+    },
+    "avg_quality": 7.683333333333333,
+    "tags": [
+      "@major",
+      "@regression",
+      "@workbench"
+    ],
+    "still_needs_workshop": false,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-067",
+    "original_scenario_id": "SCN-067",
+    "feature": "F22: Post-Trial Lessons-Learned & Close-out Archive",
+    "source_req": "REQ020",
+    "original_scenario": "Given: Trial completes successfully; all flights are concluded; post-flight analysis is complete\nWhen: Case officer initiates close-out process; lessons-learned are compiled\nThen: Final flight data is archived in immutable format; lessons-learned report documents key findings, operational insights, and design improvements for future trials",
+    "refined_specification": {
+      "given": "Trial completes successfully; all flights are concluded; post-flight analysis is complete",
+      "when": "Case officer initiates close-out process; lessons-learned are compiled",
+      "then": "Final flight data is archived in immutable format; lessons-learned report documents key findings, operational insights, and design improvements for future trials per regulatory standards, recording case ID and submission timestamp such that Operational Authorisation pack requirements are met",
+      "and": "Authorization is formally closed; case transitions to CLOSED_COMPLETE status; institutional learning is captured"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.3,
+      "self_explanatory": 9,
+      "focused": 7,
+      "domain_language": 3.8
+    },
+    "avg_quality": 7.183333333333333,
+    "tags": [
+      "@major",
+      "@regression",
+      "@workbench"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-068",
+    "original_scenario_id": "SCN-068",
+    "feature": "F22: Post-Trial Lessons-Learned & Close-out Archive",
+    "source_req": "REQ020",
+    "original_scenario": "Given: REQ020 (post-trial close-out) is absent from user stories\nWhen: Trial concludes; case must close\nThen: System behavior is undefined: what is close-out procedure? How is evidence preserved? Is lessons-learned report required? What is retention policy?",
+    "refined_specification": {
+      "given": "REQ020 (post-trial close-out) is absent from user stories",
+      "when": "Trial concludes; case must close",
+      "then": "System behavior is undefined: what is close-out procedure? How is evidence preserved? Is lessons-learned report required? What is retention policy? for crew training and safety case hazard analysis such that ConOps requirements are met",
+      "and": "CRITICAL FINDING: REQ020 must be explicitly addressed; post-trial close-out framework is absent"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.3,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 3.8
+    },
+    "avg_quality": 7.683333333333333,
+    "tags": [
+      "@major",
+      "@regression",
+      "@workbench"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  },
+  {
+    "refined_id": "RSPEC-069",
+    "original_scenario_id": "SCN-069",
+    "feature": "F02, F18: Completeness Check + Phased Gates",
+    "source_req": "REQ001, REQ016",
+    "original_scenario": "Given: Trial structure requires completeness validation at each phase gate transition, not just intake\nWhen: Each phase progression is assessed\nThen: Evidence completeness for that phase is validated; missing artefacts block phase progression",
+    "refined_specification": {
+      "given": "Trial structure requires completeness validation at each phase gate transition, not just intake",
+      "when": "Each phase progression is assessed",
+      "then": "Evidence completeness for that phase is validated; missing artefacts block phase progression per regulatory standards, recording case ID and submission timestamp such that Operational Authorisation pack requirements are met",
+      "and": "Scenario data:"
+    },
+    "changes_made": [
+      "Contextualized spec to domain area",
+      "Removed UI and implementation details",
+      "Injected canonical domain language",
+      "Enhanced outcome clarity for testability"
+    ],
+    "quality_scores": {
+      "precise_and_testable": 9,
+      "not_a_script": 10,
+      "business_focused": 4.3,
+      "self_explanatory": 9,
+      "focused": 10,
+      "domain_language": 3.8
+    },
+    "avg_quality": 7.683333333333333,
+    "tags": [
+      "@major",
+      "@regression",
+      "@intake"
+    ],
+    "still_needs_workshop": true,
+    "notes": ""
+  }
+]

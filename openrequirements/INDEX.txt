@@ -1,0 +1,241 @@
+================================================================================
+SBE ANALYSIS OUTPUT INDEX
+CAA/MAA Joint Approval Workbench - BVLOS Autonomous Swarm Trials
+Analysis Date: 2026-04-23
+Analyst: Chris (Collaboration Analyst)
+================================================================================
+
+PRIMARY DELIVERABLES
+====================
+
+chris-language.json (24 KB)
+  Canonical Ubiquitous Language Dictionary
+  - 42 canonical terms (19 AGREED, 23 PROPOSED)
+  - Consolidated from Dorothy's 88 glossary terms
+  - Maps terms to features, stakeholders, and sources
+  - Ready for JSON import into specification management systems
+
+chris-workshops.json (19 KB)
+  Workshop Recommendations & Detailed Agendas
+  - 10 workshops (3 immediate, 7 short/medium-term)
+  - ~26 hours total duration
+  - Detailed agendas with specific DeFOSPAM-derived questions
+  - Participant roles, prerequisites, and expected outputs
+  - Three collaboration models: all-team, three-amigos, dev-analyst pair
+
+chris-findings.json (23 KB)
+  Critical Collaboration Gap Findings
+  - 12 critical findings (confidence 9-10/10)
+  - 8 isolation signals, 2 terminology conflicts, 2 regulatory gaps
+  - Linked to DeFOSPAM findings and language entries
+  - Recommended workshop models for each gap
+
+SUPPORTING DOCUMENTS
+====================
+
+README.txt (14 KB)
+  Quick reference guide and file descriptions
+  - File structure for each JSON deliverable
+  - Quick reference mapping (DeFOSPAM -> Language -> Workshop)
+  - How to use guide for different roles
+  - Key metrics and next immediate actions
+
+CHRIS-SUMMARY.txt (16 KB)
+  Executive summary of analysis
+  - Analysis overview
+  - 42 canonical terms organized by domain
+  - Top 5 workshops with detailed descriptions
+  - Top 3 collaboration gaps with root causes
+  - Key insights and next steps
+
+ANALYSIS-VALIDATION.txt (12 KB)
+  Detailed validation and coverage report
+  - Input data summary
+  - Output deliverables verification
+  - Coverage analysis (88 terms -> 42 canonical, 125 findings -> 12 extracted)
+  - SBE methodology alignment
+  - Validation against DeFOSPAM analyses
+  - Quality assurance checks
+
+INDEX.txt (this file)
+  Directory navigation and file organization
+
+RELATED OUTPUTS (FROM OTHER ANALYSTS)
+======================================
+
+grace-findings.json (24 KB)
+  Findings from Grace (Goals Analyst)
+  [See grace-findings.json for context on trial goals and assurance objectives]
+
+grace-goals.json (29 KB)
+  Goals and success metrics from Grace (Goals Analyst)
+  [See grace-goals.json for context on measurable goals from Vibe scales]
+
+================================================================================
+FILE SIZES SUMMARY
+================================================================================
+
+Core Deliverables:
+  chris-language.json        24 KB    42 language terms
+  chris-workshops.json       19 KB    10 workshop recommendations
+  chris-findings.json        23 KB    12 collaboration gap findings
+  SUBTOTAL:                  66 KB
+
+Supporting Documentation:
+  README.txt                 14 KB
+  CHRIS-SUMMARY.txt          16 KB
+  ANALYSIS-VALIDATION.txt    12 KB
+  INDEX.txt                  3  KB
+  SUBTOTAL:                  45 KB
+
+TOTAL SBE ANALYSIS OUTPUT:   111 KB
+
+================================================================================
+HOW TO NAVIGATE THIS ANALYSIS
+================================================================================
+
+STEP 1: START HERE
+  1. Read README.txt (2 minutes) - understand file organization
+  2. Read CHRIS-SUMMARY.txt (5 minutes) - get executive overview
+  3. Review key metrics in ANALYSIS-VALIDATION.txt (3 minutes)
+
+STEP 2: IDENTIFY YOUR ROLE & RESPONSIBILITIES
+  Refer to README.txt section "HOW TO USE THIS ANALYSIS"
+  - Project managers: Schedule workshops
+  - Requirements engineers: Update glossary and user stories
+  - Developers: Identify design/mechanism gaps affecting implementation
+  - Testers: Plan verification approaches
+  - Regulators: Finalize approval criteria
+  - Safety engineers: Develop safety cases
+  - Human factors specialists: Plan capability assessments
+
+STEP 3: DEEP DIVE ON YOUR AREA OF INTEREST
+  Use chris-findings.json to find your feature:
+    - Find REQxxx in "feature" field
+    - Review "missing_perspectives" to understand what stakeholders missed
+    - Check "recommended_model" to understand collaboration needed
+    - Note "workshop_questions" for your preparation
+
+STEP 4: PLAN YOUR WORKSHOP ATTENDANCE
+  Use chris-workshops.json:
+    - Find WS-xxx that covers your feature
+    - Review "participants" to confirm your role
+    - Study "prerequisites" to prepare
+    - Review "agenda" items and "questions_to_resolve"
+    - Understand "outputs" that will result from workshop
+
+STEP 5: UPDATE SPECIFICATIONS
+  Use chris-language.json:
+    - Find language terms affected by your workshops
+    - Use "canonical_definition" as source of truth
+    - Note "status" (AGREED vs PROPOSED)
+    - Update user stories to reference agreed definitions
+    - Flag PROPOSED terms for workshop agreement
+
+================================================================================
+ANALYSIS METHODOLOGY
+================================================================================
+
+This analysis applies Specification by Example (SBE) methodology:
+
+1. UBIQUITOUS LANGUAGE ANALYSIS (Gojko Adzic)
+   - Consolidated 88 glossary terms into 42 canonical entries
+   - Identified conflicts (same term, different meanings)
+   - Marked proposed vs agreed terms
+   - Mapped terms to features and stakeholders
+
+2. COLLABORATION GAP DETECTION (Paul Gerrard - Business Story Method)
+   - Identified 12 high-confidence isolation signals
+   - Found missing perspectives for each gap
+   - Recommended appropriate collaboration models
+   - Mapped DeFOSPAM findings to workshop questions
+
+3. SCENARIO-DRIVEN SPECIFICATION
+   - Vibe scales operationalize acceptance criteria
+   - Workshop outputs will produce concrete scenarios
+   - Traceability between requirements, language, and acceptance
+
+================================================================================
+CROSS-REFERENCE MATRIX
+================================================================================
+
+To find analysis for a specific topic:
+
+TOPIC                   DOCUMENT(S)              SECTION/FILE
+-------------------     ----------------------   ----------------------------
+Swarm-aware SORA         All 3 JSON files         REQ002, WS-001, Finding 1
+Meaningful control       All 3 JSON files         REQ010, WS-003, Finding 2
+Containment/Geofence     All 3 JSON files         REQ005, WS-002, Finding 3
+Worst-credible behavior  All 3 JSON files         REQ003, WS-008, Finding 4
+Link loss survivability  All 3 JSON files         REQ006, WS-004, Finding 5
+Pack completeness        All 3 JSON files         REQ001/012, Finding 6
+DAA predictable resolution All 3 JSON files      REQ007, WS-005, Finding 7
+ML explainability        All 3 JSON files         REQ009, WS-006, Finding 8
+Frozen model manifest    All 3 JSON files         REQ009, WS-006, Finding 9
+Flight termination       All 3 JSON files         REQ011, WS-007, Finding 10
+Defensibly criteria      All 3 JSON files         REQ002, Dev-analyst pair, Finding 11
+Missing requirements     All 3 JSON files         REQ017-020, All-team WS, Finding 12
+
+================================================================================
+QUALITY ASSURANCE SUMMARY
+================================================================================
+
+All deliverables have been validated:
+  ✓ Language entries have source references
+  ✓ Proposed terms have associated DeFOSPAM findings
+  ✓ Findings have mapped workshop recommendations
+  ✓ Workshops have specific DeFOSPAM-derived questions
+  ✓ All acronyms are expanded on first use
+  ✓ All 20 requirements (REQ001-REQ020) accounted for
+  ✓ Confidence levels >= 9/10 (highest-impact findings)
+  ✓ Stakeholder perspectives explicitly listed
+  ✓ Workshop recommendations aligned to SBE models
+
+Coverage:
+  ✓ 100% of Dorothy's critical findings addressed
+  ✓ 100% of user stories mapped to analysis
+  ✓ 100% of features (REQ001-REQ020) covered
+  ✓ 12 specialist communities identified and mapped
+
+================================================================================
+NEXT IMMEDIATE ACTIONS FOR PROGRAM MANAGEMENT
+================================================================================
+
+THIS WEEK (Do not delay):
+  [ ] Read README.txt and CHRIS-SUMMARY.txt
+  [ ] Schedule WS-001 (Swarm-Aware SORA Assessment) - 3 hours
+  [ ] Schedule WS-002 (Automatic Containment Design) - 4 hours
+  [ ] Schedule WS-003 (Meaningful Human Control & Workload) - 3.5 hours
+  [ ] Confirm critical participant availability
+
+NEXT 2 WEEKS:
+  [ ] Conduct WS-001, WS-002, WS-003
+  [ ] Document workshop decisions
+  [ ] Update language.json with workshop agreements (STATUS: AGREED)
+  [ ] Update user stories based on workshop outputs
+
+WEEK 4:
+  [ ] Create user stories for REQ017-REQ020 (missing regulatory requirements)
+  [ ] Schedule and conduct WS-004 through WS-010
+  [ ] Integrate all workshop outputs into specifications
+
+ONGOING:
+  [ ] Maintain updated language.json as single source of truth
+  [ ] Establish glossary governance to prevent future conflicts
+  [ ] Use PROPOSED->AGREED transition to track specification maturity
+
+================================================================================
+
+For questions about this analysis, contact:
+  Chris - Collaboration Analyst
+  Organization: OpenRequirements.AI / CAA-MAA Transformation Team
+  Role: Specification by Example (SBE) Coach
+
+For technical questions about outputs, refer to:
+  - README.txt for file formats
+  - ANALYSIS-VALIDATION.txt for methodology
+  - Specific JSON files for detailed content
+
+================================================================================
+END OF INDEX
+================================================================================

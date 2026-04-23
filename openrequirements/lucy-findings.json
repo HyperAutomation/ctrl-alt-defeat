@@ -1,0 +1,222 @@
+[
+  {
+    "finding_id": "LF-001",
+    "finding_title": "20 TBDs span critical swarm-safety methodology gaps blocking REQ002 (swarm-aware SORA assessment)",
+    "finding_type": "tbd_identified",
+    "confidence": 10,
+    "severity": "critical",
+    "srs_section": "3.2_specific_requirements (REQ002)",
+    "gap_description": "Odin REQ002 rewrite operationalizes swarm-aware SORA evidence (3 components: inter-vehicle coordination, emergent risks, documented hazard analysis) but JARUS SORA v2.5 methodology is single-aircraft-focused. No standardized taxonomy exists for swarm interdependency failures (loss-of-separation cascades, deadlock, single-point-of-failure propagation). Trial applicants cannot credibly assess swarm-specific SORA without this methodology.",
+    "source_data_available": true,
+    "tbd_details": {
+      "reason": "Civil aviation SORA standard does not yet cover multi-agent interdependency failures.",
+      "responsible": "CAA + JARUS Joint Working Group (SORA domain experts); applicant safety engineers",
+      "target_date": "2026-Q3 (before second trial cohort intake)",
+      "blocking_path": "First trial cohort can proceed with applicant-proposed swarm-aware evidence (no standard yet); WS-001 workshop must produce SORA 2.0 Swarm Supplement to operationalize REQ002 for future trials."
+    },
+    "reasoning": "DeFOSPAM Dorothy-1 identified 'swarm-aware' as critical undefined term (confidence 10/10). Chris language file defines swarm-aware but provides no methodology. Odin rewrite references JARUS v2.5 but does not address swarm-specific gaps. Grace goal GOAL-002 (Assure Swarm-Aware Safety Assessment) is the highest-risk goal for first trial cohort because methodology does not yet exist.",
+    "recommendation": "Establish WS-001 swarm SORA methodology workshop (Q2 2026): CAA + JARUS liaison + industry safety engineers. Define: (1) hazard taxonomy specific to swarm (loss-of-separation modes, separation-loss cascade triggers); (2) analysis methodology (FTA extensions for multi-agent systems, STAMP for distributed control); (3) acceptance criteria (e.g., 'quantified maximum cascade depth = 2 aircraft, probability of cascade < 0.1% per flight'); (4) evidence template (documentation structure for applicant submission). Publish SORA 2.0 Swarm Supplement by end Q3 2026.",
+    "analyst": "Lucy",
+    "byline": "Completeness Analyst",
+    "characteristic": "C_complete",
+    "image_url": "https://openrequirements.ai/lovable-uploads/lucy-findings-001.png"
+  },
+  {
+    "finding_id": "LF-002",
+    "finding_title": "Containment design standard undefined (5 critical subcriteria per Dorothy-4)",
+    "finding_type": "tbd_identified",
+    "confidence": 10,
+    "severity": "critical",
+    "srs_section": "3.5_specific_requirements (REQ005)",
+    "gap_description": "REQ005 (Geofence/Containment Enforcement) specifies 10-meter boundary tolerance and 500-millisecond response time but provides no design justification or standard. Five subcriteria undefined: (1) fail-safe mechanism rationale; (2) environmental stress factors (wind gust, sensor degradation); (3) design standard reference (DO-178C? IEC 61508?); (4) verification approach (software testing alone vs. hardware-in-loop); (5) single-vehicle vs. swarm-specific design differences.",
+    "source_data_available": true,
+    "tbd_details": {
+      "reason": "No industry standard yet governs swarm containment design; 10m and 500ms are heuristic, not evidence-based.",
+      "responsible": "CAA autonomy reviewer + design-standard consortium (autonomy engineers, safety engineers, test engineers)",
+      "target_date": "2026-Q2 (before trial design approval)",
+      "blocking_path": "First trial must negotiate containment acceptance criteria with CAA autonomy reviewer per-trial; WS-002 workshop must establish baseline design standard for future trials."
+    },
+    "reasoning": "DeFOSPAM Dorothy-4 identified 'containment' as critical undefined term with 5 subcriteria. Odin rewrite specifies mechanism and response time but not design rationale. Containment is safety-critical per Grace goal GOAL-003 (Ensure Containment & Flight Safety) but lacks formal design basis. Risk: applicant may propose inadequate containment; CAA reviewer lacks standard to assess adequacy.",
+    "recommendation": "Establish WS-002 containment design-standard workshop (Q2 2026): CAA + autonomy engineers + safety engineers. Develop: (1) containment failure-mode taxonomy (geofence-sensor loss, computation latency, motor failure, firmware bug); (2) failure-rate assumptions (design basis accident: geofence breach must not exceed 0.1% per flight hour); (3) fail-safe mechanism specification (mechanical kill-switch + software enforcement + procedural backup); (4) design reference standards (adapt DO-178C for autonomy, adapt IEC 61508 for safety-critical system); (5) environmental stress-testing plan (wind gust, vibration, thermal, sensor noise injection). Publish CAA Containment Design Standard by end Q2 2026.",
+    "analyst": "Lucy",
+    "byline": "Completeness Analyst",
+    "characteristic": "C_complete",
+    "image_url": "https://openrequirements.ai/lovable-uploads/lucy-findings-002.png"
+  },
+  {
+    "finding_id": "LF-003",
+    "finding_title": "Meaningful human control measurable criteria undefined (Dorothy-2, international debate ongoing)",
+    "finding_type": "tbd_identified",
+    "confidence": 10,
+    "severity": "critical",
+    "srs_section": "3.10_specific_requirements (REQ010)",
+    "gap_description": "REQ010 (Human Oversight and Crew Fitness) demands 'meaningful human control' but this term lacks measurable criteria. Odin rewrite operationalizes through 3 proxies (situational awareness 1 Hz, override latency <2 seconds, intervention time window 5-10 seconds) and workload thresholds (75% nominal / 85% contingency), but no consensus exists on whether these thresholds satisfy 'meaningful' control for autonomous swarm systems. International debate ongoing between Civil Society (advocates stricter human authority) and Military precedent (accepts more autonomy with less human intervention).",
+    "source_data_available": true,
+    "tbd_details": {
+      "reason": "No accepted international standard for 'meaningful human control' in autonomous systems; civil-aviation authority has not yet defined measurable criteria specific to BVLOS swarm.",
+      "responsible": "CAA Human Factors Group + MAA (military authority on human control precedent); university human-factors research partner",
+      "target_date": "2026-Q3 (before Phase 2 BVLOS trials commence)",
+      "blocking_path": "First trial (Phase 1 VLOS) is not blocked by MHC definition because VLOS is fully human-controlled. Phase 2+ trials cannot proceed without CAA-approved MHC criteria."
+    },
+    "reasoning": "DeFOSPAM Dorothy-2 identified 'meaningful human control' as critical undefined term (confidence 10/10). Chris language defines it as 'Active, informed crew awareness and retained authority.' Odin operationalizes with measurable thresholds (1 Hz, <2s, workload %). But empirical basis for these thresholds lacking. Grace goal GOAL-004 (Assure Autonomous Decision-Making & Human Control) depends on MHC definition for acceptability criteria.",
+    "recommendation": "Establish WS-003 human factors workshop (Q3 2026): CAA + university human-factors research lab + applicant crew trainers. Conduct: (1) simulator study (swarm scenario playback with human subjects) measuring take-over response time, workload under various scenario complexities, crew situation awareness recovery time; (2) evidence synthesis (compare proposed thresholds to manned-aviation precedent, military UAV precedent); (3) develop 'Meaningful Human Control Assurance Guidance' specifying: situation-awareness update frequency (operationalize '1 Hz'), override-latency acceptance (justify '<2s'), workload thresholds (validate '75%/85%'). Publish guidance and update REQ010 by end Q3 2026.",
+    "analyst": "Lucy",
+    "byline": "Completeness Analyst",
+    "characteristic": "C_complete",
+    "image_url": "https://openrequirements.ai/lovable-uploads/lucy-findings-003.png"
+  },
+  {
+    "finding_id": "LF-004",
+    "finding_title": "Emergent-behavior credibility boundary undefined; no accepted verification standard for multi-agent systems",
+    "finding_type": "tbd_identified",
+    "confidence": 9,
+    "severity": "critical",
+    "srs_section": "3.8_specific_requirements (REQ008)",
+    "gap_description": "REQ008 (Swarm Decision-Making Architecture Review) requires 'emergent-behavior evidence' bounded through formal verification (model checking) and Monte Carlo simulation (1,000 trials, <0.1% separation-loss rate). But credibility boundary undefined: unclear what separation-loss rate (0.1%? 0.01%?) is acceptable, and no accepted standard exists for verifying emergent behavior in multi-agent autonomous systems. Formal verification tools for swarm systems are immature; Monte Carlo sample-size justification missing.",
+    "source_data_available": true,
+    "tbd_details": {
+      "reason": "Formal methods for multi-agent systems are active research area; no mature verification standard yet exists for civil-aviation autonomy. 0.1% threshold is heuristic.",
+      "responsible": "CAA Autonomy Review Panel + academic consensus group (formal-methods researchers, complexity scientists, multi-agent systems domain experts)",
+      "target_date": "2026-Q4 (before Phase 3 BVLOS swarm trials commence)",
+      "blocking_path": "Phase 1-2 trials do not require swarm emergent-behavior verification (single or dual aircraft). Phase 3 swarm trials cannot proceed without CAA-accepted emergent-behavior evidence standard."
+    },
+    "reasoning": "Odin REQ008 rewrite specifies formal verification + Monte Carlo approach but lacks justification for credibility thresholds. Grace goal GOAL-002 (Assure Swarm-Aware Safety Assessment) includes 'SwarmEmergentBoundedness' scale but the measurement methodology is incomplete. Risk: applicant submits Monte Carlo simulation results (1,000 trials, 0.09% separation loss) claiming success; CAA reviewer cannot determine if 0.09% is acceptable without published guidance.",
+    "recommendation": "Establish emergent-behavior assurance working group (Q3 2026): CAA + formal-methods research labs (University College London, Imperial College) + complexity scientists. Develop: (1) failure-mode taxonomy for emergent swarm behavior (deadlock, oscillation, separation-loss cascades, divergence from ConOps); (2) formal-verification approach (model checking vs. theorem proving vs. runtime monitoring) per failure-mode type; (3) Monte Carlo validation methodology (scenario library, sample-size calculation, statistical significance testing); (4) acceptance criteria per failure mode (e.g., 'deadlock must not occur in >99.99% of trials; separation-loss cascade depth must not exceed 3 aircraft'). Publish 'Emergent-Behavior Assurance Guidance' by end Q4 2026.",
+    "analyst": "Lucy",
+    "byline": "Completeness Analyst",
+    "characteristic": "C_complete",
+    "image_url": "https://openrequirements.ai/lovable-uploads/lucy-findings-004.png"
+  },
+  {
+    "finding_id": "LF-005",
+    "finding_title": "10 REQs (REQ008-REQ011, REQ015-REQ020) have partial operational specifications requiring per-trial negotiation or stakeholder workshops",
+    "finding_type": "missing_srs_section",
+    "confidence": 8,
+    "severity": "major",
+    "srs_section": "section_3_specific_requirements",
+    "gap_description": "While Odin rewrites operationalize 14 of 20 requirements at reasonable detail level (REQ001-REQ007, REQ012-REQ014), 6 requirements have partial specifications: REQ008 (emergent-behavior evidence methodology undefined), REQ009 (forensic explainability for deep learning is infeasible; fallback techniques specified but guardrails missing), REQ010 (workload thresholds specified but per-trial assessment methodology not standardized), REQ011 (IFT trigger criteria negotiated per-trial), REQ015 (apportionment matrix format specified but approval signatures and conflict-resolution procedure not formalized), REQ016 (phase exit criteria named but metrics not quantified). Additionally, 4 newly-authored REQs (REQ017-REQ020) have first-draft specifications: REQ017 (public engagement per CAP 1616 scope not fully integrated), REQ018 (classified evidence handling per CAP 722H/JSP 440 scope not negotiated with MOD), REQ019 (environmental assessment criteria partially specified; noise-modeling tool and species-disturbance thresholds not standardized), REQ020 (post-trial institutional-learning process not yet designed).",
+    "source_data_available": true,
+    "tbd_details": {
+      "reason": "Partial specifications occur where external standards (JARUS SORA, CAP 1616, CAP 722H, JSP 440) are referenced but integration not completed, or where per-trial negotiation is required (contingency matrix design, workload assessment methodology).",
+      "responsible": "CAA regulatory affairs (standard integration), applicant (per-trial negotiation), CAA programme manager (gate approval)",
+      "target_date": "per-trial (by time of trial authorization decision)",
+      "blocking_path": "First trial intake can proceed using partial specifications; applicant and CAA negotiate acceptance criteria per-trial. TBD workshops must complete specifications for REQ002, REQ005, REQ008, REQ010 before second trial cohort to avoid repeated per-trial negotiation."
+    },
+    "reasoning": "Odin rewrites were authored by Odin's IEEE 830 agents with high confidence (8-9) on operational specification. However, 6-10 REQs introduce complexity that requires either (1) external standard integration (REQ018 CAP 722H), (2) per-trial decision logic (REQ011 IFT triggers), or (3) stakeholder consensus (REQ010 workload thresholds). This is expected SRS maturity for a regulated domain with emerging technology (swarm autonomy). Recommendation is to accept per-trial negotiation for first trial cohort and complete TBD workshops before scaling to additional trials.",
+    "recommendation": "Prioritize TBD workshops as follows: (1) WS-001 (swarm SORA, Q2 2026) - critical path for REQ002 operationalization; (2) WS-002 (containment design, Q2 2026) - critical path for REQ005 design justification; (3) WS-003 (human control, Q3 2026) - critical path for REQ010 threshold validation. For first trial cohort: accept per-trial specifications for REQ008 (emergent-behavior evidence), REQ009 (ML explainability fallback), REQ011 (IFT triggers), REQ015 (apportionment signatures). For REQ017-REQ020 (newly authored): CAA to review CAP 1616, CAP 722H, JSP 440, Environmental Protection Act integration and issue updated guidance by Q2 2026.",
+    "analyst": "Lucy",
+    "byline": "Completeness Analyst",
+    "characteristic": "C_complete",
+    "image_url": "https://openrequirements.ai/lovable-uploads/lucy-findings-005.png"
+  },
+  {
+    "finding_id": "LF-006",
+    "finding_title": "REQ001 and REQ012 use 'complete' with different meanings; ambiguity not fully resolved in Odin rewrite",
+    "finding_type": "missing_srs_section",
+    "confidence": 8,
+    "severity": "major",
+    "srs_section": "section_3_specific_requirements (REQ001, REQ012)",
+    "gap_description": "Odin REQ001 operationalizes 'complete Operational Authorisation Pack' as 8 mandatory artefacts (ConOps, SORA, Safety Case, Training Plan, Personnel List, Environmental Assessment, Insurance, Ground Survey) present and exceeding page thresholds. Odin REQ012 operationalizes 'complete recorded evidence' as 6 telemetry categories (aircraft state, autonomy decisions, link quality, crew actions, video, audio) present and continuous throughout flight. DeFOSPAM Dorothy-8 identified this ambiguity but Odin rewrite uses same term 'complete' for both contexts without explicit disambiguation. Risk: applicant confusion on what evidence is required for each gate; CAA case officer may conflate intake completeness (artefact presence) with evidentiary completeness (telemetry recording fidelity).",
+    "source_data_available": true,
+    "tbd_details": {
+      "reason": "DeFOSPAM finding correctly identified ambiguity; Odin rewrite operationalized both meanings separately but did not update terminology to disambiguate (e.g., 'pack completeness' vs. 'evidence completeness').",
+      "responsible": "SRS author (Lucy is completing SRS; responsibility to finalize terminology)",
+      "target_date": "immediate (before SRS publication)",
+      "blocking_path": "Terminology disambiguation is critical for first trial intake; must clarify before applicant submissions begin."
+    },
+    "reasoning": "Ambiguity is correctly identified by DeFOSPAM but not fully resolved by Odin. Odin rewrite clarifies meaning through operationalization (8 artefacts for REQ001, 6 telemetry for REQ012) but uses same English word 'complete' in both contexts. Chris language file does not disambiguate. Risk is low because operationalizations are distinct, but clarity is low because same word is overloaded.",
+    "recommendation": "Update SRS terminology in final draft: (1) REQ001 (Application Intake & Completeness Check): use term 'pack completeness' or 'submission completeness' to refer to mandatory artefacts present; define PackCompleteness scale per Vibe requirements (Vibe Scale from openrequirements-vibe-results.json). (2) REQ012 (Data MOR & DPIA Obligations): use term 'evidentiary completeness' or 'telemetry recording completeness' to refer to 6 categories recorded; define MORForensicCompleteness scale per Vibe requirements. (3) Update glossary to include both terms with cross-reference: 'complete (two meanings: see PackCompleteness and MORForensicCompleteness scales).' Consider adopting Vibe terminology (PackCompleteness = METER-001 + METER-002 from openrequirements-vibe-results.json) throughout SRS.",
+    "analyst": "Lucy",
+    "byline": "Completeness Analyst",
+    "characteristic": "C_complete",
+    "image_url": "https://openrequirements.ai/lovable-uploads/lucy-findings-006.png"
+  },
+  {
+    "finding_id": "LF-007",
+    "finding_title": "Performance Engineering findings: 97 total, 30 critical — coverage of non-functional requirements (A, C, L, S, R, T) incomplete",
+    "finding_type": "missing_nfr",
+    "confidence": 7,
+    "severity": "major",
+    "srs_section": "section_2_1_overall_description (all subsections)",
+    "gap_description": "OpenPerformance analysis identified 97 NFR-related findings across 6 disciplines: (A) availability/uptime — 10 findings (4 critical); (C) capacity/storage — 11 findings (2 critical); (L) latency/response time — 14 findings (6 critical); (S_scalability) — 11 findings (3 critical); (S_security) — findings unknown from offset; (R) reliability/recovery — findings unknown. Critical findings include: Workbench must support 30+ concurrent cases with <1 second metadata retrieval and <10 second evidence access latency (not specified in functional REQs); case-cycle-time target 60 days (not enforced anywhere); no specified SLA for ATSU coordination, Spectrum Regulator approval, or MOD classification review (these are critical path for trial timing). Availability SLA for Workbench infrastructure not specified (99.5%? 99.9%?); classified evidence access must have audit trail with forensic timestamp accuracy requirements not specified.",
+    "source_data_available": true,
+    "tbd_details": {
+      "reason": "PE analysis completed but NFR requirements not yet integrated into SRS Section 2.1 (Product Perspective). Performance Engineering discipline typically deferred after functional requirements mature.",
+      "responsible": "SRS author + performance architect (Ada capacity models referenced but not yet read by Lucy)",
+      "target_date": "2026-Q2 (before detailed system design begins)",
+      "blocking_path": "First trial can proceed with implicit NFR assumptions; but detailed design phase must consume PE findings to avoid costly rework."
+    },
+    "reasoning": "PE analysis (97 findings, 30 critical) represents substantial work identifying NFR gaps. However, findings are disconnected from SRS functional requirements (REQ001-REQ020). Example: PE identifies 'Workbench must store 2+ years of telemetry (100 GB per trial)' but REQ012 does not specify storage architecture, encryption overhead, or retrieval SLA. This creates risk of design rework if PE findings are discovered late.",
+    "recommendation": "Integrate PE findings into Section 2.1 (Product Perspective) subsections: (1) 2.1.6 (Memory Constraints) — add PE findings on capacity (storage per trial, archive indexing overhead, encrypted evidence size multiplier). (2) 2.1.5 (Communications Interfaces) — add PE findings on latency (C2 link jitter tolerance, telemetry transmission SLA, inter-vehicle coordination message overhead). (3) Add new Section 2.1.9 (Performance & Reliability) — specify SLAs for Workbench service (availability, response-time targets per user role), case-cycle-time enforcement, external-dependency SLAs (ATSU NOTAM publication <24 hours, Spectrum Regulator <30 days, MOD classification review <60 days). Read Ada capacity-models file and integrate sizing into SRS by 2026-Q2.",
+    "analyst": "Lucy",
+    "byline": "Completeness Analyst",
+    "characteristic": "C_complete",
+    "image_url": "https://openrequirements.ai/lovable-uploads/lucy-findings-007.png"
+  },
+  {
+    "finding_id": "LF-008",
+    "finding_title": "Vibe Requirements: PackCompleteness scale operationalized through 2 meters (Quick Gate, Thorough Gate) but measurement ownership ambiguous",
+    "finding_type": "missing_interface",
+    "confidence": 8,
+    "severity": "major",
+    "srs_section": "section_3_1_specific_requirements (REQ001)",
+    "gap_description": "Vibe Requirements output (openrequirements-vibe-results.json) defines PackCompleteness scale and two meters: METER-001 (Artefact Detector Quick Gate — automated file parser, RAG matrix output, <10 minutes per submission) and METER-002 (Paragraph-Level Coverage Audit Thorough Gate — manual reviewer audit, section-by-section completeness verification, runs once per case). However, measurement ownership is ambiguous: (1) Quick Gate is automated but who triggers it? (Intake process or Workbench engine?) (2) Thorough Gate requires human reviewer but no skill/expertise level specified; no audit checklist provided. (3) Timeline unclear: does Thorough Gate run immediately after Quick Gate or only if case advances to SORA panel review? (4) RAG matrix output format not specified (dashboard vs. printable report?).",
+    "source_data_available": true,
+    "tbd_details": {
+      "reason": "Vibe analysis defined scales and meters but workflow integration and measurement-process details deferred to system design phase.",
+      "responsible": "SRS author + system designer (intake workflow design, reviewer training, dashboard UI design)",
+      "target_date": "2026-Q2 (before intake process deployment)",
+      "blocking_path": "Intake process cannot be operationalized without clarifying meter ownership and workflow triggers."
+    },
+    "reasoning": "Vibe Requirements output is high-quality (confidence 8-9 per Vibe agents) but incomplete for system design. Vibe methodology produces scale + meters but system design requires: (1) measurement triggers (when does Quick Gate run?), (2) measurement ownership (Workbench engine vs. case officer manual action?), (3) escalation rules (what if Quick Gate detects missing artefact? Automatic rejection or RFC?), (4) tool specifications (dashboard, checklist template, RAG matrix visualization). These are system-design concerns, not SRS concerns, but SRS must clarify workflow assumptions.",
+    "recommendation": "Add Section 3.1.1 (Measurement & Workflow Integration) to REQ001 rewrite: (1) Quick Gate (METER-001): runs automatically within 10 minutes of applicant submission; Workbench Artefact Detector parses files, maps to clause library per operation-type classification, outputs RAG matrix (Red/Amber/Green per artefact). If RAG matrix contains any Red or Amber: case enters 'Return-for-Clarification' state, case officer notifies applicant with specific missing/incomplete artefacts, applicant has 14 days to resubmit. If RAG matrix all Green: case advances to Thorough Gate. (2) Thorough Gate (METER-002): CAA case officer conducts manual section-by-section audit using provided checklist (ConOps sections: swarm composition, phases, failure modes, worst-credible; SORA sections: hazard tree, swarm interdependencies, controls; etc.). Checklist provided by Workbench. Reviewer marks each section Present-Substantive, Present-Vague, or Absent. Target: >= 90% Present-Substantive sections (per Grace goal GOAL-001 acceptance criteria). If Thorough Gate passes: case advances to SORA Assessment panel. If Thorough Gate fails: return for clarification with specific sections requiring rework.",
+    "analyst": "Lucy",
+    "byline": "Completeness Analyst",
+    "characteristic": "C_complete",
+    "image_url": "https://openrequirements.ai/lovable-uploads/lucy-findings-008.png"
+  },
+  {
+    "finding_id": "LF-009",
+    "finding_title": "Odin rewrites reference external standards (JARUS SORA v2.5, DO-365, F3442, CAP 1616, CAP 722H, JSP 440) but integration scope not fully specified",
+    "finding_type": "missing_srs_section",
+    "confidence": 7,
+    "severity": "major",
+    "srs_section": "section_1_4_references",
+    "gap_description": "Odin rewrites cite 10+ regulatory/technical standards but SRS does not clarify: (1) Is full compliance with each standard required, or only selected clauses? (2) If standard evolves (e.g., JARUS SORA v3.0 published mid-trial), does Workbench requirement pin to v2.5 or adopt new version? (3) Which standards are normative (must comply) vs. informative (guidance only)? Example: REQ004 cites ICAO Annex 15 (NOTAM format); Odin rewrite specifies NOTAM must follow ICAO Annex 15 format, but Annex 15 is 100+ pages. SRS does not clarify which Annex 15 sections are required. REQ018 cites CAP 722H and JSP 440; neither is provided to Lucy (classified documents); SRS cannot verify completeness without access to originals.",
+    "source_data_available": true,
+    "tbd_details": {
+      "reason": "External standard integration is typically deferred to detailed system design / policy-harmonization phase. SRS is incomplete without clarity on standard scope and evolution rules.",
+      "responsible": "CAA regulatory affairs + MAA security authority (for CAP 722H/JSP 440) + ICAO liaison (for Annex 15 scope)",
+      "target_date": "2026-Q2 (before trial design begins)",
+      "blocking_path": "Trial applicant cannot design ConOps or TDA request without knowing which ICAO Annex 15 sections apply; trial cannot proceed without CAP 722H scope clarification for classified MOD systems."
+    },
+    "reasoning": "Odin rewrites are technically correct in citing standards, but SRS does not clarify integration scope. Risk: applicant interprets standards differently than CAA; trial design rework required due to standard misinterpretation. Additionally, some referenced standards (CAP 722H, JSP 440) are classified or restricted-access; SRS cannot verify completeness.",
+    "recommendation": "Expand Section 1.4 (References) with three subsections: (1) Normative References (must comply): JARUS SORA v2.5 (with Swarm Supplement once available), ICAO Annex 15 (NOTAM format — Lucy to clarify which Annex 15 sections apply with CAA airspace authority), IEC 62619 (lithium battery safety standard), GDPR Articles 32-35 (data protection). (2) Conditional Normative References (apply if conditions met): CAP 722H + JSP 440 (apply only if trial involves MOD-classified evidence; CAA Security Officer to confirm scope); CAP 1616 (apply if trial area has population > 100 people within 5 km). (3) Informative References (guidance): SAE J3161 (ODD definition guidance), JARUS SORA v2.5 Appendices (hazard taxonomy examples), academic literature on swarm autonomy (list key papers). (4) Standards Evolution Policy: If JARUS SORA v3.0 published during trial, trial remains pinned to v2.5 per Clause Library Version Pinning (REQ016, GOAL-014); future trials adopt v3.0 on v3.0 publication date.",
+    "analyst": "Lucy",
+    "byline": "Completeness Analyst",
+    "characteristic": "C_complete",
+    "image_url": "https://openrequirements.ai/lovable-uploads/lucy-findings-009.png"
+  },
+  {
+    "finding_id": "LF-010",
+    "finding_title": "Grace goals (15 goals) map to REQ coverage but goal-priority sequencing and inter-goal dependencies not formalized",
+    "finding_type": "missing_srs_section",
+    "confidence": 7,
+    "severity": "minor",
+    "srs_section": "section_2_2_product_functions",
+    "gap_description": "Grace goals output identifies 15 business goals (GOAL-001 through GOAL-015) with priority rankings (1=highest): GOAL-001 (defensible approval throughput, priority 1), GOAL-003 (containment & flight safety, priority 1), GOAL-002 (swarm-aware assessment, priority 2), etc. However, SRS does not map goal-sequencing to trial phasing. Example: GOAL-003 (containment) is priority-1 and blocking goal for all trials; GOAL-011 (environmental impact) is priority-3 and lower-risk. But SRS does not specify: (1) Which goals must be complete before trial gate advances? (2) Are lower-priority goals (14, 15) optional or deferred? (3) Do goals have dependencies (e.g., must GOAL-001 'defensible approval' complete before GOAL-003 'containment' gate?)?",
+    "source_data_available": true,
+    "tbd_details": {
+      "reason": "Grace goals (SBE-derived business goals) are independent of trial sequence; SRS must map goals to trial gates and phasing to clarify priority.",
+      "responsible": "SRS author + CAA programme manager (trial phasing)",
+      "target_date": "2026-Q2 (for trial intake governance document)",
+      "blocking_path": "Governance clarity is important but not blocking functional SRS; lower-priority finding."
+    },
+    "reasoning": "Grace goals are well-articulated and priority-ranked. However, SRS is functional specification language; goal-priority sequencing is governance language. SRS clarity is low because goal-to-REQ mapping is implicit (goal GOAL-002 maps to REQ002, but is this 1:1 or 1:many?). Grace goal GOAL-002 (swarm-aware assessment) has 4 source-REQs (REQ002, REQ007, REQ008, REQ003) but mapping is hidden in goal definition. Recommendation is to clarify in Section 2.2 or governance document, but is lower-priority than critical TBD findings.",
+    "recommendation": "Add Section 2.2.1 (Goal Sequencing & Phasing) to explain goal-priority sequencing in context of trial phases: (1) Phase 1 (VLOS Baseline) gates depend on: GOAL-001 (defensible intake), GOAL-003 (containment baseline), GOAL-013 (feedback segregation). (2) Phase 2 (BVLOS Single) gates depend on: GOAL-002 (swarm-aware assessment — though single aircraft, establish pattern for Phase 3), GOAL-006 (CAA/MAA apportionment if MOD involved), GOAL-007 (phased-gate reversibility). (3) Phase 3 (BVLOS Swarm) gates depend on: GOAL-002 (full swarm-aware assessment), GOAL-004 (autonomy & human control for swarm), GOAL-005 (incident investigation readiness), GOAL-012 (audit trail completeness). Optional goals (deferred or lower-priority): GOAL-008 (insurance & risk — can be addressed in GOAL-001 intake if risk low), GOAL-009 (classified evidence — only if MOD trial), GOAL-010 (public engagement — required, but per CAP 1616, not SRS-specific), GOAL-011 (environmental — required per Environmental Protection Act, not SRS-specific), GOAL-014 (regulatory library — ongoing maintenance, not per-trial), GOAL-015 (panel authority — ongoing governance, not per-trial). This clarification aids trial planners but is not critical for SRS functional completeness.",
+    "analyst": "Lucy",
+    "byline": "Completeness Analyst",
+    "characteristic": "C_complete",
+    "image_url": "https://openrequirements.ai/lovable-uploads/lucy-findings-010.png"
+  }
+]

@@ -1,0 +1,659 @@
+[
+  {
+    "term": "Operational Authorisation pack",
+    "alternative_terms_deprecated": [
+      "submission",
+      "application",
+      "evidence bundle"
+    ],
+    "canonical_definition": "A complete submission to the CAA containing all regulatory evidence, safety cases, operational procedures, and technical documentation required for a BVLOS UAS trial to proceed.",
+    "source": "DeFOSPAM glossary + Vibe scale PackCompleteness",
+    "status": "agreed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "case officer"
+    ],
+    "used_in_features": [
+      "REQ001",
+      "REQ012"
+    ],
+    "notes": "Dorothy-8 identified ambiguity: complete has different meanings in application intake (REQ001) vs incident investigation (REQ012)."
+  },
+  {
+    "term": "SORA",
+    "canonical_definition": "Specific Operational Risk Assessment. A regulatory framework (JARUS SORA v2.5) for assessing UAS operational risks.",
+    "acronym_expansion": "Specific Operational Risk Assessment",
+    "source": "REQ002, JARUS standards",
+    "status": "agreed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "SORA assessor"
+    ],
+    "used_in_features": [
+      "REQ002"
+    ],
+    "notes": "Acronym not expanded in user story."
+  },
+  {
+    "term": "SAIL",
+    "canonical_definition": "Specific Assurance and Integrity Level. A risk classification level output by SORA assessment that quantifies the rigor of evidence required.",
+    "acronym_expansion": "Specific Assurance and Integrity Level",
+    "source": "REQ002, JARUS standards",
+    "status": "agreed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "SORA assessor"
+    ],
+    "used_in_features": [
+      "REQ002"
+    ],
+    "notes": "Distinct from OSO. Higher SAIL = stricter requirements."
+  },
+  {
+    "term": "OSO",
+    "canonical_definition": "Operational Safety Objectives. Specific, measurable safety goals derived from SORA assessment that define required mitigation levels.",
+    "acronym_expansion": "Operational Safety Objectives",
+    "source": "REQ002, JARUS standards",
+    "status": "agreed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "SORA assessor"
+    ],
+    "used_in_features": [
+      "REQ002"
+    ],
+    "notes": "Not to be confused with generic requirements."
+  },
+  {
+    "term": "swarm-aware",
+    "canonical_definition": "Methodology or evidence that explicitly accounts for collective behavior, coordination dependencies, and emergent risks of multiple coordinated aircraft.",
+    "source": "REQ002, DeFOSPAM Dorothy-1 (confidence 10/10)",
+    "status": "proposed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "autonomy engineer",
+      "SORA assessor"
+    ],
+    "used_in_features": [
+      "REQ002",
+      "REQ008"
+    ],
+    "notes": "Critical undefined term. Requires workshop to validate definition."
+  },
+  {
+    "term": "meaningful human control",
+    "canonical_definition": "Active, informed crew awareness and retained authority to perceive system state, understand autonomous actions, and intervene before safety-critical decisions.",
+    "source": "REQ010, DeFOSPAM Dorothy-2 (confidence 10/10)",
+    "status": "proposed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "human factors engineer",
+      "applicant",
+      "pilot/crew"
+    ],
+    "used_in_features": [
+      "REQ010"
+    ],
+    "notes": "Requires measurable criteria: situational awareness frequency, authority preservation, takeover time, workload limits."
+  },
+  {
+    "term": "defensibly",
+    "canonical_definition": "In a manner that can be justified through evidence and logical argument to regulatory scrutiny, peer review, and accident investigation.",
+    "source": "REQ002, DeFOSPAM Dorothy-3 (confidence 10/10)",
+    "status": "proposed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "SORA assessor"
+    ],
+    "used_in_features": [
+      "REQ002"
+    ],
+    "notes": "No criteria given. Requires reference to JARUS methodology and CAA precedent."
+  },
+  {
+    "term": "containment",
+    "canonical_definition": "Systems combining mechanical, software, and procedural measures that prevent UAS from exiting operational boundary regardless of link loss or autonomy failure.",
+    "source": "REQ005, DeFOSPAM Dorothy-4 (confidence 10/10)",
+    "status": "proposed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "autonomy engineer",
+      "test engineer"
+    ],
+    "used_in_features": [
+      "REQ005"
+    ],
+    "notes": "Five critical subcriteria undefined: boundary tolerance, fail-safe mechanism, design standard, environmental factors, verification approach."
+  },
+  {
+    "term": "geofence",
+    "canonical_definition": "Virtual 3D boundary (lat/lon/altitude/time) defining the trial operational area. Geofence violations trigger containment actions.",
+    "source": "REQ005",
+    "status": "agreed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "airspace engineer",
+      "crew"
+    ],
+    "used_in_features": [
+      "REQ004",
+      "REQ005"
+    ],
+    "notes": "Distinct from containment (which is the mechanism; geofence is the boundary)."
+  },
+  {
+    "term": "fly-away",
+    "canonical_definition": "Loss of control of UAS such that it exits authorized airspace and cannot be recovered by operator.",
+    "source": "REQ005",
+    "status": "agreed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant"
+    ],
+    "used_in_features": [
+      "REQ005"
+    ],
+    "notes": "Domain jargon defining the failure mode that containment prevents."
+  },
+  {
+    "term": "C2 link",
+    "canonical_definition": "Command and Control link - communication pathway between ground crew and UAS for transmitting commands and receiving status/telemetry.",
+    "acronym_expansion": "Command and Control link",
+    "source": "REQ006",
+    "status": "agreed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "spectrum engineer"
+    ],
+    "used_in_features": [
+      "REQ006"
+    ],
+    "notes": "Acronym must be expanded on first use."
+  },
+  {
+    "term": "inter-vehicle links",
+    "canonical_definition": "Communication pathways between UAS aircraft within swarm for coordination, de-confliction, or status exchange.",
+    "source": "REQ006",
+    "status": "agreed",
+    "stakeholder_perspectives_captured": [
+      "applicant",
+      "autonomy engineer"
+    ],
+    "used_in_features": [
+      "REQ006",
+      "REQ008"
+    ],
+    "notes": "Distinct from C2 (ground-to-air). Assumes swarm has aircraft-to-aircraft comms."
+  },
+  {
+    "term": "link loss survivable",
+    "canonical_definition": "UAS and swarm have procedures and design such that loss of C2 or inter-vehicle comms can be managed without loss of separation or collision.",
+    "source": "REQ006, DeFOSPAM Flo-1 (confidence 10/10)",
+    "status": "proposed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "spectrum engineer",
+      "test engineer"
+    ],
+    "used_in_features": [
+      "REQ006"
+    ],
+    "notes": "Ambiguous: time-to-loss undefined, action undefined, crew role unclear. Requires workshop."
+  },
+  {
+    "term": "ODD",
+    "canonical_definition": "Operational Design Domain - set of operating conditions (environmental, technical, geographical, temporal) for which UAS and autonomy systems have been validated and approved.",
+    "acronym_expansion": "Operational Design Domain",
+    "source": "REQ003, REQ008",
+    "status": "agreed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "test engineer"
+    ],
+    "used_in_features": [
+      "REQ003",
+      "REQ008"
+    ],
+    "notes": "Standard in SAE J3161. Critical for autonomy assurance."
+  },
+  {
+    "term": "ConOps",
+    "canonical_definition": "Concept of Operations - narrative description of trial conduct including flight profiles, crew roles, decision points, and normal procedures.",
+    "acronym_expansion": "Concept of Operations",
+    "source": "REQ003",
+    "status": "agreed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "crew",
+      "flight operations"
+    ],
+    "used_in_features": [
+      "REQ003"
+    ],
+    "notes": "Standard aerospace term."
+  },
+  {
+    "term": "nominal behaviour",
+    "canonical_definition": "Expected, planned system performance under normal operating conditions as described in ConOps.",
+    "source": "REQ003",
+    "status": "agreed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "test engineer"
+    ],
+    "used_in_features": [
+      "REQ003"
+    ],
+    "notes": "Paired with worst-credible behavior. Threshold should be defined in ConOps."
+  },
+  {
+    "term": "worst-credible behaviour",
+    "canonical_definition": "Most severe adverse system performance or failure mode reasonably foreseeable that must be survived by containment, backup systems, or crew intervention.",
+    "source": "REQ003, DeFOSPAM Dorothy-5 (confidence 10/10)",
+    "status": "proposed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "safety engineer"
+    ],
+    "used_in_features": [
+      "REQ003"
+    ],
+    "notes": "Boundary between credible and incredible undefined. Requires workshop: single-failure assumption, common-mode criteria, environmental extremes."
+  },
+  {
+    "term": "TDA",
+    "canonical_definition": "Temporary Danger Area - designated airspace volume and time window reserved for trial, excluding other civilian traffic. Established by NOTAM and managed by ATSU.",
+    "acronym_expansion": "Temporary Danger Area",
+    "source": "REQ004, REQ006",
+    "status": "agreed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "airspace engineer",
+      "ATSU"
+    ],
+    "used_in_features": [
+      "REQ004",
+      "REQ006"
+    ],
+    "notes": "CAA-specific. Distinct from TRA (Temporary Reserved Area)."
+  },
+  {
+    "term": "NOTAM",
+    "canonical_definition": "Notice to Airmen - notice issued by aeronautical authorities to alert operators to potential hazards. TDA trials must be published via NOTAM.",
+    "acronym_expansion": "Notice to Airmen",
+    "source": "REQ004",
+    "status": "agreed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "airspace engineer",
+      "ATSU"
+    ],
+    "used_in_features": [
+      "REQ004"
+    ],
+    "notes": "Standard aviation term. Format defined by ICAO Annex 15."
+  },
+  {
+    "term": "ATSU",
+    "canonical_definition": "Air Traffic Service Unit - regulatory organization responsible for monitoring airspace, issuing clearances, and managing NOTAMs and TDAs.",
+    "acronym_expansion": "Air Traffic Service Unit",
+    "source": "REQ004, REQ011",
+    "status": "agreed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "ATSU",
+      "applicant"
+    ],
+    "used_in_features": [
+      "REQ004",
+      "REQ011"
+    ],
+    "notes": "ATSU is approval gate and stakeholder for trials."
+  },
+  {
+    "term": "DAA",
+    "canonical_definition": "Detect-and-Avoid - capability for UAS to autonomously sense, track, and resolve conflicts with other aircraft without relying on ground crew or external feeds.",
+    "acronym_expansion": "Detect-and-Avoid",
+    "source": "REQ007",
+    "status": "agreed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "test engineer"
+    ],
+    "used_in_features": [
+      "REQ007"
+    ],
+    "notes": "DO-365 and F3442 are operative standards. Swarm DAA is more complex than single-aircraft."
+  },
+  {
+    "term": "resolved predictably",
+    "canonical_definition": "Conflicts with other aircraft are resolved deterministically and foreseeable to all participants. Requires defined avoidance maneuver selection logic, coordination method, crew awareness, and verification.",
+    "source": "REQ007, DeFOSPAM Paul-1 (confidence 10/10)",
+    "status": "proposed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "test engineer"
+    ],
+    "used_in_features": [
+      "REQ007"
+    ],
+    "notes": "Requirement states goal but not mechanism. Requires workshop to define preferred maneuvers and verification."
+  },
+  {
+    "term": "swarm decision-making architecture",
+    "canonical_definition": "Design of how collective decisions are made by swarm: centralized (ground-based), distributed (peer voting), or hierarchical (lead decides). Must define: decision authority, communication topology, failure modes, crew override.",
+    "source": "REQ008",
+    "status": "proposed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "autonomy engineer"
+    ],
+    "used_in_features": [
+      "REQ008"
+    ],
+    "notes": "REQ008 requires assurance but does not specify architecture. Requires workshop."
+  },
+  {
+    "term": "emergent behaviour",
+    "canonical_definition": "Behavior arising from collective swarm interactions not explicitly programmed in individual aircraft. Can be desired (formation cohesion) or undesired (deadlock, separation loss).",
+    "source": "REQ008",
+    "status": "proposed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "autonomy engineer"
+    ],
+    "used_in_features": [
+      "REQ008"
+    ],
+    "notes": "High-risk term. Requires formal methods or Monte Carlo verification."
+  },
+  {
+    "term": "forensically explainable",
+    "canonical_definition": "System (particularly ML models) whose decisions can be reconstructed and explained post-hoc through investigation of model weights, training data, decision logic, and failure modes.",
+    "source": "REQ009, DeFOSPAM Dorothy-6 (confidence 10/10)",
+    "status": "proposed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "ML engineer",
+      "investigator"
+    ],
+    "used_in_features": [
+      "REQ009"
+    ],
+    "notes": "Perfect post-hoc explainability for deep learning is infeasible. Requires workshop to define acceptable techniques and fallback."
+  },
+  {
+    "term": "frozen model",
+    "canonical_definition": "ML model whose weights, architecture, training data, and hyperparameters are fixed and immutable for trial duration. Enables consistent behavior and forensic investigation.",
+    "source": "REQ009, DeFOSPAM Dorothy-7 (confidence 10/10)",
+    "status": "proposed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "ML engineer"
+    ],
+    "used_in_features": [
+      "REQ009"
+    ],
+    "notes": "Seven subcriteria undefined: data retention, duration, security, manifest format, proprietary handling, ownership, reconstruction timing. Requires workshop."
+  },
+  {
+    "term": "AMLAS",
+    "canonical_definition": "Assurance Case for Machine Learning in Autonomous Systems - structured argument that ML components meet safety, robustness, and assurance requirements.",
+    "acronym_expansion": "Assurance Case for Machine Learning in Autonomous Systems",
+    "source": "REQ009, Assure ML CTC",
+    "status": "agreed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "ML engineer"
+    ],
+    "used_in_features": [
+      "REQ009"
+    ],
+    "notes": "Emerging standard aligned with IEC 62304 and IEC 61508."
+  },
+  {
+    "term": "complete recorded evidence",
+    "canonical_definition": "Comprehensive telemetry, video, audio, and state logs recorded throughout flight enabling forensic reconstruction of all system decisions, failures, and incidents.",
+    "source": "REQ012, DeFOSPAM Dorothy-8 (confidence 10/10)",
+    "status": "proposed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "investigator"
+    ],
+    "used_in_features": [
+      "REQ012"
+    ],
+    "notes": "Different meaning than completeness in REQ001. Requires workshop to define telemetry scope, sampling rate, retention."
+  },
+  {
+    "term": "MOR",
+    "canonical_definition": "Mandatory Occurrence Report - legal obligation to report accidents, incidents, and safety-relevant anomalies to CAA within defined timeframes.",
+    "acronym_expansion": "Mandatory Occurrence Report",
+    "source": "REQ012, CAA regulations",
+    "status": "agreed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "flight ops",
+      "investigator"
+    ],
+    "used_in_features": [
+      "REQ012"
+    ],
+    "notes": "System must auto-file or provide explicit MOR interface."
+  },
+  {
+    "term": "DPIA",
+    "canonical_definition": "Data Protection Impact Assessment - structured analysis required by GDPR assessing how personal data is collected, processed, and protected.",
+    "acronym_expansion": "Data Protection Impact Assessment",
+    "source": "REQ012, GDPR regulations",
+    "status": "agreed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "data protection officer"
+    ],
+    "used_in_features": [
+      "REQ012"
+    ],
+    "notes": "GDPR Article 35 requirement for high-risk personal data processing."
+  },
+  {
+    "term": "workload",
+    "canonical_definition": "Cognitive and physical demands on crew during trial: number of concurrent decisions, decision frequency, time available to respond. Excessive workload compromises meaningful human control.",
+    "source": "REQ010",
+    "status": "proposed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "human factors engineer",
+      "pilot/crew"
+    ],
+    "used_in_features": [
+      "REQ010"
+    ],
+    "notes": "REQ010 requires evidence but does not define acceptable thresholds. Requires workshop."
+  },
+  {
+    "term": "take-over",
+    "canonical_definition": "Action by crew to regain full control from autonomous systems during off-nominal event. Must be: evident to crew, rapid (<=X seconds), complete (full authority), reversible.",
+    "source": "REQ010",
+    "status": "proposed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "human factors engineer",
+      "pilot/crew"
+    ],
+    "used_in_features": [
+      "REQ010"
+    ],
+    "notes": "REQ010 requires evidence but does not specify time, authority, or reversibility. Requires workshop."
+  },
+  {
+    "term": "independent termination",
+    "canonical_definition": "System forcing all swarm aircraft to cease flight immediately, independent of C2 link, inter-vehicle links, or onboard autonomy. Triggered by dedicated ground switch, RF kill-switch, or crew manual intervention.",
+    "source": "REQ011",
+    "status": "proposed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "flight ops",
+      "safety engineer"
+    ],
+    "used_in_features": [
+      "REQ011"
+    ],
+    "notes": "REQ011 requires it but does not specify mechanism, time-to-effect, or verification. Requires workshop."
+  },
+  {
+    "term": "contingency matrix",
+    "canonical_definition": "Table mapping off-nominal events (GPS loss, link loss, geofence breach, airspace intrusion, crew incapacitation) to response actions (Return-to-Launch, hold, terminate).",
+    "source": "REQ011",
+    "status": "proposed",
+    "stakeholder_perspectives_captured": [
+      "applicant",
+      "autonomy engineer",
+      "test engineer"
+    ],
+    "used_in_features": [
+      "REQ011"
+    ],
+    "notes": "Contingency matrix is the state-machine specification for onboard autonomy. Requires workshop to define format and coverage."
+  },
+  {
+    "term": "approve-with-conditions",
+    "canonical_definition": "Authorization permitting trial with explicit restrictions: scope limits (VLOS only, <2 aircraft), conditions (CAA observer, real-time monitoring), gates (no Phase 2 without review).",
+    "source": "REQ016",
+    "status": "proposed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant"
+    ],
+    "used_in_features": [
+      "REQ016"
+    ],
+    "notes": "One of three regulatory decision states. Conditions are enforceable."
+  },
+  {
+    "term": "refuse-with-reasons",
+    "canonical_definition": "Authorization decision denying trial. Must include explicit reasons and path to re-application if deficiencies are addressed.",
+    "source": "REQ016",
+    "status": "proposed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant"
+    ],
+    "used_in_features": [
+      "REQ016"
+    ],
+    "notes": "One of three decision states. Refusal is reversible."
+  },
+  {
+    "term": "return-for-clarification",
+    "canonical_definition": "Authorization decision requesting additional evidence, analysis, or clarification before final decision. Specifies which requirements are unclear and what evidence would resolve.",
+    "source": "REQ016",
+    "status": "proposed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant"
+    ],
+    "used_in_features": [
+      "REQ016"
+    ],
+    "notes": "One of three decision states. Distinct from outright refusal."
+  },
+  {
+    "term": "reversible gates",
+    "canonical_definition": "Phased trial structure where each phase (Phase 1 VLOS, Phase 2 BVLOS, Phase 3 swarm) has entry/exit gates. Reversal to previous phase possible if off-nominal events exceed risk threshold.",
+    "source": "REQ016",
+    "status": "proposed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant",
+      "program manager"
+    ],
+    "used_in_features": [
+      "REQ016"
+    ],
+    "notes": "REQ016 requires gates but does not specify trigger conditions, process, or state transition. Requires workshop."
+  },
+  {
+    "term": "CAA",
+    "canonical_definition": "Civil Aviation Authority - UK regulatory body certifying aircraft, approving trial operations, investigating accidents. CAA approval is gate for Operational Authorisation.",
+    "acronym_expansion": "Civil Aviation Authority",
+    "source": "Throughout (REQ001+)",
+    "status": "agreed",
+    "stakeholder_perspectives_captured": [
+      "regulator"
+    ],
+    "used_in_features": [
+      "REQ001-REQ020"
+    ],
+    "notes": "Primary regulatory approval authority."
+  },
+  {
+    "term": "MAA",
+    "canonical_definition": "Military Aviation Authority - UK regulatory body for military aviation. For MOD trials or classified systems, MAA approval required in addition to CAA.",
+    "acronym_expansion": "Military Aviation Authority",
+    "source": "REQ015, REQ018",
+    "status": "agreed",
+    "stakeholder_perspectives_captured": [
+      "regulator"
+    ],
+    "used_in_features": [
+      "REQ015",
+      "REQ018"
+    ],
+    "notes": "CAA/MAA Joint Approval Workbench coordinates across civil and military."
+  },
+  {
+    "term": "VLOS",
+    "canonical_definition": "Visual Line of Sight - operating aircraft with direct visual contact maintained by pilot at all times. Baseline for manned aviation and baseline trial type.",
+    "acronym_expansion": "Visual Line of Sight",
+    "source": "Throughout",
+    "status": "agreed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "pilot/crew"
+    ],
+    "used_in_features": [
+      "REQ001-REQ020"
+    ],
+    "notes": "Opposite of BVLOS. Standard aviation term."
+  },
+  {
+    "term": "BVLOS",
+    "canonical_definition": "Beyond Visual Line of Sight - operating aircraft without direct visual contact, relying on instrumentation, cameras, or remote monitoring.",
+    "acronym_expansion": "Beyond Visual Line of Sight",
+    "source": "Throughout",
+    "status": "agreed",
+    "stakeholder_perspectives_captured": [
+      "regulator",
+      "applicant"
+    ],
+    "used_in_features": [
+      "REQ001-REQ020"
+    ],
+    "notes": "Opposite of VLOS. Standard aviation term."
+  }
+]

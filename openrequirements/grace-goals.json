@@ -1,0 +1,565 @@
+[
+  {
+    "goal_id": "GOAL-001",
+    "goal_title": "Build Defensible Approval Throughput",
+    "business_goal": "Enable CAA to consistently authorize BVLOS UAS swarm trials through high-quality, complete application intake and defensible regulatory assessment",
+    "value_statement": "CAA case officers and program managers benefit from predictable case workflows and reduced rework cycles. Applicants benefit from clear acceptance criteria upfront.",
+    "measured_by": "PackCompleteness scale (90-100% first-submission completeness by Q3 2026); case cycle time (target: 60 days from submission to authorization decision)",
+    "priority_rank": 1,
+    "source_features": [
+      "F01 Application Intake",
+      "F02 Completeness Check",
+      "F16 Crew Training & Competency Evidence Review",
+      "F17 CAA/MAA Apportionment & Duty Holder Signature",
+      "F26 Panel Override & Decision Logging"
+    ],
+    "source_reqs": [
+      "REQ001"
+    ],
+    "vibe_anchors": [
+      "PackCompleteness"
+    ],
+    "stakeholders_benefiting": [
+      "regulator",
+      "applicant"
+    ],
+    "in_scope": [
+      "Automated pack presence/absence detection (Artefact Detector)",
+      "Substantive content audit against per-operation-type checklist",
+      "Acceptance criteria definition per operation type",
+      "First-readiness-check gate"
+    ],
+    "out_of_scope": [
+      "Post-decision rework cycles after case opening",
+      "Pre-submission informal consultation (out of scope for this feature set)"
+    ],
+    "implicit_scope_risks": [
+      "Clear definition of 'complete' for swarm operations is absent; swarm-specific document requirements (swarm decision-making architecture, emergent-behavior manifest) not yet standardized",
+      "Operating-type classification (PDRA-01 vs BVLOS Swarm SAIL-V) drives document set; classification logic not specified",
+      "Rework acceptance criteria: applicant expectation is 80% completeness acceptable with remediation path; regulator expectation is 100% completeness on first submission"
+    ]
+  },
+  {
+    "goal_id": "GOAL-002",
+    "goal_title": "Assure Swarm-Aware Safety Assessment",
+    "business_goal": "Establish SORA and autonomy assessment processes that explicitly account for swarm interdependencies, emergent behavior, and collective failure modes beyond individual aircraft analysis",
+    "value_statement": "CAA SORA assessors and autonomy reviewers gain confidence that safety requirements account for multi-agent cascading failures. Trial applicants gain clarity on swarm-specific evidence requirements.",
+    "measured_by": "SwarmAwareSORAEvidence scale; DAAPerformance scale; SwarmEmergentBoundedness scale (target: 100% of swarm trials have documented loss-of-separation cascade analysis and emergent-behavior evidence by Q4 2026)",
+    "priority_rank": 2,
+    "source_features": [
+      "F03 SORA 2.0 Assessment (Swarm-Aware)",
+      "F08 Detect-and-Avoid (DAA) Performance Assurance",
+      "F09 Swarm Decision-Making Architecture Review",
+      "F04 ConOps & ODD Review"
+    ],
+    "source_reqs": [
+      "REQ002",
+      "REQ007",
+      "REQ008",
+      "REQ003"
+    ],
+    "vibe_anchors": [
+      "SwarmAwareSORAEvidence",
+      "DAAPerformance",
+      "SwarmEmergentBoundedness"
+    ],
+    "stakeholders_benefiting": [
+      "regulator"
+    ],
+    "in_scope": [
+      "Loss-of-separation hazard tree specific to multi-agent interdependencies",
+      "Emergent-behavior evidence and airborne limits",
+      "Swarm de-confliction logic and encounter resolution",
+      "Individual DAA performance evidence per aircraft within swarm context"
+    ],
+    "out_of_scope": [
+      "Single-aircraft SORA assessment (covered by standard JARUS SORA v2.5)",
+      "Individual aircraft DAA certification (covered by DO-365/F3442 standards)"
+    ],
+    "implicit_scope_risks": [
+      "Swarm-aware SORA guidance not yet published by CAA; JARUS SORA v2.5 assumes individual aircraft",
+      "Definition of 'emergent behavior' and credibility boundaries ('worst-credible' vs 'incredible') undefined",
+      "Coordinated swarm de-confliction algorithms not specified in REQ007; unclear whether this is Workbench responsibility or applicant responsibility"
+    ]
+  },
+  {
+    "goal_id": "GOAL-003",
+    "goal_title": "Ensure Containment & Flight Safety",
+    "business_goal": "Provide automated and procedural safeguards to prevent uncontrolled flight, loss-of-separation, and unplanned entry into adjacent airspace through geofence enforcement, C2 link resilience, and independent flight termination",
+    "value_statement": "CAA airspace and flight operations regulators gain assurance that trial is contained. Public and third-party users below gain protection from hazardous aircraft behavior.",
+    "measured_by": "GeofenceContainment scale; C2LinkResilience scale; IndependentFlightTermination scale (target: 100% of geofence enforcement active, zero C2 link-loss unrecoverable events, independent termination available on demand)",
+    "priority_rank": 1,
+    "source_features": [
+      "F05 Airspace Change & TDA Coordination",
+      "F06 Geofence & Containment Enforcement",
+      "F07 C2 Link & Spectrum Assurance",
+      "F12 Flight Termination & Contingency Assurance"
+    ],
+    "source_reqs": [
+      "REQ004",
+      "REQ005",
+      "REQ006",
+      "REQ011"
+    ],
+    "vibe_anchors": [
+      "GeofenceContainment",
+      "C2LinkResilience",
+      "IndependentFlightTermination"
+    ],
+    "stakeholders_benefiting": [
+      "regulator",
+      "public"
+    ],
+    "in_scope": [
+      "TDA airspace definition and activation procedures",
+      "Automated geofence enforcement with fail-safe assumptions",
+      "C2 link redundancy and survivability time",
+      "Spectrum authorization and monitoring",
+      "Independent termination systems (separate from C2 and autonomy)",
+      "Contingency matrix mapping failure modes to crew responses"
+    ],
+    "out_of_scope": [
+      "Adjacent airspace user coordination (covered by airspace change process, REQ004)",
+      "Individual aircraft design assurance (design standards assumed)"
+    ],
+    "implicit_scope_risks": [
+      "Tolerance of geofence breach (how far out before failure?) not specified",
+      "C2 link loss survivability time is swarm-dependent but design standard not specified",
+      "Independent termination trigger criteria ('uncontrolled' state) undefined",
+      "Interaction between geofence, C2 loss, and independent termination not modeled as single system"
+    ]
+  },
+  {
+    "goal_id": "GOAL-004",
+    "goal_title": "Assure Autonomous Decision-Making & Human Control",
+    "business_goal": "Demonstrate that swarm autonomy systems and ML-based decision-making remain within airborne limits, are forensically explainable, and preserve meaningful human crew control over safety-critical decisions",
+    "value_statement": "CAA autonomy and human-factors reviewers gain confidence in collective swarm behavior and crew authority. Trial operators retain defensible control authority and can explain decisions to regulators and accident investigators.",
+    "measured_by": "MLForensicExplainability scale; MeaningfulHumanControl scale; SwarmEmergentBoundedness scale (target: 100% of ML decisions logged with frozen-model manifest; 100% of critical crew interventions documented)",
+    "priority_rank": 2,
+    "source_features": [
+      "F09 Swarm Decision-Making Architecture Review",
+      "F10 ML/AI Assurance Case & Model Manifest",
+      "F11 Human Oversight & Workload Assessment",
+      "F30 Audit Logging & Forensic Trail"
+    ],
+    "source_reqs": [
+      "REQ008",
+      "REQ009",
+      "REQ010"
+    ],
+    "vibe_anchors": [
+      "MLForensicExplainability",
+      "MeaningfulHumanControl",
+      "SwarmEmergentBoundedness"
+    ],
+    "stakeholders_benefiting": [
+      "regulator",
+      "applicant"
+    ],
+    "in_scope": [
+      "Swarm decision-making architecture (agent interaction rules, collision avoidance logic)",
+      "Airborne limits (speed, separation, altitude bounds) and emergent-behavior evidence",
+      "ML model manifest (frozen version, training data, explainability evidence)",
+      "AMLAS/SACE assurance case for ML components",
+      "Workload and take-over analysis for crew",
+      "Forensic audit trail of all decision-making events"
+    ],
+    "out_of_scope": [
+      "Ground control station (GCS) design and human-computer interaction usability (assumes crew training mitigates)",
+      "AI/ML general governance frameworks (assumes AMLAS/SACE covers model governance)"
+    ],
+    "implicit_scope_risks": [
+      "Emergent behavior credibility thresholds not defined; unclear what constitutes 'assurable' collective behavior",
+      "AMLAS/SACE case mandatory but guidance not yet published; assumption that these standards apply to swarm autonomy",
+      "Workload assessment methodology not specified (simulation? flight testing? heuristic?)",
+      "Crew take-over trigger criteria ('loss of meaningful control') undefined"
+    ]
+  },
+  {
+    "goal_id": "GOAL-005",
+    "goal_title": "Enable Incident Investigation & Regulatory Closure",
+    "business_goal": "Capture and preserve complete forensic evidence for post-incident investigation, mandatory occurrence reporting (MOR), and formal trial close-out with lessons-learned documentation",
+    "value_statement": "AAIB and CAA flight safety investigators gain complete data for incident analysis. Trial operators and MOD programs gain institutional learning capture. Regulators gain audit evidence of authorization close-out.",
+    "measured_by": "MORForensicCompleteness scale; post-trial evidence preservation rate (target: 100% of flight data and decision logs retained for 5 years; 100% of trials have formal close-out documentation within 30 days of completion)",
+    "priority_rank": 3,
+    "source_features": [
+      "F13 Incident Data Recording & MOR Handling",
+      "F22 Post-Trial Lessons-Learned & Close-out Archive",
+      "F30 Audit Logging & Forensic Trail",
+      "F28 Case History & Revision Management"
+    ],
+    "source_reqs": [
+      "REQ012",
+      "REQ020"
+    ],
+    "vibe_anchors": [
+      "MORForensicCompleteness"
+    ],
+    "stakeholders_benefiting": [
+      "regulator",
+      "mod"
+    ],
+    "in_scope": [
+      "Flight data recording (position, velocity, link status, autonomy state, crew inputs)",
+      "MOR obligation handling and CAA/AAIB notification",
+      "Data Retention Policy and Privacy Impact Assessment (DPIA) compliance",
+      "Case history and revision tracking (evidence changes, decision overrides)",
+      "Formal trial close-out documentation (lessons-learned, evidence archival)",
+      "Forensic audit trail of all system decisions and overrides"
+    ],
+    "out_of_scope": [
+      "Active incident investigation processes (AAIB responsibility)",
+      "Data retention governance beyond 5 years",
+      "Privacy regulation enforcement (CAA/operator responsibility)"
+    ],
+    "implicit_scope_risks": [
+      "REQ012 uses 'complete' recorded evidence but completeness scope undefined (all flight telemetry? all crew comms? audio?)",
+      "REQ020 lacks user story and acceptance criteria; close-out process undefined",
+      "DPIA obligations mentioned but not specified (GDPR scope unknown for flight data)",
+      "Data retention rate tracking not linked to Vibe meter; 'preserved' evidence definition vague"
+    ]
+  },
+  {
+    "goal_id": "GOAL-006",
+    "goal_title": "Manage Regulatory Apportionment & Dual-Authority Approval",
+    "business_goal": "Establish clear, gap-free delegation of regulatory responsibility between CAA (civil airspace) and MAA (military coordination) such that authorization decisions are unambiguously accountable and do not create conflicting requirements",
+    "value_statement": "CAA and MAA liaison officers gain confidence that responsibility boundaries are explicit and signed. Trial applicants gain clarity on which regulator owns each approval gate.",
+    "measured_by": "CAAMAAApportionmentGapFreeness scale (target: 100% of submitted cases have signed CAA/MAA apportionment matrix; zero cases rejected due to authority ambiguity)",
+    "priority_rank": 2,
+    "source_features": [
+      "F17 CAA/MAA Apportionment & Duty Holder Signature"
+    ],
+    "source_reqs": [
+      "REQ015"
+    ],
+    "vibe_anchors": [
+      "CAAMAAApportionmentGapFreeness"
+    ],
+    "stakeholders_benefiting": [
+      "regulator"
+    ],
+    "in_scope": [
+      "Apportionment matrix mapping each approval gate (intake, SORA, safety case, containment, flight ops) to CAA or MAA owner",
+      "Duty holder signature and accountability",
+      "Escalation paths for interdependent approvals (e.g., airspace change requires MAA military-range coordination)"
+    ],
+    "out_of_scope": [
+      "MOD classification handling (covered separately, REQ018)",
+      "Inter-agency policy negotiation (assumes pre-existing CAA/MAA MOU)"
+    ],
+    "implicit_scope_risks": [
+      "Apportionment matrix structure not specified; unclear how fine-grained assignment should be",
+      "Escalation and override mechanisms not defined (e.g., if CAA denies approval and MAA disagrees)",
+      "Dependency on MOD involvement in Protector RG Mk1 transition unclear; military program scope not mapped"
+    ]
+  },
+  {
+    "goal_id": "GOAL-007",
+    "goal_title": "Support Phased Trial Build-Up & Progressive Assurance",
+    "business_goal": "Enable trials to progress through gated phases (evidence submission, technical review, operational validation, full deployment) with reversibility, allowing evidence to accumulate progressively and decisions to be challenged or reversed if new risks emerge",
+    "value_statement": "CAA program managers and trial operators gain flexibility to adapt trial scope based on early-phase findings. Regulators gain confidence that authorization can be revoked if evidence gaps emerge.",
+    "measured_by": "PhasedGateReversibility scale (target: 100% of trials proceed through documented phase gates with override audit trail; zero gate progressions without documented evidence review)",
+    "priority_rank": 2,
+    "source_features": [
+      "F18 Phased Trial Gates & Progressive Evidence Build",
+      "F26 Panel Override & Decision Logging",
+      "F29 Withdrawal & Re-opening Capability",
+      "F23 Clause-Library Version Pinning & Management"
+    ],
+    "source_reqs": [
+      "REQ016"
+    ],
+    "vibe_anchors": [
+      "PhasedGateReversibility"
+    ],
+    "stakeholders_benefiting": [
+      "regulator",
+      "applicant"
+    ],
+    "in_scope": [
+      "Phase gate definitions (intake → technical review → operational readiness → operational approval → full deployment)",
+      "Evidence requirements per phase",
+      "Panel override capability with audit logging",
+      "Case withdrawal and re-opening capability",
+      "Clause library version control (regulatory requirements evolve; tracking which version applied to which decision)"
+    ],
+    "out_of_scope": [
+      "Trial-phase operational procedures (assumes crew execution)"
+    ],
+    "implicit_scope_risks": [
+      "Phase gate structure not specified; unclear what evidence triggers advancement",
+      "Override criteria not defined (what justifies skipping a phase?)",
+      "Re-opening reversibility mechanics not specified (can previously-approved evidence be invalidated? how far back?)",
+      "Clause library evolution not governed (when/how do regulatory requirements change mid-trial?)"
+    ]
+  },
+  {
+    "goal_id": "GOAL-008",
+    "goal_title": "Establish Insurance & Ground Risk Mitigation",
+    "business_goal": "Ensure third-party risk is both insurable (via commercial liability coverage) and factually grounded (via ground survey) such that public below is protected and regulator liability is transferred",
+    "value_statement": "CAA authorization officers and insurers gain confidence that trials are risk-managed. Public below gains protection through liability coverage and risk-awareness.",
+    "measured_by": "Ground survey coverage percentage (100% of trial area surveyed pre-flight); insurance adequacy (coverage amount meets CAA risk-assessment output)",
+    "priority_rank": 3,
+    "source_features": [
+      "F14 Insurance Artefact Upload & Review",
+      "F15 Ground Survey Upload & Parse"
+    ],
+    "source_reqs": [
+      "REQ013"
+    ],
+    "vibe_anchors": [],
+    "stakeholders_benefiting": [
+      "regulator",
+      "public"
+    ],
+    "in_scope": [
+      "Insurance policy documentation (coverage limits, exclusions, insurability assessment)",
+      "Ground survey (population density, buildings, critical infrastructure, hazard zones)",
+      "Risk-to-insurance mapping (CAA risk output informs coverage requirement)"
+    ],
+    "out_of_scope": [
+      "Underwriting and policy issuance (insurer responsibility)",
+      "Risk assessment algorithm (CAA computation, separate from Workbench)"
+    ],
+    "implicit_scope_risks": [
+      "Insurance adequacy threshold not specified (how much coverage is 'enough'?)",
+      "Ground survey update frequency not defined (once pre-trial? per phase? per location change?)",
+      "Critical infrastructure definition (airports, hospitals, power lines) not specified"
+    ]
+  },
+  {
+    "goal_id": "GOAL-009",
+    "goal_title": "Manage Classified MOD Evidence & Security Assurance",
+    "business_goal": "Enable CAA and MAA to review MOD-sensitive evidence (program schedules, platform specifications, sensor capabilities) without security compromise, per CAP 722H and JSP 440 security classifications",
+    "value_statement": "MOD program leadership and CAA security officers gain confidence that sensitive evidence can be reviewed without disclosure. Trial applicants gain clarity on classification handling process.",
+    "measured_by": "Classification-aware evidence segregation effectiveness (target: 100% of classified submissions reviewed with documented security procedures; zero unauthorized access incidents)",
+    "priority_rank": 3,
+    "source_features": [
+      "F20 Security Classification Handling",
+      "F24 Classification-Aware Evidence Segregation"
+    ],
+    "source_reqs": [
+      "REQ018"
+    ],
+    "vibe_anchors": [],
+    "stakeholders_benefiting": [
+      "mod",
+      "regulator"
+    ],
+    "in_scope": [
+      "Evidence classification handling per CAP 722H (Official-Sensitive, Secret, Top Secret)",
+      "JSP 440 marking and segregation controls",
+      "Reviewer security clearance validation",
+      "Redaction and summary generation for unclassified records"
+    ],
+    "out_of_scope": [
+      "Security clearance issuance (MOD/CAA HR responsibility)",
+      "National security assessment (Cabinet Office responsibility)"
+    ],
+    "implicit_scope_risks": [
+      "REQ018 lacks user story and acceptance criteria; no explicit process defined",
+      "CAP 722H and JSP 440 scope unknown; assumption that these standards fully specify requirements",
+      "Redaction rules not specified (what can/cannot be disclosed in case record?)",
+      "Interaction with public engagement (REQ017): can classified trials have public engagement?"
+    ]
+  },
+  {
+    "goal_id": "GOAL-010",
+    "goal_title": "Build Public Trust & Stakeholder Engagement",
+    "business_goal": "Establish structured community consultation and media engagement processes compliant with CAP 1616 (civil engagement) and GDPR, such that public concern is addressed, prior notification is provided, and regulators have documented stakeholder alignment",
+    "value_statement": "Ministers and CAA leadership gain political license for BVLOS swarm trials. Communities below gain advance notice and engagement opportunity. Trial operators gain regulatory defensibility of social impact.",
+    "measured_by": "PublicEngagementCoverage scale (target: 100% of trials have documented stakeholder engagement plan; community satisfaction score >= 70% where measurable)",
+    "priority_rank": 2,
+    "source_features": [
+      "F19 Public & Stakeholder Engagement"
+    ],
+    "source_reqs": [
+      "REQ017"
+    ],
+    "vibe_anchors": [
+      "PublicEngagementCoverage"
+    ],
+    "stakeholders_benefiting": [
+      "public",
+      "ministers"
+    ],
+    "in_scope": [
+      "Community consultation plan (landowner notification, local authority coordination)",
+      "Press/media engagement strategy",
+      "GDPR privacy impact for flight data and community records",
+      "Stakeholder feedback capture and response mechanism"
+    ],
+    "out_of_scope": [
+      "Public policy negotiation (CAA leadership responsibility)",
+      "Environmental assessment (REQ019, separate goal)"
+    ],
+    "implicit_scope_risks": [
+      "REQ017 lacks user story and acceptance criteria; no explicit engagement process defined",
+      "CAP 1616 scope not specified (what level of consultation is 'sufficient'?)",
+      "GDPR data handling for community feedback not specified",
+      "Interaction with classified MOD trials unclear (how can classified trials be publicly engaged?)"
+    ]
+  },
+  {
+    "goal_id": "GOAL-011",
+    "goal_title": "Assess Environmental & Ecological Impact",
+    "business_goal": "Evaluate and document environmental risks (noise, wildlife disturbance, battery-fire hazard) to enable CAA environmental assessment and compliance with ecological regulations",
+    "value_statement": "CAA environmental assessors gain evidence for permitting. Local authorities gain confidence in ecological risk mitigation. Public below gains protection against noise and habitat disruption.",
+    "measured_by": "Environmental impact assessment completeness (target: 100% of trials have assessed noise levels, species disturbance risk per season, battery fire containment plan)",
+    "priority_rank": 3,
+    "source_features": [
+      "F21 Environmental Impact Assessment"
+    ],
+    "source_reqs": [
+      "REQ019"
+    ],
+    "vibe_anchors": [],
+    "stakeholders_benefiting": [
+      "public",
+      "regulator"
+    ],
+    "in_scope": [
+      "Noise modeling and limits per location/time-of-day",
+      "Wildlife disturbance assessment (species at risk, breeding seasons)",
+      "Battery fire risk assessment and containment procedures",
+      "Ground environmental survey"
+    ],
+    "out_of_scope": [
+      "Ecological licensing enforcement (local authority responsibility)",
+      "Wildlife permitting (Natural England / Scottish Natural Heritage responsibility)"
+    ],
+    "implicit_scope_risks": [
+      "REQ019 lacks user story and acceptance criteria; no explicit assessment criteria defined",
+      "Noise limit thresholds not specified (ICAO standards assumed?)",
+      "Wildlife disturbance credibility thresholds not defined (what constitutes 'disturbance'?)",
+      "Battery fire risk modeling not specified (lithium chemistry assumed?)"
+    ]
+  },
+  {
+    "goal_id": "GOAL-012",
+    "goal_title": "Ensure Evidence Traceability & Regulatory Audit Readiness",
+    "business_goal": "Establish end-to-end traceability from regulatory clauses to submitted evidence and final decision, such that auditors and investigators can verify that every approval requirement was addressed and every decision was justified",
+    "value_statement": "CAA audit teams and AAIB investigators gain confidence in decision defensibility. Trial operators gain clear record of what was submitted and approved. Regulators gain proof of compliance with CAP 722A and CAP 722D audit standards.",
+    "measured_by": "Traceability binding completeness (target: 100% of regulatory clauses have mapped evidence; 100% of approval decisions have documented justification)",
+    "priority_rank": 2,
+    "source_features": [
+      "F27 Clause-to-Evidence Traceability Binding",
+      "F28 Case History & Revision Management",
+      "F30 Audit Logging & Forensic Trail"
+    ],
+    "source_reqs": [],
+    "vibe_anchors": [],
+    "stakeholders_benefiting": [
+      "regulator",
+      "aaib"
+    ],
+    "in_scope": [
+      "Clause library (regulatory requirements per operation type, version-controlled)",
+      "Evidence-to-clause mapping (which submission document addresses which requirement)",
+      "Case history (evidence revisions, decision changes, override trails)",
+      "Audit log (all approvals, rejections, overrides, who approved, when)"
+    ],
+    "out_of_scope": [
+      "Audit execution (CAA audit team responsibility)",
+      "Clause library content (CAA regulatory affairs responsibility)"
+    ],
+    "implicit_scope_risks": [
+      "Clause library structure not specified; unclear what granularity of clauses is needed",
+      "Evidence mapping methodology not defined (automatic text analysis? manual human review? hybrid?)",
+      "Audit log retention and forensic standards not specified (assumes CAP 722D compliance)"
+    ]
+  },
+  {
+    "goal_id": "GOAL-013",
+    "goal_title": "Separate Applicant Feedback from Regulator Decision Records",
+    "business_goal": "Maintain procedural fairness by segregating applicant feedback (revision requests, informal queries) from final regulator decision records, such that feedback is constructive and non-binding while decisions are binding and auditable",
+    "value_statement": "Trial operators gain confidence that informal feedback won't be misinterpreted as approval. Regulators gain clean decision records untainted by conversational feedback.",
+    "measured_by": "Decision record segregation (target: 100% of final approval decisions in separate immutable record; 100% of applicant feedback tracked in separate log)",
+    "priority_rank": 3,
+    "source_features": [
+      "F25 Operator-Private Feedback vs Regulator Decision Record"
+    ],
+    "source_reqs": [],
+    "vibe_anchors": [],
+    "stakeholders_benefiting": [
+      "applicant",
+      "regulator"
+    ],
+    "in_scope": [
+      "Feedback message types (revision request, clarification query, suggestion)",
+      "Separation of feedback from binding approval/rejection decisions",
+      "Feedback response deadline and escalation",
+      "Immutable final decision record"
+    ],
+    "out_of_scope": [
+      "Applicant communication portal design (usability assumes feedback mechanisms exist)"
+    ],
+    "implicit_scope_risks": [
+      "Feedback escalation criteria not specified (when does informal feedback become binding?)",
+      "Revision request scope not defined (can applicant resubmit after rejection? how many resubmission cycles allowed?)"
+    ]
+  },
+  {
+    "goal_id": "GOAL-014",
+    "goal_title": "Implement Regulatory Evidence Library & Version Control",
+    "business_goal": "Maintain and version-control a regulatory evidence library (templates, standards, reference cases) such that applicants have clear guidance and regulators can consistently apply evolving requirements",
+    "value_statement": "Applicants gain access to exemplar documentation and evolving requirements. CAA program leadership gains institutional learning capture across trial cohorts.",
+    "measured_by": "Clause library version adoption (target: 100% of new cases use current clause library version; backward compatibility maintained for in-flight cases)",
+    "priority_rank": 3,
+    "source_features": [
+      "F23 Clause-Library Version Pinning & Management"
+    ],
+    "source_reqs": [],
+    "vibe_anchors": [],
+    "stakeholders_benefiting": [
+      "applicant",
+      "regulator"
+    ],
+    "in_scope": [
+      "Clause library content (regulatory requirements, standards, templates)",
+      "Version control and release management",
+      "Backward compatibility for in-flight cases",
+      "Applicant access to exemplars and guidance"
+    ],
+    "out_of_scope": [
+      "Clause library content creation (CAA regulatory affairs responsibility)"
+    ],
+    "implicit_scope_risks": [
+      "Version pinning mechanics not specified; unclear how cases 'locked' to old requirements while new requirements apply to new cases",
+      "Applicant access to evolving library not specified (can applicants opt to use newer version mid-flight?)"
+    ]
+  },
+  {
+    "goal_id": "GOAL-015",
+    "goal_title": "Support Joint CAA/MAA Panel Decision-Making & Override Authority",
+    "business_goal": "Enable CAA and MAA panels to make binding authorization decisions with override capability for exceptional cases, with full audit trail of who overrode what and why",
+    "value_statement": "Decision panels gain authority to make discretionary judgments while maintaining accountability. CAA audit teams gain visibility of override authority exercise. Trial applicants gain confidence in fair and documented decision-making.",
+    "measured_by": "Panel override audit trail completeness (target: 100% of panel overrides logged with justification; zero overrides without documented escalation authority)",
+    "priority_rank": 2,
+    "source_features": [
+      "F26 Panel Override & Decision Logging"
+    ],
+    "source_reqs": [
+      "REQ016"
+    ],
+    "vibe_anchors": [],
+    "stakeholders_benefiting": [
+      "regulator",
+      "applicant"
+    ],
+    "in_scope": [
+      "Panel composition and decision authority",
+      "Override criteria and escalation rules",
+      "Audit trail of override decisions with justification",
+      "Appeal mechanism (can applicants contest overrides?)"
+    ],
+    "out_of_scope": [
+      "Personnel authorization (CAA HR responsibility)",
+      "Policy on override grounds (CAA leadership responsibility)"
+    ],
+    "implicit_scope_risks": [
+      "Override authority scoping unclear (can director override chief inspector? vice versa?)",
+      "Appeal mechanism not specified"
+    ]
+  }
+]

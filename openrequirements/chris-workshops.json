@@ -1,0 +1,387 @@
+[
+  {
+    "workshop_id": "WS-001",
+    "subject": "REQ002: Swarm-Aware SORA Assessment Framework",
+    "recommended_model": "all_team_workshop",
+    "participants": [
+      "CAA SORA assessor",
+      "applicant (systems engineer)",
+      "autonomy engineer",
+      "test engineer",
+      "Dorothy (analyst)"
+    ],
+    "duration_estimate_hours": 3,
+    "prerequisites": [
+      "JARUS SORA v2.5 methodology understood",
+      "Applicant swarm architecture documented",
+      "Single-aircraft SORA baseline available"
+    ],
+    "agenda": [
+      "1. Define \"swarm-aware\" operationally: What interdependencies must SORA address? (coordination, communication, emergent risks)",
+      "2. Identify swarm-specific failure modes not covered in single-aircraft SORA",
+      "3. Map swarm evidence requirements: What test data distinguishes swarm SORA from single-aircraft?",
+      "4. Define SAIL and OSO outcomes for swarm: How does swarm complexity change SAIL levels?",
+      "5. Agree on defensibility criteria: What makes swarm SORA assessment defensible to regulators?",
+      "6. Document agreed definition and SORA methodology for swarm operations"
+    ],
+    "questions_to_resolve": [
+      "Dorothy-1: What exactly is \"swarm-aware\" evidence? What distinguishes it from standard SORA?",
+      "Dorothy-3: What criteria make a SORA assessment defensible across multiple SORA assessors?",
+      "Flo-2: Does swarm SORA follow JARUS v2.5 section on multi-UAS, or is there a separate methodology?"
+    ],
+    "outputs": [
+      "Swarm SORA methodology document",
+      "Swarm evidence checklist",
+      "SAIL assignment criteria for swarm ops"
+    ],
+    "priority": "critical"
+  },
+  {
+    "workshop_id": "WS-002",
+    "subject": "REQ005: Automatic Containment (Geofence) Design Specification",
+    "recommended_model": "all_team_workshop",
+    "participants": [
+      "CAA airspace regulator",
+      "applicant (safety engineer)",
+      "autonomy engineer",
+      "avionics engineer",
+      "test engineer",
+      "Dorothy (analyst)"
+    ],
+    "duration_estimate_hours": 4,
+    "prerequisites": [
+      "Applicant geofence design concept available",
+      "ODD bounds defined (wind, GPS accuracy, altitude range)",
+      "Design standards reference (DO-254, DEFSTAN 00-970 Part 9) reviewed"
+    ],
+    "agenda": [
+      "1. Define geofence boundary tolerance: Horizontal (+/-X meters) and vertical (+/-Y meters)",
+      "2. Specify fail-safe mechanism: What happens if onboard logic fails? (e.g., altitude limiter independent of GPS)",
+      "3. Identify design standard: DO-254 DAL B? DEFSTAN 00-970 Part 9? Custom?",
+      "4. Map environmental factors affecting containment: GPS drift, multipath, wind predictions",
+      "5. Define verification approach: Monte Carlo? Flight test? Simulation?",
+      "6. Agree success criteria: e.g., zero boundary exceedances in 100 Monte Carlo runs across ODD extremes",
+      "7. Create containment assurance case structure"
+    ],
+    "questions_to_resolve": [
+      "Dorothy-4: What are the five design subcriteria for automatic containment? Tolerance, fail-safe, standard, environmental, verification.",
+      "Paul-2: What is the onboard logic triggering containment action? What maneuver is executed? (hard stop, RTL, soft stop?)",
+      "Milarna-1: What data must be logged to verify containment was working during flight?"
+    ],
+    "outputs": [
+      "Containment design specification",
+      "Geofence tolerance and fail-safe design",
+      "Containment verification plan and test cases"
+    ],
+    "priority": "critical"
+  },
+  {
+    "workshop_id": "WS-003",
+    "subject": "REQ010: Meaningful Human Control & Crew Workload Definition",
+    "recommended_model": "all_team_workshop",
+    "participants": [
+      "CAA human factors inspector",
+      "applicant (crew/flight ops lead)",
+      "test pilot",
+      "autonomy engineer",
+      "human factors specialist",
+      "Dorothy (analyst)"
+    ],
+    "duration_estimate_hours": 3.5,
+    "prerequisites": [
+      "ConOps draft with crew roles defined",
+      "Autonomy decision authorities identified",
+      "Workload assessment preliminary data available"
+    ],
+    "agenda": [
+      "1. Operationalize \"meaningful human control\": What must crew know (situational awareness)? What authority must crew retain?",
+      "2. Define situational awareness criteria: Update frequency? Display comprehensiveness? Information quality?",
+      "3. Define authority preservation: Which decisions require explicit crew authorization? Which can autonomy decide?",
+      "4. Define takeover time requirement: Crew must regain control within X seconds for which off-nominal events?",
+      "5. Define workload limits: Max concurrent decisions? Max duty cycle per hour? Fatigue thresholds?",
+      "6. Map failure modes where control is lost: Communication loss? Autonomy failure? Recovery strategy?",
+      "7. Agree on evidence collection approach for human factors assessment"
+    ],
+    "questions_to_resolve": [
+      "Dorothy-2: What measurable criteria define \"meaningful\" human control for autonomous swarms?",
+      "Alexa-1: What situational awareness update frequency is required for crew to make informed decisions?",
+      "Paul-3: What is the takeover time requirement and who determines it? (CAA? Human factors standard?)"
+    ],
+    "outputs": [
+      "Meaningful human control definition with measurable criteria",
+      "Crew situational awareness requirements spec",
+      "Workload assessment criteria and monitoring plan"
+    ],
+    "priority": "critical"
+  },
+  {
+    "workshop_id": "WS-004",
+    "subject": "REQ006: Link Loss Survivability & C2 Link Assurance",
+    "recommended_model": "three_amigos",
+    "participants": [
+      "CAA spectrum specialist",
+      "applicant (communications engineer)",
+      "test engineer"
+    ],
+    "duration_estimate_hours": 2.5,
+    "prerequisites": [
+      "C2 link architecture documented",
+      "Inter-vehicle link architecture documented",
+      "Link failure scenarios identified"
+    ],
+    "agenda": [
+      "1. Define time-to-loss threshold: C2/inter-vehicle link can be lost for how long before action triggered?",
+      "2. Define survivable action: Return-to-Launch? Hold position? Safe descent? Crew takeover?",
+      "3. Clarify C2 vs inter-vehicle link survivability: Are both independently survivable or jointly survivable?",
+      "4. Assume crew intervention or autonomous: Can crew intervene to override default action?",
+      "5. Define verification approach: Flight test? Simulation? RF jamming tests?",
+      "6. Document authorised and monitored C2 criteria: Who monitors? What triggers non-compliance?",
+      "7. Define success criterion: e.g., zero loss-of-separation incidents in X flight hours"
+    ],
+    "questions_to_resolve": [
+      "Flo-1: What is the time-to-loss threshold and what action is triggered? (Undefined in REQ006)",
+      "Paul-4: What happens to the swarm when C2 is lost? Does it maintain formation? Return individually?",
+      "Milarna-2: What data must be logged to verify link loss survivability was maintained?"
+    ],
+    "outputs": [
+      "Link loss time-to-loss and action specification",
+      "C2/inter-vehicle link survivability verification plan",
+      "Link monitoring and assurance case"
+    ],
+    "priority": "critical"
+  },
+  {
+    "workshop_id": "WS-005",
+    "subject": "REQ007: Detect-and-Avoid Predictable Resolution & Swarm Coordination",
+    "recommended_model": "all_team_workshop",
+    "participants": [
+      "CAA DAA assessor",
+      "applicant (autonomy engineer)",
+      "test engineer",
+      "Paul (analyst)"
+    ],
+    "duration_estimate_hours": 3.5,
+    "prerequisites": [
+      "DAA sensor specifications (radar, optical, ADS-B)",
+      "DAA algorithm design available",
+      "Swarm coordin architecture documented",
+      "DO-365/F3442 standards reviewed"
+    ],
+    "agenda": [
+      "1. Define predictable conflict resolution: Is it deterministic? Foreseeable to crew?",
+      "2. Define avoidance maneuver selection logic: Preferred order (climb, turn, descend)? Why?",
+      "3. Define swarm coordination during DAA: Do aircraft maintain formation? Take independent action?",
+      "4. Define crew awareness and override capability: Can crew override DAA decision?",
+      "5. Identify non-cooperative encounter scenarios: Manned aircraft, rogue drones, static obstacles",
+      "6. Define verification approach: Flight test? Simulation? DO-365/F3442 compliance?",
+      "7. Document success criteria: e.g., zero mid-air collisions in X encounter scenarios"
+    ],
+    "questions_to_resolve": [
+      "Paul-1: What mechanism defines predictable DAA resolution? Maneuver selection rules must be explicit.",
+      "Paul-5: For swarms, does DAA coordination logic prevent inter-swarm collisions as well as swarm-vs-intruder?",
+      "Milarna-3: What test scenarios cover non-cooperative encounters? (Unkn aircraft, no coordination)"
+    ],
+    "outputs": [
+      "DAA predictable resolution specification",
+      "DAA maneuver selection logic and swarm coordination rules",
+      "DAA verification and test plan (DO-365/F3442 aligned)"
+    ],
+    "priority": "critical"
+  },
+  {
+    "workshop_id": "WS-006",
+    "subject": "REQ009: ML Model Assurance (AMLAS/SACE) & Explainability",
+    "recommended_model": "all_team_workshop",
+    "participants": [
+      "CAA AI/ML assurance specialist",
+      "applicant (ML engineer)",
+      "test engineer",
+      "Dorothy (analyst)"
+    ],
+    "duration_estimate_hours": 4,
+    "prerequisites": [
+      "ML models identified (vision, coordin, RTL decision)",
+      "Training data overview available",
+      "AMLAS and SACE frameworks reviewed",
+      "Explainability techniques research (LIME, SHAP) done"
+    ],
+    "agenda": [
+      "1. Identify all ML models in swarm architecture: Vision, coordination, decision-making, RTL",
+      "2. For each model: Define training data, validation data, test data, hyperparameters",
+      "3. Define forensic explainability approach: LIME? SHAP? Saliency maps? Model cards?",
+      "4. Identify models that cannot be fully explained: Fallback approach? Accept with lower SAIL?",
+      "5. Define frozen model manifest: Version, training data hash, validation results, known limitations",
+      "6. Define model manifest retention: Duration? Security? Access control? Proprietary data redaction?",
+      "7. Create AMLAS case structure and SACE evidence mapping",
+      "8. Document fallback if explainability cannot be achieved"
+    ],
+    "questions_to_resolve": [
+      "Dorothy-6: What explainability techniques are acceptable for safety-critical ML? Perfect explainability is infeasible.",
+      "Dorothy-7: What is the frozen-model manifest format? What data must be retained and for how long?",
+      "Alexa-2: Which ML models are actually safety-critical vs nice-to-have? Can nice-to-have models fail gracefully?"
+    ],
+    "outputs": [
+      "AMLAS case structure and safety argument",
+      "Frozen model manifest specification",
+      "ML explainability approach and fallback strategy",
+      "SACE evidence traceability matrix"
+    ],
+    "priority": "critical"
+  },
+  {
+    "workshop_id": "WS-007",
+    "subject": "REQ011: Flight Termination & Contingency Response Matrix",
+    "recommended_model": "all_team_workshop",
+    "participants": [
+      "CAA flight-ops inspector",
+      "applicant (avionics engineer)",
+      "flight ops lead",
+      "test engineer",
+      "Paul (analyst)"
+    ],
+    "duration_estimate_hours": 3,
+    "prerequisites": [
+      "Off-nominal scenarios identified",
+      "Autonomous vs crew-commanded actions mapped",
+      "Flight termination system preliminary design available"
+    ],
+    "agenda": [
+      "1. Define contingency events: GPS loss, link loss, geofence breach, airspace intrusion, crew incapacitation, system failure",
+      "2. Create contingency matrix: Off-nominal event -> action (Return-to-Launch, hold, safe descent, terminate)",
+      "3. Define independent termination mechanism: Ground switch? RF kill? Crew joystick?",
+      "4. Define time-to-effect for termination: Aircraft must stop within X seconds",
+      "5. Define ATSU notification: When is ATC informed of termination? Who informs?",
+      "6. Define data preservation: What must be logged before termination?",
+      "7. Define verification approach: Ground test? Flight test? Failure mode testing?",
+      "8. Document state transitions: What happens in each off-nominal state?"
+    ],
+    "questions_to_resolve": [
+      "Paul-2: What is the onboard logic for each contingency? Different maneuvers for different failure modes.",
+      "Paul-6: What is the termination mechanism? Hard stop (drop aircraft)? RTL? Safe descent?",
+      "Milarna-4: How is contingency response verified? What if default action makes things worse?"
+    ],
+    "outputs": [
+      "Contingency matrix (off-nominal event -> action)",
+      "Independent termination specification and design",
+      "ATSU coordination procedure",
+      "Contingency verification plan and test cases"
+    ],
+    "priority": "critical"
+  },
+  {
+    "workshop_id": "WS-008",
+    "subject": "REQ003: Worst-Credible Behavior Definition & Safety Case Structure",
+    "recommended_model": "all_team_workshop",
+    "participants": [
+      "CAA safety-case reviewer",
+      "applicant (safety engineer)",
+      "autonomy engineer",
+      "test engineer",
+      "Dorothy (analyst)"
+    ],
+    "duration_estimate_hours": 3,
+    "prerequisites": [
+      "Hazard analysis draft available",
+      "ODD bounds defined",
+      "Failure modes identified (single vs common-mode)",
+      "Mitigation strategies drafted"
+    ],
+    "agenda": [
+      "1. Define credible vs incredible failure modes: Single-failure assumption? Common-mode?",
+      "2. Establish worst-credible boundary: Pilot error? Environmental extremes? Sensor saturation?",
+      "3. Map failure modes to safety objectives: Each failure must be mitigated or accepted",
+      "4. For each worst-credible failure: Identify containment mechanism, backup system, or crew intervention",
+      "5. Define assurance levels: DO-254 DAL, DO-178C DAL, or custom confidence level?",
+      "6. Create safety case argument structure: Claims, evidence, sub-claims",
+      "7. Identify evidence gaps and test plans"
+    ],
+    "questions_to_resolve": [
+      "Dorothy-5: What boundary separates credible from incredible failures? Methodology needed.",
+      "Paul-7: What is the worst-credible environment for the swarm? Rain? Wind? Temperature extremes?",
+      "Milarna-5: How is worst-credible behavior verified? Flight test? Simulation? Analysis?"
+    ],
+    "outputs": [
+      "Worst-credible behavior definition and justification",
+      "Failure modes vs safety objectives mapping",
+      "Safety case argument structure (GSN or equivalent)",
+      "Assurance level assignment rationale"
+    ],
+    "priority": "high"
+  },
+  {
+    "workshop_id": "WS-009",
+    "subject": "REQ016: Phased Trial Build-Up & Reversible Gates Framework",
+    "recommended_model": "all_team_workshop",
+    "participants": [
+      "CAA programme manager",
+      "applicant (program lead)",
+      "case officer",
+      "test lead",
+      "Paul (analyst)"
+    ],
+    "duration_estimate_hours": 2.5,
+    "prerequisites": [
+      "Phase definitions available (Phase 1 VLOS, Phase 2 BVLOS, Phase 3 swarm)",
+      "Evidence accumulation plan drafted",
+      "Risk thresholds identified"
+    ],
+    "agenda": [
+      "1. Define entry gates for each phase: What evidence must be available to proceed?",
+      "2. Define exit gates (go/no-go): What off-nominal events trigger pause or reversal?",
+      "3. Define reversal triggers: Off-nominal incident rate > X per hour? Single critical failure?",
+      "4. Define reversal process: Who decides? How long to investigate before decision?",
+      "5. Define state preservation: If reversal occurs, is Phase N data kept or discarded?",
+      "6. Define progress tracking: What metrics show evidence accumulation?",
+      "7. Create gate approval authorities: CAA? Applicant? Joint?"
+    ],
+    "questions_to_resolve": [
+      "Paul-8: What events trigger phase reversal? What is the decision process?",
+      "Paul-9: Can the swarm resume Phase N operation after reversal, or must it restart from Phase 1?",
+      "Milarna-6: What data is preserved across phase reversals for learning and investigation?"
+    ],
+    "outputs": [
+      "Phase definition and entry/exit gate criteria",
+      "Reversal decision criteria and process",
+      "Phase risk dashboard and progress tracking metrics",
+      "Gate approval authorities and timeline"
+    ],
+    "priority": "high"
+  },
+  {
+    "workshop_id": "WS-010",
+    "subject": "REQ012 & REQ020: Data Recording, MOR Obligations, Post-Trial Archival",
+    "recommended_model": "three_amigos",
+    "participants": [
+      "CAA flight safety investigator",
+      "applicant (data/ops engineer)",
+      "test engineer"
+    ],
+    "duration_estimate_hours": 2.5,
+    "prerequisites": [
+      "Telemetry system architecture available",
+      "MOR triggering criteria researched",
+      "Post-trial archival requirements understood"
+    ],
+    "agenda": [
+      "1. Define complete recorded evidence: Sensor data scope, video, audio, state logs, timestamp precision",
+      "2. Define telemetry sampling rates: Full fidelity for all channels? Compression for some?",
+      "3. Define MOR triggers: System failures, incidents, property damage, environmental impact",
+      "4. Define MOR filing process: Auto-file or manual? Timeline? Content required?",
+      "5. Define DPIA compliance: Personal data collection, retention, access control, breach notification",
+      "6. Define post-trial archival: Duration of retention? Security? Access for future investigation?",
+      "7. Define forensic investigation support: Can investigators extract any data from archives?"
+    ],
+    "questions_to_resolve": [
+      "Dorothy-8: What constitutes \"complete\" recorded evidence? Different meaning than application pack completeness.",
+      "Milarna-7: How is telemetry completeness verified? Gaps in data may compromise investigation.",
+      "Paul-10: What are the MOR triggers and filing procedures? Regulatory compliance critical."
+    ],
+    "outputs": [
+      "Telemetry specification and sampling plan",
+      "MOR trigger criteria and auto-filing logic",
+      "DPIA compliance documentation",
+      "Post-trial archival plan and forensic investigation support"
+    ],
+    "priority": "high"
+  }
+]

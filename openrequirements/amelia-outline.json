@@ -1,0 +1,346 @@
+{
+  "organisational_scheme": "by_feature",
+  "scheme_rationale": "IEEE 830 §5.3.1.4 recommends organizing requirements by feature (mode of use). For BVLOS UAS swarm trials, feature-based organization aligns naturally with: (1) user roles (applicants, case officers, review panels, program managers) each work with distinct feature clusters; (2) trial phases (VLOS->BVLOS->Swarm) where features gate phase progression; (3) SBE feature files (15 goals map to feature clusters F01-F26) that align requirements to business capability. This improves modifiability by making cross-functional impacts visible: changing Feature F06 (Geofence Containment) visibly impacts REQ005, REQ011, REQ016 (phased gates on containment success).",
+  "sections": [
+    {
+      "section_id": "1",
+      "title": "Introduction",
+      "status": "populated",
+      "content_summary": "Comprehensive SRS introduction covering purpose (enable CAA/MAA authorization of BVLOS UAS swarm trials), scope (20 regulatory requirements spanning intake, assessment, assurance, governance, closure), definitions (58 canonical terms), and references (JARUS SORA v2.5, CAP 1616, GDPR, CAP 722H, JSP 440, DO-365, F3442, ICAO Annex 15, IEC 62619, Environmental Protection Act 1990)."
+    },
+    {
+      "section_id": "1.1",
+      "title": "Purpose",
+      "status": "populated",
+      "source": "REQ001-REQ020 parent user stories; Grace business goals GOAL-001 through GOAL-015",
+      "content_hint": "Enable consistent, defensible authorization of BVLOS UAS swarm trials through structured assessment of risk, autonomy, human control, and regulatory apportionment. Primary beneficiary: CAA/MAA joint authorization with reduced appeal risk. Secondary: applicant clarity on acceptance criteria."
+    },
+    {
+      "section_id": "1.2",
+      "title": "Scope",
+      "status": "populated",
+      "source": "Grace goals (GOAL-001 through GOAL-015); Odin rewrites (REQ001-REQ020); Flo features (F01-F30)",
+      "content_hint": "Scope spans 15 business goals: (1-3) intake & assessment (application completeness, swarm-aware SORA, ConOps review); (4-6) containment & flight safety (airspace coordination, geofence, C2 link, DAA); (7-10) autonomy & human control (swarm decision-making, ML assurance, human control, flight termination); (11-13) incident investigation & risk (recorded evidence, insurance, crew competency); (14-15) regulatory apportionment & post-trial closure."
+    },
+    {
+      "section_id": "1.3",
+      "title": "Definitions, Acronyms, and Abbreviations",
+      "status": "populated",
+      "source": "Chris language file (42 canonical terms); Odin rewrites glossary; DeFOSPAM Dorothy glossary",
+      "content_hint": "58 total canonical terms including: swarm-specific (swarm-aware, emergent behavior, inter-vehicle links, decision-making architecture); safety (containment, geofence, fly-away, loss-of-separation); regulatory (SORA, SAIL, OSO, TDA, NOTAM); assurance (AMLAS, frozen-model manifest, forensic explainability); human factors (meaningful human control, workload, take-over, situational awareness); governance (CAA, MAA, apportionment, reversible gates). 10 terms marked 'proposed' require stakeholder workshop finalization."
+    },
+    {
+      "section_id": "1.4",
+      "title": "References",
+      "status": "populated",
+      "source": "Odin rewrites citations; regulatory anchors (CAP 1616, CAP 722H, JSP 440, Environmental Protection Act 1990); technical standards (JARUS SORA v2.5, DO-365, F3442, ICAO Annex 15, IEC 62619, ITU-R); GDPR (Articles 32-35)",
+      "content_hint": "Normative references: JARUS SORA v2.5 (with Swarm Supplement when available), ICAO Annex 15 (NOTAM), IEC 62619 (lithium battery), GDPR Articles 32-35. Conditional normative: CAP 722H/JSP 440 (MOD trials only); CAP 1616 (population >100 people within 5 km). Informative: SORA v2.5 appendices, SAE J3161 (ODD), academic literature on swarm autonomy."
+    },
+    {
+      "section_id": "1.5",
+      "title": "Overview",
+      "status": "populated",
+      "source": "Grace 10-step service blueprint; Odin REQ001-REQ020 narrative; Lucy completeness assessment",
+      "content_hint": "Workbench enables CAA and MAA to jointly authorize BVLOS UAS swarm trials through a structured 3-phase process: Phase 1 (VLOS Baseline, single aircraft, visual control) gates on application completeness, crew credentials, insurance, and SORA baseline; Phase 2 (BVLOS Single, 2+ aircraft, C2 link reliance) gates on C2 link validation and swarm-aware SORA; Phase 3 (BVLOS Swarm, coordinated multi-aircraft) gates on emergent-behavior evidence and human control assurance. All phases enforce phased reversibility (return to prior phase if exit criteria violated). Post-trial closure includes lessons-learned workshop, evidence preservation (2+ years), and regulatory close-out. SRS covers 20 requirements spanning intake (REQ001), assessment (REQ002-REQ004), containment (REQ005-REQ011), assurance (REQ008-REQ010), investigation (REQ012), risk mitigation (REQ013-REQ014), governance (REQ015-REQ016), and public engagement (REQ017-REQ020)."
+    },
+    {
+      "section_id": "2",
+      "title": "Overall Description",
+      "status": "populated",
+      "content_summary": "System context, user roles, constraints, assumptions, and apportionment across 20 requirements."
+    },
+    {
+      "section_id": "2.1",
+      "title": "Product Perspective",
+      "status": "partial",
+      "source": "Grace goals (ecosystem); Odin rewrites (system interfaces)",
+      "content_hint": "Workbench integrates with 10 external systems: MOD IdP (authentication), CAA clause-library (regulatory versioning), archive service (2-year evidence retention), applicant submission portal, MOR reporter (CAA Flight Safety), ATSU (airspace coordination), spectrum regulator, CAA secure facility (classified evidence), insurance/survey repository, CAA panel (decision authority)."
+    },
+    {
+      "section_id": "2.1.1",
+      "title": "System Interfaces",
+      "status": "partial",
+      "source": "REQ015 (CAA/MAA), REQ018 (classified), REQ012 (MOR)",
+      "content_hint": "MOD/CAA IdP (SAML/OAuth2); clause-library repository (version-controlled regulatory requirements); archive service (SHA256 integrity, GDPR compliance); MOR system (incident reporting); ATSU (async NOTAM messaging); classified-evidence network (segregated, JSP 440 compliant)."
+    },
+    {
+      "section_id": "2.1.2",
+      "title": "User Interfaces",
+      "status": "partial",
+      "source": "Grace goals (intake, review, override logging); Odin rewrites (6 personas)",
+      "content_hint": "6 personas: (1) Applicant: submission portal (drag-drop evidence, progress tracker); (2) Case Officer: intake dashboard (RAG matrix, completeness); (3) Review Panel: case briefing (executive summary, decision template); (4) Autonomy Reviewer: architecture visualization (decision diagram, simulation results); (5) Flight Operations: contingency matrix editor, workload calculator; (6) Program Manager: phase gate status (timeline, reversal log). WCAG 2.2 AA accessibility assumed."
+    },
+    {
+      "section_id": "2.1.3",
+      "title": "Hardware Interfaces",
+      "status": "populated",
+      "source": "REQ018 (classified facility), REQ011 (IFT RF)",
+      "content_hint": "UK sovereign infrastructure (CAA/MOD data centers); CAP 722H-compliant secure facility (SECRET accreditation); Independent Flight Termination RF hardware (crew-operated, 500 ms response); telemetry receiver (10 Hz state, 1 Hz decisions); GPS time-sync reference."
+    },
+    {
+      "section_id": "2.1.4",
+      "title": "Software Interfaces",
+      "status": "partial",
+      "source": "Grace goals (clause library, artefact detector); Odin rewrites (MOR, DPIA, archive)",
+      "content_hint": "Artefact Detector (file parser + checklist mapper); Clause-Library Version Manager; Case History Manager (immutable records); MOR Auto-Filer (CAA Flight Safety integration); DPIA Generator (GDPR Article 35); Evidence Archive Manager (integrity verification); Audit Trail Logger; Forensic Report Generator."
+    },
+    {
+      "section_id": "2.1.5",
+      "title": "Communications Interfaces",
+      "status": "populated",
+      "source": "REQ006 (C2 link), REQ012 (telemetry), REQ018 (classified data)",
+      "content_hint": "C2 link (authorized spectrum, encrypted TLS, RSSI/BER telemetry); inter-vehicle links (mesh/star topology, coordination protocol per swarm architecture); MOR reporting (CAA Flight Safety format); classified evidence (segregated network, JSP 440 compliant); telemetry encryption (TLS, classification-tier-aware)."
+    },
+    {
+      "section_id": "2.1.6",
+      "title": "Memory Constraints",
+      "status": "partial",
+      "source": "PE engineering (97 findings); Ada capacity models (TBD)",
+      "content_hint": "Workbench must support 30+ concurrent cases (100-500 MB evidence each); store 2+ years telemetry (100 GB per trial); archive with SHA256 integrity; random-access metadata (<1 s latency), evidence retrieval (<10 s); classified evidence segregated per JSP 440."
+    },
+    {
+      "section_id": "2.1.7",
+      "title": "Operations",
+      "status": "partial",
+      "source": "REQ016 (phased gates); Grace goal GOAL-007",
+      "content_hint": "Phase 1 (VLOS Baseline): single aircraft, visual control; gates: ConOps, SORA, insurance, crew creds; minimum 10 flights; exit if 2+ incidents. Phase 2 (BVLOS Single): 2+ aircraft, C2 reliance; gates: Phase 1 success, C2 validation; minimum 20 flights; exit if C2 unreliability. Phase 3 (BVLOS Swarm): full coordination; gates: Phase 2 success, swarm-decision validation; minimum 5 flights; exit if emergent-behavior boundary violated. Reversibility: revert to prior phase if exit criteria triggered, remediate, re-test."
+    },
+    {
+      "section_id": "2.1.8",
+      "title": "Site Adaptation",
+      "status": "partial",
+      "source": "REQ018 (classification); REQ013 (ground survey)",
+      "content_hint": "Multi-tier deployment: OFFICIAL (standard CAA office); OFFICIAL-SENSITIVE (restricted access); SECRET (MOD facility, CAP 722H-compliant). Ground survey per location (population density, critical infrastructure, noise receptors) informs risk assessment and operational restrictions (flight corridors, altitude ceilings, time-of-day windows)."
+    },
+    {
+      "section_id": "2.2",
+      "title": "Product Functions",
+      "status": "populated",
+      "source": "Grace goals (15 goals); Odin rewrites (20 REQs)",
+      "content_hint": "30 primary functions grouped by 15 goals: (1) Intake (artefact detection, completeness checking); (2) Swarm-aware assessment (SORA 2.0, DAA, emergent-behavior); (3) Containment (geofence, C2 link, termination); (4) Autonomy & human control (architecture review, ML assurance, workload, take-over); (5) Incident investigation (telemetry recording, MOR, DPIA); (6) Regulatory apportionment (CAA/MAA matrix, signatures); (7) Phased gates (entry/exit criteria, reversibility); (8) Insurance & risk (adequacy, ground survey); (9) Classified evidence (marking, barriers, parallel assessment); (10) Public engagement (notification, consultation, media, GDPR); (11) Environmental (noise, species, fire); (12) Audit readiness (traceability, versioning); (13) Applicant feedback (revision tracking); (14) Regulatory library (versioning, compatibility); (15) Panel authority (override, appeal)."
+    },
+    {
+      "section_id": "2.3",
+      "title": "User Characteristics",
+      "status": "partial",
+      "source": "Odin rewrites (6 personas); Grace goals (stakeholders)",
+      "content_hint": "6 primary: (1) Applicant (industry, submits evidence, conducts trials); (2) Case Officer (CAA, intake workflow, completeness); (3) Review Panel (6 domain assessors: SORA, safety-case, autonomy, human factors, licensing, spectrum); (4) Flight Ops (CAA, contingency, C2 validation); (5) Program Manager (gates phases, resolves conflicts); (6) Safety Investigator (post-incident forensics). Secondary: ATSU, Spectrum Regulator, MAA liaison, Data Protection Officer. Expertise varies: applicants assume system engineering/safety case; CAA assumes regulatory procedures; reviewers assume domain expertise (autonomy, workload, licensing)."
+    },
+    {
+      "section_id": "2.4",
+      "title": "Constraints",
+      "status": "partial",
+      "source": "Odin rewrites; Grace goals",
+      "content_hint": "Classification (OFFICIAL-SENSITIVE+ requires CAP 722H facility); UK sovereignty (data in UK data centers); regulatory pinning (version-locked clause library per case); safety-critical (fail-safe design for containment/termination, 500 ms response); audit readiness (all approvals logged with justification, SHA256 integrity); personal data (GDPR Article 35 DPIA, anonymization, 2+ year retention); timeline (target 60-day case cycle)."
+    },
+    {
+      "section_id": "2.5",
+      "title": "Assumptions and Dependencies",
+      "status": "populated",
+      "source": "Odin rewrites; Grace goals",
+      "content_hint": "Assumptions: MOD IdP availability, clause-library maintenance, ATSU coordination, applicant SORA familiarity, review panel expertise, archive service, spectrum regulator independence, insurance underwriter acceptance, security clearances, post-trial investigation. Dependencies: clause library updates (>2 weeks, block submissions); ATSU TDA publication (critical path); spectrum authorization (60+ days); MOD classification review (30+ days)."
+    },
+    {
+      "section_id": "2.6",
+      "title": "Apportioning of Requirements",
+      "status": "populated",
+      "source": "REQ015 (CAA/MAA apportionment); Natasha rankings",
+      "content_hint": "20 requirements assigned to CAA, MAA, or Joint via Regulatory Apportionment Matrix. CAA owns: REQ001-007, REQ010, REQ011-014, REQ016-017, REQ019-020. MAA owns: classified handling (REQ018), military airspace coordination. Joint CAA/MAA: REQ015, REQ002-003 when MOD evidence involved. Deferred (workshops Q2-Q3 2026): swarm-aware SORA (WS-001), containment design standard (WS-002), meaningful human control (WS-003)."
+    },
+    {
+      "section_id": "3",
+      "title": "Specific Requirements (Organized by Feature)",
+      "status": "populated",
+      "content_summary": "20 functional requirements (REQ001-REQ020) organized by 8 feature clusters spanning trial lifecycle. Each requirement includes IEEE 830 rewrite from Odin (inputs, outputs, decision logic, acceptance criteria)."
+    },
+    {
+      "section_id": "3.1",
+      "title": "Applicant-Side Features (REQ001)",
+      "status": "populated",
+      "feature_cluster": "Application Intake & Completeness",
+      "functional_requirements": "FR-001 to FR-025 (25 total)",
+      "source": "REQ001 (Odin rewrite); Vibe scale PackCompleteness (METER-001, METER-002)",
+      "content_hint": "Pack validation (8 mandatory artefacts: ConOps, SORA, Safety Case, Training, Personnel, Environmental, Insurance, Ground Survey); artefact detection (automated parser + RAG matrix); completeness thresholds (>= 90% section coverage); decision outcomes (pack-complete -> case-open, pack-incomplete -> return-for-clarification with 14-day resubmission deadline); archival of all submission versions."
+    },
+    {
+      "section_id": "3.2",
+      "title": "Swarm Assessment Features (REQ002-REQ004, REQ007-REQ008)",
+      "status": "populated",
+      "feature_cluster": "SORA Assessment & Autonomy Review",
+      "functional_requirements": "FR-026 to FR-075 (50 total)",
+      "source": "REQ002-004, REQ007-008 (Odin rewrites); Grace goals GOAL-002 (swarm-aware assessment)",
+      "content_hint": "SORA swarm-aware evidence (3 components: inter-vehicle coordination, emergent risks, hazard analysis); SAIL/OSO setpoints (defensibly justified per JARUS v2.5 methodology); ConOps clarity (nominal/worst-credible behavior thresholds); ODD boundaries (wind, temperature, GPS accuracy); TDA coordination (3D airspace, NOTAM format, consultation evidence); DAA performance (500m detection range, cooperative/non-cooperative encounter resolution, deterministic maneuvers); swarm decision-making architecture (3 options: centralized/distributed/hierarchical); emergent-behavior evidence (formal verification + Monte Carlo simulation + HITL testing, undesired-behavior probabilities bounded)."
+    },
+    {
+      "section_id": "3.3",
+      "title": "Containment & Safety Features (REQ005-REQ006, REQ011)",
+      "status": "populated",
+      "feature_cluster": "Flight Safety & Containment",
+      "functional_requirements": "FR-076 to FR-135 (60 total)",
+      "source": "REQ005-006, REQ011 (Odin rewrites); Grace goal GOAL-003 (containment & flight safety)",
+      "content_hint": "Automatic containment (geofence monitor 10 Hz, tolerance ±10m, response <500ms); fail-safe mechanism (Return-to-Launch if GPS available, climb-and-hold if not); independent flight termination (RF kill-switch + onboard geofence trigger, 500ms response); contingency matrix (15+ off-nominal states mapped to crew procedures + termination triggers); C2 link assurance (RSSI/BER telemetry, link-loss survivability >5 minutes, failover logic); ATSU coordination (pre-trial briefing, real-time monitoring, emergency procedures)."
+    },
+    {
+      "section_id": "3.4",
+      "title": "Autonomy & Human Control Features (REQ009-REQ010)",
+      "status": "populated",
+      "feature_cluster": "ML Assurance & Human Oversight",
+      "functional_requirements": "FR-136 to FR-185 (50 total)",
+      "source": "REQ009-010 (Odin rewrites); Grace goal GOAL-004 (autonomy & human control)",
+      "content_hint": "AMLAS case (assurance case for ML per Assure ML CTC); frozen-model manifest (version ID, data hash, hyperparameters, performance metrics, immutability confirmation); explainability evidence (SHAP/LIME post-hoc analysis, mechanistic interpretability for small models); meaningful human control (situational awareness 1 Hz minimum, override latency <2s, intervention time window 5-10s, workload <75% nominal / <85% contingency per NASA-TLX); crew take-over evidence (simulator practice 10+ sessions, logbook entries, response-time demonstration)."
+    },
+    {
+      "section_id": "3.5",
+      "title": "Incident Investigation Features (REQ012)",
+      "status": "populated",
+      "feature_cluster": "Telemetry & Forensics",
+      "functional_requirements": "FR-186 to FR-220 (35 total)",
+      "source": "REQ012 (Odin rewrite); Grace goal GOAL-005 (incident investigation)",
+      "content_hint": "Complete recorded evidence (6 telemetry categories: aircraft state 10 Hz, autonomy decisions 1 Hz, link quality 1 Hz, crew actions timestamped, video 30 fps, audio 16 kHz); time-synchronized (GPS time reference); tamper-evident (SHA256 hashing, separate secure storage); MOR trigger criteria (accidents, serious incidents, injury, structural damage, separation loss <100m, unintended geofence breach, autonomous-decision override); DPIA compliance (personal data identification, retention policy, data subject rights, anonymization rules)."
+    },
+    {
+      "section_id": "3.6",
+      "title": "Risk Mitigation Features (REQ013-REQ014)",
+      "status": "populated",
+      "feature_cluster": "Insurance, Survey & Crew Competency",
+      "functional_requirements": "FR-221 to FR-260 (40 total)",
+      "source": "REQ013-014 (Odin rewrites)",
+      "content_hint": "Insurance coverage (1M GBP per occurrence, 5M GBP aggregate, CAA-approved insurer, no BVLOS exclusions); ground survey (licensed surveyor, 5 assessment elements: infrastructure, population density, environmental sensitivity, noise receptors, wind patterns); crew competency (3 domains: airmanship 500+ flight hours, BVLOS training 20+ hours, system-specific training; 4 evidence types: training records, exam 80%, simulator 10 sessions, logbook)."
+    },
+    {
+      "section_id": "3.7",
+      "title": "Regulatory & Governance Features (REQ015-REQ016)",
+      "status": "populated",
+      "feature_cluster": "CAA/MAA Coordination & Phased Gates",
+      "functional_requirements": "FR-261 to FR-310 (50 total)",
+      "source": "REQ015-016 (Odin rewrites); Grace goal GOAL-006-007",
+      "content_hint": "Regulatory apportionment matrix (requirement ownership, decision dependencies, information barriers, escalation); signed by CAA and MAA; gap-free coverage verification; phased trial structure (Phase 1 VLOS: entry gates on ConOps/SORA/insurance/crew, 10 flights minimum, exit if 2+ incidents; Phase 2 BVLOS Single: entry on Phase 1 success + C2 validation, 20 flights, exit if C2 unreliability; Phase 3 BVLOS Swarm: entry on Phase 2 success + swarm-decision validation, 5 flights, exit if emergent-behavior boundary violated); reversibility (revert, remediate, re-enter); documentation of reversals and escalations."
+    },
+    {
+      "section_id": "3.8",
+      "title": "Public Engagement Features (REQ017)",
+      "status": "populated",
+      "feature_cluster": "Stakeholder & Public Notification",
+      "functional_requirements": "FR-311 to FR-340 (30 total)",
+      "source": "REQ017 (newly authored from CAP 1616); Grace goal GOAL-010",
+      "content_hint": "Landowner notification (2 km radius, 30 days notice, signed proof-of-delivery); community consultation (public information session or online portal, 14-day comment period); media relations (press release 5+ days pre-trial, single media contact, response templates); GDPR compliance (Privacy Notice on personal data collection, retention, subject rights, CAA Data Protection Officer contact)."
+    },
+    {
+      "section_id": "3.9",
+      "title": "Classified Evidence Features (REQ018)",
+      "status": "populated",
+      "feature_cluster": "Security Classification & MOD Coordination",
+      "functional_requirements": "FR-341 to FR-370 (30 total)",
+      "source": "REQ018 (newly authored from CAP 722H / JSP 440); Grace goal GOAL-009",
+      "content_hint": "Security Classification Handling Plan (classification levels per JSP 440, information barriers, redaction rules, facility requirements, personnel clearances, escalation); dual-track assessment (classified full review + unclassified summary); MOD/CAA joint approval; trial authorization issued on unclassified summary without disclosing classified details."
+    },
+    {
+      "section_id": "3.10",
+      "title": "Environmental & Post-Trial Features (REQ019-REQ020)",
+      "status": "populated",
+      "feature_cluster": "Environmental Impact & Institutional Learning",
+      "functional_requirements": "FR-371 to FR-410 (40 total)",
+      "source": "REQ019-020 (newly authored from Environmental Protection Act / institutional-learning gaps); Grace goals GOAL-011, GOAL-005",
+      "content_hint": "Environmental Impact Assessment (noise 75 dB(A) day / 65 dB(A) night limits per Environmental Protection Act, species disturbance during breeding/dusk, battery fire risk per IEC 62619); post-trial closure (lessons-learned workshop 30 days, evidence preservation 2+ years, technical debrief with forensic validation, authorization close-out notice)."
+    },
+    {
+      "section_id": "3.11",
+      "title": "Cross-Cutting Interface Requirements",
+      "status": "partial",
+      "feature_cluster": "System Integration & API Contracts",
+      "interface_requirements": "IR-001 to IR-020 (20 total, TBD by system design)",
+      "source": "Section 2.1 (system interfaces); Odin rewrites (external system references)",
+      "content_hint": "MOD IdP interface (SAML / OAuth2, credential validation); clause-library repository (version API, requirement lookup); archive service (evidence ingest, integrity verification, retrieval SLA <10s); MOR reporter (incident event format, CAA Flight Safety schema); ATSU coordination (NOTAM message format per ICAO Annex 15); classified-evidence network (segregated connectivity per JSP 440); all interfaces require error handling, retry logic, and audit logging."
+    },
+    {
+      "section_id": "3.12",
+      "title": "Non-Functional Requirements (NFR)",
+      "status": "partial",
+      "source": "Performance Engineering (97 findings); openperformance-results.json",
+      "content_hint": "Availability (SLA TBD, implies 24/7 uptime for case-cycle operations); Capacity (30+ concurrent cases, 100 GB per trial, archive indexing); Latency (metadata <1s, evidence retrieval <10s, case-cycle target 60 days); Scalability (support trial scaling from 1 case/month to 10+); Security (TLS encryption, role-based access control, audit trail per action); Reliability (backup archive, no loss of forensic evidence); Usability (WCAG 2.2 AA, responsive UI); Maintainability (version-controlled clause library, backward-compatible trial pinning). Detailed PE findings (30 critical) to be integrated into Section 2.1 by system design phase."
+    },
+    {
+      "section_id": "3.13",
+      "title": "Design Constraints",
+      "status": "populated",
+      "source": "Odin rewrites; Grace goals; regulatory anchors",
+      "content_hint": "Classification handling per CAP 722H / JSP 440 (multi-tier deployment); UK sovereignty (on-premises data centers, no US cloud); regulatory pinning (version-locked clause library per case, backward-compatibility for in-flight cases, future updates do not retroactively change past authorizations); fail-safe design for containment and termination (no single-point-of-failure for safety-critical functions); audit readiness (immutable decision record, all overrides logged with justification per CAP 722D); personal data minimization per GDPR Article 5 (collect only necessary data, anonymize public records, delete within 90 days unless incident)."
+    }
+  ],
+  "total_sections": 24,
+  "total_functional_requirements": 410,
+  "total_interface_requirements": 20,
+  "total_nfr": 97,
+  "total_design_constraints": 8,
+  "completeness_percentage": 88,
+  "tbd_critical_count": 8,
+  "tbd_major_count": 11,
+  "tbd_minor_count": 1,
+  "key_findings": {
+    "redundancy_issues": [
+      {
+        "issue_id": "RED-001",
+        "description": "REQ001 (Application Intake) and REQ012 (Incident Investigation) both collect evidence but use term 'complete' with different meanings. REQ001 'complete' = 8 mandatory artefacts present; REQ012 'complete' = 6 telemetry categories recorded. Confusion risk: case officer may conflate intake completeness (whether pack is done) with evidentiary completeness (whether flight was fully recorded).",
+        "severity": "major",
+        "recommendation": "Use distinct terminology: PackCompleteness (REQ001), EvidentiaryCompleteness (REQ012). Both are gated checkpoints but different purposes. Clarify in SRS glossary and case-workflow documentation."
+      },
+      {
+        "issue_id": "RED-002",
+        "description": "REQ002 (SORA swarm-aware evidence) and REQ008 (Swarm decision-making evidence) both require 'swarm evidence' but for different purposes. REQ002 evidence answers 'What risks arise?' (quantified hazard assessment); REQ008 evidence answers 'What will swarm do?' (behavior prediction bounds). Risk: applicant submits single evidence package attempting to satisfy both, creating gap in one or both dimensions.",
+        "severity": "major",
+        "recommendation": "Define two distinct evidence artifacts: SWARM RISK ASSESSMENT EVIDENCE (REQ002, owned by SORA assessor) = quantified risk model; SWARM DECISION ARCHITECTURE EVIDENCE (REQ008, owned by autonomy reviewer) = behavior prediction model. Allow evidence to reference shared source data (simulations, flight tests) but organize by purpose."
+      },
+      {
+        "issue_id": "RED-003",
+        "description": "REQ005 (Containment) and REQ011 (Termination) both address aircraft safety but REQ005 is preventive (prevent breach), REQ011 is reactive (terminate if containment fails). Conflict: if REQ005's containment is absolute (cannot fail), REQ011 termination is redundant; if REQ011 assumes containment can fail, REQ005 is not absolute. Requirements do not specify fallback sequence.",
+        "severity": "critical",
+        "recommendation": "Define fallback hierarchy: (1) REQ005 PRIMARY CONTAINMENT (geofence prevents boundary crossing); (2) REQ011 SECONDARY TERMINATION (if primary containment fails, motors cut). Both are required; add sequence specification (geofence breach detection -> containment attempt -> 5-second wait -> if still breached, independent termination engages)."
+      }
+    ],
+    "missing_cross_references": [
+      {
+        "gap_id": "XREF-001",
+        "description": "REQ008 (emergent-behavior evidence) requires formal verification and Monte Carlo simulation, but acceptance criteria for 'acceptable variance' are missing. Odin specifies '<0.1% separation-loss rate' but no justification for this threshold. Risk: applicant submits simulation with 0.09% separation-loss and claims success; CAA reviewer has no standard to assess adequacy.",
+        "severity": "major",
+        "recommendation": "Add cross-reference from REQ008 to TBD-004 (emergent-behavior credibility boundary). Once TBD-004 workshop establishes acceptance criteria (e.g., 'deadlock <0.01%, separation-loss cascade depth <=2'), update REQ008 to reference the standard and provide CAA guidance on verification."
+      },
+      {
+        "gap_id": "XREF-002",
+        "description": "REQ006 (C2 Link Survivability) specifies 'minimum 5 minutes' but justification missing. Odin does not explain why 5 minutes is appropriate for swarm operations (may differ from single-aircraft). Risk: applicant challenges 5-minute requirement as arbitrary; CAA has no defensible response.",
+        "severity": "major",
+        "recommendation": "Add cross-reference from REQ006 to TBD-013 (C2 link survivability time standard). Once TBD-013 establishes per-architecture benchmarks (e.g., 'distributed swarm: 5-10 min; centralized: 2-3 min'), update REQ006 to allow architecture-dependent survivability and provide guidance."
+      }
+    ],
+    "organizational_issues": [
+      {
+        "org_id": "ORG-001",
+        "description": "REQ001 (Application Intake) and REQ002-004 (Assessment) are sequential gates (intake must complete before assessment begins), but SRS does not explicitly state dependencies. Feature-based organization (Section 3.1 Intake, Section 3.2 Assessment) hides this sequence. Risk: trial designer may not understand intake is blocking gate for assessment.",
+        "severity": "minor",
+        "recommendation": "Add Section 3.1.5 (Gate Dependencies) to clarify trial workflow sequence: Intake (FR-001-025) GATES Assessment (FR-026-075) GATES Containment Validation (FR-076-135) GATES Autonomy Review (FR-136-185) GATES Incident Readiness (FR-186-220) GATES Risk Mitigation (FR-221-260) GATES Governance (FR-261-310) GATES Public Engagement (FR-311-340). This aids system design and trial planning."
+      }
+    ]
+  },
+  "modifiability_recommendations": {
+    "short_term_q2_2026": [
+      "Finalize TBD workshops (WS-001 swarm SORA, WS-002 containment design, WS-003 human control) to close 8 critical, 11 major TBD findings.",
+      "Integrate PE findings (97 total, 30 critical) into Section 2.1 (Product Perspective) to specify NFR SLAs.",
+      "Disambiguate 'complete' terminology: PackCompleteness (REQ001) vs EvidentiaryCompleteness (REQ012) in glossary and workflow.",
+      "Formalize integration of external standards (JARUS SORA v2.5, CAP 1616, CAP 722H, JSP 440) into Section 1.4 (References) with scope clarification."
+    ],
+    "medium_term_q3_q4_2026": [
+      "Establish clause-library version-management policy (Q2) to support REQ016 phased-gate reversibility and future regulatory evolution.",
+      "Publish TBD guidance documents (SORA 2.0 Swarm Supplement, Containment Design Standard, Human Control Assurance Guidance, Emergent-Behavior Assurance Guidance) by Q4 2026.",
+      "Design post-trial institutional-learning process (REQ020) with cross-trial lessons-learned archive (Q4 2026).",
+      "Implement classified-evidence handling MOU with MOD/MAA (Q2 2026) to operationalize REQ018 security classification scope."
+    ],
+    "long_term_2027_onwards": [
+      "Monitor JARUS guidance evolution and establish update-adoption policy (does JARUS v3.0 adoption require trial re-authorization?).",
+      "Track appellate decisions and regulatory precedent to refine acceptance criteria for swarm-aware SORA, emergent-behavior thresholds, meaningful human control (feed into annual clause-library updates).",
+      "Establish cross-trial data warehouse to extract lessons from completed trials and apply to future trial design (institutional learning per REQ020)."
+    ]
+  },
+  "analyst": "Amelia",
+  "byline": "Modifiability Analyst",
+  "characteristic": "M",
+  "image_url": "https://openrequirements.ai/lovable-uploads/43a800fb-96ca-4212-b0fe-d27b9cbf3e31.png"
+}

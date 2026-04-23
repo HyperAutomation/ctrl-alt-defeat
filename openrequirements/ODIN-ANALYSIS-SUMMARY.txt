@@ -1,0 +1,393 @@
+================================================================================
+ODIN AMBIGUITY ANALYSIS - IEEE 830-1998 SRS GENERATION
+================================================================================
+Role: Odin, Ambiguity Analyst for CAA BVLOS Swarm Trial Authorization SRS
+
+Analysis Date: 2026-04-23
+Analyst: Odin (Claude Haiku 4.5)
+Sources: 
+  - DeFOSPAM results (20 ambiguity findings from Alexa, Dorothy 88-term glossary)
+  - SBE ubiquitous language (42 canonical terms from Chris)
+  - Raw requirements (20 REQs from requirements-221fbff5.csv)
+  - Vibe Requirements output (15 value specifications, 19 meters, Tom Gilb methodology)
+
+================================================================================
+EXECUTIVE SUMMARY
+================================================================================
+
+Total Rewrites Produced:        20 (one per REQ001-REQ020)
+Total Findings (confidence >= 7): 20 findings
+  - CRITICAL findings:            10
+  - MAJOR findings:               10
+  - MINOR findings:               1
+
+Top 3 Most Pervasive Ambiguities Across REQs:
+  1. VAGUE QUALIFIERS: "complete", "clear", "defensibly", "meaningful", "appropriate"
+     - Impact: 6+ REQs (REQ001, REQ002, REQ003, REQ009, REQ010, REQ013)
+     - Severity: CRITICAL - these qualifiers gate major regulatory decisions
+     - Root cause: Natural language lacks objective acceptance criteria
+
+  2. UNDEFINED TERMS: "swarm-aware", "emergent-behaviour", "forensically explainable", 
+     "independent termination", "contingency matrix", "worst-credible behaviour"
+     - Impact: 8 REQs directly, cascading to REQ008, REQ009, REQ010, REQ011
+     - Severity: CRITICAL - foundational concepts undefined
+     - Root cause: Specialization in BVLOS swarm operations creates domain jargon
+
+  3. PASSIVE VOICE / MISSING OUTCOMES: REQ001, REQ005, REQ006, REQ007, REQ011, REQ012
+     - Impact: 6+ REQs lack specification of failure outcomes
+     - Severity: CRITICAL SAFETY - what happens when geofence breached, link lost?
+     - Root cause: User stories specify desired outcome but not failure handling
+
+================================================================================
+CRITICAL FINDINGS (Confidence >= 9, Severity = CRITICAL)
+================================================================================
+
+1. Dorothy-8 CONFLICT: "complete" used in TWO contexts with OPPOSITE meanings
+   - REQ001: "complete pack" = artefact presence (before flight)
+   - REQ012: "complete evidence" = telemetry presence (during/after flight)
+   - Impact: Case officers and investigators will apply inconsistent acceptance criteria
+   - Recommendation: Rename to "Pack Completeness" vs. "Evidentiary Completeness"
+   - Status: BLOCKING - must be resolved before SRS finalization
+
+2. Dorothy-1 UNDEFINED: "swarm-aware SORA evidence" (confidence 10/10)
+   - Impact: SORA assessors lack criteria for what evidence to demand
+   - Requirement: Explicitly enumerate 3 evidence components (collective behavior, 
+     coordination dependencies, emergent risks)
+   - Status: BLOCKING for REQ002 gate approval
+
+3. Dorothy-3 VAGUE: "defensibly" setting SAIL/OSO with no criteria (confidence 10/10)
+   - Impact: Each SORA assessor applies different defensibility standard
+   - Requirement: Define defensibility through JARUS methodology + GSN structured argument
+   - Status: BLOCKING for SORA assessment phase
+
+4. Dorothy-5 UNDEFINED: "worst-credible behaviour" boundary (confidence 10/10)
+   - Impact: Safety case reviewers apply inconsistent thresholds for what failures to address
+   - Requirement: Define single-failure assumption (NOT common-mode, NOT software defects)
+   - Status: BLOCKING for safety case adequacy assessment
+
+5. Dorothy-4 UNDEFINED: "automatic containment" mechanics (confidence 10/10)
+   - Impact: Geofence breach response is unspecified—critical SAFETY gap
+   - Requirement: Specify boundary tolerance (10m), response time (500ms), fail-safe mechanism
+   - Status: BLOCKING—REQ005 cannot be implemented without containment specification
+   - DeFOSPAM Observation-2: Missing outcome for geofence breach (CRITICAL SAFETY)
+
+6. Dorothy-6 UNDEFINED: "forensically explainable" ML (confidence 10/10)
+   - Impact: Applicants may attempt infeasible perfect explainability
+   - Requirement: Define realistic standard (sufficient for investigation, not perfect)
+   - Status: BLOCKING for REQ009 ML assurance approval
+
+7. Dorothy-7 UNDEFINED: "frozen-model manifest" retention/reconstruction (confidence 10/10)
+   - Impact: 7 subcriteria unknown (data retention, duration, security, format, etc.)
+   - Requirement: Specify manifest contents, storage (encrypted, dual custody), retention (2 years)
+   - Status: BLOCKING for REQ009 ML assurance
+
+8. Dorothy-2 UNDEFINED: "meaningful human control" lacks measurable criteria (confidence 10/10)
+   - Impact: Different trials authorized with vastly different crew control levels
+   - Requirement: Define operationally (situational awareness freq, override latency, 
+     intervention time window, workload thresholds, simulator success rate)
+   - Status: BLOCKING for REQ010 human factors approval
+
+9. Paul-1 UNDEFINED: "resolved predictably" no algorithm specified (confidence 10/10)
+   - Impact: De-confliction algorithm could be probabilistic (ML) or deterministic (rules)
+   - Requirement: Mandate deterministic rule-based algorithms, rule out probabilistic
+   - Status: BLOCKING for REQ007 DAA assessment
+
+10. Flo-1 UNDEFINED: "link loss survivable" time/action/crew role undefined (confidence 10/10)
+    - Impact: Survival time unclear (5 seconds? 1 minute? 5 minutes?)
+    - Requirement: Specify time thresholds, failover actions, survival time minimum (5 min)
+    - Status: BLOCKING for REQ006 C2 link assurance
+
+================================================================================
+OBSERVATION-BASED CRITICAL GAPS (DeFOSPAM Observations 1-6)
+================================================================================
+
+Observation-1: REQ001 Incomplete pack rejection outcome undefined
+  - Missing: What happens if pack is incomplete?
+  - Impact: Case officers handle incomplete submissions inconsistently
+  - Rewrite includes: return-for-clarification state, resubmission deadline (14 days)
+
+Observation-2: REQ005 Geofence breach action outcome unspecified (CRITICAL SAFETY)
+  - Missing: What does containment DO when breach detected?
+  - Impact: Aircraft could execute RTL (safe) or continue BVLOS (unsafe) inconsistently
+  - Rewrite includes: primary action (RTL), failover (climb-hold), response time (500ms)
+
+Observation-3: REQ006 Link loss outcome undefined (failover vs. crew takeover vs. RTL)
+  - Missing: What happens to aircraft when C2 link is lost?
+  - Impact: Three very different failure modes possible
+  - Rewrite includes: automatic failover (RTL), fallback (climb-hold), survival time (5 min)
+
+Observation-4: REQ007 Detect-and-avoid resolution action undefined
+  - Missing: What de-confliction algorithm is used (rule-based or ML)?
+  - Impact: Algorithm choice creates different assurance profiles
+  - Rewrite includes: mandate deterministic rule-based, exclude probabilistic
+
+Observation-5: REQ008 Swarm decision-making deviation outcome undefined
+  - Missing: What happens if swarm decision-making fails (deadlock, separation loss)?
+  - Impact: Undesired emergent behaviors not bounded
+  - Rewrite includes: Monte Carlo simulation bounding probability (< 0.1% deadlock, < 0.01% separation loss)
+
+Observation-6: REQ011 Flight termination post-outcome sub-actions undefined
+  - Missing: What happens after termination (crew alert, ATSU notify, data preserve)?
+  - Impact: Post-termination response unclear
+  - Rewrite includes: immediate ATSU notification, telemetry preservation, incident reporting
+
+================================================================================
+MISSING REQUIREMENTS (REQ017-REQ020)
+================================================================================
+
+Four critical requirements have NO user story and are only implied by regulation:
+
+REQ017: Public and Stakeholder Engagement (CAP 1616, GDPR)
+  - Missing: Community consultation, landowner notification, media relations, GDPR Privacy Notice
+  - New rewrite: Specifies 4 engagement components (Landowner, Community, Media, GDPR)
+    with timelines (30-day notice, 14-day comment period)
+  - Status: CRITICAL—trials lack stakeholder engagement outcomes
+
+REQ018: Security Classification Handling (CAP 722H, JSP 440)
+  - Missing: How classified MOD evidence is presented to CAA without compromise
+  - New rewrite: Specifies Security Classification Handling Plan with information barriers,
+    redaction rules, facility requirements, personnel clearances
+  - Status: CRITICAL—classified trials lack handling specification
+
+REQ019: Environmental Impact (noise, species disturbance, fire risk)
+  - Missing: Environmental assessment, noise limits, species protection, battery fire risk
+  - New rewrite: Specifies 3 assessment components (Noise, Species, Battery/Fire) with
+    numerical acceptance criteria (75 dB(A) day, 65 dB(A) night)
+  - Status: CRITICAL—environmental impact undefined
+
+REQ020: Post-Trial Assurance & Close-out (lessons-learned, evidence preservation, authorization closure)
+  - Missing: Post-trial process, lessons-learned workshop, evidence retention, technical debrief
+  - New rewrite: Specifies 4 components (Lessons-Learned Workshop, Evidence Preservation,
+    Technical Debrief, Authorisation Close-out) with timelines (30-day workshop, 2-year retention)
+  - Status: CRITICAL—post-trial assurance and organizational learning undefined
+
+================================================================================
+TERMINOLOGY CONSISTENCY ISSUES (Chris's Ubiquitous Language)
+================================================================================
+
+Synonym Collisions Identified:
+1. "complete" used in two meanings (Dorothy-8 CRITICAL)
+   - REQ001: artefact completeness
+   - REQ012: evidentiary completeness
+   Recommendation: Use distinct terms "Pack Completeness" and "Evidence Completeness"
+
+2. "safe" used without definition (REQ011)
+   - Undefined: free from unacceptable risk per what standard?
+   - Chris defines: Free from unacceptable risk per regulatory thresholds
+   Recommendation: Add to glossary with reference to CAA safety approval authority
+
+3. "meaningful control" vs "meaningful human control" (REQ010)
+   - Chris defines: Active, informed crew awareness with retained authority
+   - Vibe Requirement: Requires measurable engagement criteria (frequency, latency, windows)
+   Recommendation: Use single term "meaningful human control" with operationalized criteria
+
+4. "evidence" used in 4 contexts:
+   - Swarm-aware SORA evidence (REQ002)
+   - Emergent-behaviour evidence (REQ008)
+   - Explainability evidence (REQ009)
+   - Recorded evidence (REQ012)
+   Recommendation: Use specific term per context (SORA evidence, ML evidence, recorded evidence)
+
+================================================================================
+VAGUE QUALIFIERS PRESENT IN REQUIREMENTS
+================================================================================
+
+Vague Qualifier        | Count | REQs              | Severity
+"complete"            | 2     | REQ001, REQ012    | CRITICAL (synonym collision)
+"clear"              | 1     | REQ003            | MAJOR (need clarity criteria)
+"defensibly"         | 1     | REQ002            | CRITICAL (no defense standard)
+"appropriate"        | 1     | REQ005            | MAJOR (containment design)
+"meaningful"         | 1     | REQ010            | CRITICAL (no measures)
+"factually grounded" | 1     | REQ013            | MAJOR (no verification standard)
+"reversible"         | 1     | REQ016            | MAJOR (no reversal triggers)
+"resolved predictably"| 1    | REQ007            | CRITICAL (no algorithm type)
+
+RECOMMENDATION: Every vague qualifier must be defined operationally in SRS glossary 
+with measurable criteria, acceptance thresholds, and verification methods.
+
+================================================================================
+PASSIVE VOICE & MISSING ACTORS
+================================================================================
+
+REQ    | Passive Voice              | Missing Actor           | Impact
+REQ001 | "receive a complete pack"  | Who submits? System?    | Submission trigger unclear
+REQ005 | (implied) containment      | Who implements/verifies?| Design unspecified
+REQ006 | "monitored C2 links"       | Who monitors? Crew?     | Monitoring responsibility
+REQ010 | "meaningful control"       | Who assesses?           | Assessment authority unclear
+REQ012 | "complete recorded evidence"| Who records? System?   | Recording scope unclear
+REQ014 | "evidenced competency"     | Who assesses?           | Assessment authority unclear
+
+RECOMMENDATION: Rewrite in active voice specifying actor, action, and decision authority.
+
+================================================================================
+VERIFICATION STRATEGY BY REQUIREMENT TYPE
+================================================================================
+
+Gate Requirements (REQ001-REQ002, REQ004, REQ015, REQ016):
+  - Require explicit approval decision criteria (accept, return-for-clarification, refuse-with-reasons)
+  - Require documented evidence standards for each gate
+  - Status: 5/5 gateway REQs need outcome specification
+
+Safety-Critical Requirements (REQ005-REQ007, REQ011):
+  - Require specification of failure mode outcomes
+  - Require response time specifications
+  - Require verification through ground test + flight test
+  - Status: 4/4 safety REQs need outcome specification
+
+Assurance Requirements (REQ008-REQ010, REQ012-REQ014):
+  - Require measurable criteria (frequency, thresholds, success rates)
+  - Require documented assessment methods
+  - Status: 6/6 assurance REQs need measurable criteria
+
+Regulatory Requirements (REQ017-REQ020):
+  - Require specification of process (who, when, how)
+  - Require documented evidence standards
+  - Status: 4/4 regulatory REQs missing entirely from user stories
+
+================================================================================
+IEEE 830-1998 COMPLIANCE STATUS
+================================================================================
+
+Unambiguous Requirement Definition:
+  - Requirement: Every requirement must have only ONE interpretation
+  - Current Status: FAIL - 20 findings identify multiple interpretations per REQ
+  - Examples: "complete" (2 meanings), "defensibly" (undefined), "meaningful" (5 different measures)
+
+Testability:
+  - Requirement: Each requirement must be verifiable/testable
+  - Current Status: FAIL - 10+ REQs lack acceptance criteria (cannot test if requirement is met)
+  - Examples: "defensive" SORA (no defense criteria), "meaningful" control (no measures)
+
+Completeness:
+  - Requirement: SRS must cover all relevant features and constraints
+  - Current Status: FAIL - 4 critical requirements (REQ017-REQ020) missing from user stories
+  - Examples: Public engagement, classified information handling, environmental impact, post-trial closure
+
+Consistency:
+  - Requirement: No contradictions or conflicting requirements
+  - Current Status: FAIL - 2 critical synonym collisions ("complete", "evidence")
+
+Traceability:
+  - Requirement: Each requirement must link to source and rationale
+  - Current Status: PASS - 20 REQs traced to user stories; 20 findings traced to DeFOSPAM
+
+================================================================================
+RECOMMENDATIONS FOR SRS FINALIZATION
+================================================================================
+
+PHASE 1: BLOCKING ISSUES (Must resolve before trial authorization)
+  1. Separate "complete" into "Pack Completeness" vs. "Evidentiary Completeness"
+  2. Define "swarm-aware" with 3 evidence components
+  3. Define "defensibly" with JARUS methodology + GSN requirement
+  4. Define "worst-credible behaviour" with single-failure assumption
+  5. Specify "automatic containment" with boundary tolerance + response time
+  6. Define "forensically explainable" ML with realistic standard (not perfect reconstruction)
+  7. Specify "frozen-model manifest" contents and retention (2 years minimum)
+  8. Operationalize "meaningful human control" with measurable criteria
+  9. Mandate "deterministic rule-based" de-confliction (exclude probabilistic)
+  10. Specify "link loss survivable" with time thresholds and failover actions
+
+PHASE 2: CRITICAL GAPS (Must add to SRS before gate approval)
+  11. Add explicit outcomes for incomplete submissions (REQ001 return-for-clarification)
+  12. Add geofence breach response outcome (REQ005 containment action)
+  13. Add C2 link loss failure modes (REQ006 failover behavior)
+  14. Add de-confliction algorithm specification (REQ007 determinism)
+  15. Add emergent behavior variance bounds (REQ008 Monte Carlo criteria)
+  16. Add flight termination post-outcome actions (REQ011 crew/ATSU procedures)
+  17. Add REQ017 (Public & Stakeholder Engagement) - CAP 1616, GDPR
+  18. Add REQ018 (Security Classification Handling) - CAP 722H, JSP 440
+  19. Add REQ019 (Environmental Impact Assessment) - noise, species, fire risk
+  20. Add REQ020 (Post-Trial Assurance & Close-out) - lessons-learned, evidence preservation
+
+PHASE 3: QUALITY IMPROVEMENTS (Should improve before SRS finalization)
+  21. Rewrite passive voice in REQ001, REQ006, REQ010, REQ012, REQ014 (specify actors)
+  22. Fix grammatical errors (REQ009, REQ011 missing conjunctions)
+  23. Define all vague qualifiers in glossary (complete, clear, defensibly, meaningful, etc.)
+  24. Establish common definition of "evidence" across 4 contexts (SORA, ML, recorded, etc.)
+  25. Specify measurement/verification methods for all gate requirements
+
+PHASE 4: TRAINING & COMMUNICATION (Required for consistent implementation)
+  26. Conduct SRS interpretation workshop with CAA staff (case officers, SORA assessors, 
+      safety reviewers, human factors inspectors) to align on requirement expectations
+  27. Document precedent decisions from prior BVLOS/swarm trials to support "defensibly" criterion
+  28. Develop SRS reference card (1 page) summarizing acceptance criteria per requirement type
+  29. Establish SRS versioning procedure for future trials (lessons-learned feedback loop)
+
+================================================================================
+FILE OUTPUTS
+================================================================================
+
+1. odin-rewrites.json
+   - 20 IEEE 830-style rewrites (one per REQ001-REQ020)
+   - Each includes: original text, ambiguities detected, formal rewrite with shall/should/may,
+     glossary terms used, remaining ambiguity notes
+   - Format: JSON array of rewrite objects
+   - Usage: Reference for SRS finalization team
+
+2. odin-findings.json
+   - 20 critical findings (confidence >= 7)
+   - Each includes: finding title, type (vague_qualifier, undefined_term, passive_voice, 
+     synonym_collision, multiple_interpretation, missing_outcome, conjunction_ambiguity,
+     negation_trap), confidence (7-10), severity (critical/major/minor), original text,
+     ambiguity explanation, proposed rewrite, glossary terms, reasoning, recommendation
+   - Format: JSON array of finding objects
+   - Usage: Reference for resolving ambiguities in structured workshop
+
+3. ODIN-ANALYSIS-SUMMARY.txt (this file)
+   - Executive summary of analysis
+   - Top 3 pervasive ambiguities
+   - Critical findings breakdown
+   - Missing requirements identification
+   - Terminology consistency issues
+   - IEEE 830-1998 compliance status
+   - Recommendations for SRS finalization
+   - File outputs documentation
+
+================================================================================
+ANALYST NOTES
+================================================================================
+
+The 20 BVLOS swarm trial authorization requirements show systematic patterns of:
+
+1. DOMAIN SPECIALIZATION: Terms like "swarm-aware", "emergent behaviour", "forensically 
+   explainable" are borrowed from specialized domains (swarm robotics, AI safety, autonomy 
+   assurance) without clear definitions for regulatory context. Cross-domain terminology 
+   requires explicit glossary definitions.
+
+2. VAGUENESS IN GATE DECISIONS: Requirements that gate major decisions (SORA assessment, 
+   authorization, trials) use vague qualifiers ("defensibly", "meaningful", "complete") 
+   without objective acceptance criteria. These create regulatory inconsistency when different 
+   decision-makers apply different thresholds.
+
+3. MISSING FAILURE MODES: User stories specify desired outcomes (receive pack, open case) 
+   but omit failure outcomes (incomplete pack, containment breach). Safety-critical systems 
+   MUST specify both nominal and off-nominal behavior.
+
+4. INCOMPLETE REQUIREMENTS: Four critical requirements (REQ017-REQ020) affecting public 
+   engagement, classified information, environmental impact, and post-trial closure are 
+   completely missing from user stories. These are regulatory mandates (CAP 1616, GDPR, 
+   CAP 722H) but invisible in SRS.
+
+5. PASSIVE VOICE OBSCURING RESPONSIBILITY: Requirements like "receive a complete pack" and 
+   "evidenced competency" hide the actor responsible for action. Active voice clarifies 
+   who does what.
+
+The rewrites in odin-rewrites.json address all 20 identified issues by:
+- Operationalizing vague qualifiers with measurable criteria
+- Defining undefined terms with explicit acceptance standards
+- Specifying failure mode outcomes (return-for-clarification, failover actions, etc.)
+- Adding missing requirements (REQ017-REQ020) with process specifications
+- Using active voice with explicit actors and decision authorities
+- Referencing regulatory standards (JARUS, CAA, JSP 440, GDPR) for defensibility
+
+These rewrites should serve as templates for SRS finalization and can be validated 
+through structured review by domain experts (SORA assessors, safety engineers, human 
+factors specialists, regulators).
+
+================================================================================
+END OF ANALYSIS
+================================================================================
+
+Generated by Odin, Ambiguity Analyst
+Claude Haiku 4.5
+2026-04-23

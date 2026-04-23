@@ -1,0 +1,248 @@
+{
+  "suites": {
+    "smoke": {
+      "description": "Critical-path scenarios run on every commit. Validates essential safety and regulatory gates that must pass for any code change. Target: <5 minutes, blocking merge.",
+      "target_duration_seconds": 300,
+      "scenario_ids": [
+        "RSPEC-001",
+        "RSPEC-002",
+        "RSPEC-006",
+        "RSPEC-015",
+        "RSPEC-020",
+        "RSPEC-022",
+        "RSPEC-038",
+        "RSPEC-055",
+        "RSPEC-063",
+        "RSPEC-067"
+      ],
+      "scenario_count": 10,
+      "trigger": "on-commit",
+      "blocking": true,
+      "notification_channel": "slack-workbench-ci",
+      "required_check": true,
+      "recovery_policy": "auto-retry × 3 on transient failure; block merge on persistent failure; human ack required to override",
+      "rationale": "Smoke suite covers the keystone workflows: Submission Readiness (RSPEC-001), PackCompleteness happy path (RSPEC-002), Swarm-Aware SORA assessment (RSPEC-006), Geofence breach action (RSPEC-015), C2 consensus timeout (RSPEC-020), DAA performance (RSPEC-022), Flight Termination (RSPEC-038), CAA/MAA Apportionment (RSPEC-055), Classification handling (RSPEC-063), and Panel-action audit trail (RSPEC-067). These represent critical regulatory and safety gates that must never regress."
+    },
+    "regression": {
+      "description": "All scenarios in smoke plus major-severity scenarios and AC/keystone refusal paths. Run on merge to main; validates completeness and boundary behavior. Target: <30 minutes, blocking release.",
+      "target_duration_seconds": 1800,
+      "scenario_ids": [
+        "RSPEC-001", "RSPEC-002", "RSPEC-003", "RSPEC-004", "RSPEC-005",
+        "RSPEC-006", "RSPEC-007", "RSPEC-008", "RSPEC-009", "RSPEC-010",
+        "RSPEC-011", "RSPEC-012", "RSPEC-013", "RSPEC-014", "RSPEC-015",
+        "RSPEC-016", "RSPEC-017", "RSPEC-018", "RSPEC-019", "RSPEC-020",
+        "RSPEC-021", "RSPEC-022", "RSPEC-023", "RSPEC-024", "RSPEC-025",
+        "RSPEC-026", "RSPEC-027", "RSPEC-028", "RSPEC-029", "RSPEC-030",
+        "RSPEC-031", "RSPEC-032", "RSPEC-033", "RSPEC-034", "RSPEC-035",
+        "RSPEC-036", "RSPEC-037", "RSPEC-038", "RSPEC-039", "RSPEC-040",
+        "RSPEC-041", "RSPEC-042", "RSPEC-043", "RSPEC-044", "RSPEC-045",
+        "RSPEC-046", "RSPEC-047", "RSPEC-048", "RSPEC-049", "RSPEC-050",
+        "RSPEC-051", "RSPEC-052", "RSPEC-053", "RSPEC-054", "RSPEC-055"
+      ],
+      "scenario_count": 55,
+      "trigger": "on-merge-to-main",
+      "blocking": true,
+      "notification_channel": "slack-workbench-ci",
+      "required_check": true,
+      "recovery_policy": "auto-retry × 2 on transient; human ack required to merge on failure (except smoke-level tests auto-retry × 3)",
+      "rationale": "Regression suite covers all major-priority scenarios (REQ001-REQ015 acceptance paths and error paths). Includes twin-sample scenarios (Scotland approval vs SORA refusal end-to-end), all AC1-AC8 pass/fail paths, geofence/C2/termination failure modes, panel override audit trails, apportionment and classification handling. Runs before merge to main to ensure release readiness."
+    },
+    "full": {
+      "description": "All 69 scenarios plus NFR gates and performance endurance tests. Run nightly and on release; validates edge cases, soak tests, and performance SLAs. Target: <2 hours, informational.",
+      "target_duration_seconds": 7200,
+      "scenario_ids": [
+        "RSPEC-001", "RSPEC-002", "RSPEC-003", "RSPEC-004", "RSPEC-005",
+        "RSPEC-006", "RSPEC-007", "RSPEC-008", "RSPEC-009", "RSPEC-010",
+        "RSPEC-011", "RSPEC-012", "RSPEC-013", "RSPEC-014", "RSPEC-015",
+        "RSPEC-016", "RSPEC-017", "RSPEC-018", "RSPEC-019", "RSPEC-020",
+        "RSPEC-021", "RSPEC-022", "RSPEC-023", "RSPEC-024", "RSPEC-025",
+        "RSPEC-026", "RSPEC-027", "RSPEC-028", "RSPEC-029", "RSPEC-030",
+        "RSPEC-031", "RSPEC-032", "RSPEC-033", "RSPEC-034", "RSPEC-035",
+        "RSPEC-036", "RSPEC-037", "RSPEC-038", "RSPEC-039", "RSPEC-040",
+        "RSPEC-041", "RSPEC-042", "RSPEC-043", "RSPEC-044", "RSPEC-045",
+        "RSPEC-046", "RSPEC-047", "RSPEC-048", "RSPEC-049", "RSPEC-050",
+        "RSPEC-051", "RSPEC-052", "RSPEC-053", "RSPEC-054", "RSPEC-055",
+        "RSPEC-056", "RSPEC-057", "RSPEC-058", "RSPEC-059", "RSPEC-060",
+        "RSPEC-061", "RSPEC-062", "RSPEC-063", "RSPEC-064", "RSPEC-065",
+        "RSPEC-066", "RSPEC-067", "RSPEC-068", "RSPEC-069"
+      ],
+      "scenario_count": 69,
+      "trigger": "nightly-0200-utc",
+      "trigger_also": "on-release-tag",
+      "blocking": false,
+      "notification_channel": "slack-workbench-ci, email-leads",
+      "required_check": false,
+      "recovery_policy": "no auto-retry; PagerDuty alert on failure if release-blocking; manual investigation required",
+      "rationale": "Full suite validates all 69 refined scenarios including Isabel's examples, all AC1-AC8 paths, all K1-K8 keystones, NFR gates (soak tests, stress tests, spike tests per Cerf Phase 4-7), classification boundary scenarios across all tiers, and 24h endurance extract. Runs nightly for early detection of issues; mandatory before release. Performance gates (Gate 1-8 from openperformance) integrated as parallel checks."
+    }
+  },
+  "ci_cd_integration": {
+    "platform": "GitHub Actions (primary) with GitLab CI mirror option",
+    "artefacts": [
+      "junit.xml (test results)",
+      "allure-report (HTML dashboard)",
+      "perf-timeline.json (Cerf Phase latency histograms)",
+      "coverage-matrix-output.json (classification coverage)",
+      "flake-register.json (30-day rolling flake rate)"
+    ],
+    "dashboard": "Allure Report (hosted in CI artifacts) with custom panels: pass rate by feature, avg exec time, flake rate, coverage % by REQ/AC/Keystone, clause-library version pin, override rate (calibration loop)",
+    "performance_gates": [
+      "Gate 1 — Unit perf budget: All workbench unit tests <100ms p95",
+      "Gate 2 — Integration setup latency: Workspace creation <3s p95 (Noyce NFR-LAT-001)",
+      "Gate 3 — 1h load baseline: 50 concurrent users, p95 latency <3.5s (Ada NFR-CAP-WB-001)",
+      "Gate 4 — Stress gate (2x peak): Graceful degradation, recovery <15min (NFR-END-WB-002)",
+      "Gate 5 — 96h soak: <5% latency drift, zero connection leaks (NFR-END-WB-001)",
+      "Gate 6 — Audit log write latency p95 stable <500ms (panel override audit trail criticality per Isabel EX-011)",
+      "Gate 7 — Coverage matrix inference <5s per batch (classification tier transitions; 95th percentile)",
+      "Gate 8 — Evidence store PUT throughput >3 MB/s (spike gate per Noyce NFR-LAT-002)"
+    ],
+    "required_checks_on_pr": [
+      "Smoke suite (blocks merge)",
+      "Twin-sample regression (Scotland approval vs SORA refusal end-to-end)",
+      "Code review (manual, targeting flakiness-risk scenarios)"
+    ],
+    "required_checks_on_main_merge": [
+      "Regression suite (blocks release)",
+      "Allure pass rate by feature (>95% threshold)",
+      "Performance Gate 3 (1h load baseline must pass)"
+    ],
+    "required_checks_on_release": [
+      "Full suite (nightly pre-release baseline)",
+      "All Performance Gates 1-8 passed in last 7 days",
+      "Clause-library version pin documented in release notes",
+      "Flake rate <2% across all scenarios in last 30 days"
+    ]
+  },
+  "reliability_register": [
+    {
+      "scenario_id": "RSPEC-006",
+      "scenario_title": "Swarm-Aware SORA SAIL mismatch",
+      "flake_risk": "high",
+      "risk_factors": ["non_deterministic_ai", "state_dependent", "external_dependency"],
+      "mitigation": "Use test double for SORA assessor (fixed decision tree per JARUS SORA v2.5 Appendix C); snapshot test SAIL assignment with ±1 SAIL level tolerance; mock CAA SORA guidance API with frozen v2.5 schema; run twice per week to detect assessor variability"
+    },
+    {
+      "scenario_id": "RSPEC-015",
+      "scenario_title": "Geofence breach action RTL timing",
+      "flake_risk": "medium",
+      "risk_factors": ["timing_sensitive", "state_dependent"],
+      "mitigation": "Mock GPS/GCS; inject breach at deterministic time t=100ms; accept RTL latency 400-600ms range (80% tolerance); snapshot test p95 latency vs baseline ±50ms; run on dedicated test instance"
+    },
+    {
+      "scenario_id": "RSPEC-020",
+      "scenario_title": "C2 loss swarm consensus non-determinism",
+      "flake_risk": "high",
+      "risk_factors": ["timing_sensitive", "non_deterministic_ai", "state_dependent"],
+      "mitigation": "Seed RNG with fixed value; inject deterministic aircraft ordering; snapshot test consensus outcome (MAINTAIN_ALTITUDE vs RTL) with consistency across 3 runs; allow either safe outcome but require run-to-run consistency"
+    },
+    {
+      "scenario_id": "RSPEC-022",
+      "scenario_title": "DAA ML confidence scoring variance",
+      "flake_risk": "high",
+      "risk_factors": ["non_deterministic_ai", "external_dependency"],
+      "mitigation": "Mock DAA detector with frozen v2.0 model; fix sensor noise seed; snapshot test climb decision (YES/NO) and confidence 95-100% acceptable; allow ±5% confidence variance but not decision variance; 2x retry on divergence"
+    },
+    {
+      "scenario_id": "RSPEC-038",
+      "scenario_title": "RF kill-switch latency variability",
+      "flake_risk": "high",
+      "risk_factors": ["timing_sensitive", "external_dependency"],
+      "mitigation": "Mock RF transceiver (50±10ms) and motor controller (50±30ms); snapshot test kill latency p95 <350ms (hard safety limit); 3x retry; escalate to hardware team if any run exceeds 350ms"
+    },
+    {
+      "scenario_id": "RSPEC-055",
+      "scenario_title": "CAA/MAA apportionment policy version coupling",
+      "flake_risk": "medium",
+      "risk_factors": ["state_dependent", "external_dependency"],
+      "mitigation": "Mock CAA/MAA signatories; use frozen policy version (e.g., CAP 722D v3.1); snapshot test matrix structure; alert on live API version mismatch; 2x retry on policy version divergence"
+    },
+    {
+      "scenario_id": "RSPEC-063",
+      "scenario_title": "Classification ML detection edge cases",
+      "flake_risk": "high",
+      "risk_factors": ["external_dependency", "state_dependent"],
+      "mitigation": "Mock Artefact Detector with fixed ML model v1.0; test: SECRET (100%), OFFICIAL-SENSITIVE (80%+), OFFICIAL (<10%); snapshot test outcome (not confidence); allow ±5% confidence variance; 3x retry on outcome divergence"
+    },
+    {
+      "scenario_id": "RSPEC-067",
+      "scenario_title": "Audit log write latency database contention",
+      "flake_risk": "medium",
+      "risk_factors": ["timing_sensitive", "state_dependent"],
+      "mitigation": "Run in isolated database instance; snapshot test p95 latency <600ms (safety margin); 2x retry on lock; alert if degradation >100ms detected"
+    },
+    {
+      "scenario_id": "RSPEC-001",
+      "scenario_title": "Submission Readiness Check",
+      "flake_risk": "low",
+      "risk_factors": [],
+      "mitigation": "Stateless validation; no external dependencies; deterministic input-output mapping"
+    },
+    {
+      "scenario_id": "RSPEC-002",
+      "scenario_title": "PackCompleteness happy path",
+      "flake_risk": "low",
+      "risk_factors": [],
+      "mitigation": "Stateless artefact detection; mocked file presence checks; deterministic"
+    }
+  ],
+  "dashboard_design": {
+    "panels": [
+      {
+        "panel_name": "pass_rate_by_feature",
+        "description": "Overall pass % per feature (F01-F30) across all suites; highlights regression vectors",
+        "metric": "Passed / Total scenarios per feature",
+        "threshold": ">95% for smoke, >90% for regression",
+        "update_frequency": "per test run"
+      },
+      {
+        "panel_name": "avg_exec_time_by_suite",
+        "description": "Average execution time per scenario; highlights slow tests",
+        "metric": "p50, p95 latency per scenario",
+        "threshold": "<300s (smoke), <1800s (regression), <7200s (full)",
+        "update_frequency": "per test run"
+      },
+      {
+        "panel_name": "flake_rate_30d_rolling",
+        "description": "Pass % variance across last 30 days per scenario; identifies intermittent failures",
+        "metric": "Std dev of daily pass rate; scenarios with >5% variance flagged",
+        "threshold": "<2% variance acceptable, >5% requires mitigation",
+        "update_frequency": "daily"
+      },
+      {
+        "panel_name": "coverage_by_req_ac_keystone",
+        "description": "Coverage % of regulatory clauses (REQ001-REQ020), AC1-AC8 paths, and K1-K8 keystones",
+        "metric": "Scenarios covering REQ-X / Total REQ-X scenarios * 100%",
+        "threshold": ">95% for critical REQs, >90% for major",
+        "update_frequency": "per regression run"
+      },
+      {
+        "panel_name": "clause_lib_version_pin",
+        "description": "Clause library version used in each test run; tracks regulatory version tested",
+        "metric": "Clause lib version string per run (e.g., '2.1', '2.2-rc1')",
+        "threshold": "All runs on same version (or document version mismatch)",
+        "update_frequency": "per test run"
+      },
+      {
+        "panel_name": "override_calibration_rate",
+        "description": "Panel override rate and override audit trail completeness",
+        "metric": "Override decisions / Total panel decisions * 100%; audit trail presence %",
+        "threshold": "<5% override rate (healthy governance), 100% audit trail logging",
+        "update_frequency": "per full suite run"
+      },
+      {
+        "panel_name": "perf_gate_status",
+        "description": "Status of all 8 performance gates (Gate 1-8); red/yellow/green per gate",
+        "metric": "Gate pass/fail; latency histogram p95 vs threshold per gate",
+        "threshold": "All gates green for release readiness",
+        "update_frequency": "per nightly run"
+      },
+      {
+        "panel_name": "classification_tier_coverage",
+        "description": "Scenario coverage across classification tiers (OFFICIAL, OFFICIAL-SENSITIVE, SECRET)",
+        "metric": "Scenarios per tier / Total scenarios * 100%",
+        "threshold": ">80% of classification scenarios test all 3 tiers",
+        "update_frequency": "per full suite run"
+      }
+    ]
+  }
+}

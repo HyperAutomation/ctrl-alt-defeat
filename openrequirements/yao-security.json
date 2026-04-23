@@ -1,0 +1,282 @@
+[
+  {
+    "requirement_id": "NFR-SEC-001",
+    "domain": "workbench",
+    "feature": "TLS termination at CDN edge",
+    "security_performance": {
+      "control": "TLS",
+      "latency_overhead_ms": 5,
+      "throughput_impact_percent": 0,
+      "rate_limit_rps": 0,
+      "noyce_budget_share_percent": 5
+    },
+    "reasoning": "TLS 1.3 with session resumption adds ~5 ms on new connections; negligible on keep-alive. CAA/MAA Workbench handles classified material (OFFICIAL/OFFICIAL-SENSITIVE/SECRET/STRAP), so TLS is mandatory. UK-sovereign CDN providers (Zenlayer, Cloudflare private core) terminate TLS at edge to minimize latency impact on applicant portal. Noyce NFR-LAT-001 budgets 100 ms for 'network + CDN'; TLS overhead is absorbed within that budget.",
+    "recommendation": "Use TLS 1.3 with ECDHE + AES-GCM. Enable session tickets for 1-hour resumption window. Monitor certificate validation latency via synthetic tests. Acceptable at current 5 ms overhead."
+  },
+  {
+    "requirement_id": "NFR-SEC-002",
+    "domain": "workbench",
+    "feature": "WAF inspection (applicant portal ingress)",
+    "security_performance": {
+      "control": "WAF",
+      "latency_overhead_ms": 15,
+      "throughput_impact_percent": 2,
+      "rate_limit_rps": 0,
+      "noyce_budget_share_percent": 15
+    },
+    "reasoning": "ModSecurity-compatible WAF (e.g., AWS WAFv2, UK Crown Commercial Service approved) inspects inbound applicant requests. Typical overhead: 10-30 ms depending on rule depth. CAA Workbench requires deep inspection of evidence uploads for malicious PDF/Office payloads and SQL injection patterns, so ruleset is non-trivial. Noyce NFR-LAT-001 'web_server_auth' budgets 200 ms; WAF adds 15 ms (~7.5% of that component). Applicant portal has high attack surface (credential-stuffing, large-payload DoS); WAF rule set should be defensive but not severe.",
+    "recommendation": "Enable WAF with OWASP CRS 3.3.2 baseline + custom rules for malicious document detection. Baseline latency ~10 ms; monitor and tune to stay under 20 ms p95. Cache WAF decisions per source IP to reduce overhead on repeated requests."
+  },
+  {
+    "requirement_id": "NFR-SEC-003",
+    "domain": "workbench",
+    "feature": "OAuth 2.1 / OIDC authentication (MOD + CAA IdP)",
+    "security_performance": {
+      "control": "AuthN",
+      "latency_overhead_ms": 50,
+      "throughput_impact_percent": 0,
+      "rate_limit_rps": 0,
+      "noyce_budget_share_percent": 25
+    },
+    "reasoning": "PKCE-based OAuth 2.1 with MOD IdP (classified users) and CAA IdP (civil users). First auth per session: 150-250 ms (IdP round-trip + JWT validation). Cached sessions: <5 ms. Noyce NFR-LAT-001 'web_server_auth' budgets 200 ms; first-auth at p95 is 100 ms overhead. Critical risk: IdP outage becomes single point of failure. Sessions are stateful for panel-facing endpoints and stateless for applicant portal. Classification tier transitions require re-authentication at higher tier (cannot cross-auth).",
+    "recommendation": "Cache OAuth tokens for 1-hour TTL with refresh-token rotation. Use distributed cache (Redis Cluster) to support multi-region failover. Implement graceful degradation: if IdP is down >30s, serve cached token for low-risk applicant actions (read-only). Monitor IdP latency with synthetic tests; set SLA alert if p95 > 100 ms. Separate IdP endpoints for MOD (classified) and CAA (civil) to enable independent failover."
+  },
+  {
+    "requirement_id": "NFR-SEC-004",
+    "domain": "workbench",
+    "feature": "Role-Based Access Control (RBAC) + classification boundary check",
+    "security_performance": {
+      "control": "AuthZ",
+      "latency_overhead_ms": 20,
+      "throughput_impact_percent": 1,
+      "rate_limit_rps": 0,
+      "noyce_budget_share_percent": 10
+    },
+    "reasoning": "RBAC decision + classification level check (OFFICIAL vs OFFICIAL-SENSITIVE vs SECRET) on every authorised action. Typical overhead: 15-30 ms (policy evaluation + cache lookup). Noyce NFR-LAT-009 'classification_check_inline' budgets 150 ms for panel-action audit write; RBAC + classification check is part of that. Workbench enforces clearance-level boundaries: a RESTRICTED-USER cannot view SECRET-marked evidence even if RBAC permits. Cache RBAC decisions per user session to amortize cost.",
+    "recommendation": "Use cached RBAC decisions (5-minute TTL) + inline classification check. Pre-compute classification boundary matrix on session init to avoid repeated computation. Monitor AuthZ cache hit rate; target >90%. Flag any AuthZ decision >30 ms as anomaly."
+  },
+  {
+    "requirement_id": "NFR-SEC-005",
+    "domain": "workbench",
+    "feature": "Classification marking validation on document read (OFFICIAL/SENSITIVE/SECRET)",
+    "security_performance": {
+      "control": "classification",
+      "latency_overhead_ms": 25,
+      "throughput_impact_percent": 3,
+      "rate_limit_rps": 0,
+      "noyce_budget_share_percent": 30
+    },
+    "reasoning": "On evidence download or audit log read, system must validate and mark classification headers (Content-Type, x-gov-uk-classification). PDF metadata and metadata stripping adds latency. Noyce NFR-LAT-002 'content_classification' budgets 2000 ms for initial upload; subsequent reads are cheaper (<50 ms per document per Noyce guidance). Noyce NFR-LAT-017 'classification_boundary_check' budgets 500 ms out of 5000 ms total search latency. Classification validation is critical security control; cannot be skipped even at performance cost.",
+    "recommendation": "Validate classification on first read from database; cache result with TTL=1 hour. Batch classification checks for bulk exports (e.g., decision record PDF). Monitor classification validation latency; set SLA alert if p95 > 50 ms per document. Use asynchronous metadata marking for non-blocking workflow."
+  },
+  {
+    "requirement_id": "NFR-SEC-006",
+    "domain": "workbench",
+    "feature": "Encryption at rest (AES-256 GCM per classification tier)",
+    "security_performance": {
+      "control": "encryption",
+      "latency_overhead_ms": 30,
+      "throughput_impact_percent": 2,
+      "rate_limit_rps": 0,
+      "noyce_budget_share_percent": 15
+    },
+    "reasoning": "Evidence database and audit logs encrypted at rest with AES-256 GCM. Key hierarchy: per-classification-tier keys (OFFICIAL key, SENSITIVE key, SECRET key). Decryption on read adds 20-50 ms depending on key fetching from external HSM. Noyce NFR-LAT-006 'evidence_metadata_load' budgets 1500 ms for case assembly; encryption overhead is ~2% of that. Parent NFR requires handling SECRET material on UK sovereign infrastructure; GCHQ standards demand encryption.",
+    "recommendation": "Use AWS KMS or UK Crown-hosted HSM with 1-second key fetch SLA. Pre-load decryption keys into application memory at session init (with secure purging). For large bulk exports (500 MB), use streaming decryption to avoid memory exhaustion. Monitor HSM latency; alert if key fetch >100 ms."
+  },
+  {
+    "requirement_id": "NFR-SEC-007",
+    "domain": "workbench",
+    "feature": "Evidence chain-of-custody hash verification (SHA-256)",
+    "security_performance": {
+      "control": "audit_log",
+      "latency_overhead_ms": 100,
+      "throughput_impact_percent": 5,
+      "rate_limit_rps": 0,
+      "noyce_budget_share_percent": 40
+    },
+    "reasoning": "When panel opens a case, system verifies hash chain of all evidence artefacts to detect tampering. Noyce NFR-LAT-006 'case_open' budgets 10 seconds end-to-end. Hash verification for typical 100 MB pack: 50-500 ms (CPU-bound SHA-256 + I/O). This is a high-confidence forensic control; latency cannot be sacrificed. Parallel hash verification across multiple CPU cores is essential. MOR/AAIB incident response depends on provable evidence integrity.",
+    "recommendation": "Use parallel SHA-256 verification (one thread per 10 MB chunk). Cache hash results per artefact ID. For case-open path (Noyce NFR-LAT-006), pre-compute hashes during upload (Noyce NFR-LAT-002) and store in fast cache. Monitor hash verification latency; target <200 ms p95 for 100 MB pack. Flag any mismatched hash as security incident requiring immediate escalation to CISO."
+  },
+  {
+    "requirement_id": "NFR-SEC-008",
+    "domain": "workbench",
+    "feature": "Audit log write with cryptographic timestamp (RFC 3161 TSA)",
+    "security_performance": {
+      "control": "audit_log",
+      "latency_overhead_ms": 100,
+      "throughput_impact_percent": 0,
+      "rate_limit_rps": 0,
+      "noyce_budget_share_percent": 50
+    },
+    "reasoning": "Every panel action (flag, comment, decision change) must be written to immutable distributed audit log with cryptographic timestamp from external RFC 3161 Time Stamp Authority. Noyce NFR-LAT-009 'panel-action log write' budgets 500 ms p95 end-to-end. TSA round-trip adds 80-150 ms. This is non-negotiable for forensic audit trail; incident investigation and Service Inquiry depend on proving exact sequence and timing of decisions. Async TSA calls (fire-and-forget with retry) reduce impact to <50 ms on user-facing latency.",
+    "recommendation": "Use asynchronous TSA call (non-blocking write to user, async timestamping in background). Implement retry logic with exponential backoff if TSA fails. Log TSA failures separately and alert if failure rate exceeds 1%. Use UK-based TSA (e.g., Post Office EDS or equivalent). Monitor TSA latency; set SLA alert if p95 > 120 ms. Store TSA tokens in immutable log for forensic audit."
+  },
+  {
+    "requirement_id": "NFR-SEC-009",
+    "domain": "workbench",
+    "feature": "MOR/DPIA redaction on export (REQ012)",
+    "security_performance": {
+      "control": "classification",
+      "latency_overhead_ms": 200,
+      "throughput_impact_percent": 10,
+      "rate_limit_rps": 0,
+      "noyce_budget_share_percent": 67
+    },
+    "reasoning": "Noyce NFR-LAT-010 'Decision record export' budgets 300 seconds (300,000 ms) for PDF generation. DPIA-driven redaction (removing sensitive personal/witness data from exported decision record) adds significant overhead. Redaction rules are complex: must identify PII patterns (names, addresses, contact info) and redact based on DPIA rules (Data Protection Act 2018 / UK GDPR). PDF rendering with embedded redactions is CPU-intensive. This is REQ012 overhead; cannot be skipped. Export latency p95 66,000 ms suggests 200 ms redaction overhead (67% of typical decision-record component latency).",
+    "recommendation": "Implement redaction as async background process: generate unredacted PDF immediately, stream to temporary storage, redact in background (SLA <30 min for completion). Provide download link with status polling. Cache redaction rules per DPIA determination to avoid re-computation. Monitor DPIA evaluation latency; target <200 ms per rule application. Test with representative 500 MB evidence packs to ensure p95 <300s remains achievable."
+  },
+  {
+    "requirement_id": "NFR-SEC-010",
+    "domain": "workbench",
+    "feature": "Applicant credential-stuffing mitigation (rate limiting)",
+    "security_performance": {
+      "control": "rate_limit",
+      "latency_overhead_ms": 5,
+      "throughput_impact_percent": 0,
+      "rate_limit_rps": 5,
+      "noyce_budget_share_percent": 2
+    },
+    "reasoning": "Applicant portal login endpoint rate-limited to 5 attempts/min per account, 20/min per IP. Rate-limit check is in-memory (Redis) and adds ~1-5 ms. This is a low-latency, high-impact control. Noyce NFR-LAT-001 'Applicant workspace creation' would not be affected by rate limiting on login (login is separate path). Rate limiting is essential for defending against automated credential-stuffing attacks against applicant accounts (civil servants submitting evidence packs).",
+    "recommendation": "Use distributed rate limiter (Redis with Lua scripting for atomic increments). Set rate limits: 5/min per account (account lockout after 3 failures), 20/min per IP. Implement exponential backoff: after 10 failures per account, require CAPTCHA or email verification. Monitor false-positive rate (legitimate users hitting limits); target <0.1%. Log all rate-limit violations and alert on >50 attempts/hour from single IP."
+  },
+  {
+    "requirement_id": "NFR-SEC-011",
+    "domain": "workbench",
+    "feature": "Evidence upload size limit enforcement (per-applicant quota)",
+    "security_performance": {
+      "control": "rate_limit",
+      "latency_overhead_ms": 2,
+      "throughput_impact_percent": 0,
+      "rate_limit_rps": 0,
+      "noyce_budget_share_percent": 1
+    },
+    "reasoning": "Evidence uploads limited to 500 MB per submission (Noyce NFR-LAT-002 typical case is 100 MB) with 2 concurrent uploads per applicant. Concurrent-upload check is enforced at app-server layer (in-memory semaphore) with <2 ms overhead. Prevents evidence-store exhaustion attacks. Noyce NFR-LAT-002 'Evidence upload throughput' assumes network upload is bottleneck (8000 ms); upload-size enforcement is protective gate, not performance bottleneck.",
+    "recommendation": "Enforce size limits at HTTP layer (Content-Length header check). Require pre-approval for >500 MB uploads via CAA case officer. Implement chunked upload with resumption to improve reliability on poor networks. Monitor upload quota violations; alert if >10% of submissions hit limits (may indicate broken client or DDoS)."
+  },
+  {
+    "requirement_id": "NFR-SEC-012",
+    "domain": "workbench",
+    "feature": "Clause library search rate limiting (100 req/min per user)",
+    "security_performance": {
+      "control": "rate_limit",
+      "latency_overhead_ms": 1,
+      "throughput_impact_percent": 0,
+      "rate_limit_rps": 100,
+      "noyce_budget_share_percent": 1
+    },
+    "reasoning": "Clause library is public read-only endpoint (OFFICIAL-tier auth gate). Rate limiting 100 requests/min per authenticated user prevents search-based enumeration attacks. Check is O(1) in-memory lookup; <1 ms overhead. Balances usability (100/min = 1.67 searches/second, adequate for human user) against DoS resilience. Global endpoint can handle 10,000 concurrent users at 100 req/min = 16,666 RPS capacity.",
+    "recommendation": "Rate limit at reverse-proxy layer (nginx, HAProxy) for minimal latency impact. Set limit 100/min per user; return HTTP 429 when exceeded. Provide Retry-After header with cooldown. Monitor clause-library search patterns; flag unusual query loads as potential enumeration attack. Whitelist high-volume legitimate users (e.g., CAA staff preparing guidance) with higher limits."
+  },
+  {
+    "requirement_id": "NFR-SEC-013",
+    "domain": "workbench",
+    "feature": "Slow-loris detection on classification boundary service",
+    "security_performance": {
+      "control": "rate_limit",
+      "latency_overhead_ms": 3,
+      "throughput_impact_percent": 0,
+      "rate_limit_rps": 0,
+      "noyce_budget_share_percent": 2
+    },
+    "reasoning": "Classification boundary checker is called for every evidence search (Noyce NFR-LAT-017). Slow-loris attack (attacker sends incomplete HTTP requests to exhaust server connections) could block legitimate searches. Request timeout enforcement (30s read timeout) + connection-timeout tracking adds ~3 ms per request. This is a thin but important protective layer. Attack surface is panel-facing; nation-state adversaries may probe during live panel windows.",
+    "recommendation": "Implement request timeout (30s per HTTP request body). Drop connections idle >5s in request phase. Use nginx/HAProxy connection-limit to cap concurrent connections per IP. Monitor connection state histogram; alert if >5% of connections are in incomplete-request state. Test slow-loris mitigation in security regression suite."
+  },
+  {
+    "requirement_id": "NFR-SEC-014",
+    "domain": "workbench",
+    "feature": "DDoS mitigation via CDN + WAF (applicant portal)",
+    "security_performance": {
+      "control": "rate_limit",
+      "latency_overhead_ms": 0,
+      "throughput_impact_percent": 0,
+      "rate_limit_rps": 100000,
+      "noyce_budget_share_percent": 0
+    },
+    "reasoning": "CDN (e.g., Cloudflare, Zenlayer UK) absorbs volumetric DDoS at edge; transparent to origin servers. WAF blocks malicious payloads. Applicant portal can withstand 100k RPS of volumetric DDoS (typical L3/L4 attack) with zero origin impact. No latency overhead for legitimate traffic. This is a critical resilience control given high public-sector attack surface (GCAP/Tempest targets, nation-state probing). Workbench is not expected to handle simultaneous evidence uploads from 100k applicants; DDoS capacity is insurance.",
+    "recommendation": "Contract with UK-sovereign CDN provider offering >=100 Gbps DDoS mitigation. Enable automatic DDoS detection and escalation. Provide manual override for anomaly detection (false positives may block legitimate bulk-upload events). Test DDoS resilience quarterly via red-team exercises. Monitor DDoS incident logs for patterns; escalate nation-state-like attacks to GCHQ."
+  },
+  {
+    "requirement_id": "NFR-SEC-015",
+    "domain": "swarm",
+    "feature": "C2 link encryption (TLS 1.3 + QUIC)",
+    "security_performance": {
+      "control": "TLS",
+      "latency_overhead_ms": 2,
+      "throughput_impact_percent": 0,
+      "rate_limit_rps": 0,
+      "noyce_budget_share_percent": 2
+    },
+    "reasoning": "Swarm C2 link (tactical uplink/downlink to aircraft) uses TLS 1.3 over QUIC for low-latency encryption. Noyce NFR-LAT-013 'C2 link latency' budgets 1000 ms p95 end-to-end. QUIC eliminates TCP handshake; TLS overhead is ~2 ms on encrypted packets (cipher suite negotiation is one-time at session start). Airborne autonomy demands tight latency budget; encryption overhead must be minimal.",
+    "recommendation": "Use QUIC transport with TLS 1.3 + AES-256-GCM or ChaCha20-Poly1305. Pre-compute session keys to avoid negotiation delay. Implement forward secrecy with ephemeral keys. Monitor C2 encryption latency; alert if >5 ms (anomaly). Conduct radio-link fidelity tests to ensure encryption does not introduce packet loss on poor links."
+  },
+  {
+    "requirement_id": "NFR-SEC-016",
+    "domain": "swarm",
+    "feature": "Command authentication and integrity verification (HMAC-SHA256)",
+    "security_performance": {
+      "control": "AuthN",
+      "latency_overhead_ms": 3,
+      "throughput_impact_percent": 0,
+      "rate_limit_rps": 0,
+      "noyce_budget_share_percent": 3
+    },
+    "reasoning": "Every airborne command from C2 station must be authenticated with HMAC-SHA256 and verified onboard. Verification adds ~3 ms per command on airborne compute (ARM Cortex, not high-end). Noyce NFR-LAT-016 'Flight termination command' budgets 500 ms total; HMAC verification is <3 ms. This is a hard-deadline safety-critical control; skipping verification would allow spoofed commands (e.g., false flight-termination). Adversary might attempt RF spoofing or jamming; authentication proves command came from authorized C2 station.",
+    "recommendation": "Use HMAC-SHA256 with per-session shared keys (rotated hourly). Implement replay detection (sequence numbers) to prevent command replay attacks. Verify HMAC in secure element (SEE) if available on airborne platform. Test command authentication on worst-case compute platforms (ARM Cortex-A53) to ensure <10 ms verification latency. Monitor authentication failures; escalate to C2 officer if >0.1% of commands fail verification."
+  },
+  {
+    "requirement_id": "NFR-SEC-017",
+    "domain": "swarm",
+    "feature": "Geofence boundary enforcement with mechanical failsafe",
+    "security_performance": {
+      "control": "AuthZ",
+      "latency_overhead_ms": 2,
+      "throughput_impact_percent": 0,
+      "rate_limit_rps": 0,
+      "noyce_budget_share_percent": 2
+    },
+    "reasoning": "Geofence boundary check (Noyce NFR-LAT-011) budgets 50 ms for 'geofence_boundary_check' + 100 ms 'decision_logic_execution'. Latitude/longitude comparison + decision logic is ~2 ms on airborne compute. Mechanical failsafe (physical spring-switch on thrust vectoring) activates if GPS is lost. This is REQ005 'automatic containment' control; latency is not primary concern (safety is), but must not degrade control-loop responsiveness.",
+    "recommendation": "Pre-compute geofence zones at mission upload time (avoid runtime math). Use fixed-point arithmetic for GPS comparison to minimize latency. Implement decision logic in deterministic real-time kernel (RTEMS or VxWorks) with bounded execution time. Test geofence enforcement with Monte Carlo simulation of GPS noise/multipath across ODD environment bounds. Conduct flight tests with deliberate geofence boundary violations to verify mechanical failsafe activation."
+  },
+  {
+    "requirement_id": "NFR-SEC-018",
+    "domain": "swarm",
+    "feature": "Onboard AI/ML model validation (frozen-model hash verification)",
+    "security_performance": {
+      "control": "encryption",
+      "latency_overhead_ms": 50,
+      "throughput_impact_percent": 0,
+      "rate_limit_rps": 0,
+      "noyce_budget_share_percent": 25
+    },
+    "reasoning": "Onboard ML inference (Noyce NFR-LAT-015, budgets 200 ms p95) must include model validation: SHA-256 hash of frozen model against certified manifest. REQ009 requires 'frozen-model manifest' and forensic explainability. Hash verification adds ~50 ms on airborne compute (single-threaded ARM). This is critical for detecting model tampering or corruption (adversary could attempt to load rogue ML weights). Cannot be skipped.",
+    "recommendation": "Pre-load frozen-model hash into secure element at mission upload. Verify model hash at each inference startup (before first decision). Store certified model manifest in firmware partition (read-only after signed boot). Log any hash mismatch and trigger flight-termination failsafe. Test model validation latency on target hardware (ARM Cortex-A72); ensure <100 ms per verification."
+  },
+  {
+    "requirement_id": "NFR-SEC-019",
+    "domain": "workbench",
+    "feature": "Post-incident forensic export (AAIB/Service Inquiry, fast path)",
+    "security_performance": {
+      "control": "audit_log",
+      "latency_overhead_ms": 5000,
+      "throughput_impact_percent": 0,
+      "rate_limit_rps": 0,
+      "noyce_budget_share_percent": 0
+    },
+    "reasoning": "Incident investigation (AAIB accident, Service Inquiry) requires fast export of decision records + audit logs + ML model frozen-manifest. Simple cases (clear decision, no redaction required) should be exportable within hours, not weeks. Noyce NFR-LAT-010 'Decision record export' is 5 minutes for normal export; forensic export fast-path targets 1 hour for simple cases (5000 ms = 5 seconds per decision within 1-hour window, manageable). Complex cases with extensive redaction may require weeks (classification escalation, witness protection concerns). Not a strict latency requirement, but a forensic-readiness expectation.",
+    "recommendation": "Pre-generate forensic export templates during normal case workflow. Cache decision records + immutable audit logs in fast-export format (protobuf or JSON). Implement fast-path export for simple cases (no redaction, single panelist, <100 MB evidence) with SLA <1 hour. For complex cases, escalate to CISO + legal team (weeks-long manual review may be necessary). Test forensic export latency quarterly with representative case data."
+  },
+  {
+    "requirement_id": "NFR-SEC-020",
+    "domain": "workbench",
+    "feature": "Red-team penetration testing (live system, non-disruptive)",
+    "security_performance": {
+      "control": "rate_limit",
+      "latency_overhead_ms": 20,
+      "throughput_impact_percent": 1,
+      "rate_limit_rps": 0,
+      "noyce_budget_share_percent": 10
+    },
+    "reasoning": "Parent story DoD requires red-team exercises against live Workbench during production operation (no taking system offline). Red-team probes (port scans, fuzzing, SQL injection attempts, credential-stuffing) will hit rate limits and WAF rules, adding latency variation. Synthetic monitoring must remain alert to red-team activity and not mistake it for incident. Expected red-team overhead: 20 ms per probe on average, 1% throughput variance (some probes blocked or delayed). This is operationally acceptable if red-team and SOC are coordinated.",
+    "recommendation": "Schedule red-team exercises during low-volume windows (off-peak hours, weekends if possible). Coordinate with SOC and incident response team. Tag red-team traffic with special User-Agent or X-Red-Team header so SOC can exclude from alerts. Implement synthetic monitoring that remains alert during red-team exercises. After red-team exercise, conduct post-mortem to improve detection and response. Monitor red-team latency impact; ensure p95 latency does not exceed SLA even during exercises."
+  }
+]

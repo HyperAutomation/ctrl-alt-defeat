@@ -1,0 +1,474 @@
+[
+  {
+    "requirement_id": "NFR-CAP-WB-001",
+    "domain": "workbench",
+    "feature": "application intake and submission handling",
+    "capacity_model": {
+      "concurrent_users": {
+        "average": 15,
+        "peak": 25
+      },
+      "transactions_per_hour": {
+        "average": 12,
+        "peak": 30
+      },
+      "data_volume_gb": {
+        "current": 2,
+        "12_month": 18,
+        "36_month": 54
+      },
+      "servers": {
+        "web": 2,
+        "app": 3,
+        "db": 2,
+        "evidence_store": 4,
+        "ai_inference": 1
+      }
+    },
+    "assumptions": [
+      "UK active BVLOS operator pool: 50-100 organisations by 2028",
+      "Simultaneous active submissions: 10-20 (applicant-mode, long-running per REQ016)",
+      "Submission pack size: typical 50-500 MB (PDFs, data packs, video snippets)",
+      "Peak intake rate: 1-2 applications/week across UK CAA + MAA",
+      "Average submission lifecycle: 8-12 weeks (REQ016 phased gates)",
+      "Concurrent applicant sessions: avg 15, peak 25 (representing 10-20 active submissions)",
+      "Pack completeness check (METER-001 Quick Gate): automated, flagging gaps within 10 minutes",
+      "Each submission: ~200-300 MB average (ConOps, SORA evidence, Safety Case, training plans, simulation data)",
+      "Classification tier provisioning overhead: 4x replication for OFFICIAL, OFFICIAL-SENSITIVE, SECRET, STRAP (only swarm/MOD trials need upper tiers)"
+    ],
+    "growth_projection": {
+      "6_month": "Submissions increasing 2-3/week; evidence store grows 4-5 GB/month as trials conclude (archive population increases). Quick Gate automation reduces intake processing time from 2 hours to 10 minutes. Concurrent sessions peak at 30 during Protector RG Mk1 trials.",
+      "12_month": "Steady state ~4-5 submissions/week. Evidence store at ~25 GB cumulative. Database normalized, indexes optimized. Concurrent peak near 40 (multiple parallel trial phases). First major archive cohort (10-15 completed cases) added to long-term storage.",
+      "24_month": "Project Alvina BVLOS urban-logistics trials begin; intake rate potentially 8-10/week. Evidence store 40-50 GB. Concurrent peaks 50+ users. Clause library revision cycle reaches 2-3 per year (regulatory changes); storage ~6-8 GB with versioning.",
+      "36_month": "GCAP/Tempest autonomy assurance cases begin (advanced ML/swarm); trials may run in cohorts (5+ parallel). Evidence store reaches 60+ GB. Peak concurrent users 60+. Classification tier segregation becomes critical; separate DB replicas required for SECRET tier (slow access path acceptable for MOD review)."
+    },
+    "cost_estimate_gbp_per_month": 3500,
+    "notes": "Submissions drive storage growth; phased gate structure (REQ016) requires high-availability application persistence. Classification tier handling adds 40% to storage cost. Quick Gate automation (METER-001) is critical to reduce CAA case officer rework overhead (currently 72% first-submission pass rate per vibe PackCompleteness benchmark)."
+  },
+  {
+    "requirement_id": "NFR-CAP-WB-002",
+    "domain": "workbench",
+    "feature": "inspector review sessions and SORA assessment",
+    "capacity_model": {
+      "concurrent_users": {
+        "average": 20,
+        "peak": 45
+      },
+      "transactions_per_hour": {
+        "average": 40,
+        "peak": 100
+      },
+      "data_volume_gb": {
+        "current": 3,
+        "12_month": 22,
+        "36_month": 66
+      },
+      "servers": {
+        "web": 3,
+        "app": 4,
+        "db": 3,
+        "evidence_store": 5,
+        "ai_inference": 2
+      }
+    },
+    "assumptions": [
+      "Inspector pool (CAA + MAA combined): 30-60 active users",
+      "SORA assessment workload: ~5-10 hours per case (swarm-aware evidence inventory audit per METER-003)",
+      "Safety case review: ~8-15 hours per submission",
+      "ConOps/ODD review: ~4-6 hours per case",
+      "Joint panel deliberation: 15 panels per quarter, each requiring 5-7 person-days synchronous work",
+      "Average inspector session duration: 3-4 hours for deep review work; 1-2 hours for coordination/status meetings",
+      "Document read/annotate transaction frequency: 150-200 per inspector per review cycle",
+      "Concurrent peak: 45 users (combination of 20-30 active SORA reviewers + 15 panelists deliberating + ad-hoc inspectors)",
+      "Swarm-aware SORA evidence gap (vibe constraint): status 15%, tolerable >= 3 items/aircraft, regulatory >= 5 items/aircraft; audit workload increases 30% due to complexity",
+      "Classification tier handling increases query overhead for SECRET/STRAP tiers (separate DB access path)"
+    ],
+    "growth_projection": {
+      "6_month": "Inspector pool growing 5-10 FTE. Each SORA assessment requires 5-10 hours with swarm-specific evidence inventory (METER-003). Peak concurrent: 40 users during panel deliberations. Review transaction load increases 25%.",
+      "12_month": "Inspector pool 40-50 FTE. Established reviewer cohorts (SORA team, safety team, panels). Peak concurrent: 50 users. Swarm-aware SORA evidence adoption (currently 15% per vibe benchmark) improves to ~40%, reducing rework but increasing initial audit complexity. Audit query database load peaks at 100 TPS during panel season (Q3, Q4).",
+      "24_month": "Inspector pool near full capacity (50-60 FTE). Panels run in overlapping cohorts (3-5 simultaneous). Peak concurrent: 55+ users. AMLAS/SACE case evidence uploads increase database transaction load 40%. Advanced ML assurance (REQ009) adds 2-3 hours per case (explainability evidence review).",
+      "36_month": "Pool maxed at ~60 FTE (further growth requires CAA/MAA hiring). Advanced BVLOS + GCAP/Tempest cases add complexity; peak review workload 15+ hours per case. Concurrent peaks 60+ during multi-panel seasons. Archive query performance degrades; historical case evidence search requires optimized indexing."
+    },
+    "cost_estimate_gbp_per_month": 5200,
+    "notes": "SORA assessment (REQ002) is the most labor-intensive review task. Swarm-aware evidence gap (vibe SwarmAwareSORAEvidence: status 15%, tolerable 80%) means many cases will require extended review cycles and rework. METER-003 (Swarm-Specific Risk Evidence Inventory Audit) is a manual domain-expert task; automated support tools (evidence taxonomy tagging, traceability hyperlinks) are essential to keep TPS throughput below 100 during peak panel seasons."
+  },
+  {
+    "requirement_id": "NFR-CAP-WB-003",
+    "domain": "workbench",
+    "feature": "joint review panel deliberation and decision recording",
+    "capacity_model": {
+      "concurrent_users": {
+        "average": 8,
+        "peak": 20
+      },
+      "transactions_per_hour": {
+        "average": 15,
+        "peak": 50
+      },
+      "data_volume_gb": {
+        "current": 1,
+        "12_month": 12,
+        "36_month": 36
+      },
+      "servers": {
+        "web": 2,
+        "app": 2,
+        "db": 2,
+        "evidence_store": 3,
+        "ai_inference": 0
+      }
+    },
+    "assumptions": [
+      "Joint review panels per quarter: 5-15 (per parent user story timeframe 2026-2028)",
+      "Panel size: 8-12 members (CAA + MAA + external advisors)",
+      "Panel deliberation duration: 5-10 days per panel (including pre-read, meetings, breakouts, final decision)",
+      "Panel panel action frequency: ~100 actions per panel (evidence annotations, decision votes, condition records, rationale entries)",
+      "Audit trail record size per action: ~100 KB (metadata + narrative + evidence references)",
+      "Immutable write-heavy workload; 100 actions/panel × 15 panels/year = 1,500 panel actions/year = ~130 KB/year of audit trail base",
+      "Decision record archive: ~20 MB per case (decision summary, conditions, compliance verification checklist, post-trial close-out plan)",
+      "Expected throughput: 15-30 approvals per year by 2028 (conservative ramp-up: first trials are de-risking cohorts)",
+      "Concurrent panel members during live deliberation: 8-20 (not all present simultaneously; async + sync mix)",
+      "Deliberation session peak: 20 users during plenary vote sessions (quorum requirements)"
+    ],
+    "growth_projection": {
+      "6_month": "First panel (Protector RG Mk1 trial 1) convenes; 100-150 actions recorded; audit trail ~15-20 MB created. Deliberation recorded at 15 TPS peak (plenary sessions).",
+      "12_month": "Second and third panels (Project Alvina BVLOS trials) active or completed; cumulative audit trail ~100 MB. First decision archives populated (10-15 cases approved or conditionally approved). Parallel panel prep increases concurrent users to 15-18.",
+      "24_month": "5-8 panels completed; cumulative audit trail ~500 MB. Decision record archive 200+ MB. GCAP/Tempest advanced autonomy cases begin; panel workload intensity increases (more conditions, longer deliberations). Concurrent peaks near 20 during multi-panel overlap.",
+      "36_month": "10-15 panels completed per plan; cumulative audit trail 1-1.5 GB. Archive reaches 300+ MB. Advanced ML assurance (REQ009) and swarm autonomy (REQ008) cases require specialized breakout sessions, extending deliberation window. Archive search performance becomes important (historical precedent lookup)."
+    },
+    "cost_estimate_gbp_per_month": 1800,
+    "notes": "Panel deliberation is low-concurrency but high-importance data. Immutable audit trail (REQ012 MOR obligations) must survive system failures; write-once storage (S3 versioning, WORM volumes) recommended. Decision records are the final authoritative output; any corruption is regulatory non-compliance. Concurrent peak (20 users) occurs during plenary votes; async tools (Slack integration, async decision polling) can reduce synchronous demand."
+  },
+  {
+    "requirement_id": "NFR-CAP-WB-004",
+    "domain": "workbench",
+    "feature": "clause library and evidence search",
+    "capacity_model": {
+      "concurrent_users": {
+        "average": 5,
+        "peak": 15
+      },
+      "transactions_per_hour": {
+        "average": 30,
+        "peak": 80
+      },
+      "data_volume_gb": {
+        "current": 0.2,
+        "12_month": 1.2,
+        "36_month": 3.6
+      },
+      "servers": {
+        "web": 1,
+        "app": 2,
+        "db": 1,
+        "evidence_store": 1,
+        "ai_inference": 1
+      }
+    },
+    "assumptions": [
+      "Clause library: ~200 MB per major revision (JARUS SORA v2.5, AMLAS/SACE templates, CAP 722 updates, ML explainability templates, swarm-specific guidance)",
+      "Revision cadence: quarterly (3-4 major revisions/year, 1-2 minor revisions/quarter)",
+      "5-year retention: ~4 GB cumulative (200 MB × 5 major + 3 minor per year × 5 years = ~4 GB)",
+      "Search queries: ~100-150 inspector/case officer per review cycle (finding relevant precedent, guidance clauses, compliance templates)",
+      "Average search latency requirement: <500 ms (interactive inspector workload)",
+      "Full-text indexing overhead: 50% of library size (~100 MB index per 200 MB library)",
+      "Vector embeddings for semantic search (AI inference component): ~50 MB per library version",
+      "Classification tier variant storage: OFFICIAL library + OFFICIAL-SENSITIVE addenda (security-specific clauses, MOD coordination templates) = 1.2x base size for upper tiers",
+      "Concurrent search peak: 15 inspectors searching during pre-panel preparation (case officer sessions)"
+    ],
+    "growth_projection": {
+      "6_month": "Initial SORA v2.5 + AMLAS baseline library deployed (200 MB); first minor revision (+20 MB). Search query load establishes baseline (~50 TPS peak during prep week). Semantic search prototype tuned.",
+      "12_month": "JARUS SORA v2.5 adoption increases; library grows with swarm-specific clauses (+50 MB new content). Second major revision (CAP 722A updates, ML explainability addenda). Library size ~250 MB. Search load 60-70 TPS peak.",
+      "24_month": "GCAP/Tempest advanced autonomy clauses added; ML assurance library expands (+100 MB). Project Alvina BVLOS operational lessons learned integrated (+30 MB). Library size ~380 MB. Full-text index becomes critical for sub-500ms latency; semantic search routine (integration with case officer assist AI).",
+      "36_month": "Mature library: 400-500 MB. Cumulative versions ~2-3 GB retained. Classification tier variants (SECRET addenda for MOD swarm trials) add 50-100 MB. Search query load peaks 80 TPS during large multi-panel seasons. Indexing performance tuning complete; latency <300 ms target achieved."
+    },
+    "cost_estimate_gbp_per_month": 950,
+    "notes": "Clause library is regulatory guidance + compliance artifact. Versioning is critical (audit trail REQ012); cannot delete or modify historical clauses. Full-text + semantic search (powered by AI inference component) essential for case officer productivity. REQ018 (security classification handling) requires OFFICIAL-SENSITIVE and SECRET variants; search performance isolation (slow-path for classified queries) acceptable. This is a read-heavy workload; CDN caching can reduce origin load by 50%."
+  },
+  {
+    "requirement_id": "NFR-CAP-WB-005",
+    "domain": "workbench",
+    "feature": "evidence store and long-term archive (REQ020)",
+    "capacity_model": {
+      "concurrent_users": {
+        "average": 3,
+        "peak": 8
+      },
+      "transactions_per_hour": {
+        "average": 10,
+        "peak": 30
+      },
+      "data_volume_gb": {
+        "current": 5,
+        "12_month": 45,
+        "36_month": 140
+      },
+      "servers": {
+        "web": 1,
+        "app": 1,
+        "db": 1,
+        "evidence_store": 8,
+        "ai_inference": 0
+      }
+    },
+    "assumptions": [
+      "REQ020 (Post-Trial Assurance & Close-out): absent in original user stories but mandatory from CAP 722A §23 (post-approval archive obligations)",
+      "Average case archive size: 20 MB per approved trial (decision record + evidence summary + compliance checklist + lessons-learned packs)",
+      "Approval throughput: 15-30 cases/year by 2028 (conservative ramp-up; first cohorts are de-risking trials)",
+      "10-year retention for investigation (REQ012 MOR obligations): 15 cases/year avg × 10 years = 150 cases × 20 MB = 3 GB minimum",
+      "Video evidence from flight tests: 200-500 MB per trial (simulation footage, flight telemetry video, incident recordings) — stored separately from decision record (cold-path archive)",
+      "Simulation data packs: 100-200 MB per trial (model checkpoints, test scenarios, failure-mode demonstrations)",
+      "Classification tier segregation: OFFICIAL cases in standard archive; OFFICIAL-SENSITIVE + SECRET cases in separate air-gapped replicas (regulatory requirement CAP 722H)",
+      "Archive access pattern: low-frequency (incident investigation, lessons-learned review, regulatory audit) — acceptable latency 1-2 hours for retrieval",
+      "Write-once storage (WORM compliance): all evidence immutable after case closure; bit-rot protection via checksums",
+      "Current state (2026 Apr): ~2-3 cases completed (Protector RG Mk1 pilot); archive population modest. Peak growth 2026-2027 as trials ramp."
+    ],
+    "growth_projection": {
+      "6_month": "First 5-8 cases closed; archive ~100-150 MB. Video evidence segregated to cold-path S3 Glacier Deep Archive. WORM compliance baseline established (versioning disabled; checksums computed at ingest).",
+      "12_month": "10-15 cases in archive; ~250-300 MB plus video (500 MB - 1 GB in Glacier). Lessons-learned packs begin aggregation (REQ020); ~50-100 MB new content. Classification tier segregation operational for SECRET tier trials (separate DB replica exists but sparsely populated).",
+      "24_month": "25-40 cases archived; ~400-600 MB structured evidence + 1-2 GB video. Lessons-learned cross-case analysis enabled (trends in approval conditions, failure modes, regulatory guidance changes). Archive search (incident lookup, precedent discovery) routine. Classification tier segregation mature; SECRET tier archive begins to populate (GCAP/Tempest advanced autonomy trials bring MOD classified evidence).",
+      "36_month": "45-60 cases in archive; ~700 MB - 1 GB core evidence + 2-4 GB video + lessons-learned ~300 MB. 10-year retention cycle begins (oldest cases reach 10-year mark, eligible for disposition per CAP 722A). Archive retrieval SLA: <1 hour for incident investigation (REQ012)."
+    },
+    "cost_estimate_gbp_per_month": 2100,
+    "notes": "Archive is critical for regulatory compliance (REQ012 MOR obligations, REQ020 post-trial assurance). REQ020 was absent in original requirements but mandatory per CAP 722A §23 — this is a gap finding (see ada-findings.json). Immutable storage + classification tier segregation drives cost (WORM volumes, separate S3 buckets with encryption keys per tier). Video evidence in Glacier is cost-effective (~0.004 GBP/GB/month) but retrieval latency acceptable for investigation use case. Lessons-learned aggregation requires NLP/ML support (cluster similar findings, cross-reference regulatory updates); AI inference component supports this."
+  },
+  {
+    "requirement_id": "NFR-CAP-WB-006",
+    "domain": "workbench",
+    "feature": "security classification tier provisioning (REQ018)",
+    "capacity_model": {
+      "concurrent_users": {
+        "average": 2,
+        "peak": 10
+      },
+      "transactions_per_hour": {
+        "average": 5,
+        "peak": 20
+      },
+      "data_volume_gb": {
+        "current": 1,
+        "12_month": 15,
+        "36_month": 45
+      },
+      "servers": {
+        "web": 1,
+        "app": 1,
+        "db": 2,
+        "evidence_store": 4,
+        "ai_inference": 0
+      }
+    },
+    "assumptions": [
+      "REQ018: Security Classification Handling — no user story in original requirements; critical gap for MOD-involved trials",
+      "Classification tiers: OFFICIAL (open, no special handling), OFFICIAL-SENSITIVE (restricted distribution, UK eyes), SECRET (MOD eyes only), STRAP (Special Tactical Requirement, MOD + limited CAA personnel)",
+      "Storage provisioning: separate DB replicas per tier (data segregation, compliance with JSP 440 Information Security Manual)",
+      "Access control: role-based; CAA personnel only on OFFICIAL/OFFICIAL-SENSITIVE; MOD liaison on SECRET/STRAP; joint panel membership segregated (MOD panelists only present for classified discussions)",
+      "Network isolation: SECRET/STRAP evidence accessed only from air-gapped CAA secure facility (no cloud; on-premises only)",
+      "Encryption overhead: data-at-rest (AES-256) + data-in-transit (TLS 1.3 with classified cipher suites); key management per tier",
+      "Expected tier distribution by 2028: ~60% OFFICIAL, ~25% OFFICIAL-SENSITIVE (swarm trials with commercial data), ~10% SECRET, ~5% STRAP (GCAP/Tempest advanced autonomy only)",
+      "Tier 1 (OFFICIAL): cloud-hosted, high availability; Tier 2-4 (OFFICIAL-SENSITIVE, SECRET, STRAP): on-premises or dedicated managed service (lower availability SLA acceptable for low-concurrency SECRET/STRAP work)",
+      "Concurrent users: mostly Tier 1 (OFFICIAL) users; SECRET/STRAP peak 5-10 during MOD trials"
+    ],
+    "growth_projection": {
+      "6_month": "OFFICIAL tier deployed; OFFICIAL-SENSITIVE tier preparation underway (Project Alvina swarm trials may have commercial supplier data). Initial compliance audit (JSP 440) conducted. No SECRET tier demand yet.",
+      "12_month": "OFFICIAL-SENSITIVE tier operational (first commercial swarm trials ingest supplier SORA evidence, compliance data). Separate DB replica deployed on-premises. SECRET tier infrastructure planned (GCAP/Tempest roadmap). Classification handling procedures documented (CAP 722H compliance checklist).",
+      "24_month": "OFFICIAL-SENSITIVE tier mature; ~25% of submissions classified at this tier. SECRET tier deployed as-needed (first GCAP/Tempest advanced autonomy pilot); air-gapped access established (MOD liaison office equipped with secure workstations). STRAP tier reserved (not yet populated).",
+      "36_month": "All four tiers operational. Tier distribution: OFFICIAL 60% (20-30 GB), OFFICIAL-SENSITIVE 25% (10-15 GB on-premises DB), SECRET 10% (3-5 GB air-gapped), STRAP 5% (1-2 GB, very limited access). Access audit logs (separate from evidence store) track all tier-crossing operations; compliance reporting to CAA Information Security team monthly."
+    },
+    "cost_estimate_gbp_per_month": 4200,
+    "notes": "REQ018 (Security Classification Handling) absent in user stories but critical for MOD-involved trials (GCAP/Tempest autonomy assurance). This is a major capacity driver: on-premises SECRET/STRAP infrastructure (separate DB, air-gapped network, secure facilities) costs ~2-3x cloud per GB. Tier segregation adds operational complexity (separate backup/disaster-recovery plans per tier, classification-aware access control lists, security audit trails). Recommendation: establish MOD liaison coordination protocol early (2026) to define STRAP expectations before first MOD trial intake."
+  },
+  {
+    "requirement_id": "NFR-CAP-SWM-001",
+    "domain": "swarm",
+    "feature": "typical 5-10 vehicle swarm telemetry and C2 communication",
+    "capacity_model": {
+      "concurrent_users": {
+        "average": 5,
+        "peak": 10
+      },
+      "transactions_per_hour": {
+        "average": 36000,
+        "peak": 72000
+      },
+      "data_volume_gb": {
+        "current": 0.5,
+        "12_month": 2.5,
+        "36_month": 7.5
+      },
+      "servers": {
+        "web": 0,
+        "app": 0,
+        "db": 2,
+        "evidence_store": 2,
+        "ai_inference": 1
+      }
+    },
+    "assumptions": [
+      "Typical swarm: 5-10 vehicles (may scale to 20 in advanced trials per GCAP/Tempest)",
+      "Telemetry rate: 1-10 Hz per vehicle (1 Hz nominal, 10 Hz peak during DAA encounter or autonomy decision events)",
+      "Telemetry data per message: ~500 bytes (position, altitude, velocity, attitude, battery, C2 link quality, autonomous decision flags)",
+      "Swarm size 5 vehicles at 5 Hz nominal: 5 × 5 messages/sec × 500 bytes = 12.5 KB/sec = 900 MB/hour per trial",
+      "Peak scenarios: 10 vehicles at 10 Hz (DAA encounter): 10 × 10 × 500 = 50 KB/sec = 3.6 GB/hour",
+      "Trial duration: 1-2 hours typical BVLOS trial (including pre-flight checks, transits, objective execution, return-to-launch)",
+      "Per-trial data volume: 5 vehicles, 5 Hz, 90 minutes = 900 MB/hour × 1.5 hours = 1.35 GB per trial",
+      "C2 link bandwidth budget: 100-500 kbps per vehicle (command rate low ~1 Hz, status telemetry 5-10 Hz, inter-vehicle coordination 1-5 Hz)",
+      "Inter-vehicle coordination messages: 0.5-2 KB per message, 1-10 Hz coordination cadence per pair; 5-vehicle mesh: ~20 coordination messages/sec = 10-40 KB/sec (depends on swarm decision algorithm)",
+      "Total per-swarm C2 + coordination + telemetry: ~50-150 KB/sec nominal, 200+ KB/sec peak (DAA encounters, formation changes)",
+      "Ground control segment: receives all telemetry, logs to evidence store, runs real-time autonomy-state machine (validating compliance with authorized flight plan per REQ008)",
+      "Storage (evidence logging): all telemetry + C2 messages recorded for post-trial analysis (REQ012 MOR obligations); compression ratio ~2-3x (telemetry is repetitive)",
+      "Concurrent swarm trials: 1-3 simultaneous trials by 2028 (assumes 2-3 authorized swarm BVLOS cohorts in parallel); shared ground-control infrastructure"
+    ],
+    "growth_projection": {
+      "6_month": "First swarm trial (Protector RG Mk1): 5 vehicles, 90 min, ~1.5 GB telemetry data. Ground control compute: minimal (5 vehicles × 5 Hz = 25 message/sec). Real-time C2 link: 100-200 kbps per vehicle achievable with 4G/LTE. Evidence logging: 1.5 GB stored (compressed).",
+      "12_month": "Second swarm trial (Project Alvina): 7 vehicles, potential 2-hour duration; ~2.5 GB telemetry per trial. Concurrent trials begin to overlap (pre-flight prep + post-flight analysis from first trial while second trial executes); peak concurrent database load: 2 trials × 25 msg/sec + coordination = 80 msg/sec peak.",
+      "24_month": "3-4 swarm trials in rotation (BVLOS + advanced autonomy pilot); swarm sizes 8-10 vehicles. Telemetry data volume: 3-5 GB per trial. Peak concurrent: 2-3 simultaneous trials. Ground control compute: multi-threaded autonomy state machine (C++ real-time process) required for 100+ msg/sec throughput. AI inference component supports post-trial analysis (deviation detection, anomaly clustering in telemetry streams).",
+      "36_month": "GCAP/Tempest advanced autonomy trials: 10+ vehicles, complex decision-making (swarm formation changes, dynamic re-tasking per REQ008). Per-trial data: 5-10 GB. Concurrent peak: 3 trials possible. C2 link quality becomes critical (low-latency guaranteed delivery for safety-critical de-confliction messages); evidence logging must capture all link-loss events for post-trial investigation. Archive: 20-30 GB cumulative swarm telemetry by end of 2028."
+    },
+    "cost_estimate_gbp_per_month": 1200,
+    "notes": "Swarm telemetry is high-volume, time-series data. Real-time processing (ground control autonomy state machine) requires low-latency database (sub-100 ms query latency for in-flight state validation). Evidence logging (all messages recorded) is write-heavy; time-series database (InfluxDB, TimescaleDB) recommended over traditional RDBMS. C2 link bandwidth is operational constraint (REQ006 authorized monitored C2); LTE/5G networks typically support 500+ kbps per UAS. Swarm coordination complexity (inter-vehicle message volume) increases with swarm size and decision-making sophistication; 10-vehicle swarm may require 200+ KB/sec combined bandwidth. This capacity model assumes nominal terrestrial networks; if trial over maritime/remote areas, satellite C2 bandwidth becomes constrained (400 kbps max; real-time telemetry rate must reduce to ~1 Hz)."
+  },
+  {
+    "requirement_id": "NFR-CAP-SWM-002",
+    "domain": "swarm",
+    "feature": "DAA sensor data fusion and encounter resolution",
+    "capacity_model": {
+      "concurrent_users": {
+        "average": 0,
+        "peak": 1
+      },
+      "transactions_per_hour": {
+        "average": 18000,
+        "peak": 180000
+      },
+      "data_volume_gb": {
+        "current": 0.2,
+        "12_month": 1.5,
+        "36_month": 4.5
+      },
+      "servers": {
+        "web": 0,
+        "app": 0,
+        "db": 2,
+        "evidence_store": 2,
+        "ai_inference": 2
+      }
+    },
+    "assumptions": [
+      "DAA (Detect and Avoid) sensors per vehicle: radar + ADS-B receiver (passive listening for cooperative aircraft) + optical/IR (future)",
+      "Radar scan rate: 10 Hz (modern solid-state); ~2-5 KB per scan (target list, bearing, altitude, confidence)",
+      "ADS-B message rate: 0.5-2 Hz per cooperative aircraft in airspace (highly variable; urban airspace 10+ cooperative targets possible)",
+      "DAA data per vehicle: radar 5 × 2 KB = 10 KB/sec + ADS-B 2 × 2 KB = 4 KB/sec = 14 KB/sec nominal",
+      "Swarm coordination: vehicles must share filtered DAA track data (not raw radar); coordination rate 1-5 Hz per encounter; message size 2-5 KB",
+      "Data fusion (onboard compute): each vehicle processes own sensors + received fusion data from swarmmates; compute load ~10-30% of processing budget (ARM Cortex-A72 equivalent, 2-4 W per vehicle)",
+      "Encounter resolution: coordinated de-confliction (determine which aircraft maneuvers, when); safety-critical; latency budget <500 ms (REQ007 DO-365 / F3442 alignment)",
+      "Post-trial analysis: all DAA encounter events logged for safety case verification; compression ~5x (only non-background radar returns stored)",
+      "Typical BVLOS trial: 1-2 encounters per 90-minute flight (cooperative traffic at altitude, possible non-cooperative intruder at range)",
+      "Per-vehicle DAA evidence: ~50-100 MB per trial (raw radar scans + fusion track data + encounter decision logs)",
+      "Swarm DAA evidence: 5 vehicles × 80 MB = 400 MB per trial; compressed to ~80 MB for archive (REQ012)"
+    ],
+    "growth_projection": {
+      "6_month": "First trial (Protector RG Mk1): single vehicle DAA baseline; 50-100 MB evidence captured. Radar + ADS-B data logged; no swarm coordination. Encounter events: <1 per trial (test airspace cleared). Ground analysis: simple encounter review (post-flight).",
+      "12_month": "Multi-vehicle DAA (Project Alvina, 5-7 vehicles): coordinated fusion data exchange established; 300-500 MB raw evidence per trial. Fusion track database: 2-3 concurrent vehicle fusion processes = 30-50 msg/sec coordination load. Post-trial analysis: encounter clustering (find all similar-geometry encounters across multiple trials); ML inference on maneuvering decisions (deviation from expected DO-365 resolutions).",
+      "24_month": "Advanced autonomy pilots (8-10 vehicles): DAA fusion complexity increases; formation-aware de-confliction (swarm geometry constraints). Per-trial evidence: 500-800 MB raw, 100-150 MB compressed. Real-time analysis (in-flight) of encounter trends; dynamic retasking possible (reposition swarm to avoid predicted intruders). AI inference: neural network trained on swarm encounter data; <500 ms latency target for recommendation (Jetson Orin or equivalent).",
+      "36_month": "GCAP/Tempest advanced trials: cooperative + non-cooperative encounter classification (identity unknown intruders). Per-trial DAA evidence: 1-2 GB raw. Cumulative encounter dataset: 50+ distinct encounter geometries; ML model confidence high. Archive: 200+ MB DAA evidence by end-year 2028."
+    },
+    "cost_estimate_gbp_per_month": 2100,
+    "notes": "DAA is the most compute-intensive onboard function (REQ007). Swarm coordination layer (data fusion between aircraft) is safety-critical and latency-sensitive; 500 ms latency budget is tight for lossy networks. Evidence logging (all sensor streams) is high-volume and essential for regulatory audit (DO-365 compliance); compression recommended. AI inference component (post-trial encounter analysis, encounter similarity clustering, decision validation) is optional but valuable for lessons-learned extraction. This model assumes terrestrial DAA (radar + ADS-B); maritime/polar trials may substitute satellite ADS-B (higher latency, sparser updates)."
+  },
+  {
+    "requirement_id": "NFR-CAP-SWM-003",
+    "domain": "swarm",
+    "feature": "onboard autonomy compute load (swarm decision-making, flight management)",
+    "capacity_model": {
+      "concurrent_users": {
+        "average": 0,
+        "peak": 0
+      },
+      "transactions_per_hour": {
+        "average": 0,
+        "peak": 0
+      },
+      "data_volume_gb": {
+        "current": 0.1,
+        "12_month": 0.5,
+        "36_month": 1.5
+      },
+      "servers": {
+        "web": 0,
+        "app": 0,
+        "db": 1,
+        "evidence_store": 2,
+        "ai_inference": 0
+      }
+    },
+    "assumptions": [
+      "Onboard compute per vehicle: ARM-based mission computer (Jetson Nano or TX2 equivalent; 10-20 W TDP budget, limited by battery endurance)",
+      "Autonomy stack: flight management system (guidance + navigation) + swarm coordination layer + DAA sensor processing (see NFR-CAP-SWM-002)",
+      "Swarm decision-making (REQ008): determine flight plan changes, formation changes, coordinated maneuvers; compute ~5-20 Hz decision cycle",
+      "Decision-making latency budget: 100-200 ms (must complete before next C2 update cycle or sensor refresh)",
+      "ML inference load (REQ009): optional ML models for anomaly detection, predictive control; requires ~5-10% compute margin per vehicle",
+      "Typical compute budget per vehicle: 80% navigation + 10% coordination + 5% ML + 5% margin = 100%",
+      "Single-vehicle autonomy load: ~50-60% CPU utilization nominal (headroom for contingencies, high-frequency sensor inputs)",
+      "Failure detection (REQ011): monitors for autonomy faults (stuck decision, resource exhaustion, thermal throttling); triggers crew intervention or fallback behavior",
+      "Evidence logging: decision logs (one record per cycle, ~100 bytes) + anomaly alerts (~1 KB per alert); 5 Hz decision rate = 500 bytes/sec nominal",
+      "Per-trial autonomy evidence: 90-minute trial at 5 Hz = 27,000 decision records + ~50 anomaly alerts = ~2.7 MB per vehicle per trial; 5 vehicles = 13.5 MB per trial"
+    ],
+    "growth_projection": {
+      "6_month": "Single-vehicle baseline (Protector RG Mk1): basic flight management autonomy; no swarm coordination. Compute load: 40-50% per vehicle. Decision logs: 2-3 MB per trial. ML inference: not yet deployed.",
+      "12_month": "Multi-vehicle coordination (Project Alvina): swarm decision-making added (formation control, coordinated maneuvers). Compute load increases to 60-70% per vehicle (coordination overhead). Decision logs: 10-15 MB per trial. ML inference prototype (anomaly detection) running on ground control; post-flight analysis only.",
+      "24_month": "Advanced autonomy pilots: dynamic formation changes, re-tasking mid-trial. Onboard ML inference (Jetson Orin) deployed; real-time anomaly detection. Compute load: 80-85% per vehicle (approaching headroom limits). Decision logs: 20+ MB per trial (more detailed state snapshots for complex maneuvers). Evidence volume grows; storage compression ratio 3-5x (decision logs are repetitive).",
+      "36_month": "GCAP/Tempest advanced trials: autonomous response to unexpected encounters (adversarial swarm behavior). Compute load: 90%+ per vehicle (thermal throttling risk in sustained high-load scenarios). Decision logs: 30-50 MB per trial (every computation decision recorded for explainability). Onboard compute architecture may require secondary processor (heterogeneous compute: main ARM core + EdgeAI accelerator for ML inference)."
+    },
+    "cost_estimate_gbp_per_month": 200,
+    "notes": "Onboard autonomy compute is not a Workbench capacity issue; modeled here to complete swarm operational profile. TDP budget is the critical constraint (battery endurance trade-off): increased autonomy compute = reduced flight duration. Decision logs and evidence recording (REQ012 MOR obligations + REQ009 ML explainability) drive evidence volume. Real-time onboard logging (vs. post-flight downlink) requires local flash storage; 5-10 GB SSD per vehicle typical for BVLOS. ML inference evidence (model inputs, outputs, confidence scores) adds 50% to base decision log volume. This capacity model assumes commercial off-the-shelf (COTS) flight computers; swarm-specific autonomy architectures (e.g., distributed consensus, swarm intelligence algorithms) may increase compute load 20-30%."
+  },
+  {
+    "requirement_id": "NFR-CAP-SWM-004",
+    "domain": "swarm",
+    "feature": "ground control segment infrastructure (C2, mission planning, autonomy state machine)",
+    "capacity_model": {
+      "concurrent_users": {
+        "average": 3,
+        "peak": 6
+      },
+      "transactions_per_hour": {
+        "average": 50000,
+        "peak": 180000
+      },
+      "data_volume_gb": {
+        "current": 0.5,
+        "12_month": 3,
+        "36_month": 9
+      },
+      "servers": {
+        "web": 1,
+        "app": 3,
+        "db": 2,
+        "evidence_store": 2,
+        "ai_inference": 2
+      }
+    },
+    "assumptions": [
+      "Ground control segment: pilot + mission controller + flight test engineer; 3-4 personnel per trial",
+      "C2 uplink: commands sent to swarm at 0.5-1 Hz per vehicle (low bandwidth to support LTE networks); command message ~200 bytes",
+      "Telemetry downlink: received from swarm at 5-10 Hz per vehicle (primary operational information); processed in real-time autonomy state machine (REQ008)",
+      "Mission planning software: pre-flight route planning, dynamic retasking (in-flight route changes); compute ~10-50 ms per update",
+      "Autonomy state machine: validates in-flight behavior against authorized flight plan, detects deviations, alerts crew; latency <100 ms",
+      "Event logging (ground): all commands sent + all telemetry received + state machine decisions logged for post-trial analysis; compression ~2x (repetitive data)",
+      "Typical trial: 90 minutes = 5,400 seconds; telemetry stream 5 Hz × 5 vehicles = 25 msg/sec × 5,400 sec = 135,000 messages = ~67 MB raw telemetry (uncompressed)",
+      "Ground control data volume per trial: 67 MB telemetry + 5 MB commands + 10 MB state logs = 82 MB raw, 40 MB compressed (REQ012 evidence archive)",
+      "Real-time processing throughput: 25 telemetry msg/sec + 5 command msg/sec + 20 coordination msg/sec (swarm fusion data relayed) = 50 msg/sec typical, 200 msg/sec peak (high-frequency sensor data during DAA encounter)",
+      "Database: time-series data (telemetry stream); transaction rate 50-200 TPS (messages + state transitions + event triggers)",
+      "Concurrent trials: 1 active trial at any time per ground control facility; multiple facilities possible (distributed across UK CAA + MAA + commercial operators)"
+    ],
+    "growth_projection": {
+      "6_month": "Protector RG Mk1 trial: single ground control facility (CAA test site). Autonomy state machine prototype (Python + ROS, <100 ms latency demonstrated). C2 uplink: LTE network; 100 kbps sufficient. Telemetry stream: 25 msg/sec, 12 MB trial event log (uncompressed). Ground infrastructure: commodity laptop (16 GB RAM, dual-core i7) + 4G modem + mission planning software (QGCS variant).",
+      "12_month": "Project Alvina trials: two ground control facilities (CAA + MAA). Autonomy state machine: production-grade (C++ real-time process, Jetson Orin or x86 real-time CPU); latency <50 ms. Telemetry stream: 50+ msg/sec (coordination data added). Per-trial ground log: 40-50 MB compressed. Mission planning: dynamic retasking prototype (in-flight route changes based on obstacles or crew input).",
+      "24_month": "Advanced autonomy pilots: 3 concurrent facilities possible (but single-trial execution per period). Autonomy state machine: fault-tolerant (dual redundancy; primary + hot-standby). C2 link: hybrid (LTE primary + satellite backup for remote trials). Telemetry stream: 150+ msg/sec peak (high-frequency DAA updates during encounters). Per-trial ground log: 50-70 MB. Real-time anomaly detection (ML inference on telemetry streams) deployed; alerts crew to unexpected vehicle behaviors.",
+      "36_month": "GCAP/Tempest trials: 3+ concurrent ground control facilities operational. Autonomy state machine: multi-swarm aware (coordinating decisions across geographically distributed swarms). C2 link: robust (redundant links, cognitive radio fallback). Telemetry stream: 200+ msg/sec sustained (advanced swarm coordination overhead). Per-trial ground log: 70-100 MB. Advanced mission planning (AI-assisted route optimization, dynamic obstacle avoidance). Archive: 100-200 MB ground control logs by end-2028."
+    },
+    "cost_estimate_gbp_per_month": 3100,
+    "notes": "Ground control segment is operationally critical; latency and reliability are safety-essential. Real-time C2 downlink (commands to swarm) typically 100-500 kbps per vehicle; uplink (telemetry) higher bandwidth 200+ kbps per vehicle. Network architecture (cellular vs. satellite vs. fixed RF) depends on trial location and connectivity. Autonomy state machine (REQ008) is the core safety function; must be certified or safety-validated. Evidence logging (all telemetry + decisions) is voluminous; compression and selective archival essential. Cost estimate includes: redundant ground stations (failover), Jetson Orin compute (£1500 per unit × 2-3 units), LTE/satellite modem hardware (£500-2000), and cloud storage for trial archives."
+  }
+]

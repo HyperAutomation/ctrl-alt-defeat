@@ -1,0 +1,178 @@
+[
+  {
+    "finding_title": "Dead-end requirement: REQ003 has no forward trace to SBE or acceptance criteria",
+    "finding_type": "dead_end",
+    "confidence": 9,
+    "severity": "major",
+    "requirement_ids_affected": [
+      "REQ003"
+    ],
+    "reasoning": "REQ003 (ConOps & ODD Review) is not mapped to any SBE scenario (angie-traceability) or acceptance criterion (iris-criteria). This requirement lacks forward traceability to test scenarios and acceptance validation.",
+    "recommendation": "Ensure REQ003 has mapped SBE scenarios that explicitly validate the requirement during trial. If REQ003 is not testable, reconsider necessity or move to v2.0.",
+    "analyst": "Lewis",
+    "byline": "Traceability Analyst",
+    "characteristic": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/fe49b686-7d1e-4c36-966f-45f33ca0edcd.png"
+  },
+  {
+    "finding_title": "Dead-end requirement: REQ004 has no forward trace to SBE or acceptance criteria",
+    "finding_type": "dead_end",
+    "confidence": 9,
+    "severity": "major",
+    "requirement_ids_affected": [
+      "REQ004"
+    ],
+    "reasoning": "REQ004 (Airspace Change & TDA Coordination) is not mapped to any SBE scenario (angie-traceability) or acceptance criterion (iris-criteria). This requirement lacks forward traceability to test scenarios and acceptance validation.",
+    "recommendation": "Ensure REQ004 has mapped SBE scenarios that explicitly validate the requirement during trial. If REQ004 is not testable, reconsider necessity or move to v2.0.",
+    "analyst": "Lewis",
+    "byline": "Traceability Analyst",
+    "characteristic": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/fe49b686-7d1e-4c36-966f-45f33ca0edcd.png"
+  },
+  {
+    "finding_title": "Dead-end requirement: REQ012 has no forward trace to SBE or acceptance criteria",
+    "finding_type": "dead_end",
+    "confidence": 9,
+    "severity": "major",
+    "requirement_ids_affected": [
+      "REQ012"
+    ],
+    "reasoning": "REQ012 (Data MOR & DPIA Obligations) is not mapped to any SBE scenario (angie-traceability) or acceptance criterion (iris-criteria). This requirement lacks forward traceability to test scenarios and acceptance validation.",
+    "recommendation": "Ensure REQ012 has mapped SBE scenarios that explicitly validate the requirement during trial. If REQ012 is not testable, reconsider necessity or move to v2.0.",
+    "analyst": "Lewis",
+    "byline": "Traceability Analyst",
+    "characteristic": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/fe49b686-7d1e-4c36-966f-45f33ca0edcd.png"
+  },
+  {
+    "finding_title": "Dead-end requirement: REQ013 has no forward trace to SBE or acceptance criteria",
+    "finding_type": "dead_end",
+    "confidence": 9,
+    "severity": "major",
+    "requirement_ids_affected": [
+      "REQ013"
+    ],
+    "reasoning": "REQ013 (Insurance & Ground-Environment Survey) is not mapped to any SBE scenario (angie-traceability) or acceptance criterion (iris-criteria). This requirement lacks forward traceability to test scenarios and acceptance validation.",
+    "recommendation": "Ensure REQ013 has mapped SBE scenarios that explicitly validate the requirement during trial. If REQ013 is not testable, reconsider necessity or move to v2.0.",
+    "analyst": "Lewis",
+    "byline": "Traceability Analyst",
+    "characteristic": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/fe49b686-7d1e-4c36-966f-45f33ca0edcd.png"
+  },
+  {
+    "finding_title": "Dead-end requirement: REQ014 has no forward trace to SBE or acceptance criteria",
+    "finding_type": "dead_end",
+    "confidence": 9,
+    "severity": "major",
+    "requirement_ids_affected": [
+      "REQ014"
+    ],
+    "reasoning": "REQ014 (Crew Training & Competency) is not mapped to any SBE scenario (angie-traceability) or acceptance criterion (iris-criteria). This requirement lacks forward traceability to test scenarios and acceptance validation.",
+    "recommendation": "Ensure REQ014 has mapped SBE scenarios that explicitly validate the requirement during trial. If REQ014 is not testable, reconsider necessity or move to v2.0.",
+    "analyst": "Lewis",
+    "byline": "Traceability Analyst",
+    "characteristic": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/fe49b686-7d1e-4c36-966f-45f33ca0edcd.png"
+  },
+  {
+    "finding_title": "Dead-end requirement: REQ019 has no forward trace to SBE or acceptance criteria",
+    "finding_type": "dead_end",
+    "confidence": 9,
+    "severity": "major",
+    "requirement_ids_affected": [
+      "REQ019"
+    ],
+    "reasoning": "REQ019 (Environmental Impact) is not mapped to any SBE scenario (angie-traceability) or acceptance criterion (iris-criteria). This requirement lacks forward traceability to test scenarios and acceptance validation.",
+    "recommendation": "Ensure REQ019 has mapped SBE scenarios that explicitly validate the requirement during trial. If REQ019 is not testable, reconsider necessity or move to v2.0.",
+    "analyst": "Lewis",
+    "byline": "Traceability Analyst",
+    "characteristic": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/fe49b686-7d1e-4c36-966f-45f33ca0edcd.png"
+  },
+  {
+    "finding_title": "REQ014 (Crew Training & Competency) missing from SBE and Iris traceability",
+    "finding_type": "dead_end",
+    "confidence": 8,
+    "severity": "major",
+    "requirement_ids_affected": [
+      "REQ014"
+    ],
+    "reasoning": "REQ014 (Crew Training & Competency) is defined as optional (could_have) and v2.0, but it is not traced to any SBE scenarios or acceptance criteria. This is a compliance/evidence requirement (not a system behavior requirement), but lacks verification linkage.",
+    "recommendation": "Either (1) defer REQ014 to v2.0 post-trial audit, (2) create acceptance criteria verifying crew training completion, or (3) map to existing scenarios covering crew competency assessment.",
+    "analyst": "Lewis",
+    "byline": "Traceability Analyst",
+    "characteristic": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/fe49b686-7d1e-4c36-966f-45f33ca0edcd.png"
+  },
+  {
+    "finding_title": "REQ016 (Phased Trial Build-Up) is a single point of failure affecting 5+ dependent requirements",
+    "finding_type": "single_point_failure",
+    "confidence": 9,
+    "severity": "critical",
+    "requirement_ids_affected": [
+      "REQ016"
+    ],
+    "reasoning": "REQ016 (Phased Trial Build-Up) maps to GOAL-007 (Support Phased Trial Build-Up) and GOAL-015 (Panel Override), and is traced by multiple SBE scenarios (angie: 5 scenarios). If REQ016 is not properly implemented (gating logic, reversibility mechanics, phase criteria), all phased progression and oversight mechanisms fail. This is a critical architectural requirement.",
+    "recommendation": "Elevate REQ016 to must_have (v1.0) status. Ensure phased gate logic is thoroughly validated through scenario testing and integration testing. Implement audit trail for all phase progression decisions.",
+    "analyst": "Lewis",
+    "byline": "Traceability Analyst",
+    "characteristic": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/fe49b686-7d1e-4c36-966f-45f33ca0edcd.png"
+  },
+  {
+    "finding_title": "Vibe Meter coverage incomplete: 6 REQs lack mapped Vibe meters",
+    "finding_type": "missing_source",
+    "confidence": 7,
+    "severity": "major",
+    "requirement_ids_affected": [
+      "REQ003",
+      "REQ004",
+      "REQ010",
+      "REQ013",
+      "REQ014",
+      "REQ015"
+    ],
+    "reasoning": "REQ003, REQ004, REQ010, REQ013, REQ014, REQ015 do not have mapped Vibe meter definitions in angie-traceability. Without meters, these requirements lack quantified measurement criteria (scale, benchmarks, targets) per Planguage methodology. This creates ambiguity in acceptance and monitoring.",
+    "recommendation": "For each affected REQ, define a Vibe meter (scale + measurement process) per Tom Gilb's methodology. Meters should be measurable, cost-effective, and stakeholder-meaningful. Escalate to Vibe Requirements specialist (ray, brook, isaac, tom, etc.) for meter design.",
+    "analyst": "Lewis",
+    "byline": "Traceability Analyst",
+    "characteristic": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/fe49b686-7d1e-4c36-966f-45f33ca0edcd.png"
+  },
+  {
+    "finding_title": "Performance NFR alignment incomplete for autonomy and ML requirements",
+    "finding_type": "missing_source",
+    "confidence": 8,
+    "severity": "major",
+    "requirement_ids_affected": [
+      "REQ008",
+      "REQ009",
+      "REQ010"
+    ],
+    "reasoning": "REQ008 (Swarm Decision-Making), REQ009 (ML Assurance), and REQ010 (Human Oversight) are critical autonomy requirements but lack explicit mapping to Performance Engineering NFRs (latency, availability, scalability). Without NFR specifications, these requirements lack quantified bounds on decision-making latency, model inference time, crew override response time, etc.",
+    "recommendation": "Coordinate with Performance Engineering team (ada, noyce, cerf, liskov) to define NFRs for: (1) swarm decision latency (ms), (2) ML model inference latency, (3) crew override latency (<2s), (4) availability targets for autonomy systems. Trace these NFRs back to REQ008, REQ009, REQ010.",
+    "analyst": "Lewis",
+    "byline": "Traceability Analyst",
+    "characteristic": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/fe49b686-7d1e-4c36-966f-45f33ca0edcd.png"
+  },
+  {
+    "finding_title": "Optional requirements (REQ013, REQ014, REQ018-020) lack acceptance criteria for v2.0 deferral",
+    "finding_type": "missing_source",
+    "confidence": 7,
+    "severity": "minor",
+    "requirement_ids_affected": [
+      "REQ013",
+      "REQ014",
+      "REQ018",
+      "REQ019",
+      "REQ020"
+    ],
+    "reasoning": "REQ013 (Insurance & Ground Survey), REQ014 (Crew Training), REQ018 (Security Classification), REQ019 (Environmental Impact), REQ020 (Post-Trial Close-out) are marked as optional or v2.0. However, they lack explicit acceptance criteria defining when these requirements would be revisited or what v2.0 readiness looks like.",
+    "recommendation": "For each deferred requirement, document explicit v2.0 entry criteria (e.g., 'REQ013 v2.0: triggered upon second trial, requires 3+ trials completed without insurance escalation'). This provides clarity on deferral reasoning and re-engagement timing.",
+    "analyst": "Lewis",
+    "byline": "Traceability Analyst",
+    "characteristic": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/fe49b686-7d1e-4c36-966f-45f33ca0edcd.png"
+  }
+]

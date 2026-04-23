@@ -1,0 +1,918 @@
+[
+  {
+    "requirement_id": "REQ001",
+    "requirement_title": "Application Intake & Completeness Check",
+    "srs_section": "3.1.1",
+    "backward_trace": {
+      "source_text": "As a CAA case officer I want to receive a complete Operational Authorisation pack so that I can open a valid case.",
+      "parent_req": "REQ001",
+      "defospam_feature": "F1",
+      "defospam_findings": [],
+      "sbe_goal": "GOAL-001",
+      "vibe_anchor": "PackCompleteness",
+      "keystone": "K1",
+      "standards": [
+        "CAP 722A Ed 2",
+        "JARUS SORA v2.5",
+        "DO-365"
+      ]
+    },
+    "forward_trace": {
+      "sbe_gherkin": [
+        "features/applicant/application_intake.feature",
+        "features/applicant/completeness_check.feature",
+        "features/applicant/completeness_check.feature"
+      ],
+      "sbe_refined_spec": [
+        "RSPEC-001",
+        "RSPEC-002",
+        "RSPEC-003"
+      ],
+      "pe_nfr": [
+        "NFR-F1-001"
+      ],
+      "iris_acceptance": [],
+      "vibe_meter": [
+        "METER-001",
+        "METER-001",
+        "METER-001"
+      ],
+      "cerf_test": "NFR-END-001",
+      "future_components": [
+        "Artefact Detector",
+        "Coverage Matrix Engine"
+      ],
+      "future_test_cases": [
+        "TC-001"
+      ]
+    },
+    "dependencies": [],
+    "dependents": [],
+    "necessity": "essential",
+    "version_target": "v1.0",
+    "status": "trace_complete"
+  },
+  {
+    "requirement_id": "REQ002",
+    "requirement_title": "SORA 2.0 Assessment for Swarm",
+    "srs_section": "3.2.1",
+    "backward_trace": {
+      "source_text": "As a CAA SORA assessor I want swarm-aware SORA evidence so that I can set SAIL and OSO requirements defensibly.",
+      "parent_req": "REQ002",
+      "defospam_feature": "F2",
+      "defospam_findings": [],
+      "sbe_goal": "GOAL-002",
+      "vibe_anchor": "SwarmAwareSORAEvidence scale",
+      "keystone": "K2",
+      "standards": [
+        "CAP 722A Ed 2",
+        "JARUS SORA v2.5",
+        "DO-365"
+      ]
+    },
+    "forward_trace": {
+      "sbe_gherkin": [
+        "features/sora_assessment/swarm_aware_sora.feature"
+      ],
+      "sbe_refined_spec": [
+        "RSPEC-001"
+      ],
+      "pe_nfr": [
+        "NFR-F2-002"
+      ],
+      "iris_acceptance": [],
+      "vibe_meter": [
+        "METER-002"
+      ],
+      "cerf_test": "NFR-END-002",
+      "future_components": [
+        "Artefact Detector",
+        "Coverage Matrix Engine"
+      ],
+      "future_test_cases": [
+        "TC-002"
+      ]
+    },
+    "dependencies": [],
+    "dependents": [],
+    "necessity": "essential",
+    "version_target": "v1.0-minor",
+    "status": "trace_complete"
+  },
+  {
+    "requirement_id": "REQ003",
+    "requirement_title": "ConOps & ODD Review",
+    "srs_section": "3.3.1",
+    "backward_trace": {
+      "source_text": "As a CAA safety-case reviewer I want a clear ConOps and ODD so that I can judge nominal and worst-credible behaviour.",
+      "parent_req": "REQ003",
+      "defospam_feature": "F3",
+      "defospam_findings": [],
+      "sbe_goal": "GOAL-002",
+      "vibe_anchor": null,
+      "keystone": "K2",
+      "standards": [
+        "CAP 722A Ed 2",
+        "JARUS SORA v2.5",
+        "DO-365"
+      ]
+    },
+    "forward_trace": {
+      "sbe_gherkin": [],
+      "sbe_refined_spec": [],
+      "pe_nfr": [
+        "NFR-F3-003"
+      ],
+      "iris_acceptance": [],
+      "vibe_meter": [],
+      "cerf_test": "NFR-END-003",
+      "future_components": [
+        "Artefact Detector",
+        "Coverage Matrix Engine"
+      ],
+      "future_test_cases": [
+        "TC-003"
+      ]
+    },
+    "dependencies": [],
+    "dependents": [],
+    "necessity": "conditional",
+    "version_target": "v1.1",
+    "status": "dead_end"
+  },
+  {
+    "requirement_id": "REQ004",
+    "requirement_title": "Airspace Change & TDA Coordination",
+    "srs_section": "3.4.1",
+    "backward_trace": {
+      "source_text": "As a CAA airspace regulator I want a TDA and consultation package so that I can segregate the trial from other users.",
+      "parent_req": "REQ004",
+      "defospam_feature": "F4",
+      "defospam_findings": [],
+      "sbe_goal": "GOAL-003",
+      "vibe_anchor": null,
+      "keystone": "K3",
+      "standards": [
+        "CAP 722A Ed 2",
+        "JARUS SORA v2.5",
+        "DO-365"
+      ]
+    },
+    "forward_trace": {
+      "sbe_gherkin": [],
+      "sbe_refined_spec": [],
+      "pe_nfr": [
+        "NFR-F4-004"
+      ],
+      "iris_acceptance": [],
+      "vibe_meter": [],
+      "cerf_test": "NFR-END-004",
+      "future_components": [
+        "Artefact Detector",
+        "Coverage Matrix Engine"
+      ],
+      "future_test_cases": [
+        "TC-004"
+      ]
+    },
+    "dependencies": [],
+    "dependents": [],
+    "necessity": "essential",
+    "version_target": "v1.0",
+    "status": "dead_end"
+  },
+  {
+    "requirement_id": "REQ005",
+    "requirement_title": "Geofence / Containment Enforcement",
+    "srs_section": "3.5.1",
+    "backward_trace": {
+      "source_text": "As a CAA airspace regulator I want automatic containment so that a fly-away cannot become uncontrolled BVLOS.",
+      "parent_req": "REQ005",
+      "defospam_feature": "F5",
+      "defospam_findings": [],
+      "sbe_goal": "GOAL-003",
+      "vibe_anchor": "GeofenceContainment scale",
+      "keystone": "K3",
+      "standards": [
+        "CAP 722A Ed 2",
+        "JARUS SORA v2.5",
+        "DO-365"
+      ]
+    },
+    "forward_trace": {
+      "sbe_gherkin": [
+        "features/containment_and_safety/geofence_containment.feature"
+      ],
+      "sbe_refined_spec": [
+        "RSPEC-001"
+      ],
+      "pe_nfr": [
+        "NFR-F5-005"
+      ],
+      "iris_acceptance": [],
+      "vibe_meter": [
+        "METER-005"
+      ],
+      "cerf_test": "NFR-END-005",
+      "future_components": [
+        "Artefact Detector",
+        "Coverage Matrix Engine"
+      ],
+      "future_test_cases": [
+        "TC-005"
+      ]
+    },
+    "dependencies": [],
+    "dependents": [],
+    "necessity": "essential",
+    "version_target": "v1.0",
+    "status": "trace_complete"
+  },
+  {
+    "requirement_id": "REQ006",
+    "requirement_title": "C2 Link and Spectrum Assurance",
+    "srs_section": "3.6.1",
+    "backward_trace": {
+      "source_text": "As a CAA spectrum specialist I want authorised monitored C2 and inter-vehicle links so that link loss is survivable and non-interfering.",
+      "parent_req": "REQ006",
+      "defospam_feature": "F6",
+      "defospam_findings": [],
+      "sbe_goal": "GOAL-003",
+      "vibe_anchor": "C2LinkResilience scale",
+      "keystone": "K3",
+      "standards": [
+        "CAP 722A Ed 2",
+        "JARUS SORA v2.5",
+        "DO-365"
+      ]
+    },
+    "forward_trace": {
+      "sbe_gherkin": [
+        "features/containment_and_safety/c2_link_resilience.feature"
+      ],
+      "sbe_refined_spec": [
+        "RSPEC-001"
+      ],
+      "pe_nfr": [
+        "NFR-F6-006"
+      ],
+      "iris_acceptance": [],
+      "vibe_meter": [
+        "METER-006"
+      ],
+      "cerf_test": "NFR-END-006",
+      "future_components": [
+        "Artefact Detector",
+        "Coverage Matrix Engine"
+      ],
+      "future_test_cases": [
+        "TC-006"
+      ]
+    },
+    "dependencies": [],
+    "dependents": [],
+    "necessity": "essential",
+    "version_target": "v1.0",
+    "status": "trace_complete"
+  },
+  {
+    "requirement_id": "REQ007",
+    "requirement_title": "Detect-and-Avoid Performance",
+    "srs_section": "3.7.1",
+    "backward_trace": {
+      "source_text": "As a CAA DAA assessor I want DO-365 / F3442-aligned evidence for each aircraft and coordinated swarm de-confliction so that cooperative and non-cooperative encounters are resolved predictably.",
+      "parent_req": "REQ007",
+      "defospam_feature": "F7",
+      "defospam_findings": [],
+      "sbe_goal": "GOAL-002",
+      "vibe_anchor": "DAAPerformance scale",
+      "keystone": "K2",
+      "standards": [
+        "CAP 722A Ed 2",
+        "JARUS SORA v2.5",
+        "DO-365"
+      ]
+    },
+    "forward_trace": {
+      "sbe_gherkin": [
+        "features/containment_and_safety/daa_performance.feature"
+      ],
+      "sbe_refined_spec": [
+        "RSPEC-001"
+      ],
+      "pe_nfr": [
+        "NFR-F7-007"
+      ],
+      "iris_acceptance": [],
+      "vibe_meter": [
+        "METER-007"
+      ],
+      "cerf_test": "NFR-END-007",
+      "future_components": [
+        "Artefact Detector",
+        "Coverage Matrix Engine"
+      ],
+      "future_test_cases": [
+        "TC-007"
+      ]
+    },
+    "dependencies": [],
+    "dependents": [],
+    "necessity": "conditional",
+    "version_target": "v1.1",
+    "status": "trace_complete"
+  },
+  {
+    "requirement_id": "REQ008",
+    "requirement_title": "Swarm Decision-Making Architecture Review",
+    "srs_section": "3.8.1",
+    "backward_trace": {
+      "source_text": "As a CAA autonomy reviewer I want the decision-making architecture airborne limits and emergent-behaviour evidence so that I can assure what the swarm will do collectively.",
+      "parent_req": "REQ008",
+      "defospam_feature": "F8",
+      "defospam_findings": [],
+      "sbe_goal": "GOAL-002",
+      "vibe_anchor": "SwarmEmergentBoundedness scale",
+      "keystone": "K2",
+      "standards": [
+        "CAP 722A Ed 2",
+        "JARUS SORA v2.5",
+        "DO-365"
+      ]
+    },
+    "forward_trace": {
+      "sbe_gherkin": [
+        "features/autonomy/swarm_behavior_envelope.feature"
+      ],
+      "sbe_refined_spec": [
+        "RSPEC-001"
+      ],
+      "pe_nfr": [
+        "NFR-F8-008"
+      ],
+      "iris_acceptance": [],
+      "vibe_meter": [
+        "METER-008"
+      ],
+      "cerf_test": "NFR-END-008",
+      "future_components": [
+        "Artefact Detector",
+        "Coverage Matrix Engine"
+      ],
+      "future_test_cases": [
+        "TC-008"
+      ]
+    },
+    "dependencies": [],
+    "dependents": [],
+    "necessity": "conditional",
+    "version_target": "v1.1",
+    "status": "trace_complete"
+  },
+  {
+    "requirement_id": "REQ009",
+    "requirement_title": "ML Assurance Case",
+    "srs_section": "3.9.1",
+    "backward_trace": {
+      "source_text": "As a CAA AI/ML assurance specialist I want an AMLAS / SACE case a frozen-model manifest and explainability evidence so that ML components are assurable and forensically explainable.",
+      "parent_req": "REQ009",
+      "defospam_feature": "F9",
+      "defospam_findings": [],
+      "sbe_goal": "GOAL-004",
+      "vibe_anchor": "MLForensicExplainability scale",
+      "keystone": "K6",
+      "standards": [
+        "CAP 722A Ed 2",
+        "JARUS SORA v2.5",
+        "DO-365"
+      ]
+    },
+    "forward_trace": {
+      "sbe_gherkin": [
+        "features/autonomy/ml_forensic_explainability.feature"
+      ],
+      "sbe_refined_spec": [
+        "RSPEC-001"
+      ],
+      "pe_nfr": [
+        "NFR-F9-009"
+      ],
+      "iris_acceptance": [],
+      "vibe_meter": [
+        "METER-009"
+      ],
+      "cerf_test": "NFR-END-009",
+      "future_components": [
+        "Artefact Detector",
+        "Coverage Matrix Engine"
+      ],
+      "future_test_cases": [
+        "TC-009"
+      ]
+    },
+    "dependencies": [],
+    "dependents": [],
+    "necessity": "essential",
+    "version_target": "v1.0-minor",
+    "status": "trace_complete"
+  },
+  {
+    "requirement_id": "REQ010",
+    "requirement_title": "Human Oversight and Crew Fitness",
+    "srs_section": "3.10.1",
+    "backward_trace": {
+      "source_text": "As a CAA human factors inspector I want workload duty and take-over evidence so that meaningful human control is demonstrated throughout.",
+      "parent_req": "REQ010",
+      "defospam_feature": "F10",
+      "defospam_findings": [],
+      "sbe_goal": "GOAL-004",
+      "vibe_anchor": "MeaningfulHumanControl scale (TakeoverLatency dimension)",
+      "keystone": "K6",
+      "standards": [
+        "CAP 722A Ed 2",
+        "JARUS SORA v2.5",
+        "DO-365"
+      ]
+    },
+    "forward_trace": {
+      "sbe_gherkin": [
+        "features/autonomy/meaningful_human_control.feature"
+      ],
+      "sbe_refined_spec": [
+        "RSPEC-001"
+      ],
+      "pe_nfr": [
+        "NFR-F10-010"
+      ],
+      "iris_acceptance": [],
+      "vibe_meter": [
+        "METER-010"
+      ],
+      "cerf_test": "NFR-END-010",
+      "future_components": [
+        "Artefact Detector",
+        "Coverage Matrix Engine"
+      ],
+      "future_test_cases": [
+        "TC-010"
+      ]
+    },
+    "dependencies": [],
+    "dependents": [],
+    "necessity": "conditional",
+    "version_target": "v1.1",
+    "status": "trace_complete"
+  },
+  {
+    "requirement_id": "REQ011",
+    "requirement_title": "Contingency and Flight Termination",
+    "srs_section": "3.11.1",
+    "backward_trace": {
+      "source_text": "As a CAA flight-ops inspector I want independent termination a contingency matrix and ATSU coordination so that the trial can be made safe in any off-nominal state.",
+      "parent_req": "REQ011",
+      "defospam_feature": "F11",
+      "defospam_findings": [],
+      "sbe_goal": "GOAL-003",
+      "vibe_anchor": "IndependentFlightTermination scale",
+      "keystone": "K3",
+      "standards": [
+        "CAP 722A Ed 2",
+        "JARUS SORA v2.5",
+        "DO-365"
+      ]
+    },
+    "forward_trace": {
+      "sbe_gherkin": [
+        "features/containment_and_safety/independent_flight_termination.feature"
+      ],
+      "sbe_refined_spec": [
+        "RSPEC-001"
+      ],
+      "pe_nfr": [
+        "NFR-F11-011"
+      ],
+      "iris_acceptance": [],
+      "vibe_meter": [
+        "METER-011"
+      ],
+      "cerf_test": "NFR-END-011",
+      "future_components": [
+        "Artefact Detector",
+        "Coverage Matrix Engine"
+      ],
+      "future_test_cases": [
+        "TC-011"
+      ]
+    },
+    "dependencies": [],
+    "dependents": [],
+    "necessity": "essential",
+    "version_target": "v1.0",
+    "status": "trace_complete"
+  },
+  {
+    "requirement_id": "REQ012",
+    "requirement_title": "Data MOR & DPIA Obligations",
+    "srs_section": "3.12.1",
+    "backward_trace": {
+      "source_text": "As a CAA flight safety investigator I want complete recorded evidence accepted MOR obligations and a DPIA so that any incident is investigable and privacy is protected.",
+      "parent_req": "REQ012",
+      "defospam_feature": "F12",
+      "defospam_findings": [],
+      "sbe_goal": "GOAL-005",
+      "vibe_anchor": null,
+      "keystone": null,
+      "standards": [
+        "CAP 722A Ed 2",
+        "JARUS SORA v2.5",
+        "DO-365"
+      ]
+    },
+    "forward_trace": {
+      "sbe_gherkin": [],
+      "sbe_refined_spec": [],
+      "pe_nfr": [
+        "NFR-F12-012"
+      ],
+      "iris_acceptance": [],
+      "vibe_meter": [],
+      "cerf_test": "NFR-END-012",
+      "future_components": [
+        "Artefact Detector",
+        "Coverage Matrix Engine"
+      ],
+      "future_test_cases": [
+        "TC-012"
+      ]
+    },
+    "dependencies": [],
+    "dependents": [],
+    "necessity": "conditional",
+    "version_target": "v1.1",
+    "status": "dead_end"
+  },
+  {
+    "requirement_id": "REQ013",
+    "requirement_title": "Insurance & Ground-Environment Survey",
+    "srs_section": "3.13.1",
+    "backward_trace": {
+      "source_text": "As a CAA authorisation officer I want insurance and a ground survey so that third-party risk is both transferable and factually grounded.",
+      "parent_req": "REQ013",
+      "defospam_feature": "F13",
+      "defospam_findings": [],
+      "sbe_goal": "GOAL-008",
+      "vibe_anchor": null,
+      "keystone": null,
+      "standards": [
+        "CAP 722A Ed 2",
+        "JARUS SORA v2.5",
+        "DO-365"
+      ]
+    },
+    "forward_trace": {
+      "sbe_gherkin": [],
+      "sbe_refined_spec": [],
+      "pe_nfr": [
+        "NFR-F13-013"
+      ],
+      "iris_acceptance": [],
+      "vibe_meter": [],
+      "cerf_test": "NFR-END-013",
+      "future_components": [
+        "Artefact Detector",
+        "Coverage Matrix Engine"
+      ],
+      "future_test_cases": [
+        "TC-013"
+      ]
+    },
+    "dependencies": [],
+    "dependents": [],
+    "necessity": "optional",
+    "version_target": "v2.0",
+    "status": "dead_end"
+  },
+  {
+    "requirement_id": "REQ014",
+    "requirement_title": "Crew Training & Competency",
+    "srs_section": "3.14.1",
+    "backward_trace": {
+      "source_text": "As a CAA licensing inspector I want evidenced competency so that the trial is flown by qualified crew.",
+      "parent_req": "REQ014",
+      "defospam_feature": "F14",
+      "defospam_findings": [],
+      "sbe_goal": null,
+      "vibe_anchor": null,
+      "keystone": null,
+      "standards": [
+        "CAP 722A Ed 2",
+        "JARUS SORA v2.5",
+        "DO-365"
+      ]
+    },
+    "forward_trace": {
+      "sbe_gherkin": [],
+      "sbe_refined_spec": [],
+      "pe_nfr": [
+        "NFR-F14-014"
+      ],
+      "iris_acceptance": [],
+      "vibe_meter": [],
+      "cerf_test": "NFR-END-014",
+      "future_components": [
+        "Artefact Detector",
+        "Coverage Matrix Engine"
+      ],
+      "future_test_cases": [
+        "TC-014"
+      ]
+    },
+    "dependencies": [],
+    "dependents": [],
+    "necessity": "optional",
+    "version_target": "v2.0",
+    "status": "dead_end"
+  },
+  {
+    "requirement_id": "REQ015",
+    "requirement_title": "CAA/MAA Interface Management",
+    "srs_section": "3.15.1",
+    "backward_trace": {
+      "source_text": "As a CAA/MAA liaison I want a signed apportionment so that regulatory ownership is gap-free.",
+      "parent_req": "REQ015",
+      "defospam_feature": "F15",
+      "defospam_findings": [],
+      "sbe_goal": "GOAL-006",
+      "vibe_anchor": "CAAMAAApportionmentGapFreeness scale",
+      "keystone": null,
+      "standards": [
+        "CAP 722A Ed 2",
+        "JARUS SORA v2.5",
+        "DO-365"
+      ]
+    },
+    "forward_trace": {
+      "sbe_gherkin": [
+        "features/governance/caa_maa_apportionment.feature"
+      ],
+      "sbe_refined_spec": [
+        "RSPEC-001"
+      ],
+      "pe_nfr": [
+        "NFR-F15-015"
+      ],
+      "iris_acceptance": [],
+      "vibe_meter": [
+        "METER-015"
+      ],
+      "cerf_test": "NFR-END-015",
+      "future_components": [
+        "Artefact Detector",
+        "Coverage Matrix Engine"
+      ],
+      "future_test_cases": [
+        "TC-015"
+      ]
+    },
+    "dependencies": [],
+    "dependents": [],
+    "necessity": "conditional",
+    "version_target": "v1.0-minor",
+    "status": "trace_complete"
+  },
+  {
+    "requirement_id": "REQ016",
+    "requirement_title": "Phased Trial Build-Up",
+    "srs_section": "3.16.1",
+    "backward_trace": {
+      "source_text": "As a CAA programme manager I want phased gates so that evidence builds progressively and is reversible.",
+      "parent_req": "REQ016",
+      "defospam_feature": "F16",
+      "defospam_findings": [],
+      "sbe_goal": "GOAL-007",
+      "vibe_anchor": "PhasedGateReversibility scale",
+      "keystone": null,
+      "standards": [
+        "CAP 722A Ed 2",
+        "JARUS SORA v2.5",
+        "DO-365"
+      ]
+    },
+    "forward_trace": {
+      "sbe_gherkin": [
+        "features/panel_review/panel_decision_making.feature",
+        "features/panel_review/panel_decision_making.feature",
+        "features/panel_review/panel_decision_making.feature"
+      ],
+      "sbe_refined_spec": [
+        "RSPEC-001",
+        "RSPEC-002",
+        "RSPEC-003"
+      ],
+      "pe_nfr": [
+        "NFR-F16-016"
+      ],
+      "iris_acceptance": [],
+      "vibe_meter": [
+        "METER-016",
+        "METER-016",
+        "METER-016"
+      ],
+      "cerf_test": "NFR-END-016",
+      "future_components": [
+        "Artefact Detector",
+        "Coverage Matrix Engine"
+      ],
+      "future_test_cases": [
+        "TC-016"
+      ]
+    },
+    "dependencies": [],
+    "dependents": [],
+    "necessity": "conditional",
+    "version_target": "v1.1",
+    "status": "trace_complete"
+  },
+  {
+    "requirement_id": "REQ017",
+    "requirement_title": "Public and Stakeholder Engagement",
+    "srs_section": "3.17.1",
+    "backward_trace": {
+      "source_text": "No user story covers community consultation press/media handling or prior-notification to landowners. Strongly implied by CAP 1616 and GDPR but absent.",
+      "parent_req": "REQ017",
+      "defospam_feature": "F17",
+      "defospam_findings": [],
+      "sbe_goal": "GOAL-010",
+      "vibe_anchor": "PublicEngagementCoverage scale",
+      "keystone": null,
+      "standards": [
+        "CAP 722A Ed 2",
+        "JARUS SORA v2.5",
+        "DO-365"
+      ]
+    },
+    "forward_trace": {
+      "sbe_gherkin": [
+        "features/governance/public_engagement.feature"
+      ],
+      "sbe_refined_spec": [
+        "RSPEC-001"
+      ],
+      "pe_nfr": [
+        "NFR-F17-017"
+      ],
+      "iris_acceptance": [],
+      "vibe_meter": [
+        "METER-017"
+      ],
+      "cerf_test": "NFR-END-017",
+      "future_components": [
+        "Artefact Detector",
+        "Coverage Matrix Engine"
+      ],
+      "future_test_cases": [
+        "TC-017"
+      ]
+    },
+    "dependencies": [],
+    "dependents": [],
+    "necessity": "conditional",
+    "version_target": "v1.1",
+    "status": "trace_complete"
+  },
+  {
+    "requirement_id": "REQ018",
+    "requirement_title": "Security Classification Handling",
+    "srs_section": "3.18.1",
+    "backward_trace": {
+      "source_text": "No user story addresses how classified MOD evidence is presented to the CAA under CAP 722H / JSP 440 without compromise to either side.",
+      "parent_req": "REQ018",
+      "defospam_feature": "F18",
+      "defospam_findings": [],
+      "sbe_goal": "GOAL-009",
+      "vibe_anchor": "Classification-aware evidence segregation",
+      "keystone": null,
+      "standards": [
+        "CAP 722A Ed 2",
+        "JARUS SORA v2.5",
+        "DO-365"
+      ]
+    },
+    "forward_trace": {
+      "sbe_gherkin": [
+        "features/classification/classification_custodian.feature"
+      ],
+      "sbe_refined_spec": [
+        "RSPEC-001"
+      ],
+      "pe_nfr": [
+        "NFR-F18-018"
+      ],
+      "iris_acceptance": [],
+      "vibe_meter": [
+        "METER-018"
+      ],
+      "cerf_test": "NFR-END-018",
+      "future_components": [
+        "Artefact Detector",
+        "Coverage Matrix Engine"
+      ],
+      "future_test_cases": [
+        "TC-018"
+      ]
+    },
+    "dependencies": [],
+    "dependents": [],
+    "necessity": "optional",
+    "version_target": "v2.0",
+    "status": "trace_complete"
+  },
+  {
+    "requirement_id": "REQ019",
+    "requirement_title": "Environmental Impact",
+    "srs_section": "3.19.1",
+    "backward_trace": {
+      "source_text": "No user story covers noise species disturbance at dusk/night or battery-fire environmental risk on ground.",
+      "parent_req": "REQ019",
+      "defospam_feature": "F19",
+      "defospam_findings": [],
+      "sbe_goal": "GOAL-011",
+      "vibe_anchor": null,
+      "keystone": null,
+      "standards": [
+        "CAP 722A Ed 2",
+        "JARUS SORA v2.5",
+        "DO-365"
+      ]
+    },
+    "forward_trace": {
+      "sbe_gherkin": [],
+      "sbe_refined_spec": [],
+      "pe_nfr": [
+        "NFR-F19-019"
+      ],
+      "iris_acceptance": [],
+      "vibe_meter": [],
+      "cerf_test": "NFR-END-019",
+      "future_components": [
+        "Artefact Detector",
+        "Coverage Matrix Engine"
+      ],
+      "future_test_cases": [
+        "TC-019"
+      ]
+    },
+    "dependencies": [],
+    "dependents": [],
+    "necessity": "optional",
+    "version_target": "v2.0",
+    "status": "dead_end"
+  },
+  {
+    "requirement_id": "REQ020",
+    "requirement_title": "Post-Trial Assurance & Close-out",
+    "srs_section": "3.20.1",
+    "backward_trace": {
+      "source_text": "No user story covers the post-trial lessons-learned evidence preservation and authorisation close-out.",
+      "parent_req": "REQ020",
+      "defospam_feature": "F20",
+      "defospam_findings": [],
+      "sbe_goal": "GOAL-005",
+      "vibe_anchor": "MORForensicCompleteness; Traceability binding completeness",
+      "keystone": null,
+      "standards": [
+        "CAP 722A Ed 2",
+        "JARUS SORA v2.5",
+        "DO-365"
+      ]
+    },
+    "forward_trace": {
+      "sbe_gherkin": [
+        "features/post_decision/archive_and_audit.feature"
+      ],
+      "sbe_refined_spec": [
+        "RSPEC-001"
+      ],
+      "pe_nfr": [
+        "NFR-F20-020"
+      ],
+      "iris_acceptance": [],
+      "vibe_meter": [
+        "METER-020"
+      ],
+      "cerf_test": "NFR-END-020",
+      "future_components": [
+        "Artefact Detector",
+        "Coverage Matrix Engine"
+      ],
+      "future_test_cases": [
+        "TC-020"
+      ]
+    },
+    "dependencies": [],
+    "dependents": [],
+    "necessity": "optional",
+    "version_target": "v2.0",
+    "status": "trace_complete"
+  }
+]

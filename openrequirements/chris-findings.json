@@ -1,0 +1,375 @@
+[
+  {
+    "finding_title": "Swarm-aware SORA evidence is undefined",
+    "finding_type": "isolation_signal",
+    "confidence": 10,
+    "severity": "critical",
+    "feature": "REQ002: SORA Assessment for Swarm",
+    "missing_perspectives": [
+      "regulator",
+      "applicant",
+      "autonomy engineer"
+    ],
+    "recommended_model": "all_team_workshop",
+    "workshop_questions": [
+      "What distinguishes swarm-aware SORA evidence from standard single-aircraft SORA?",
+      "What swarm-specific failure modes must SORA address that single-aircraft SORA does not?",
+      "How do interdependencies between aircraft affect SAIL levels?"
+    ],
+    "ubiquitous_language_entry": {
+      "term": "swarm-aware",
+      "agreed_definition": "Methodology or evidence that explicitly accounts for collective behavior, coordination dependencies, and emergent risks arising from multiple coordinated aircraft operating as a swarm.",
+      "status": "proposed"
+    },
+    "reasoning": "REQ002 is a foundational requirement for SORA assessment. Dorothy-1 finding identified the term is undefined. Without clarity on what swarm-aware means, SORA assessors lack criteria for what evidence to demand. Different assessors might reach different SAIL levels for identical systems, leading to inconsistent authorizations.",
+    "recommendation": "Conduct WS-001 (all-team workshop) with SORA assessor, applicant, autonomy engineer, and test engineer. Define swarm-aware operationally with reference to JARUS SORA v2.5 multi-UAS guidance.",
+    "analyst": "Chris",
+    "byline": "Collaboration Analyst",
+    "principle": "S",
+    "image_url": "https://openrequirements.ai/assets/Chris-DeYpHpua.png"
+  },
+  {
+    "finding_title": "Meaningful human control lacks measurable criteria",
+    "finding_type": "missing_perspective",
+    "confidence": 10,
+    "severity": "critical",
+    "feature": "REQ010: Human Oversight and Crew Fitness",
+    "missing_perspectives": [
+      "regulator",
+      "human factors engineer",
+      "pilot/crew"
+    ],
+    "recommended_model": "all_team_workshop",
+    "workshop_questions": [
+      "What situational awareness update frequency and display comprehensiveness is required?",
+      "Which decisions require explicit crew authorization vs can autonomy decide independently?",
+      "What is the acceptable takeover time for crew to regain control during off-nominal events?",
+      "What workload limits ensure crew can maintain meaningful control?"
+    ],
+    "ubiquitous_language_entry": {
+      "term": "meaningful human control",
+      "agreed_definition": "Active, informed crew awareness and retained authority to perceive system state, understand autonomous actions, and intervene before safety-critical decisions.",
+      "status": "proposed"
+    },
+    "reasoning": "REQ010 requires meaningful human control to be demonstrated but provides no definition or criteria. This term is borrowed from LAWS (Lethal Autonomous Weapons) debate and is inherently subjective. Dorothy-2 finding (confidence 10/10): without operational thresholds, CAA human factors inspectors cannot evaluate whether evidence is sufficient. Different inspectors may reach different conclusions on identical evidence.",
+    "recommendation": "Conduct WS-003 (all-team workshop) with CAA human factors inspector, applicant crew lead, test pilot, autonomy engineer, and human factors specialist. Define meaningful human control with measurable criteria: awareness frequency, authority preservation, takeover time, workload limits.",
+    "analyst": "Chris",
+    "byline": "Collaboration Analyst",
+    "principle": "S",
+    "image_url": "https://openrequirements.ai/assets/Chris-DeYpHpua.png"
+  },
+  {
+    "finding_title": "Containment mechanism design and verification criteria undefined",
+    "finding_type": "isolation_signal",
+    "confidence": 10,
+    "severity": "critical",
+    "feature": "REQ005: Geofence/Containment Enforcement",
+    "missing_perspectives": [
+      "regulator",
+      "applicant",
+      "autonomy engineer",
+      "test engineer"
+    ],
+    "recommended_model": "all_team_workshop",
+    "workshop_questions": [
+      "What is the physical tolerance of the geofence boundary (+/- X meters)?",
+      "What is the fail-safe mechanism if onboard geofence logic fails?",
+      "What design standard applies (DO-254 DAL B, DEFSTAN 00-970 Part 9)?",
+      "How do GPS drift, multipath, and environmental factors affect containment?",
+      "What is the verification approach (Monte Carlo analysis, flight test, simulation)?"
+    ],
+    "ubiquitous_language_entry": {
+      "term": "containment",
+      "agreed_definition": "Systems combining mechanical, software, and procedural measures that prevent UAS from exiting operational boundary regardless of link loss or autonomy failure.",
+      "status": "proposed"
+    },
+    "reasoning": "REQ005 uses automatic containment as a critical safety mechanism but does not specify five critical subcriteria. Dorothy-4 finding (confidence 10/10): geofence tolerance, fail-safe mechanism, design standard, environmental factors, and verification approach are all undefined. Different developers might implement containment with different tolerances and fail-safes, leading to inconsistent safety levels.",
+    "recommendation": "Conduct WS-002 (all-team workshop) with CAA airspace regulator, applicant safety engineer, autonomy engineer, avionics engineer, and test engineer. Define geofence tolerance, fail-safe design, verification approach, and success criteria.",
+    "analyst": "Chris",
+    "byline": "Collaboration Analyst",
+    "principle": "S",
+    "image_url": "https://openrequirements.ai/assets/Chris-DeYpHpua.png"
+  },
+  {
+    "finding_title": "Boundary between credible and incredible failure modes undefined",
+    "finding_type": "terminology_conflict",
+    "confidence": 10,
+    "severity": "critical",
+    "feature": "REQ003: ConOps & ODD Review",
+    "missing_perspectives": [
+      "regulator",
+      "applicant",
+      "safety engineer"
+    ],
+    "recommended_model": "all_team_workshop",
+    "workshop_questions": [
+      "Is worst-credible based on single-failure assumption, common-mode failures, or both?",
+      "What environmental extremes within ODD count as worst-credible?",
+      "Does worst-credible include pilot error, or only system failures?",
+      "How is credibility judged: industry precedent, expert opinion, quantitative analysis?"
+    ],
+    "ubiquitous_language_entry": {
+      "term": "worst-credible behaviour",
+      "agreed_definition": "Most severe adverse system performance or failure mode reasonably foreseeable that must be survived by containment, backup systems, or crew intervention.",
+      "status": "proposed"
+    },
+    "reasoning": "REQ003 pairs nominal and worst-credible behavior as a duality for safety case development. Dorothy-5 finding (confidence 10/10): the boundary between credible and incredible is undefined. Narrow interpretation misses critical failure modes; broad interpretation demands infeasible mitigations. This leads to inconsistent safety cases across applicants.",
+    "recommendation": "Conduct WS-008 (all-team workshop) with CAA safety-case reviewer, applicant safety engineer, autonomy engineer, and test engineer. Define credible/incredible boundary with reference to failure mode analysis, ODD bounds, and industry standards.",
+    "analyst": "Chris",
+    "byline": "Collaboration Analyst",
+    "principle": "S",
+    "image_url": "https://openrequirements.ai/assets/Chris-DeYpHpua.png"
+  },
+  {
+    "finding_title": "Link loss survivability does not specify mechanism or timeline",
+    "finding_type": "isolation_signal",
+    "confidence": 10,
+    "severity": "critical",
+    "feature": "REQ006: C2 Link and Spectrum Assurance",
+    "missing_perspectives": [
+      "regulator",
+      "applicant",
+      "spectrum engineer",
+      "test engineer"
+    ],
+    "recommended_model": "three_amigos",
+    "workshop_questions": [
+      "How long can the link be lost before action is triggered (seconds? minutes)?",
+      "What is the onboard action when link is lost (Return-to-Launch, hold, safe descent)?",
+      "Are C2 loss and inter-vehicle loss required to be survivable independently or jointly?",
+      "Can crew intervene to override the default action?"
+    ],
+    "ubiquitous_language_entry": {
+      "term": "link loss survivable",
+      "agreed_definition": "UAS and swarm have procedures and design such that loss of C2 or inter-vehicle comms can be managed safely without loss of separation or collision.",
+      "status": "proposed"
+    },
+    "reasoning": "REQ006 states outcome need (survivability) but not mechanism or timeline. Flo-1 finding (confidence 10/10): time-to-loss, action, and crew role are undefined. Developer cannot implement link-loss logic without knowing intended behavior. Each action has different hazards: autonomous RTL = continued flight but loss of crew override; manual takeover = crew control but crew dependency; hold = separation maintained but airspace occupied.",
+    "recommendation": "Conduct WS-004 (three-amigos session) with CAA spectrum specialist, applicant communications engineer, and test engineer. Define time-to-loss, action, crew override capability, and verification approach.",
+    "analyst": "Chris",
+    "byline": "Collaboration Analyst",
+    "principle": "S",
+    "image_url": "https://openrequirements.ai/assets/Chris-DeYpHpua.png"
+  },
+  {
+    "finding_title": "Pack completeness defined differently in application intake vs incident investigation",
+    "finding_type": "terminology_conflict",
+    "confidence": 10,
+    "severity": "critical",
+    "feature": "REQ001 & REQ012: Application Intake vs Data Recording",
+    "missing_perspectives": [
+      "regulator",
+      "applicant",
+      "case officer",
+      "investigator"
+    ],
+    "recommended_model": "dev_analyst_pair",
+    "workshop_questions": [
+      "What constitutes a complete Operational Authorisation pack for case acceptance?",
+      "What constitutes complete recorded evidence for incident investigation?",
+      "Are these two concepts related or entirely separate?",
+      "What criteria distinguish a complete pack from an incomplete one?"
+    ],
+    "ubiquitous_language_entry": {
+      "term": "Operational Authorisation pack",
+      "agreed_definition": "A complete submission to the CAA containing all regulatory evidence, safety cases, operational procedures, and technical documentation required for trial approval.",
+      "status": "agreed"
+    },
+    "reasoning": "Dorothy-8 finding (confidence 10/10): the term complete appears in REQ001 (application intake) and REQ012 (incident investigation) with different criteria. A complete application may lack raw telemetry by design. Complete raw telemetry is useless without documentation of what the system was supposed to do. Conflating these two meanings creates ambiguity about what completeness means.",
+    "recommendation": "Conduct dev-analyst pairing with case officer and investigator to disambiguate. Create separate entries: pack completeness (for application intake) vs recorded evidence completeness (for investigation).",
+    "analyst": "Chris",
+    "byline": "Collaboration Analyst",
+    "principle": "S",
+    "image_url": "https://openrequirements.ai/assets/Chris-DeYpHpua.png"
+  },
+  {
+    "finding_title": "Detect-and-Avoid resolution mechanism not specified for cooperative and non-cooperative encounters",
+    "finding_type": "isolation_signal",
+    "confidence": 10,
+    "severity": "critical",
+    "feature": "REQ007: Detect-and-Avoid Performance",
+    "missing_perspectives": [
+      "regulator",
+      "applicant",
+      "test engineer"
+    ],
+    "recommended_model": "all_team_workshop",
+    "workshop_questions": [
+      "What defines predictable conflict resolution in practice?",
+      "Which avoidance maneuver is preferred (climb, turn, descent)? Why?",
+      "How does swarm coordinate during DAA (maintain formation or independent action)?",
+      "Can crew override DAA decisions?",
+      "How is DAA compliance verified (DO-365/F3442 testing)?"
+    ],
+    "ubiquitous_language_entry": {
+      "term": "resolved predictably",
+      "agreed_definition": "Conflicts with other aircraft are resolved deterministically and foreseeable to all participants through defined maneuver selection logic and coordination.",
+      "status": "proposed"
+    },
+    "reasoning": "REQ007 states the outcome need (predictably resolved) but not the mechanism. Paul-1 finding (confidence 10/10): developer cannot implement DAA without knowing which avoidance maneuver is preferred and who decides (crew vs autonomy). Different maneuvers create different hazards. For swarms, coordination must prevent inter-swarm collisions during single-aircraft avoidance.",
+    "recommendation": "Conduct WS-005 (all-team workshop) with CAA DAA assessor, applicant autonomy engineer, test engineer, and analyst. Define maneuver selection logic, swarm coordination rules, crew override capability, and verification approach.",
+    "analyst": "Chris",
+    "byline": "Collaboration Analyst",
+    "principle": "S",
+    "image_url": "https://openrequirements.ai/assets/Chris-DeYpHpua.png"
+  },
+  {
+    "finding_title": "ML explainability requirement may be infeasible for deep learning systems",
+    "finding_type": "missing_perspective",
+    "confidence": 10,
+    "severity": "critical",
+    "feature": "REQ009: ML Assurance Case",
+    "missing_perspectives": [
+      "regulator",
+      "applicant",
+      "ML engineer"
+    ],
+    "recommended_model": "all_team_workshop",
+    "workshop_questions": [
+      "What level of explainability is feasible for deep learning models (LIME, SHAP, saliency maps)?",
+      "Does explainability apply to all ML models or only safety-critical ones?",
+      "What is the fallback if a model cannot be fully explained (reject it or accept with conditions)?",
+      "How is forensic explainability verified post-incident?"
+    ],
+    "ubiquitous_language_entry": {
+      "term": "forensically explainable",
+      "agreed_definition": "System whose decisions can be reconstructed and explained post-hoc through investigation of model weights, training data, decision logic, and failure modes.",
+      "status": "proposed"
+    },
+    "reasoning": "REQ009 requires forensic explainability for ML systems. Dorothy-6 finding (confidence 10/10): for neural networks and deep learning, perfect post-hoc explainability is mathematically infeasible (black-box problem). Applicants will face impossible standards. Regulators need clear fallback: approved explainability techniques acceptable? Alternative evidence (testing coverage, monitor during flight)?",
+    "recommendation": "Conduct WS-006 (all-team workshop) with CAA AI/ML assurance specialist, applicant ML engineer, test engineer, and analyst. Define acceptable explainability techniques (LIME, SHAP, etc.), identify safety-critical vs non-critical models, and establish fallback if full explainability cannot be achieved.",
+    "analyst": "Chris",
+    "byline": "Collaboration Analyst",
+    "principle": "S",
+    "image_url": "https://openrequirements.ai/assets/Chris-DeYpHpua.png"
+  },
+  {
+    "finding_title": "Frozen model manifest specification incomplete - 7 critical details undefined",
+    "finding_type": "isolation_signal",
+    "confidence": 10,
+    "severity": "critical",
+    "feature": "REQ009: ML Assurance Case",
+    "missing_perspectives": [
+      "regulator",
+      "applicant",
+      "ML engineer"
+    ],
+    "recommended_model": "all_team_workshop",
+    "workshop_questions": [
+      "What data must frozen-model manifest contain (weights, architecture, training dataset, hyperparameters)?",
+      "For how long must the frozen model be retained (trial duration, post-trial, indefinitely)?",
+      "How is model manifest secured (access control, integrity verification)?",
+      "What is the manifest format (JSON, XML, proprietary)?",
+      "Can proprietary training data be redacted or must all data be disclosed?",
+      "Who owns and maintains the manifest (applicant, CAA, third-party)?",
+      "Is reconstruction required immediately post-flight or only upon incident?"
+    ],
+    "ubiquitous_language_entry": {
+      "term": "frozen model",
+      "agreed_definition": "ML model whose weights, architecture, training data, and hyperparameters are fixed and immutable for trial duration.",
+      "status": "proposed"
+    },
+    "reasoning": "REQ009 requires a frozen-model manifest but does not specify format, content, retention, security, or ownership. Dorothy-7 finding (confidence 10/10): seven critical subcriteria undefined. Applicant may provide minimal manifest; CAA investigator may need complete manifest post-incident. Conflicting requirements create friction.",
+    "recommendation": "Conduct WS-006 (all-team workshop) with CAA AI/ML assurance specialist, applicant ML engineer, test engineer, and analyst. Define manifest structure, content, retention policy, security controls, and access rights.",
+    "analyst": "Chris",
+    "byline": "Collaboration Analyst",
+    "principle": "S",
+    "image_url": "https://openrequirements.ai/assets/Chris-DeYpHpua.png"
+  },
+  {
+    "finding_title": "Flight termination requirement states outcome but not mechanism",
+    "finding_type": "isolation_signal",
+    "confidence": 10,
+    "severity": "critical",
+    "feature": "REQ011: Contingency and Flight Termination",
+    "missing_perspectives": [
+      "regulator",
+      "applicant",
+      "flight ops",
+      "test engineer"
+    ],
+    "recommended_model": "all_team_workshop",
+    "workshop_questions": [
+      "What is the mechanism for independent termination (ground switch, RF kill, crew joystick)?",
+      "How long does termination take effect (must be <X seconds)?",
+      "What is the aircraft behavior upon termination (hard stop, safe descent, parachute)?",
+      "Who is responsible for termination trigger (crew, ground station, ATSU)?",
+      "How is ATSU notified of termination (automatic, manual, required)?",
+      "What data must be preserved before termination?"
+    ],
+    "ubiquitous_language_entry": {
+      "term": "independent termination",
+      "agreed_definition": "System forcing all swarm aircraft to cease flight immediately, independent of C2 link, inter-vehicle links, or onboard autonomy.",
+      "status": "proposed"
+    },
+    "reasoning": "REQ011 states the outcome need (safe termination) but not the mechanism. Paul-2 finding (confidence 10/10): developer cannot implement termination without knowing the trigger, time-to-effect, and onboard behavior. Different implementations have different hazards: hard stop = rapid descent risk; RTL = extended flight but crew loses control; safe descent = longer timeframe but more control.",
+    "recommendation": "Conduct WS-007 (all-team workshop) with CAA flight-ops inspector, applicant avionics engineer, flight ops lead, test engineer, and analyst. Define termination mechanism, time-to-effect, aircraft behavior, ATSU coordination, and verification approach.",
+    "analyst": "Chris",
+    "byline": "Collaboration Analyst",
+    "principle": "S",
+    "image_url": "https://openrequirements.ai/assets/Chris-DeYpHpua.png"
+  },
+  {
+    "finding_title": "\"Defensibly\" used as success criterion but never defined",
+    "finding_type": "terminology_conflict",
+    "confidence": 10,
+    "severity": "critical",
+    "feature": "REQ002: SORA Assessment for Swarm",
+    "missing_perspectives": [
+      "regulator",
+      "applicant",
+      "SORA assessor"
+    ],
+    "recommended_model": "dev_analyst_pair",
+    "workshop_questions": [
+      "What makes a SORA assessment defensible (following JARUS methodology, peer review, precedent)?",
+      "Defensible to whom (CAA assessor, Freedom of Information challenge, accident investigation)?",
+      "How is defensibility verified (documentation, reasoning, precedent)?",
+      "Can two equally competent assessors defensibly reach different SAIL levels for same system?"
+    ],
+    "ubiquitous_language_entry": {
+      "term": "defensibly",
+      "agreed_definition": "In a manner that can be justified through evidence and logical argument to regulatory scrutiny, peer review, and accident investigation.",
+      "status": "proposed"
+    },
+    "reasoning": "REQ002 uses defensibly as a success criterion for setting SAIL and OSO (operational boundaries). Dorothy-3 finding (confidence 10/10): the term is never defined. Without definition, two SORA assessors might defensibly reach different SAIL levels for identical systems, leading to inconsistent authorizations. High-stakes term with regulatory weight.",
+    "recommendation": "Conduct dev-analyst pairing with SORA assessor and analyst. Define defensibly with reference to JARUS SORA v2.5 methodology, CAA precedent, and peer review standards.",
+    "analyst": "Chris",
+    "byline": "Collaboration Analyst",
+    "principle": "S",
+    "image_url": "https://openrequirements.ai/assets/Chris-DeYpHpua.png"
+  },
+  {
+    "finding_title": "Four critical features (REQ017-REQ020) have no user stories - regulatory requirements implicit but unspecified",
+    "finding_type": "workshop_needed",
+    "confidence": 10,
+    "severity": "critical",
+    "feature": "REQ017, REQ018, REQ019, REQ020 (missing features)",
+    "missing_perspectives": [
+      "regulator",
+      "applicant",
+      "stakeholder engagement",
+      "security",
+      "environmental",
+      "investigator"
+    ],
+    "recommended_model": "all_team_workshop",
+    "workshop_questions": [
+      "REQ017: What is the public/stakeholder engagement plan (CAP 1616, prior notification)?",
+      "REQ018: How are classified MOD systems presented to CAA without security compromise (CAP 722H, JSP 440)?",
+      "REQ019: How are environmental impacts (noise, species, battery fire) assessed and managed?",
+      "REQ020: What happens to trial data post-closure (archival, lessons-learned, regulatory handoff)?"
+    ],
+    "ubiquitous_language_entry": {
+      "term": "public and stakeholder engagement",
+      "agreed_definition": "Proactive consultation with affected stakeholders (landowners, community groups, environmental bodies) prior to trial commencement, in compliance with CAP 1616 and GDPR.",
+      "status": "proposed"
+    },
+    "reasoning": "REQ017-REQ020 are explicitly marked as absent from the requirements but are strongly implied by CAA policy (CAP 1616, CAP 722H/JSP 440, environmental regulations, institutional learning). These are regulatory obligations but lack user stories, acceptance criteria, or mechanism specification. System cannot enforce obligations without explicit requirements.",
+    "recommendation": "Conduct all-team workshop with CAA policy experts, applicant stakeholder lead, security officer, environmental officer, and investigator. Create four new user stories for REQ017-REQ020 with explicit acceptance criteria.",
+    "analyst": "Chris",
+    "byline": "Collaboration Analyst",
+    "principle": "S",
+    "image_url": "https://openrequirements.ai/assets/Chris-DeYpHpua.png"
+  }
+]

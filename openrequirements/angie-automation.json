@@ -1,0 +1,495 @@
+[
+  {
+    "feature_file": "features/applicant/application_intake.feature",
+    "feature_name": "Application Intake & Case Opening",
+    "goal": "GOAL-001",
+    "scenario_count": 4,
+    "data_driven_scenario_count": 1,
+    "step_definitions": [
+      {
+        "phrase": "Given the clause library version is pinned to 2.1",
+        "boundary": "service",
+        "reusable": true,
+        "shared_across_features": 15
+      },
+      {
+        "phrase": "Given Edinburgh Napier University has assembled a complete PDRA-01 VLOS pack",
+        "boundary": "database",
+        "reusable": false,
+        "notes": "Test data setup via fixture"
+      },
+      {
+        "phrase": "When the applicant submits the Operational Authorisation pack to the CAA intake system",
+        "boundary": "api",
+        "reusable": true,
+        "shared_across_features": 3
+      }
+    ],
+    "framework": "Behave (Python) for API and service layers",
+    "tags": ["@applicant", "@intake", "@smoke", "@F01"],
+    "estimated_execution_time_seconds": 45
+  },
+  {
+    "feature_file": "features/applicant/completeness_check.feature",
+    "feature_name": "Pack Completeness Validation",
+    "goal": "GOAL-001",
+    "scenario_count": 6,
+    "data_driven_scenario_count": 2,
+    "step_definitions": [
+      {
+        "phrase": "Given the Artefact Detector service is operational",
+        "boundary": "service",
+        "reusable": true,
+        "shared_across_features": 2
+      },
+      {
+        "phrase": "When Artefact Detector runs on submission",
+        "boundary": "service",
+        "reusable": true,
+        "shared_across_features": 2
+      },
+      {
+        "phrase": "Then all 8 artefact types flagged GREEN within 10 minutes",
+        "boundary": "service",
+        "reusable": false
+      }
+    ],
+    "framework": "Behave (Python) for Artefact Detector service integration",
+    "tags": ["@applicant", "@intake", "@smoke", "@F02"],
+    "estimated_execution_time_seconds": 120
+  },
+  {
+    "feature_file": "features/applicant/submission_readiness_check.feature",
+    "feature_name": "Submission Readiness & Gate Control",
+    "goal": "GOAL-001",
+    "scenario_count": 4,
+    "data_driven_scenario_count": 1,
+    "step_definitions": [
+      {
+        "phrase": "Given case status is INTAKE_COMPLETE",
+        "boundary": "database",
+        "reusable": true,
+        "shared_across_features": 8
+      },
+      {
+        "phrase": "When Thorough Gate reviewer assesses <criterion>",
+        "boundary": "ui",
+        "reusable": false,
+        "notes": "Workbench UI interaction; prefer minimizing"
+      }
+    ],
+    "framework": "Cypress-Gherkin for Workbench UI; Behave for data assertions",
+    "tags": ["@applicant", "@intake", "@regression", "@F04"],
+    "estimated_execution_time_seconds": 90
+  },
+  {
+    "feature_file": "features/sora_assessment/swarm_aware_sora.feature",
+    "feature_name": "Swarm-Aware SORA Assessment",
+    "goal": "GOAL-002",
+    "scenario_count": 4,
+    "data_driven_scenario_count": 1,
+    "step_definitions": [
+      {
+        "phrase": "Given SORA assessor has completed swarm-specific training",
+        "boundary": "service",
+        "reusable": true,
+        "shared_across_features": 1,
+        "notes": "Training verification via HR/learning system"
+      },
+      {
+        "phrase": "When SORA assessor applies JARUS SORA v2.5 Appendix C methodology",
+        "boundary": "ui",
+        "reusable": true,
+        "shared_across_features": 2
+      }
+    ],
+    "framework": "Cypress-Gherkin for Workbench UI; Behave for service validation",
+    "tags": ["@sora_assessment", "@F03", "@REQ002", "@GOAL-002"],
+    "estimated_execution_time_seconds": 180
+  },
+  {
+    "feature_file": "features/sora_assessment/sail_determination.feature",
+    "feature_name": "SAIL Determination & Evidence Adequacy",
+    "goal": "GOAL-002",
+    "scenario_count": 3,
+    "data_driven_scenario_count": 0,
+    "step_definitions": [
+      {
+        "phrase": "Given JARUS SORA v2.5 methodology applied",
+        "boundary": "service",
+        "reusable": true,
+        "shared_across_features": 2
+      },
+      {
+        "phrase": "When SORA assessment determines SAIL-III required",
+        "boundary": "service",
+        "reusable": true,
+        "shared_across_features": 1
+      }
+    ],
+    "framework": "Behave (Python) for SORA assessment service integration",
+    "tags": ["@sora_assessment", "@F03", "@REQ002"],
+    "estimated_execution_time_seconds": 150
+  },
+  {
+    "feature_file": "features/containment_and_safety/geofence_containment.feature",
+    "feature_name": "Geofence & Containment Enforcement",
+    "goal": "GOAL-003",
+    "scenario_count": 5,
+    "data_driven_scenario_count": 1,
+    "step_definitions": [
+      {
+        "phrase": "Given trial airspace TDA is activated and published via NOTAM",
+        "boundary": "service",
+        "reusable": true,
+        "shared_across_features": 3
+      },
+      {
+        "phrase": "When geofence logic detects breach",
+        "boundary": "service",
+        "reusable": true,
+        "shared_across_features": 2
+      },
+      {
+        "phrase": "Then RTL (Return-to-Launch) command issued within 100ms",
+        "boundary": "service",
+        "reusable": true,
+        "shared_across_features": 1,
+        "notes": "Latency verification via telemetry assertion"
+      }
+    ],
+    "framework": "Behave (Python) for geofence/containment service; hardware-in-loop simulation for latency",
+    "tags": ["@containment", "@F06", "@REQ005", "@K1"],
+    "estimated_execution_time_seconds": 240
+  },
+  {
+    "feature_file": "features/containment_and_safety/c2_link_resilience.feature",
+    "feature_name": "C2 Link Resilience & Loss Survivability",
+    "goal": "GOAL-003",
+    "scenario_count": 5,
+    "data_driven_scenario_count": 1,
+    "step_definitions": [
+      {
+        "phrase": "Given authorized monitored C2 link with spectrum license",
+        "boundary": "service",
+        "reusable": true,
+        "shared_across_features": 2
+      },
+      {
+        "phrase": "When C2 is powered down at t=120s",
+        "boundary": "service",
+        "reusable": false,
+        "notes": "Intentional link-loss test scenario"
+      },
+      {
+        "phrase": "Then consensus resolves within 1.8 seconds",
+        "boundary": "service",
+        "reusable": false,
+        "notes": "Consensus timing assertion from autonomous subsystem"
+      }
+    ],
+    "framework": "Behave (Python) for distributed consensus simulation; hardware-in-loop for link management",
+    "tags": ["@containment", "@F07", "@REQ006"],
+    "estimated_execution_time_seconds": 210
+  },
+  {
+    "feature_file": "features/containment_and_safety/daa_performance.feature",
+    "feature_name": "Detect-and-Avoid (DAA) Performance Assurance",
+    "goal": "GOAL-002",
+    "scenario_count": 5,
+    "data_driven_scenario_count": 1,
+    "step_definitions": [
+      {
+        "phrase": "Given DAA system meets DO-365 or F3442 standards",
+        "boundary": "service",
+        "reusable": true,
+        "shared_across_features": 1
+      },
+      {
+        "phrase": "When DAA system detects intruder at 100ms latency",
+        "boundary": "service",
+        "reusable": true,
+        "shared_across_features": 1
+      },
+      {
+        "phrase": "Then detection confidence logged (98.3% in this case)",
+        "boundary": "database",
+        "reusable": true,
+        "shared_across_features": 1
+      }
+    ],
+    "framework": "Behave (Python) for DAA service; synthetic intruder simulation; DO-365 compliance checker",
+    "tags": ["@containment", "@F08", "@REQ007", "@K2"],
+    "estimated_execution_time_seconds": 200
+  },
+  {
+    "feature_file": "features/containment_and_safety/independent_flight_termination.feature",
+    "feature_name": "Independent Flight Termination",
+    "goal": "GOAL-003",
+    "scenario_count": 5,
+    "data_driven_scenario_count": 0,
+    "step_definitions": [
+      {
+        "phrase": "Given independent termination system uses 915 MHz frequency",
+        "boundary": "service",
+        "reusable": true,
+        "shared_across_features": 1
+      },
+      {
+        "phrase": "When Range Safety Officer activates independent termination RF kill-switch",
+        "boundary": "ui",
+        "reusable": false,
+        "notes": "RSO workstation UI; rare activation path"
+      },
+      {
+        "phrase": "Then kill-code transmitted at 915 MHz with cryptographic authentication",
+        "boundary": "service",
+        "reusable": false,
+        "notes": "RF signal verification; lab-only test"
+      }
+    ],
+    "framework": "Behave (Python) for RF link simulation; dedicated hardware lab for kill-switch validation",
+    "tags": ["@containment", "@F12", "@REQ011", "@K6"],
+    "estimated_execution_time_seconds": 180
+  },
+  {
+    "feature_file": "features/autonomy/swarm_behavior_envelope.feature",
+    "feature_name": "Swarm Behaviour Envelope & Emergent Boundaries",
+    "goal": "GOAL-004",
+    "scenario_count": 4,
+    "data_driven_scenario_count": 1,
+    "step_definitions": [
+      {
+        "phrase": "Given swarm decision-making architecture is documented in ConOps",
+        "boundary": "database",
+        "reusable": true,
+        "shared_across_features": 2
+      },
+      {
+        "phrase": "When Monte Carlo simulation runs 10,000 trials with random wind gusts",
+        "boundary": "service",
+        "reusable": true,
+        "shared_across_features": 1
+      },
+      {
+        "phrase": "Then 100% of trials maintain swarm altitude within range",
+        "boundary": "service",
+        "reusable": false,
+        "notes": "Statistical assertion; resource-intensive"
+      }
+    ],
+    "framework": "Behave (Python) for Monte Carlo orchestration; NumPy/SciPy for statistical analysis",
+    "tags": ["@autonomy", "@F09", "@REQ008", "@K3"],
+    "estimated_execution_time_seconds": 900
+  },
+  {
+    "feature_file": "features/autonomy/ml_forensic_explainability.feature",
+    "feature_name": "ML/AI Forensic Explainability & Model Assurance",
+    "goal": "GOAL-004",
+    "scenario_count": 6,
+    "data_driven_scenario_count": 1,
+    "step_definitions": [
+      {
+        "phrase": "Given ML model is frozen (immutable) for trial duration",
+        "boundary": "database",
+        "reusable": true,
+        "shared_across_features": 1
+      },
+      {
+        "phrase": "When investigator provides flight state at collision",
+        "boundary": "ui",
+        "reusable": false,
+        "notes": "AAIB investigator portal; manual input"
+      },
+      {
+        "phrase": "Then forensic replay system reconstructs model input features",
+        "boundary": "service",
+        "reusable": false,
+        "notes": "Python-based model replay; SHAP/LIME explainability"
+      }
+    ],
+    "framework": "Behave (Python) for ML forensic service; TensorFlow/PyTorch for model inference",
+    "tags": ["@autonomy", "@F10", "@REQ009", "@K4"],
+    "estimated_execution_time_seconds": 120
+  },
+  {
+    "feature_file": "features/autonomy/meaningful_human_control.feature",
+    "feature_name": "Meaningful Human Control & Crew Authority",
+    "goal": "GOAL-004",
+    "scenario_count": 7,
+    "data_driven_scenario_count": 1,
+    "step_definitions": [
+      {
+        "phrase": "Given crew consists of pilot and observer/systems manager",
+        "boundary": "service",
+        "reusable": true,
+        "shared_across_features": 1
+      },
+      {
+        "phrase": "When crew presses emergency override button at t=45.2s",
+        "boundary": "ui",
+        "reusable": true,
+        "shared_across_features": 1,
+        "notes": "Ground control station UI simulation"
+      },
+      {
+        "phrase": "Then all 5 aircraft transition to hover mode within 50ms",
+        "boundary": "service",
+        "reusable": true,
+        "shared_across_features": 1
+      }
+    ],
+    "framework": "Cypress-Gherkin for GCS UI; Behave (Python) for latency verification",
+    "tags": ["@autonomy", "@F11", "@REQ010", "@K5"],
+    "estimated_execution_time_seconds": 150
+  },
+  {
+    "feature_file": "features/panel_review/panel_decision_making.feature",
+    "feature_name": "Panel Decision-Making & Override Authority",
+    "goal": "GOAL-001",
+    "scenario_count": 4,
+    "data_driven_scenario_count": 1,
+    "step_definitions": [
+      {
+        "phrase": "Given panel composition includes CAA Lead Inspector, Autonomy Specialist, MAA Air Safety Officer",
+        "boundary": "service",
+        "reusable": true,
+        "shared_across_features": 1
+      },
+      {
+        "phrase": "When joint panel convenes for deliberation",
+        "boundary": "ui",
+        "reusable": false,
+        "notes": "Panel deliberation interface; not fully automated"
+      },
+      {
+        "phrase": "Then decision record documents APPROVE_WITH_CONDITIONS",
+        "boundary": "database",
+        "reusable": true,
+        "shared_across_features": 1
+      }
+    ],
+    "framework": "Cypress-Gherkin for panel interface; Behave (Python) for decision record validation",
+    "tags": ["@panel_review", "@F26", "@REQ016"],
+    "estimated_execution_time_seconds": 60
+  },
+  {
+    "feature_file": "features/post_decision/archive_and_audit.feature",
+    "feature_name": "Post-Decision Archive & Case History Management",
+    "goal": "GOAL-005",
+    "scenario_count": 5,
+    "data_driven_scenario_count": 0,
+    "step_definitions": [
+      {
+        "phrase": "Given trial has completed all authorized phases",
+        "boundary": "database",
+        "reusable": true,
+        "shared_across_features": 1
+      },
+      {
+        "phrase": "When archival process triggered",
+        "boundary": "service",
+        "reusable": true,
+        "shared_across_features": 1
+      },
+      {
+        "phrase": "Then archival package created containing decision PDFs, evidence bundles",
+        "boundary": "service",
+        "reusable": true,
+        "shared_across_features": 1
+      }
+    ],
+    "framework": "Behave (Python) for archive orchestration; Google Cloud Storage API client",
+    "tags": ["@post_decision", "@F28", "@REQ020"],
+    "estimated_execution_time_seconds": 300
+  },
+  {
+    "feature_file": "features/classification/classification_custodian.feature",
+    "feature_name": "Security Classification & MOD Evidence Handling",
+    "goal": "GOAL-009",
+    "scenario_count": 4,
+    "data_driven_scenario_count": 1,
+    "step_definitions": [
+      {
+        "phrase": "Given Classification Review Officer role established",
+        "boundary": "service",
+        "reusable": true,
+        "shared_across_features": 1
+      },
+      {
+        "phrase": "When Artefact Detector scans classification metadata",
+        "boundary": "service",
+        "reusable": true,
+        "shared_across_features": 1
+      },
+      {
+        "phrase": "Then case escalates to Classification Review Officer automatically",
+        "boundary": "service",
+        "reusable": false
+      }
+    ],
+    "framework": "Behave (Python) for classification detection service; mock CRO workflow",
+    "tags": ["@classification", "@F20", "@REQ018", "@K8"],
+    "estimated_execution_time_seconds": 90
+  },
+  {
+    "feature_file": "features/governance/caa_maa_apportionment.feature",
+    "feature_name": "CAA/MAA Regulatory Apportionment & Dual-Authority",
+    "goal": "GOAL-006",
+    "scenario_count": 4,
+    "data_driven_scenario_count": 1,
+    "step_definitions": [
+      {
+        "phrase": "Given trial may be civil-only (CAA) or civil+military (CAA+MAA)",
+        "boundary": "service",
+        "reusable": true,
+        "shared_across_features": 1
+      },
+      {
+        "phrase": "When apportionment matrix submitted with application intake",
+        "boundary": "api",
+        "reusable": true,
+        "shared_across_features": 1
+      },
+      {
+        "phrase": "Then apportionment becomes binding contract for case duration",
+        "boundary": "database",
+        "reusable": true,
+        "shared_across_features": 1
+      }
+    ],
+    "framework": "Behave (Python) for apportionment service; mock CAA/MAA signing workflow",
+    "tags": ["@governance", "@F17", "@REQ015", "@K7"],
+    "estimated_execution_time_seconds": 75
+  },
+  {
+    "feature_file": "features/governance/public_engagement.feature",
+    "feature_name": "Public Engagement & Stakeholder Notification",
+    "goal": "GOAL-010",
+    "scenario_count": 5,
+    "data_driven_scenario_count": 1,
+    "step_definitions": [
+      {
+        "phrase": "Given trial location identified (e.g., Spadeadam, Edinburgh)",
+        "boundary": "service",
+        "reusable": true,
+        "shared_across_features": 1
+      },
+      {
+        "phrase": "When public engagement plan drafted",
+        "boundary": "ui",
+        "reusable": false,
+        "notes": "Engagement plan UI; stakeholder coordination workflow"
+      },
+      {
+        "phrase": "Then plan includes landowner notification, local authority coordination",
+        "boundary": "database",
+        "reusable": true,
+        "shared_across_features": 1
+      }
+    ],
+    "framework": "Cypress-Gherkin for engagement plan UI; Behave (Python) for notification verification",
+    "tags": ["@governance", "@F19", "@REQ017"],
+    "estimated_execution_time_seconds": 100
+  }
+]

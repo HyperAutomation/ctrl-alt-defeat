@@ -1,0 +1,248 @@
+[
+  {
+    "finding_id": "LAVEENA-001",
+    "finding_title": "SwarmAwareSORA definition still 'proposed'; requires workshop operationalization before living docs can be complete",
+    "finding_type": "consistency_gap",
+    "confidence": 10,
+    "severity": "critical",
+    "feature": "F03: SORA Assessment (Swarm-Aware)",
+    "documentation_structure": {
+      "proposed_path": "features/phase2_regulator/step6_deep_dive_reviews/swarm_aware_sora.feature",
+      "tags": ["@phase2", "@sora", "@critical", "@REQ002", "@K2"]
+    },
+    "consistency_issues": [
+      "Chris-language.json lists 'swarm-aware' with status='proposed' and note: 'Critical undefined term. Requires workshop to validate definition.'",
+      "rex-refined.json RSPEC-010 (SwarmAwareSORA) contains 47-line spec, but underlying term is unverified",
+      "Grace-goals.json GOAL-002 requires 'SwarmAwareSORAEvidence' but methodology not specified",
+      "Vibe VibeR 'SwarmAwareSORAEvidence' scale definition relies on assumption that term is operationalized, but it is not"
+    ],
+    "accessibility_score": "low",
+    "reasoning": "The keystone K2 (SwarmAwareSORA) is non-negotiable for swarm trial authorization, yet the core concept remains 'proposed' (unverified). This means developers building features, CAA reviewers reading specs, and applicants preparing evidence all operate with different mental models of what 'swarm-aware' means. DeFOSPAM Dorothy-1 flagged this with confidence 10/10. Until this is operationalized in WS-001, the living docs cannot claim true specification completeness.",
+    "recommendation": "Schedule WS-001 (REQ002: Swarm-Aware SORA Assessment) as a blocker before Phase 2 feature files are marked 'stable'. Workshop agenda: (1) Define swarm-aware operationally; (2) Identify swarm-specific failure modes not covered in single-aircraft SORA; (3) Map evidence requirements (test data, analysis, simulation); (4) Define SAIL outcomes for swarm complexity.",
+    "analyst": "Laveena",
+    "byline": "Living Documentation Analyst",
+    "principle": "L",
+    "image_url": "https://openrequirements.ai/assets/Laveena-DeYWBejU.png"
+  },
+  {
+    "finding_id": "LAVEENA-002",
+    "finding_title": "GeofenceContainment specification lacks five critical design subcriteria; feature file is incomplete without design workshop",
+    "finding_type": "structure_issue",
+    "confidence": 9,
+    "severity": "critical",
+    "feature": "F06: Geofence & Containment Enforcement",
+    "documentation_structure": {
+      "proposed_path": "features/phase1_applicant/step2_evidence_upload/ OR features/phase2_regulator/step6_deep_dive_reviews/geofence_containment.feature",
+      "tags": ["@phase2", "@containment", "@critical", "@REQ005", "@K3"]
+    },
+    "consistency_issues": [
+      "Chris-language.json 'containment' definition lists 'five critical subcriteria undefined: boundary tolerance, fail-safe mechanism, design standard, environmental factors, verification approach.'",
+      "rex-refined.json geofence specs (RSPEC-020+) specify 'RTL within 500ms' but do not specify tolerance range (e.g., ±50m, ±100m?)",
+      "Isabel-examples.json EX-004 (Geofence breach) uses '50m tolerance' as example data, but this is not validated as acceptable threshold",
+      "Grace-goals.json GOAL-003 measures 'GeofenceContainment scale' but scale definition in Vibe does not address tolerance parametrization"
+    ],
+    "accessibility_score": "medium",
+    "reasoning": "A developer trying to implement geofence logic reads the feature file and sees 'RTL within 500ms', but cannot answer: What tolerance is acceptable? What wind speed is worst-credible? What GPS accuracy assumptions? What design standard applies (DO-254 DAL B?)? Without these clarifications, the implementation will lack regulatory defensibility. DeFOSPAM Dorothy-4 identified this as confidence 10/10 critical finding.",
+    "recommendation": "Schedule WS-002 (REQ005: Automatic Containment Design Specification) with: CAA airspace regulator, applicant safety engineer, autonomy engineer, test engineer. Agenda: (1) Define boundary tolerance (±X meters); (2) Specify fail-safe mechanism (independent altitude limiter?); (3) Identify design standard (DO-254 DAL B? DEFSTAN 00-970 Part 9?); (4) Map environmental factors (GPS multipath, wind prediction); (5) Define verification approach (Monte Carlo? Flight test?). Output: containment design spec, geofence tolerance matrix, verification plan.",
+    "analyst": "Laveena",
+    "byline": "Living Documentation Analyst",
+    "principle": "L",
+    "image_url": "https://openrequirements.ai/assets/Laveena-DeYWBejU.png"
+  },
+  {
+    "finding_id": "LAVEENA-003",
+    "finding_title": "MeaningfulHumanControl feature lacks quantified crew situational awareness and workload thresholds; specification is aspirational, not testable",
+    "finding_type": "consistency_gap",
+    "confidence": 9,
+    "severity": "critical",
+    "feature": "F11: Human Oversight & Workload Assessment",
+    "documentation_structure": {
+      "proposed_path": "features/phase2_regulator/step6_deep_dive_reviews/human_factors/meaningful_human_control.feature",
+      "tags": ["@phase2", "@human_factors", "@critical", "@REQ010", "@K4"]
+    },
+    "consistency_issues": [
+      "Chris-language.json 'meaningful-human-control' marked 'proposed' with note: 'Requires measurable criteria: situational awareness frequency, authority preservation, takeover time, workload limits.'",
+      "rex-refined.json specs for human factors (RSPEC-030+) reference 'crew authority preservation' but do not define: How often must crew see system state (10Hz? 1Hz?)? What workload threshold triggers refusal (max concurrent alarms? max decision frequency?)?",
+      "Isabel-examples.json EX-007 (override latency) shows '50ms override, 10Hz telemetry' but these numbers are not validated as acceptable minimums or maximums",
+      "Vibe 'MeaningfulHumanControl' scale definition cites 'crew authority preservation' but measurable sub-scale not provided"
+    ],
+    "accessibility_score": "medium",
+    "reasoning": "A CAA human-factors inspector reading the feature file for meaningful human control can see the scenario ('crew observes altitude deviation, presses button, swarm halts within 50ms'), but cannot make a go/no-go decision without knowing: Is 50ms fast enough for true control authority? Is 10Hz telemetry update frequent enough for situational awareness? DeFOSPAM Dorothy-2 identified this as confidence 10/10 critical finding. Without quantified thresholds, the specification is aspirational (good goal, not testable requirement).",
+    "recommendation": "Schedule WS-003 (REQ010: Meaningful Human Control & Crew Workload Definition) with: CAA human factors inspector, applicant crew/flight ops lead, test pilot, autonomy engineer, human factors specialist. Agenda: (1) Define situational awareness update frequency (Hz? seconds?); (2) Define authority preservation scope (which decisions must crew pre-approve vs approve post-hoc?); (3) Define takeover time requirement (within X seconds for which off-nominal events?); (4) Define workload limits (max concurrent decisions? max duty cycle per hour?); (5) Map failure modes where control is lost; (6) Agree on evidence collection approach. Output: Meaningful human control definition, situational awareness spec, workload assessment criteria, monitoring plan.",
+    "analyst": "Laveena",
+    "byline": "Living Documentation Analyst",
+    "principle": "L",
+    "image_url": "https://openrequirements.ai/assets/Laveena-DeYWBejU.png"
+  },
+  {
+    "finding_id": "LAVEENA-004",
+    "finding_title": "MLForensicExplainability specification assumes perfect explainability is possible; no fallback strategy for deep learning",
+    "finding_type": "evolution_risk",
+    "confidence": 8,
+    "severity": "critical",
+    "feature": "F10: ML/AI Assurance Case & Model Manifest",
+    "documentation_structure": {
+      "proposed_path": "features/phase2_regulator/step6_deep_dive_reviews/autonomy_and_ml/ml_assurance_case.feature",
+      "tags": ["@phase2", "@autonomy", "@critical", "@REQ009", "@K5"]
+    },
+    "consistency_issues": [
+      "Chris-language.json 'forensically-explainable' marked 'proposed' with note: 'Perfect post-hoc explainability for deep learning is infeasible. Requires workshop to define acceptable techniques and fallback.'",
+      "rex-refined.json ML assurance scenarios (RSPEC-040+) require 'forensic explainability' but do not define: Which explainability techniques are acceptable (LIME? SHAP? Saliency maps)? What if model is inherently opaque (black-box deep network)?",
+      "Isabel-examples.json lacks any example of ML explainability failure or fallback scenario",
+      "Vibe 'MLForensicExplainability' scale definition assumes explainability is achievable; no contingency for models that cannot be fully explained"
+    ],
+    "accessibility_score": "low",
+    "reasoning": "A developer implementing an ML safety case reads the feature file and sees 'frozen model manifest with explainability evidence', but cannot answer: Is LIME sufficient? If SHAP analysis shows non-linear decision boundaries, is that 'explained' enough? What if the model is a deep neural network where no post-hoc explanation technique provides high confidence? DeFOSPAM Dorothy-6 identified this as confidence 10/10 critical finding. Without a fallback strategy (e.g., 'if explainability confidence < 80%, then model cannot be used for safety-critical decisions'), the specification creates an impossible requirement.",
+    "recommendation": "Schedule WS-006 (REQ009: ML Model Assurance & Explainability) with: CAA AI/ML assurance specialist, applicant ML engineer, test engineer. Agenda: (1) Identify all ML models in swarm architecture (vision, coordination, RTL decision); (2) For each model, define training data, validation data, test data; (3) Define forensic explainability approach (LIME? SHAP? Saliency maps? Bayesian analysis?); (4) Identify models that cannot be fully explained; (5) Define fallback approach for opaque models (restrict to non-safety-critical decisions? require smaller SAIL level?); (6) Define frozen model manifest (version, training data hash, validation results, known limitations); (7) Define model manifest retention and security. Output: AMLAS case structure, frozen model manifest specification, explainability approach with fallback strategy, SACE evidence mapping.",
+    "analyst": "Laveena",
+    "byline": "Living Documentation Analyst",
+    "principle": "L",
+    "image_url": "https://openrequirements.ai/assets/Laveena-DeYWBejU.png"
+  },
+  {
+    "finding_id": "LAVEENA-005",
+    "finding_title": "SwarmAwareSORA feature is over-specified (47 lines) while Phase 3 Archive feature is under-specified (1 feature); detail-level imbalance creates navigation friction",
+    "finding_type": "structure_issue",
+    "confidence": 8,
+    "severity": "major",
+    "feature": "Multiple features across phases",
+    "documentation_structure": {
+      "proposed_path": "features/phase2_regulator/step6_deep_dive_reviews/swarm_aware_sora.feature (over-specified) vs features/phase3_post_decision/step9_archive/ (under-specified)",
+      "tags": ["@phase1", "@phase2", "@phase3"]
+    },
+    "consistency_issues": [
+      "RSPEC-010 (SwarmAwareSORA) contains 47 lines of Given/When/Then with 8+ sub-steps; most other features are 15–25 lines",
+      "Phase 3 archive folder contains only 1 feature file (post_decision_archive.feature) covering 2 entirely different concerns: data retention duration and post-incident AAIB extraction",
+      "Isabel-examples.json provides 15 worked examples, but distribution is uneven: 5 examples for completeness check (Phase 1), 3 for containment (Phase 2), 0 for Phase 3 archive"
+    ],
+    "accessibility_score": "medium",
+    "reasoning": "A developer navigating the feature files encounters SwarmAwareSORA with 47 lines and thinks 'this must be really complex', then navigates to Phase 3 and finds only 1 feature file for 2 different concerns. This creates a false sense of importance (SwarmAwareSORA is complex because over-specified, not because it's intrinsically harder than other features) and undersells Phase 3 (archive seems like an afterthought). The imbalance suggests incomplete specification in Phase 3.",
+    "recommendation": "Rebalance detail levels: (1) Break SwarmAwareSORA into 2 separate features: 'swarm-aware-hazard-analysis' (SAIL mapping) and 'swarm-specific-failure-modes' (loss-of-separation cascade). (2) Expand Phase 3 from 1 feature to 3: 'data-retention-and-security.feature', 'post-incident-aaib-extraction.feature', 'forensic-trail-reconstruction.feature'. (3) Add 3 worked examples for Phase 3 (currently 0 examples). (4) Limit feature files to 20–30 lines; break longer scenarios into separate features.",
+    "analyst": "Laveena",
+    "byline": "Living Documentation Analyst",
+    "principle": "L",
+    "image_url": "https://openrequirements.ai/assets/Laveena-DeYWBejU.png"
+  },
+  {
+    "finding_id": "LAVEENA-006",
+    "finding_title": "Glossary term hyphenation and acronym expansion inconsistent across feature files; pre-commit hook should enforce style",
+    "finding_type": "consistency_gap",
+    "confidence": 8,
+    "severity": "major",
+    "feature": "All features",
+    "documentation_structure": {
+      "proposed_path": "features/ (all feature files)",
+      "tags": ["@smoke", "@regression", "@full"]
+    },
+    "consistency_issues": [
+      "Chris-language.json glossary defines 'meaningful-human-control' (hyphenated), but features sometimes use 'meaningful human control' (3 words) and sometimes 'meaningful-human-control'",
+      "'swarm-aware' is sometimes hyphenated, sometimes written as 'swarm aware' (2 words)",
+      "Acronyms: SORA is sometimes expanded on first use ('Specific Operational Risk Assessment – a framework...'), sometimes not",
+      "C2 link: sometimes 'C2 link', sometimes 'C2 Link' (capitalization inconsistent)"
+    ],
+    "accessibility_score": "high",
+    "reasoning": "A CAA case officer reading two different feature files encounters 'meaningful human control' in one and 'meaningful-human-control' in another, and wonders if they are different concepts. This undermines confidence in the glossary and creates ambiguity about which definition applies. Consistency is not just style — it affects interpretability.",
+    "recommendation": "Implement pre-commit hook (Python script, ~6 development hours) that: (1) Validates every bolded term against glossary.md; (2) Enforces hyphenation/capitalization style from glossary; (3) Flags unexpanded acronyms on first use; (4) Rejects commits if inconsistencies found. Hook should provide diffs showing required fixes. Alternative: Run nightly linter on feature files and report style violations in daily standup.",
+    "analyst": "Laveena",
+    "byline": "Living Documentation Analyst",
+    "principle": "L",
+    "image_url": "https://openrequirements.ai/assets/Laveena-DeYWBejU.png"
+  },
+  {
+    "finding_id": "LAVEENA-007",
+    "finding_title": "Bidirectional cross-references incomplete; geofence features do not reference termination features as fallback mechanism",
+    "finding_type": "navigation_gap",
+    "confidence": 7,
+    "severity": "major",
+    "feature": "F06: Geofence & Containment, F12: Flight Termination",
+    "documentation_structure": {
+      "proposed_path": "features/phase2_regulator/step6_deep_dive_reviews/geofence_containment.feature ↔ flight_termination.feature",
+      "tags": ["@phase2", "@containment", "@critical", "@REQ005", "@REQ011"]
+    },
+    "consistency_issues": [
+      "F06 geofence_containment.feature references F12 independent termination as 'fallback if geofence fails'",
+      "F12 flight_termination.feature does NOT reference F06 geofence as 'primary containment mechanism'",
+      "Navigation: Reader cannot discover relationship by reading F12 alone; must read F06 first"
+    ],
+    "accessibility_score": "medium",
+    "reasoning": "A developer building the termination system reads flight_termination.feature and understands that termination is the ultimate safety net, but doesn't discover that geofence is the primary containment mechanism (termination is only fallback). This creates incomplete mental model of the containment architecture. Bi-directionality is important for completeness and discoverability.",
+    "recommendation": "Add explicit cross-references to all feature files: at the top of flight_termination.feature, add 'Related features: F06 (geofence as primary containment). At the top of geofence_containment.feature, add 'Related features: F12 (termination as fallback). This can be automated in the Relish web interface (feature dependency graph) or manually maintained as hyperlinks in Markdown. Estimated effort: 4 hours to audit all features and add missing cross-references.",
+    "analyst": "Laveena",
+    "byline": "Living Documentation Analyst",
+    "principle": "L",
+    "image_url": "https://openrequirements.ai/assets/Laveena-DeYWBejU.png"
+  },
+  {
+    "finding_id": "LAVEENA-008",
+    "finding_title": "PackCompleteness 'complete' term has dual meaning (application intake vs incident data recording); glossary distinguishes but feature specs do not",
+    "finding_type": "consistency_gap",
+    "confidence": 8,
+    "severity": "major",
+    "feature": "F02: Completeness Check (REQ001) and F13: Incident Data Recording (REQ012)",
+    "documentation_structure": {
+      "proposed_path": "features/phase1_applicant/step4_readiness_check/completeness_check.feature vs features/phase3_post_decision/step9_archive/incident_data_recording.feature",
+      "tags": ["@phase1", "@phase3", "@intake", "@incident"]
+    },
+    "consistency_issues": [
+      "Chris-language.json lists TWO definitions: 'Operational Authorisation pack' (complete = all mandatory documents + substantive content) and 'complete-recorded-evidence' (complete = comprehensive telemetry + video + audio + state logs)",
+      "DeFOSPAM Dorothy-8 flagged with confidence 10/10: 'Complete has two distinct meanings. REQ001 (application) context vs REQ012 (incident) context.'",
+      "rex-refined.json RSPEC-002 (completeness check) and RSPEC-045 (incident data) both use term 'complete' but with different implied meanings",
+      "Vibe 'PackCompleteness' scale addresses REQ001 (application intake) but there is no separate scale for 'complete-recorded-evidence' (incident data)"
+    ],
+    "accessibility_score": "medium",
+    "reasoning": "A case officer reading the completeness check feature for applications ('all 8 mandatory artefacts present') will have a different mental model than a flight-ops engineer implementing incident recording ('comprehensive telemetry with sampling rates defined'). These are NOT the same thing, but the glossary uses the same word for both. This creates potential for misunderstanding across teams.",
+    "recommendation": "Rename the incident recording term to 'comprehensive-forensic-evidence' or 'complete-flight-data' to avoid ambiguity. Update: (1) chris-language.json: add new term 'complete-flight-data' with distinct definition; mark old 'complete-recorded-evidence' as deprecated; (2) rex-refined.json: update RSPEC-045 to use 'complete-flight-data' instead of 'complete-recorded-evidence'; (3) feature files: ensure features/phase1_applicant/ uses 'Operational Authorisation pack' and features/phase3_post_decision/ uses 'complete-flight-data'. (4) Add note to glossary.md explaining the distinction.",
+    "analyst": "Laveena",
+    "byline": "Living Documentation Analyst",
+    "principle": "L",
+    "image_url": "https://openrequirements.ai/assets/Laveena-DeYWBejU.png"
+  },
+  {
+    "finding_id": "LAVEENA-009",
+    "finding_title": "Phase 3 (Post-Decision) feature files lack 'Why' preamble linking to Goals; readability impact for new team members",
+    "finding_type": "accessibility_problem",
+    "confidence": 7,
+    "severity": "major",
+    "feature": "F22: Post-Trial Lessons-Learned & Close-out Archive, F28: Case History & Revision Management, F30: Audit Logging & Forensic Trail",
+    "documentation_structure": {
+      "proposed_path": "features/phase3_post_decision/step9_archive/ and features/phase3_post_decision/step10_calibration/",
+      "tags": ["@phase3"]
+    },
+    "consistency_issues": [
+      "Phase 1 and Phase 2 features start with narrative explaining business context (e.g., 'This feature supports GOAL-001: Build Defensible Approval Throughput')",
+      "Phase 3 features lack this narrative; readers cannot immediately connect feature to goal or understand regulatory importance",
+      "EX-015 (post-decision-archive example) is the only reference to the goal connection, but examples are separate from feature files"
+    ],
+    "accessibility_score": "medium",
+    "reasoning": "A new developer reading post_decision_archive.feature without the Goal context might think 'why is data retention so important?' or 'what happens if we skip archival?'. Without the 'Why' preamble, Phase 3 features feel like technical implementation detail rather than regulatory requirement. This hurts understanding of regulatory criticality and makes it harder to prioritize Phase 3 work.",
+    "recommendation": "Add Goal narrative preamble to all Phase 3 features following the template: '@phase3 ... Feature: Feature Name\\n  This feature supports GOAL-005 (Enable Incident Investigation & Regulatory Closure)\\n  by ensuring that [regulatory requirement]...'. Update affected features: (1) post_trial_archive.feature → add GOAL-005 context; (2) case_history_management.feature → add GOAL-012 context; (3) audit_logging.feature → add GOAL-012 context. Effort: 2 hours.",
+    "analyst": "Laveena",
+    "byline": "Living Documentation Analyst",
+    "principle": "L",
+    "image_url": "https://openrequirements.ai/assets/Laveena-DeYWBejU.png"
+  },
+  {
+    "finding_id": "LAVEENA-010",
+    "finding_title": "Phase 2 feature files lack mapping of deep-dive reviewers to assessment domains (SORA, safety, autonomy, ML); feature organization suggests unclear specialization",
+    "finding_type": "structure_issue",
+    "confidence": 7,
+    "severity": "major",
+    "feature": "F06–F11 (Deep-Dive Review features)",
+    "documentation_structure": {
+      "proposed_path": "features/phase2_regulator/step6_deep_dive_reviews/ (reorganization required)",
+      "tags": ["@phase2"]
+    },
+    "consistency_issues": [
+      "Grace-goals.json lists 6 deep-dive review goals (GOAL-002 SORA, GOAL-003 Containment, GOAL-004 Autonomy, etc.) but feature file organization does not mirror these goals",
+      "Feature folder structure is flat (step6_deep_dive_reviews/) rather than hierarchical (step6_deep_dive_reviews/sora/, step6_deep_dive_reviews/containment/, step6_deep_dive_reviews/autonomy/)",
+      "No clear mapping of features to reviewer specialization (who is the SORA assessor? who is the autonomy engineer? who is the ML specialist?)"
+    ],
+    "accessibility_score": "medium",
+    "reasoning": "A CAA program manager trying to understand the deep-dive review step reads the flat folder structure and wonders: Are all these reviews happening in parallel or sequentially? Are they independent or interdependent? Who is responsible for each review? Feature file organization can either clarify or obscure process structure.",
+    "recommendation": "Reorganize features/phase2_regulator/step6_deep_dive_reviews/ into domain subfolders: (1) sora/ (SORA assessment features), (2) safety/ (safety case and containment reviews), (3) autonomy/ (swarm decision-making, emergent behavior), (4) human_factors/ (meaningful human control, workload), (5) ml/ (model manifest, explainability). Add README.md in step6_deep_dive_reviews/ listing the reviewer roles and dependencies. Effort: 3 hours (mostly folder reorganization and README authoring).",
+    "analyst": "Laveena",
+    "byline": "Living Documentation Analyst",
+    "principle": "L",
+    "image_url": "https://openrequirements.ai/assets/Laveena-DeYWBejU.png"
+  }
+]

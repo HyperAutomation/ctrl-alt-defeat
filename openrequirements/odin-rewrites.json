@@ -1,0 +1,441 @@
+[
+  {
+    "req_id": "REQ001",
+    "original_text": "As a CAA case officer I want to receive a complete Operational Authorisation pack so that I can open a valid case.",
+    "ambiguities_detected": [
+      "vague qualifier 'complete' - lacks acceptance criteria (DeFOSPAM Dorothy-8)",
+      "passive voice 'receive' - unclear if applicant submits or system pulls",
+      "undefined outcome - what happens when pack is incomplete?",
+      "undefined reference 'valid case' - validity criteria not specified"
+    ],
+    "rewrite_ieee830": "The Workbench shall, upon applicant submission, execute the Artefact Detector component to validate the Operational Authorisation Pack against the mandatory-artefact list for the classified operation type. The Pack shall be considered complete when all 8 mandatory artefacts (ConOps, SORA, Safety Case, Training Plan, Personnel List, Environmental Assessment, Insurance, Ground Survey) are present, validly formatted (PDF/XLSX/DOCX), and exceed minimum page thresholds: ConOps >= 5 pages, SORA >= 3 pages, Safety Case >= 10 pages. An incomplete pack shall cause the case to enter the return-for-clarification state with explicit specification of missing artefacts. A complete pack shall cause the case to enter the open-case state and advance to SORA Assessment phase.",
+    "glossary_terms_used": [
+      "Operational Authorisation Pack",
+      "Artefact Detector",
+      "return-for-clarification",
+      "open-case state",
+      "SORA Assessment"
+    ],
+    "notes": "REQ001 conflates two uses of 'complete': (1) application intake completeness (artefact presence) vs (2) evidentiary completeness (REQ012 context). These must be separated. The rewrite operationalizes PackCompleteness per Vibe Scale. Acceptance criteria derived from Vibe meter METER-001 (Quick Gate) and METER-002 (Thorough Gate)."
+  },
+  {
+    "req_id": "REQ002",
+    "original_text": "As a CAA SORA assessor I want swarm-aware SORA evidence so that I can set SAIL and OSO requirements defensibly.",
+    "ambiguities_detected": [
+      "undefined term 'swarm-aware' (DeFOSPAM Dorothy-1, confidence 10/10)",
+      "vague qualifier 'defensibly' - no criteria for defense (DeFOSPAM Dorothy-3)",
+      "undefined 'SORA evidence' - scope not bounded",
+      "implicit outcome - what triggers passage vs. return-for-clarification?"
+    ],
+    "rewrite_ieee830": "The SORA Assessor shall, when evaluating a BVLOS swarm trial, demand swarm-aware SORA evidence that explicitly accounts for: (1) collective behavior arising from inter-vehicle coordination; (2) coordination dependencies between aircraft; (3) emergent risks (separation loss, deadlock, single-point-of-failure cascades) not present in single-aircraft SORA. Evidence shall be defensible through reference to JARUS SORA v2.5 methodology, documented hazard analysis (FTA or STAMP), and verification against swarm-specific scenarios. Upon evaluation, the assessor shall issue SAIL (Specific Assurance and Integrity Level) and OSO (Operational Safety Objectives) targets that explicitly reference swarm coordination constraints (e.g., 'Separation maintained during coordinated evasion maneuver shall be >= 50 meters horizontally and 20 meters vertically').",
+    "glossary_terms_used": [
+      "swarm-aware",
+      "SORA (Specific Operational Risk Assessment)",
+      "SAIL (Specific Assurance and Integrity Level)",
+      "OSO (Operational Safety Objectives)",
+      "defensibly",
+      "inter-vehicle coordination",
+      "emergent risks",
+      "JARUS SORA v2.5"
+    ],
+    "notes": "DeFOSPAM finding: 'swarm-aware' is the 1st critical undefined term. Chris's language file defines swarm-aware as 'methodology or evidence that explicitly accounts for collective behavior.' The rewrite operationalizes this by enumerating the 3 required evidence components. 'Defensibly' is tied to JARUS methodology and documented analysis to make it verifiable."
+  },
+  {
+    "req_id": "REQ003",
+    "original_text": "As a CAA safety-case reviewer I want a clear ConOps and ODD so that I can judge nominal and worst-credible behaviour.",
+    "ambiguities_detected": [
+      "vague qualifier 'clear' - no clarity criteria",
+      "undefined term 'worst-credible behaviour' (DeFOSPAM Dorothy-5) - credibility boundary undefined",
+      "undefined judgment criteria - what makes behavior acceptable or unacceptable?",
+      "passive voice 'judge' - no decision outcomes specified"
+    ],
+    "rewrite_ieee830": "The Safety Case Reviewer shall receive a Concept of Operations (ConOps) document containing: (1) swarm composition and roles; (2) operational phases with crew decision points; (3) failure modes and contingency responses; (4) nominal behavior thresholds (e.g., 'normal flight plan deviation < 2 degrees, descent rate < 100 ft/min'). The Reviewer shall also receive the Operational Design Domain (ODD) specifying operating conditions (wind speed <= 15 knots, temperature -5°C to +30°C, GPS accuracy better than 5 meters, daylight hours only). Upon review, the Reviewer shall validate that all worst-credible behavior scenarios are addressed by documented crew procedures or containment systems. Worst-credible behavior is defined as the most severe single failure or environmental excursion reasonably foreseeable (e.g., loss of GPS signal, C2 link loss, geofence breach) that the system and crew must survive. The Reviewer shall issue accept, return-for-clarification, or refuse-with-reasons decision.",
+    "glossary_terms_used": [
+      "Concept of Operations (ConOps)",
+      "Operational Design Domain (ODD)",
+      "nominal behavior",
+      "worst-credible behaviour",
+      "single failure",
+      "containment",
+      "return-for-clarification"
+    ],
+    "notes": "DeFOSPAM finding: 'worst-credible behaviour' lacks a credibility boundary. The rewrite defines it as single-failure assumption (not common-mode or software defects). Operationalizes 'clear' by enumerating required sections per Vibe meter METER-002."
+  },
+  {
+    "req_id": "REQ004",
+    "original_text": "As a CAA airspace regulator I want a TDA and consultation package so that I can segregate the trial from other users.",
+    "ambiguities_detected": [
+      "undefined reference 'TDA' - not expanded on first use",
+      "vague reference 'consultation package' - contents not specified",
+      "passive voice 'segregate' - unclear what mechanism enforces segregation",
+      "undefined outcome - decision criteria for approval not stated"
+    ],
+    "rewrite_ieee830": "The Applicant shall submit a Temporary Danger Area (TDA) request to the Airspace Regulator specifying: (1) 3D airspace volume (latitude, longitude, altitude bands, time window); (2) NOTAM text (formatted per ICAO Annex 15) for publication to civilian traffic; (3) coordination evidence showing consultation with ATSU (Air Traffic Service Unit), airspace users (e.g., commercial routes), and affected landowners. The Airspace Regulator shall review the TDA and consultation evidence to confirm: (A) TDA boundaries do not overlap with published airways, restricted airspace, or active training routes; (B) ATSU has confirmed capacity to issue NOTAM and monitor boundary compliance; (C) duration and re-entry procedures are documented. Upon approval, the Regulator shall authorize TDA publication. Upon rejection, the Regulator shall specify which elements (3D volume, NOTAM text, or coordination evidence) require revision.",
+    "glossary_terms_used": [
+      "Temporary Danger Area (TDA)",
+      "NOTAM (Notice to Airmen)",
+      "ICAO Annex 15",
+      "ATSU (Air Traffic Service Unit)",
+      "segregation",
+      "airspace users"
+    ],
+    "notes": "REQ004 uses passive voice to hide actors. The rewrite specifies: Applicant submits, Regulator reviews, ATSU enforces. 'Consultation package' is operationalized as documented evidence of consultation with 3 stakeholder groups."
+  },
+  {
+    "req_id": "REQ005",
+    "original_text": "As a CAA airspace regulator I want automatic containment so that a fly-away cannot become uncontrolled BVLOS.",
+    "ambiguities_detected": [
+      "undefined term 'automatic containment' (DeFOSPAM Dorothy-4, 5 subcriteria undefined)",
+      "undefined reference 'fly-away' - scope not bounded",
+      "undefined outcome 'uncontrolled' - what state triggers containment activation?",
+      "missing safety logic - geofence breach action not specified (CRITICAL SAFETY)"
+    ],
+    "rewrite_ieee830": "The UAS shall be equipped with automatic containment systems that prevent egress beyond the geofence (defined 3D boundary: latitude ±tolerance, longitude ±tolerance, altitude floor/ceiling) independent of C2 link state or onboard autonomy. Containment shall combine: (1) geofence monitor (runs onboard, polling GNSS at 10 Hz minimum); (2) primary containment action (priority: Return-to-Launch if GPS available; fallback: climb to safe altitude and hold). Upon geofence breach detection (aircraft position exceeds boundary by > 10 meters for > 2 seconds), the system shall: (A) trigger containment action within 500 milliseconds; (B) log breach event (timestamp, coordinates, breach direction); (C) notify crew via alert (audio + visual) within 1 second. Containment design shall be validated through software testing (hitl simulation, boundary stress testing) and approved by CAA autonomy reviewer before trial authorization. Failure of containment shall result in mandatory trial suspension and investigation.",
+    "glossary_terms_used": [
+      "automatic containment",
+      "geofence",
+      "fly-away",
+      "Return-to-Launch",
+      "GNSS (Global Navigation Satellite System)",
+      "BVLOS",
+      "HITL (Hardware-in-the-Loop)"
+    ],
+    "notes": "DeFOSPAM finding: 'Containment' lacks design and verification criteria. Chris's definition includes 'systems combining mechanical, software, and procedural measures.' The rewrite specifies: (1) boundary tolerance (10 m), (2) response time (500 ms), (3) verification approach (software testing + CAA review). This closes the critical safety gap identified in Observation-1."
+  },
+  {
+    "req_id": "REQ006",
+    "original_text": "As a CAA spectrum specialist I want authorised monitored C2 and inter-vehicle links so that link loss is survivable and non-interfering.",
+    "ambiguities_detected": [
+      "vague phrase 'link loss is survivable' (DeFOSPAM Flo-1, time-to-loss undefined)",
+      "undefined term 'non-interfering' - interference criteria not specified",
+      "undefined outcome 'survivable' - what actions constitute survival?",
+      "passive voice 'monitored' - who monitors and what triggers alert?"
+    ],
+    "rewrite_ieee830": "The Applicant shall obtain spectrum authorization from the Spectrum Regulator for: (1) C2 (Command and Control) link frequency allocation and power limits; (2) inter-vehicle link frequency allocation (for swarm aircraft-to-aircraft coordination). Authorization shall require evidence that link design is: (A) non-interfering: power spectral density meets ITU-R recommendations and is validated through EMC testing; (B) monitored: real-time link quality telemetry (RSSI, BER) is transmitted to ground crew and logged. Upon C2 link loss (signal quality drops below minimum threshold for > 1 second), the aircraft shall execute failover: (1) if GPS available, maintain altitude and execute Return-to-Launch trajectory; (2) if GPS unavailable, climb to safe altitude (500 feet AGL minimum) and hold. Swarm coordination during C2 loss shall rely on inter-vehicle links and pre-programmed contingency responses. Survival time (duration crew can maintain safe state without ground crew C2) shall be demonstrated through simulation and flight test, with documented acceptance criteria (minimum 5 minutes for BVLOS swarm).",
+    "glossary_terms_used": [
+      "C2 link (Command and Control)",
+      "inter-vehicle links",
+      "link loss survivable",
+      "non-interfering",
+      "RSSI (Received Signal Strength Indicator)",
+      "BER (Bit Error Rate)",
+      "Return-to-Launch",
+      "EMC testing"
+    ],
+    "notes": "DeFOSPAM finding: 'Link loss survivable' is ambiguous on time and action. Chris defines it as 'UAS and swarm have procedures and design such that loss of C2 or inter-vehicle comms can be managed without loss of separation or collision.' The rewrite specifies: (1) time threshold (1 second), (2) failover actions (RTL or hold), (3) survival time acceptance (minimum 5 minutes). This closes DeFOSPAM Observation-2 on undefined outcome."
+  },
+  {
+    "req_id": "REQ007",
+    "original_text": "As a CAA DAA assessor I want DO-365 / F3442-aligned evidence for each aircraft and coordinated swarm de-confliction so that cooperative and non-cooperative encounters are resolved predictably.",
+    "ambiguities_detected": [
+      "undefined term 'resolved predictably' (DeFOSPAM Paul-1, mechanism unspecified)",
+      "vague reference 'de-confliction' - algorithm and coordination method undefined",
+      "implicit outcome - what triggers failure vs. acceptable resolution?",
+      "undefined scope - 'cooperative' vs 'non-cooperative' encounter definitions needed"
+    ],
+    "rewrite_ieee830": "The Applicant shall provide DO-365 (Minimum Operational Performance Standards for Airborne Detect-and-Avoid Systems) and F3442-2 (Standard Practice for Unmanned Aircraft Systems Traffic Management at Low Altitudes) evidence demonstrating: (1) each aircraft has onboard DAA sensor (radar or electro-optical) with minimum detection range of 500 meters, update rate 1 Hz; (2) swarm coordination uses a defined de-confliction algorithm (specify: centralized ground-based, distributed peer voting, or hierarchical lead-decides) with documented decision logic. For cooperative encounters (intruder transmits ADS-B or FLARM signals), the algorithm shall compute relative bearing and range, issue recommended maneuvers (climb, descend, left turn, right turn) via inter-vehicle links, and enforce agreed maneuver. For non-cooperative encounters (intruder does not transmit), the algorithm shall issue crew-advisory maneuver (preferred direction and magnitude) and record decision rationale in logs. Encounter resolution is predictable when: (A) the same encounter geometry always produces the same response; (B) response is deterministic (not probabilistic); (C) all swarm aircraft follow the preferred maneuver within 2 seconds. Failure (collision, loss of separation < 100 meters horizontally) shall trigger incident investigation and trial suspension.",
+    "glossary_terms_used": [
+      "Detect-and-Avoid (DAA)",
+      "DO-365",
+      "F3442-2",
+      "de-confliction algorithm",
+      "cooperative encounters",
+      "non-cooperative encounters",
+      "resolved predictably",
+      "ADS-B",
+      "FLARM",
+      "inter-vehicle links"
+    ],
+    "notes": "DeFOSPAM finding: 'Resolved predictably' is goal without mechanism. Chris defines it as 'Conflicts with other aircraft are resolved deterministically.' The rewrite specifies: (1) algorithm type (3 options), (2) decision logic (maneuver selection), (3) acceptance criterion (determinism, 2-second execution). This closes DeFOSPAM Observation-3."
+  },
+  {
+    "req_id": "REQ008",
+    "original_text": "As a CAA autonomy reviewer I want the decision-making architecture airborne limits and emergent-behaviour evidence so that I can assure what the swarm will do collectively.",
+    "ambiguities_detected": [
+      "undefined reference 'decision-making architecture' - no architecture option specified",
+      "undefined term 'emergent-behaviour' - undesired vs. desired undefined",
+      "vague qualifier 'assure' - assurance criteria not stated",
+      "undefined outcome - what triggers accept vs. return-for-clarification?"
+    ],
+    "rewrite_ieee830": "The Applicant shall document the swarm decision-making architecture, specifying which of three design patterns applies: (1) Centralized (all decisions made by ground crew or ground-based autonomy agent); (2) Distributed (peer voting: each aircraft shares state, majority vote selects action); (3) Hierarchical (lead aircraft decides, followers execute). The documentation shall specify: (A) decision authority and override rules; (B) communication topology (mesh, star, line); (C) failure modes (leader loss, communication loss, Byzantine aircraft). The Applicant shall provide emergent-behavior evidence through: (1) formal verification (model checking or theorem proving) proving absence of undesired emergent behaviors (separation loss, deadlock, oscillation); (2) Monte Carlo simulation (minimum 1,000 trials per scenario) demonstrating behavior variance across environmental noise and sensor uncertainty; (3) HITL testing of swarm behaviors (formation flight, coordinated evasion, loss-of-leader recovery). For each scenario, the applicant shall bound behavior variance (e.g., 'separation loss occurs in < 0.1% of trials'). Upon review, the Autonomy Reviewer shall issue accept (architecture and emergent behavior acceptably bounded), return-for-clarification (simulation insufficient or gap identified), or refuse-with-reasons (unacceptable risk).",
+    "glossary_terms_used": [
+      "swarm decision-making architecture",
+      "emergent-behaviour",
+      "centralized",
+      "distributed",
+      "hierarchical",
+      "formal verification",
+      "Monte Carlo simulation",
+      "HITL (Hardware-in-the-Loop)",
+      "bounded variance"
+    ],
+    "notes": "DeFOSPAM finding: 'Swarm decision-making architecture' requires assurance but does not specify architecture. Chris defines it as 'Design of how collective decisions are made.' The rewrite operationalizes by: (1) enumerating 3 architecture types, (2) specifying failure-mode analysis, (3) requiring formal + simulation + test evidence. 'Emergent behavior' is operationalized through variance bounding per Chris's definition."
+  },
+  {
+    "req_id": "REQ009",
+    "original_text": "As a CAA AI/ML assurance specialist I want an AMLAS / SACE case a frozen-model manifest and explainability evidence so that ML components are assurable and forensically explainable.",
+    "ambiguities_detected": [
+      "undefined term 'forensically explainable' (DeFOSPAM Dorothy-6, perfect explainability infeasible)",
+      "undefined term 'frozen-model manifest' (DeFOSPAM Dorothy-7, 7 subcriteria undefined)",
+      "vague phrase 'explainability evidence' - methods not specified",
+      "missing conjunction - 'AMLAS / SACE case a frozen-model manifest' uses incorrect grammar, roles unclear"
+    ],
+    "rewrite_ieee830": "The Applicant shall provide three artifacts for ML Assurance: (1) AMLAS Case (Assurance Case for Machine Learning in Autonomous Systems per Assure ML CTC) documenting: safety requirements, training data governance, model architecture, robustness testing, and failure modes; (2) Frozen-Model Manifest specifying for each ML model deployed: version ID, training dataset hash (SHA256), hyperparameters (learning rate, regularization), performance metrics (validation accuracy, F1 score for safety-critical classes), operational constraints (input domain, confidence thresholds), and explicit confirmation that model weights and architecture shall remain immutable throughout trial duration; (3) Explainability Evidence demonstrating post-hoc explainability through: feature importance analysis (SHAP, LIME), decision-tree approximations of learned decision boundaries, or mechanistic interpretability (for small models). Forensic explainability is not perfect reconstruction (deemed infeasible for deep learning) but rather: sufficient to identify which input features contributed to a decision, sufficient to identify if model was operating within training distribution, and sufficient to trace decision to model version per Frozen-Model Manifest. Upon review, the ML Assurance Specialist shall verify AMLAS case completeness, confirm Frozen-Model Manifest immutability via code review, and validate explainability methods against discovery standards.",
+    "glossary_terms_used": [
+      "AMLAS (Assurance Case for Machine Learning in Autonomous Systems)",
+      "SACE (Safety-critical Autonomy Certification and Evaluation)",
+      "frozen-model manifest",
+      "forensically explainable",
+      "explainability evidence",
+      "SHAP (SHapley Additive exPlanations)",
+      "LIME (Local Interpretable Model-agnostic Explanations)",
+      "mechanistic interpretability",
+      "SHA256"
+    ],
+    "notes": "DeFOSPAM finding: 'Forensically explainable' is undefined and unrealistic (deep learning post-hoc explainability is not perfect). Chris defines it as 'reconstructable through model weights, training data, decision logic.' The rewrite operationalizes by: (1) specifying 3 techniques (SHAP, LIME, mechanistic), (2) defining forensic explainability as sufficient for investigation, not perfect reconstruction, (3) tying explainability to Frozen-Model Manifest. 'Frozen-model manifest' is now operationalized with 7 required fields per Dorothy-7."
+  },
+  {
+    "req_id": "REQ010",
+    "original_text": "As a CAA human factors inspector I want workload duty and take-over evidence so that meaningful human control is demonstrated throughout.",
+    "ambiguities_detected": [
+      "undefined term 'meaningful human control' (DeFOSPAM Dorothy-2, no measurable criteria)",
+      "undefined terms 'workload duty' and 'take-over' - thresholds not specified",
+      "vague qualifier 'demonstrated' - what constitutes evidence?",
+      "temporal ambiguity 'throughout' - frequency of assessment undefined"
+    ],
+    "rewrite_ieee830": "The Applicant shall demonstrate meaningful human control through: (1) continuous crew situational awareness (crew maintains awareness of swarm state: position, airspeed, altitude, link status, autonomous decisions) via frequent updates (minimum 1 per second for each aircraft); (2) retained authority (crew retains ability to override autonomous decisions and issue manual commands at all times, with override latency < 2 seconds); (3) intervention capability (crew can perceive off-nominal events and intervene before safety-critical outcomes with time window >= 5 seconds for evasion maneuvers, >= 10 seconds for return-to-launch). Workload evidence shall quantify crew demands (number of concurrent decisions, decision frequency, time budget available) per flight phase and scenario. Crew workload shall not exceed 75% of maximum cognitive capacity during nominal phases, 85% during contingency. Takeover evidence shall demonstrate: (A) time-to-takeover (crew can resume full manual control within X seconds of decision, where X is defined per flight phase); (B) takeover training (crew has conducted minimum N practice takeovers in HITL simulator); (C) takeover authority (crew has full 6-degree-of-freedom control of swarm upon takeover). These measures shall be verified through: pre-flight workload assessment (NASA-TLX or similar), simulator testing, and flight test with independent observer documenting crew actions and response times.",
+    "glossary_terms_used": [
+      "meaningful human control",
+      "situational awareness",
+      "retained authority",
+      "intervention capability",
+      "workload duty",
+      "take-over",
+      "HITL (Hardware-in-the-Loop)",
+      "NASA-TLX"
+    ],
+    "notes": "DeFOSPAM finding: 'Meaningful human control' lacks measurable criteria. Chris defines it as 'Active, informed crew awareness and retained authority to perceive system state, understand autonomous actions, and intervene before safety-critical decisions.' The rewrite operationalizes through: (1) frequency of updates (1 Hz), (2) override latency (< 2 s), (3) intervention time window (>= 5-10 s), (4) workload thresholds (75-85%), (5) measurement methods (NASA-TLX, simulator, observer). This closes DeFOSPAM Dorothy-2."
+  },
+  {
+    "req_id": "REQ011",
+    "original_text": "As a CAA flight-ops inspector I want independent termination a contingency matrix and ATSU coordination so that the trial can be made safe in any off-nominal state.",
+    "ambiguities_detected": [
+      "undefined term 'independent termination' (DeFOSPAM, mechanism/time-to-effect undefined)",
+      "undefined term 'contingency matrix' - format and coverage undefined",
+      "grammatical error in 'want independent termination a contingency matrix' - missing conjunction",
+      "undefined phrase 'made safe' - safety outcome criteria not specified",
+      "missing outcome - post-termination actions undefined"
+    ],
+    "rewrite_ieee830": "The Applicant shall implement Independent Flight Termination (IFT) system capable of forcing immediate cessation of flight independent of C2 link, inter-vehicle links, or onboard autonomy. The IFT shall: (1) trigger via dedicated ground-based RF kill-switch (crew-operated) or onboard geofence breach (automatic); (2) effect termination within 500 milliseconds via engine cutoff or parachute deployment; (3) operate when all other links are lost (fail-safe design); (4) be verified through ground testing and flight test with multiple failure-mode scenarios. Upon IFT activation, crew shall: (A) immediately alert ATSU and other airspace users via radio; (B) preserve all telemetry and decision logs (5 seconds pre-termination, during, and 30 seconds post); (C) recover or locate all aircraft and evidence; (D) initiate incident reporting if required. The Applicant shall provide a Contingency Matrix (table format) mapping off-nominal states to response procedures. Off-nominal states include: GPS loss, C2 link loss, geofence breach, airspace intrusion, crew incapacitation, loss of separation, low battery. For each state, the matrix shall specify: autonomous action (Return-to-Launch, climb and hold, autonomous evasion), crew procedure (override authority, timing, fallback), and termination trigger (criteria for initiating IFT). ATSU coordination evidence shall document: pre-trial briefing (ATSU understands trial operations and contingency procedures), real-time monitoring (ATSU monitors TDA and notifies crew of airspace conflicts), and emergency procedure (ATSU can declare TDA closed and issue immediate landing directive if safety threshold exceeded).",
+    "glossary_terms_used": [
+      "independent termination",
+      "contingency matrix",
+      "off-nominal state",
+      "Return-to-Launch",
+      "ATSU (Air Traffic Service Unit)",
+      "TDA (Temporary Danger Area)",
+      "geofence breach",
+      "fail-safe design"
+    ],
+    "notes": "DeFOSPAM finding: 'Independent termination' undefined on mechanism and time-to-effect. 'Contingency matrix' undefined on format. The rewrite specifies: (1) IFT mechanism (RF kill-switch + onboard trigger), (2) response time (500 ms), (3) matrix format (table with 3 columns), (4) off-nominal state enumeration (7 examples), (5) ATSU coordination procedures. This closes DeFOSPAM Observations 4-5."
+  },
+  {
+    "req_id": "REQ012",
+    "original_text": "As a CAA flight safety investigator I want complete recorded evidence accepted MOR obligations and a DPIA so that any incident is investigable and privacy is protected.",
+    "ambiguities_detected": [
+      "ambiguous use of 'complete' (DeFOSPAM Dorothy-8 - different meaning than REQ001)",
+      "undefined term 'complete recorded evidence' - scope and sampling undefined",
+      "grammatical error - 'want complete recorded evidence accepted MOR obligations' (missing verb/conjunction)",
+      "undefined outcome - MOR trigger criteria and timing undefined",
+      "undefined reference 'DPIA' - scope of personal data undefined"
+    ],
+    "rewrite_ieee830": "The Applicant shall implement telemetry and logging systems to record comprehensive evidence throughout trial. Evidence shall include: (1) aircraft state (position, velocity, altitude, attitude) at 10 Hz; (2) autonomy decisions (command issued, decision rationale) at 1 Hz; (3) C2 and inter-vehicle link quality (RSSI, BER) at 1 Hz; (4) crew actions (control inputs, alerts acknowledged, overrides) logged with timestamp; (5) video (forward-looking camera, downlink video) at minimum 30 fps; (6) audio (crew intercom, radio transmissions) sampled at 16 kHz. All evidence shall be time-synchronized (GPS time reference), stored in tamper-evident containers (cryptographic hash stored separately), and retained for minimum 2 years or until incident investigation closes, whichever is longer. Recorded evidence is complete when all 6 categories are present and continuous throughout flight (< 100 ms gaps are acceptable). The Applicant shall fulfill Mandatory Occurrence Report (MOR) obligations by: (1) identifying MOR-reportable events (accidents, serious incidents, occurrences involving injury, structural damage, loss of separation < 100 meters, unintended geofence breach, autonomous decision override); (2) compiling incident narrative and recorded evidence within 72 hours of event; (3) submitting to CAA Safety Investigation department. The Applicant shall conduct a Data Protection Impact Assessment (DPIA) per GDPR Article 35 identifying: (A) personal data collected (crew identities, observer photographs, tracked ground personnel); (B) processing purposes (safety investigation, regulatory oversight); (C) retention periods; (D) data subject rights (access, deletion). DPIA shall document privacy controls (footage anonymization, access restrictions, deletion procedures) and obtain CAA Data Protection Officer review.",
+    "glossary_terms_used": [
+      "complete recorded evidence",
+      "telemetry logging",
+      "MOR (Mandatory Occurrence Report)",
+      "MOR-reportable events",
+      "DPIA (Data Protection Impact Assessment)",
+      "GDPR Article 35",
+      "time-synchronized",
+      "tamper-evident",
+      "personal data"
+    ],
+    "notes": "DeFOSPAM finding: 'Complete' in REQ012 is different from REQ001 - here it means evidentiary completeness (all data types present), not artefact completeness. The rewrite separates these by operationalizing 'complete recorded evidence' as 6 specific telemetry categories with defined sampling rates. MOR trigger is operationalized through enumeration of reportable event types per UK aviation regulations."
+  },
+  {
+    "req_id": "REQ013",
+    "original_text": "As a CAA authorisation officer I want insurance and a ground survey so that third-party risk is both transferable and factually grounded.",
+    "ambiguities_detected": [
+      "vague qualifier 'factually grounded' (DeFOSPAM) - verification standard undefined",
+      "undefined reference 'third-party risk' - risk calculation method undefined",
+      "undefined term 'transferable' - what constitutes insurability?",
+      "implicit outcome - what insurance coverage minimums required?"
+    ],
+    "rewrite_ieee830": "The Applicant shall obtain third-party liability insurance covering bodily injury, property damage, and environmental harm caused by UAS operations, with minimum coverage limits: 1 million GBP per occurrence, 5 million GBP annual aggregate. Insurance policy shall be underwritten by a CAA-approved insurer and shall not exclude BVLOS or swarm operations. Certificate of insurance shall be provided prior to trial start. The Applicant shall commission an independent Ground Environment Survey assessing the trial area within 10 km radius of planned operations. The Survey shall identify and document: (1) ground infrastructure (power lines, communication towers, railways, roads) with GPS coordinates and criticality classification; (2) population density (buildings, schools, hospitals, campgrounds) by district, with estimated occupancy; (3) environmental sensitivity (water sources, protected habitats, cultural heritage) per regulatory register; (4) noise-sensitive receptors (residences, hospitals, schools) identified by occupancy; (5) wind patterns and terrain features affecting aircraft behavior. Survey shall be conducted by licensed surveyor or environmental consultant and signed with certification that findings are factually grounded (based on observed site conditions, not theoretical models). For each identified ground hazard, the applicant shall specify mitigation (reduced altitude, noise baffles, flight path adjustment, observer deployment) or risk acceptance rationale. The Authorisation Officer shall verify that insurance adequately covers identified third-party risks and that ground survey identifies all material hazards in trial corridor.",
+    "glossary_terms_used": [
+      "third-party risk",
+      "transferable",
+      "factually grounded",
+      "ground survey",
+      "insurance coverage limits",
+      "population density",
+      "environmental sensitivity",
+      "noise-sensitive receptors"
+    ],
+    "notes": "DeFOSPAM finding: 'Factually grounded' is qualitative criterion. Chris defines it as 'Based on verified data and evidence rather than assumptions or theoretical models.' The rewrite operationalizes by requiring licensed surveyor certification and enumeration of 5 survey elements (infrastructure, population, environmental sensitivity, noise receptors, wind patterns). Insurance minimums operationalized through specific GBP amounts (1M per occurrence, 5M aggregate)."
+  },
+  {
+    "req_id": "REQ014",
+    "original_text": "As a CAA licensing inspector I want evidenced competency so that the trial is flown by qualified crew.",
+    "ambiguities_detected": [
+      "undefined term 'evidenced competency' - evidence types and standards undefined",
+      "vague qualifier 'qualified' - qualifications for BVLOS swarm not specified",
+      "undefined reference 'crew' - scope and roles unclear",
+      "implicit outcome - what constitutes acceptable evidence?"
+    ],
+    "rewrite_ieee830": "The Applicant shall provide documented crew qualifications demonstrating competency across three domains: (1) Airmanship: minimum private pilot license or equivalent, current medical certificate, minimum 500 flight hours (VLOS or BVLOS); (2) BVLOS Swarm Operations: completion of approved training program (minimum 20 hours instruction) covering swarm behavior, coordination failures, contingency procedures, and manual takeover; (3) System-Specific Knowledge: completion of type-specific training for the designated UAS model covering launch/recovery procedures, autonomy modes, C2 link management, and emergency procedures. Evidence of competency shall be documented through: (A) Training Records: signed certificates from approved training organization, dated within 2 years; (B) Examination: scored assessment (minimum 80% pass) covering swarm operations, contingency procedures, and system knowledge; (C) Simulator Practice: minimum 10 practice sessions in HITL simulator, each logged with date, scenario, and instructor evaluation; (D) Flight Experience: logbook entries documenting BVLOS or swarm flights with designated supervising pilot if required. The Licensing Inspector shall review evidence and issue: (1) Permit (all requirements met, crew approved to conduct designated trial); (2) Conditional Permit (requirements substantially met but one area requires remedial training); (3) Deny (material gaps in qualifications). Conditional Permit requires follow-up demonstration before trial commencement.",
+    "glossary_terms_used": [
+      "evidenced competency",
+      "qualified crew",
+      "BVLOS (Beyond Visual Line of Sight)",
+      "swarm operations",
+      "HITL (Hardware-in-the-Loop) simulator",
+      "contingency procedures",
+      "type-specific training"
+    ],
+    "notes": "DeFOSPAM finding: 'Evidenced competency' undefined. The rewrite operationalizes competency across 3 domains (Airmanship, BVLOS Swarm, System-Specific) and specifies 4 evidence types (Training Records, Examination 80%, Simulator 10 sessions, Flight Experience). 'Qualified' is now bounded to specific credential types and retention periods."
+  },
+  {
+    "req_id": "REQ015",
+    "original_text": "As a CAA/MAA liaison I want a signed apportionment so that regulatory ownership is gap-free.",
+    "ambiguities_detected": [
+      "undefined term 'signed apportionment' - content and format undefined",
+      "vague phrase 'gap-free regulatory ownership' - what constitutes gap?",
+      "undefined reference 'CAA/MAA liaison' - decision authority unclear",
+      "missing outcome - approval/rejection criteria undefined"
+    ],
+    "rewrite_ieee830": "When a trial involves classified MOD (Ministry of Defence) evidence or military applications, both CAA (Civil Aviation Authority) and MAA (Military Aviation Authority) shall co-authorize the trial. The Applicant shall document a Regulatory Apportionment Matrix specifying: (1) which regulatory requirements each authority owns (CAA: airspace segregation, civilian safety, public notification; MAA: security classification, military airspace, sensitive technology export control); (2) decision dependencies (which authority approves first); (3) information barriers (which evidence is classified vs. shareable); (4) escalation procedures (if CAA and MAA requirements conflict). The Apportionment Matrix shall be reviewed and signed by designated representatives of both CAA and MAA, confirming: (A) all regulatory requirements (REQ001-REQ020) have been assigned to at least one authority; (B) no requirement is left unassigned (gap-free coverage); (C) authorities acknowledge their approval responsibilities and authorities to enforce conditions. Regulatory ownership is gap-free when every requirement REQ001-REQ020 is explicitly owned by either CAA or MAA (or jointly), and both authorities have signed. Upon execution, the CAA/MAA liaison shall document approval in the trial file and establish joint oversight mechanisms (e.g., shared evidence portal, joint review gates).",
+    "glossary_terms_used": [
+      "regulatory apportionment",
+      "CAA (Civil Aviation Authority)",
+      "MAA (Military Aviation Authority)",
+      "gap-free coverage",
+      "classified MOD evidence",
+      "information barriers",
+      "decision dependencies"
+    ],
+    "notes": "REQ015 uses vague language 'signed apportionment' and 'gap-free regulatory ownership.' The rewrite operationalizes by specifying: (1) matrix content (3 columns), (2) approval signature requirement, (3) gap-free definition (every REQ001-020 assigned), (4) joint oversight mechanisms. This closes the ambiguity."
+  },
+  {
+    "req_id": "REQ016",
+    "original_text": "As a CAA programme manager I want phased gates so that evidence builds progressively and is reversible.",
+    "ambiguities_detected": [
+      "undefined reference 'phased gates' - phases and decision criteria undefined",
+      "vague qualifier 'reversible' - what triggers reversal?",
+      "undefined outcome - progression/reversal decision criteria not specified",
+      "implicit assumption - trial structure (3 phases) not formally stated"
+    ],
+    "rewrite_ieee830": "The trial shall be structured in three reversible phases, each with entry and exit gates controlled by CAA Programme Manager: Phase 1 (VLOS Baseline): single aircraft, visual control, crew within 500 meters. Gate criteria: approval of ConOps, SORA assessment, insurance, crew credentials. Phase 2 (BVLOS Single): transition to BVLOS operations, 2+ aircraft, autonomous waypoint navigation, C2 link reliance. Gate criteria: Phase 1 successful completion (minimum 10 flights, zero incidents), BVLOS-specific equipment validation, C2 link reliability demonstration (99.5% uptime in Phase 1). Phase 3 (BVLOS Swarm): full multi-aircraft coordinated operations, inter-vehicle link coordination, distributed decision-making. Gate criteria: Phase 2 successful completion (minimum 20 flights, zero off-nominal unrecovered events), swarm decision-making validation, emergent-behavior bounded (< 0.1% separation-loss occurrence). Each phase also has exit criteria: Phase 1 exit if 2+ incidents in 10 flights → revert to requirements refinement; Phase 2 exit if C2 link unreliability observed → redesign C2 system; Phase 3 exit if undesired emergent behavior detected → halt and investigate. Reversal is reversible (progressing backward) when an exit criterion is triggered: evidence is re-evaluated, contributing factors remediated, and re-entry gate is re-attempted (not automatic re-progression). Programme Manager documents reversal rationale and remediation plan in trial file.",
+    "glossary_terms_used": [
+      "reversible gates",
+      "phased trial",
+      "VLOS (Visual Line of Sight)",
+      "BVLOS (Beyond Visual Line of Sight)",
+      "gate criteria",
+      "entry/exit gates",
+      "emergent-behavior bounded",
+      "off-nominal event"
+    ],
+    "notes": "DeFOSPAM finding: 'Phased gates' undefined on phases and criteria. Chris defines reversible gates as 'Phased trial structure where each phase has entry/exit gates...Reversal to previous phase possible if off-nominal events exceed risk threshold.' The rewrite specifies: (1) 3 phases (VLOS, BVLOS Single, BVLOS Swarm), (2) entry/exit criteria per phase, (3) reversal triggers (2+ incidents, link failures, emergent behavior), (4) reversal process (evaluate, remediate, re-test). This closes DeFOSPAM Observation-6."
+  },
+  {
+    "req_id": "REQ017",
+    "original_text": "No user story covers community consultation press/media handling or prior-notification to landowners. Strongly implied by CAP 1616 and GDPR but absent.",
+    "ambiguities_detected": [
+      "missing user story - stakeholder needs for public engagement undefined",
+      "undefined scope - which stakeholders (community, media, landowners) must be engaged?",
+      "undefined process - consultation timing, format, and decision authority unclear",
+      "undefined outcome - what actions constitute adequate engagement?"
+    ],
+    "rewrite_ieee830": "The Applicant shall conduct Public and Stakeholder Engagement per CAP 1616 and GDPR requirements prior to trial start. Engagement shall include: (1) Landowner Notification: identify landowners within 2 km of trial area (via land registry), deliver written notice (minimum 30 days prior to trial start) explaining trial operations, noise levels, duration, emergency contact, and complaint procedure. Notification shall be signed with proof of delivery; (2) Community Consultation: host public information session (or provide online information portal if remote area) describing trial objectives, aircraft specifications, noise estimates, flight schedule, and safety measures. Community members shall be invited to submit concerns (deadline 14 days after notice); (3) Media Relations: issue press release to local media (5+ days before trial start) describing trial, emphasizing safety measures and regulatory oversight. Designate single media contact and prepare response to potential concerns (noise, privacy, safety); (4) GDPR Compliance: publish Privacy Notice describing personal data collected (crew and observer identities, photographic evidence, potentially incidental recording of ground personnel), retention duration (2 years), data subject rights (access, deletion), and CAA Data Protection Officer contact. The Applicant shall document all engagement activities (copies of notices, attendance records, concerns received, responses issued) and provide summary to CAA 7 days before trial start. Stakeholder engagement is adequate when: all identified landowners notified, community consultation held or information portal deployed, media briefed, and GDPR notice published. Programme Manager shall review engagement documentation before final trial authorization.",
+    "glossary_terms_used": [
+      "public and stakeholder engagement",
+      "landowner notification",
+      "community consultation",
+      "CAP 1616",
+      "media relations",
+      "GDPR compliance",
+      "Privacy Notice",
+      "data subject rights"
+    ],
+    "notes": "REQ017 is missing from original user stories. This rewrite operationalizes public engagement per CAP 1616 and GDPR by specifying: (1) 4 engagement components (Landowner, Community, Media, GDPR), (2) timelines (30 days notice, 14-day comment period, 5+ days media notice), (3) documentation requirements (notices, attendance records, concerns/responses), (4) adequacy criteria. This closes the gap identified in DeFOSPAM."
+  },
+  {
+    "req_id": "REQ018",
+    "original_text": "No user story addresses how classified MOD evidence is presented to the CAA under CAP 722H / JSP 440 without compromise to either side.",
+    "ambiguities_detected": [
+      "missing user story - classified information handling process undefined",
+      "undefined scope - what constitutes 'classified evidence' and at what classification level?",
+      "undefined outcome - what information barriers and sharing rules apply?",
+      "implicit stakeholder - CAA/MAA coordination not explicitly specified"
+    ],
+    "rewrite_ieee830": "When trial involves classified MOD (Ministry of Defence) information or sensitive military technology, the Applicant shall establish a Security Classification Handling Plan (SCHP) per CAP 722H (CAA Security Management) and JSP 440 (UK Armed Forces Security Classification Policy). The SCHP shall specify: (1) Classification Levels: identify which evidence elements are UK OFFICIAL (unclassified), UK OFFICIAL-SENSITIVE, UK SECRET, or UK TOP SECRET, with justification per JSP 440 criteria; (2) Information Barriers: define what evidence CAA can access unclassified vs. what requires SECRET-level facility and clearance (e.g., CAA may review swarm de-confliction algorithm publicly, but MOD sensor specifications remain SECRET-caveat restricted); (3) Redaction Rules: specify which documents shall be redacted for CAA review (e.g., unclassified summary of SORA assessment vs. classified sensor fusion details); (4) Facility Requirements: identify where classified evidence shall be stored and reviewed (CAA MOD Liaison Office with appropriate security infrastructure); (5) Personnel Clearances: specify which CAA personnel require security clearance (e.g., CAA Director, designated technical reviewers) and which remain unclassified-access only; (6) Escalation: procedures for handling evidence that CAA deems safety-critical but which MAA classifies as restricted (require CAA/MAA executive decision). The Applicant and MAA shall jointly draft SCHP and submit to CAA for approval prior to classified evidence submission. CAA shall designate a Classified Evidence Reviewer (possessing required clearance) to conduct parallel assessment of classified evidence and produce: (A) Classified assessment (full technical review), (B) Unclassified summary (findings and approval rationale safe for public record). The trial authorization decision and regulatory conditions may be issued on unclassified summary without disclosing classified details.",
+    "glossary_terms_used": [
+      "classified MOD evidence",
+      "CAP 722H (CAA Security Management)",
+      "JSP 440 (UK Armed Forces Security Classification)",
+      "information barriers",
+      "redaction rules",
+      "security classification levels",
+      "caveat restrictions",
+      "classified evidence reviewer"
+    ],
+    "notes": "REQ018 is missing from original user stories. This rewrite operationalizes classified information handling per CAP 722H and JSP 440 by specifying: (1) 5 classification components (Levels, Barriers, Redaction, Facility, Personnel), (2) 6 implementation elements (what CAA sees vs. doesn't see), (3) parallel assessment process (classified + unclassified summary), (4) decision authority (CAA/MAA executive escalation). This closes the security gap identified."
+  },
+  {
+    "req_id": "REQ019",
+    "original_text": "No user story covers noise species disturbance at dusk/night or battery-fire environmental risk on ground.",
+    "ambiguities_detected": [
+      "missing user story - environmental impact assessment process undefined",
+      "undefined scope - which environmental hazards (noise, fauna, air quality, fire risk) must be assessed?",
+      "undefined acceptance criteria - noise limits and species sensitivity thresholds undefined",
+      "temporal ambiguity - 'dusk/night' operations may require different risk controls"
+    ],
+    "rewrite_ieee830": "The Applicant shall conduct an Environmental Impact Assessment (EIA) addressing noise, species disturbance, and battery/fuel fire risk. The EIA shall include: (1) Noise Assessment: measure or model predicted noise levels (dB(A)) at sensitive receptors (residences, schools, hospitals) within 5 km, for both day (0700-2200) and night (2200-0700) operations. Noise shall not exceed: daytime 75 dB(A) at residential receivers, night 65 dB(A) per Environmental Protection Act 1990. If predicted noise exceeds limits, applicant shall propose mitigation (flight path adjustment, noise baffles, operational restrictions to daylight only, lower altitude limits). (2) Species Disturbance Assessment: identify sensitive species (birds, bats, other protected fauna) within 10 km using published ecology databases and expert consultation. Identify breeding seasons and dusk/night activity periods (when disturbance risk is highest for nocturnal species). Assess UAS noise/motion disturbance impact per wildlife sensitivity guidance. If disturbance risk is elevated (e.g., nest sites within 1 km, bat foraging habitat within 2 km during breeding), propose mitigation (seasonal flight restrictions, dusk/night flight ban, artificial shelter/illumination to reduce attraction). (3) Battery/Fuel Fire Risk: assess fire risk from UAS battery or fuel leakage on ground. Quantify: lithium battery cell capacity (Wh), thermal runaway risk, potential fire radius. Require certification that UAS batteries meet IEC 62619 (lithium safety) and that crash landing area is clear of vegetation/structures where fire could spread. Identify emergency fire suppression procedures (fire extinguisher type, crew training). The Applicant shall document all assessments with expert credentials (noise engineer, ecologist, fire safety engineer) and provide summary to CAA prior to trial approval. Approval shall confirm environmental controls are adequate to minimize noise/species disturbance and fire risk, or operational restrictions (daylight only, geographic exclusions) are accepted.",
+    "glossary_terms_used": [
+      "environmental impact assessment",
+      "noise assessment",
+      "species disturbance",
+      "protected fauna",
+      "nocturnal species",
+      "dusk/night operations",
+      "battery thermal runaway",
+      "lithium battery safety (IEC 62619)",
+      "fire suppression procedures"
+    ],
+    "notes": "REQ019 is missing from original user stories. This rewrite operationalizes environmental impact assessment through: (1) 3 components (Noise, Species, Battery/Fire), (2) numerical acceptance criteria (75 dB(A) day, 65 dB(A) night, 1-2 km species exclusion), (3) expert credential requirements, (4) mitigation and operational restrictions. 'Dusk/night' is explicitly addressed as higher-risk period for species disturbance. This closes the environmental gap."
+  },
+  {
+    "req_id": "REQ020",
+    "original_text": "No user story covers the post-trial lessons-learned evidence preservation and authorisation close-out.",
+    "ambiguities_detected": [
+      "missing user story - post-trial closure process undefined",
+      "undefined scope - what data must be preserved, for how long, and in what format?",
+      "undefined outcome - what constitutes successful trial close-out and authorization withdrawal?",
+      "missing stakeholder - who is responsible for post-trial assurance and lessons-learned?"
+    ],
+    "rewrite_ieee830": "Upon trial completion, the Applicant shall conduct Post-Trial Assurance and Close-out per the following requirements: (1) Lessons-Learned Workshop: within 30 days of final flight, convene CAA, applicant, crew, and independent technical reviewer to review: (A) all incidents/anomalies logged during trial (REQ012), (B) unexpected behaviors observed (emergent swarm behaviors, crew workload surprises, equipment failures), (C) deviations from ConOps, (D) regulatory gate performance (were all gates meaningful?). Workshop shall produce written lessons-learned report (minimum 10 pages) documenting: findings, root causes (if incidents occurred), recommendations for future BVLOS swarm trials, and applicant's proposed corrective actions. (2) Evidence Preservation: all recorded evidence (telemetry, video, audio, autonomy logs per REQ012) shall be preserved in digital archive with: (A) format standardization (CSV for telemetry, MP4 for video, WAV for audio), (B) metadata documentation (flight date, aircraft ID, crew identifiers, trial phase), (C) integrity verification (SHA256 hash of all files), (D) retention period: minimum 2 years or until any litigation/investigation closes, whichever is longer. Archive shall be transferred to CAA Safety Investigation department for long-term storage and future reference. (3) Technical Debrief: independent technical reviewer (not involved in trial) shall conduct forensic analysis of evidence to validate: that swarm behavior remained within predicted bounds (per REQ008), that human control was maintained (per REQ010), that no safety-critical near-miss scenarios were missed. Reviewer shall issue report documenting findings and confidence level (high/medium/low) in each validation. (4) Authorisation Close-out: CAA shall issue formal notice closing the trial authorization. Notice shall specify: (A) trial authorization is no longer valid, (B) aircraft must cease operations in trial configuration, (C) evidence has been received and preserved, (D) if applicable, recommendations for future BVLOS swarm authorizations (e.g., 'swarm de-confliction algorithm validated; acceptable for expanded swarm size in future trials'). Programme Manager signs close-out notice.",
+    "glossary_terms_used": [
+      "post-trial assurance",
+      "lessons-learned workshop",
+      "evidence preservation",
+      "forensic analysis",
+      "technical debrief",
+      "authorization close-out",
+      "integrity verification (SHA256)",
+      "safety-critical near-miss"
+    ],
+    "notes": "REQ020 is missing from original user stories. This rewrite operationalizes post-trial closure through: (1) 4 components (Lessons-Learned, Evidence Preservation, Technical Debrief, Close-out), (2) timelines (30 days workshop, 2-year evidence retention), (3) deliverables (lessons-learned report min. 10 pages, technical debrief with confidence scoring), (4) close-out decision authority (CAA Programme Manager). This closes the post-trial gap and supports continuous learning across future BVLOS swarm trials."
+  }
+]

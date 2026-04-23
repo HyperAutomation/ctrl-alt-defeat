@@ -1,0 +1,554 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IEEE 830 SRS Report</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:#0d1117;color:#e6edf3;line-height:1.6}
+.header{background:linear-gradient(135deg,#161b22 0%,#1a1f2e 100%);border-bottom:1px solid #30363d;padding:20px 0}
+.header-content{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.brand h1{font-size:24px;font-weight:700;color:#f0f6fc}
+.powered-by{font-size:13px;color:#8b949e}
+.powered-by a{color:#58a6ff;text-decoration:none}
+.container{max-width:1200px;margin:0 auto;padding:32px 24px}
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin-bottom:32px}
+.summary-card{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:20px;text-align:center}
+.summary-card .number{font-size:32px;font-weight:700;color:#58a6ff}
+.summary-card.critical .number{color:#f85149}
+.summary-card.pass .number{color:#3fb950}
+.summary-card.warn .number{color:#d29922}
+.summary-card.fail .number{color:#f85149}
+.summary-card .label{font-size:11px;color:#8b949e;margin-top:4px;text-transform:uppercase;letter-spacing:0.5px}
+.section-title{font-size:20px;font-weight:600;color:#f0f6fc;margin:32px 0 16px;padding-bottom:8px;border-bottom:1px solid #30363d}
+.scorecard-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:32px}
+.score-card{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:18px 20px}
+.score-card.pass{border-left:4px solid #3fb950}
+.score-card.warn{border-left:4px solid #d29922}
+.score-card.fail{border-left:4px solid #f85149}
+.score-card .letter{display:inline-block;width:28px;height:28px;border-radius:50%;background:#1f6feb;color:#fff;text-align:center;line-height:28px;font-weight:700;font-size:13px;margin-right:10px}
+.score-card .name{font-weight:600;color:#f0f6fc;font-size:15px;display:inline-block}
+.score-card .analyst{color:#8b949e;font-size:11px;margin-top:2px;margin-left:38px}
+.score-card .bar{background:#0d1117;height:10px;border-radius:5px;overflow:hidden;margin:12px 0 8px 0}
+.score-card .bar-fill{height:100%;border-radius:5px}
+.score-card.pass .bar-fill{background:#3fb950}
+.score-card.warn .bar-fill{background:#d29922}
+.score-card.fail .bar-fill{background:#f85149}
+.score-card .metrics{font-size:11px;color:#8b949e;display:flex;justify-content:space-between}
+.score-card .score-big{font-size:22px;font-weight:700;color:#f0f6fc}
+.table-wrap{overflow-x:auto;margin-bottom:24px;background:#161b22;border:1px solid #30363d;border-radius:8px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid #21262d;vertical-align:top}
+th{color:#8b949e;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;background:#1c2129}
+tr:last-child td{border-bottom:none}
+.req-card{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:16px 20px;margin-bottom:14px}
+.req-id{color:#79c0ff;font-weight:700;font-size:14px}
+.req-title{font-weight:600;color:#f0f6fc;font-size:15px;margin:4px 0}
+.req-meta{font-size:11px;color:#8b949e;margin-bottom:8px}
+.req-original{font-style:italic;color:#a9b1b8;font-size:13px;margin:6px 0;padding:8px 12px;background:#0d1117;border-left:3px solid #30363d;border-radius:4px}
+.req-rewrite{color:#c9d1d9;font-size:13px;margin:8px 0;padding:10px 14px;background:#0d1117;border-left:3px solid #58a6ff;border-radius:4px}
+.char-section{margin-bottom:36px}
+.char-header{display:flex;align-items:center;gap:12px;padding:14px 18px;background:#161b22;border:1px solid #30363d;border-radius:8px;margin-bottom:14px}
+.char-big{width:44px;height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;color:#fff;background:#1f6feb;flex-shrink:0}
+.char-header.pass .char-big{background:#3fb950}
+.char-header.warn .char-big{background:#d29922}
+.char-header.fail .char-big{background:#f85149}
+.char-info h3{color:#f0f6fc;font-size:16px}
+.char-info .sub{color:#8b949e;font-size:12px}
+.finding-card{background:#161b22;border:1px solid #30363d;border-radius:10px;margin-bottom:12px;overflow:hidden}
+.finding-header{display:flex;align-items:center;gap:12px;padding:12px 18px;background:#1c2129;border-bottom:1px solid #21262d}
+.finding-title{color:#f0f6fc;font-weight:600;font-size:14px;flex:1}
+.badges{display:flex;gap:6px;flex-wrap:wrap}
+.badge{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-critical{background:rgba(248,81,73,0.15);color:#f85149;border:1px solid rgba(248,81,73,0.3)}
+.badge-major{background:rgba(210,153,34,0.15);color:#d29922;border:1px solid rgba(210,153,34,0.3)}
+.badge-minor{background:rgba(63,185,80,0.15);color:#3fb950;border:1px solid rgba(63,185,80,0.3)}
+.badge-conf{background:rgba(88,166,255,0.15);color:#58a6ff;border:1px solid rgba(88,166,255,0.3)}
+.finding-body{padding:14px 18px}
+.finding-body p{color:#c9d1d9;font-size:13px;margin-bottom:8px}
+.finding-body .recommendation{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:10px 14px;color:#79c0ff;font-size:13px;margin-top:8px}
+.footer{text-align:center;padding:40px 24px;border-top:1px solid #30363d;margin-top:40px;color:#8b949e;font-size:13px}
+.footer a{color:#58a6ff;text-decoration:none}
+.app-card{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:14px 18px;margin-bottom:10px;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+.app-card strong{color:#79c0ff}
+</style></head><body>
+<div class="header"><div class="header-content">
+<div class="brand"><h1>IEEE 830 Software Requirements Specification</h1></div>
+<div class="powered-by"><a href="https://openrequirements.ai">OpenRequirements.ai</a> | Based on IEEE Std 830-1998</div>
+</div></div>
+<div class="container">
+
+<div style="margin-bottom:24px;color:#8b949e;font-size:14px">
+<strong style="color:#f0f6fc">System:</strong> CAA/MAA Joint Approval Workbench for BVLOS UAS Swarm Flight Trials<br>
+<strong style="color:#f0f6fc">Source:</strong> DeFOSPAM + Vibe + PE + SBE + <code style="background:#161b22;padding:2px 6px;border-radius:4px;color:#79c0ff">requirements-221fbff5.csv</code><br>
+<strong style="color:#f0f6fc">Generated:</strong> 2026-04-23 12:00 UTC
+</div>
+
+<div class="summary-grid">
+<div class="summary-card"><div class="number">75</div><div class="label">Functional Reqs</div></div>
+<div class="summary-card"><div class="number">20</div><div class="label">RTM Entries</div></div>
+<div class="summary-card"><div class="number">20</div><div class="label">TBDs</div></div>
+<div class="summary-card critical"><div class="number">37</div><div class="label">Critical Findings</div></div>
+<div class="summary-card"><div class="number">85</div><div class="label">Total Findings</div></div>
+<div class="summary-card fail"><div class="number">45%</div><div class="label">Overall Quality</div></div>
+<div class="summary-card"><div class="number">88%</div><div class="label">Section Coverage</div></div>
+<div class="summary-card"><div class="number">8</div><div class="label">Agents</div></div>
+</div>
+
+<h2 class="section-title">IEEE 830 Quality Scorecard</h2>
+<div class="scorecard-grid">
+<div class="score-card fail">
+<div><span class="letter">C</span><span class="name">Correct</span></div>
+<div class="analyst">Analyst: Chelcie</div>
+<div class="bar"><div class="bar-fill" style="width:41%"></div></div>
+<div class="metrics"><span class="score-big">41%</span><span>8 findings · 5C / 3M / 0m</span></div>
+</div>
+<div class="score-card fail">
+<div><span class="letter">U</span><span class="name">Unambiguous</span></div>
+<div class="analyst">Analyst: Odin</div>
+<div class="bar"><div class="bar-fill" style="width:0%"></div></div>
+<div class="metrics"><span class="score-big">0%</span><span>22 findings · 15C / 7M / 0m</span></div>
+</div>
+<div class="score-card fail">
+<div><span class="letter">C</span><span class="name">Complete</span></div>
+<div class="analyst">Analyst: Lucy</div>
+<div class="bar"><div class="bar-fill" style="width:44%"></div></div>
+<div class="metrics"><span class="score-big">44%</span><span>10 findings · 4C / 5M / 1m</span></div>
+</div>
+<div class="score-card fail">
+<div><span class="letter">C</span><span class="name">Consistent</span></div>
+<div class="analyst">Analyst: Ophellia</div>
+<div class="bar"><div class="bar-fill" style="width:45%"></div></div>
+<div class="metrics"><span class="score-big">45%</span><span>9 findings · 4C / 5M / 0m</span></div>
+</div>
+<div class="score-card warn">
+<div><span class="letter">R</span><span class="name">Ranked</span></div>
+<div class="analyst">Analyst: Natasha</div>
+<div class="bar"><div class="bar-fill" style="width:74%"></div></div>
+<div class="metrics"><span class="score-big">74%</span><span>7 findings · 1C / 5M / 1m</span></div>
+</div>
+<div class="score-card fail">
+<div><span class="letter">V</span><span class="name">Verifiable</span></div>
+<div class="analyst">Analyst: Iris</div>
+<div class="bar"><div class="bar-fill" style="width:49%"></div></div>
+<div class="metrics"><span class="score-big">49%</span><span>10 findings · 3C / 7M / 0m</span></div>
+</div>
+<div class="score-card fail">
+<div><span class="letter">M</span><span class="name">Modifiable</span></div>
+<div class="analyst">Analyst: Amelia</div>
+<div class="bar"><div class="bar-fill" style="width:48%"></div></div>
+<div class="metrics"><span class="score-big">48%</span><span>8 findings · 4C / 4M / 0m</span></div>
+</div>
+<div class="score-card fail">
+<div><span class="letter">T</span><span class="name">Traceable</span></div>
+<div class="analyst">Analyst: Lewis</div>
+<div class="bar"><div class="bar-fill" style="width:62%"></div></div>
+<div class="metrics"><span class="score-big">62%</span><span>11 findings · 1C / 9M / 1m</span></div>
+</div>
+</div>
+<h2 class="section-title">Requirements Apportionment (IEEE 830 §2.6)</h2>
+<div class="table-wrap"><table><thead><tr><th>Classification</th><th>Count</th><th>Description</th></tr></thead><tbody>
+<tr><td><strong>Essential</strong> (Must Have)</td><td>7</td><td>Software will not be acceptable without these. Includes K1, K6 keystones.</td></tr>
+<tr><td><strong>Conditional</strong> (Should Have)</td><td>8</td><td>Enhance the product; absence acceptable for v1.0.</td></tr>
+<tr><td><strong>Optional</strong> (Could Have)</td><td>5</td><td>May or may not be worthwhile; future variants.</td></tr>
+</tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>Version target</th><th>Count</th><th>Scope</th></tr></thead><tbody>
+<tr><td><strong>v1.0</strong> — end 2026</td><td>5</td><td>Essential + stable: foundations (K1, K6, AC1, AC2 core)</td></tr>
+<tr><td><strong>v1.0-minor</strong> — Q1-Q2 2027</td><td>3</td><td>AC3-AC8 expansion, K2-K5</td></tr>
+<tr><td><strong>v1.1</strong> — end 2027</td><td>7</td><td>Calibration loop, REQ017-020 authored</td></tr>
+<tr><td><strong>v2.0</strong> — future</td><td>5</td><td>Coalition swarm, urban BVLOS, maritime variants</td></tr>
+</tbody></table></div>
+<h2 class="section-title">Sample IEEE 830 Rewrites (Odin — first 5 of 20)</h2>
+<div class="req-card">
+<span class="req-id">REQ001</span>
+<div class="req-meta">Ambiguities flagged: 4 — vague qualifier &#x27;complete&#x27; - lacks acceptance criteria (DeFOSPAM Dorothy-8), passive voice &#x27;receive&#x27; - unclear if applicant submits or system pulls, undefined outcome - what happen</div>
+<div class="req-original"><strong>Original:</strong> As a CAA case officer I want to receive a complete Operational Authorisation pack so that I can open a valid case.</div>
+<div class="req-rewrite"><strong>IEEE 830 rewrite:</strong> The Workbench shall, upon applicant submission, execute the Artefact Detector component to validate the Operational Authorisation Pack against the mandatory-artefact list for the classified operation type. The Pack shall be considered complete when all 8 mandatory artefacts (ConOps, SORA, Safety Case, Training Plan, Personnel List, Environmental Assessment, Insurance, Ground Survey) are present, validly formatted (PDF/XLSX/DOCX), and exceed minimum page thresholds: ConOps &gt;= 5 pages, SORA &gt;= 3 pages, Safety Case &gt;= 10 pages. An incomplete pack shall cause the case to enter the return-for-clarification state with explicit specification of missing artefacts. A complete pack shall cause the case to enter the open-case state and advance to SORA Assessment phase.</div>
+</div>
+<div class="req-card">
+<span class="req-id">REQ002</span>
+<div class="req-meta">Ambiguities flagged: 4 — undefined term &#x27;swarm-aware&#x27; (DeFOSPAM Dorothy-1, confidence 10/10), vague qualifier &#x27;defensibly&#x27; - no criteria for defense (DeFOSPAM Dorothy-3), undefined &#x27;SORA evidence&#x27</div>
+<div class="req-original"><strong>Original:</strong> As a CAA SORA assessor I want swarm-aware SORA evidence so that I can set SAIL and OSO requirements defensibly.</div>
+<div class="req-rewrite"><strong>IEEE 830 rewrite:</strong> The SORA Assessor shall, when evaluating a BVLOS swarm trial, demand swarm-aware SORA evidence that explicitly accounts for: (1) collective behavior arising from inter-vehicle coordination; (2) coordination dependencies between aircraft; (3) emergent risks (separation loss, deadlock, single-point-of-failure cascades) not present in single-aircraft SORA. Evidence shall be defensible through reference to JARUS SORA v2.5 methodology, documented hazard analysis (FTA or STAMP), and verification against swarm-specific scenarios. Upon evaluation, the assessor shall issue SAIL (Specific Assurance and Integrity Level) and OSO (Operational Safety Objectives) targets that explicitly reference swarm coordination constraints (e.g., &#x27;Separation maintained during coordinated evasion maneuver shall b</div>
+</div>
+<div class="req-card">
+<span class="req-id">REQ003</span>
+<div class="req-meta">Ambiguities flagged: 4 — vague qualifier &#x27;clear&#x27; - no clarity criteria, undefined term &#x27;worst-credible behaviour&#x27; (DeFOSPAM Dorothy-5) - credibility boundary undefined, undefined judgment criteria - what m</div>
+<div class="req-original"><strong>Original:</strong> As a CAA safety-case reviewer I want a clear ConOps and ODD so that I can judge nominal and worst-credible behaviour.</div>
+<div class="req-rewrite"><strong>IEEE 830 rewrite:</strong> The Safety Case Reviewer shall receive a Concept of Operations (ConOps) document containing: (1) swarm composition and roles; (2) operational phases with crew decision points; (3) failure modes and contingency responses; (4) nominal behavior thresholds (e.g., &#x27;normal flight plan deviation &lt; 2 degrees, descent rate &lt; 100 ft/min&#x27;). The Reviewer shall also receive the Operational Design Domain (ODD) specifying operating conditions (wind speed &lt;= 15 knots, temperature -5°C to +30°C, GPS accuracy better than 5 meters, daylight hours only). Upon review, the Reviewer shall validate that all worst-credible behavior scenarios are addressed by documented crew procedures or containment systems. Worst-credible behavior is defined as the most severe single failure or environmental ex</div>
+</div>
+<div class="req-card">
+<span class="req-id">REQ004</span>
+<div class="req-meta">Ambiguities flagged: 4 — undefined reference &#x27;TDA&#x27; - not expanded on first use, vague reference &#x27;consultation package&#x27; - contents not specified, passive voice &#x27;segregate&#x27; - unclear what mechanism</div>
+<div class="req-original"><strong>Original:</strong> As a CAA airspace regulator I want a TDA and consultation package so that I can segregate the trial from other users.</div>
+<div class="req-rewrite"><strong>IEEE 830 rewrite:</strong> The Applicant shall submit a Temporary Danger Area (TDA) request to the Airspace Regulator specifying: (1) 3D airspace volume (latitude, longitude, altitude bands, time window); (2) NOTAM text (formatted per ICAO Annex 15) for publication to civilian traffic; (3) coordination evidence showing consultation with ATSU (Air Traffic Service Unit), airspace users (e.g., commercial routes), and affected landowners. The Airspace Regulator shall review the TDA and consultation evidence to confirm: (A) TDA boundaries do not overlap with published airways, restricted airspace, or active training routes; (B) ATSU has confirmed capacity to issue NOTAM and monitor boundary compliance; (C) duration and re-entry procedures are documented. Upon approval, the Regulator shall authorize TDA publication. Upon </div>
+</div>
+<div class="req-card">
+<span class="req-id">REQ005</span>
+<div class="req-meta">Ambiguities flagged: 4 — undefined term &#x27;automatic containment&#x27; (DeFOSPAM Dorothy-4, 5 subcriteria undefined), undefined reference &#x27;fly-away&#x27; - scope not bounded, undefined outcome &#x27;uncontrolled&#x27;</div>
+<div class="req-original"><strong>Original:</strong> As a CAA airspace regulator I want automatic containment so that a fly-away cannot become uncontrolled BVLOS.</div>
+<div class="req-rewrite"><strong>IEEE 830 rewrite:</strong> The UAS shall be equipped with automatic containment systems that prevent egress beyond the geofence (defined 3D boundary: latitude ±tolerance, longitude ±tolerance, altitude floor/ceiling) independent of C2 link state or onboard autonomy. Containment shall combine: (1) geofence monitor (runs onboard, polling GNSS at 10 Hz minimum); (2) primary containment action (priority: Return-to-Launch if GPS available; fallback: climb to safe altitude and hold). Upon geofence breach detection (aircraft position exceeds boundary by &gt; 10 meters for &gt; 2 seconds), the system shall: (A) trigger containment action within 500 milliseconds; (B) log breach event (timestamp, coordinates, breach direction); (C) notify crew via alert (audio + visual) within 1 second. Containment design shall be validated t</div>
+</div>
+<h2 class="section-title">Sample Acceptance Criteria (Iris — first 5 of 20)</h2>
+<div class="req-card">
+<div><span class="req-id">REQ001</span> <span class="req-title">Operational Authorisation Pack Completeness and Case Opening</span></div>
+<div class="req-meta">Verification: <strong>test</strong> · Test owner: Workbench QA / CAA case officer (manual verification of complex cases) · Verifiable: True</div>
+<div class="req-rewrite">The Workbench Artefact Detector shall, upon applicant submission of an Operational Authorisation Pack, execute automated validation against the mandatory-artefact list (ConOps, SORA, Safety Case, Training Plan, Personnel List, Environmental Assessment, Insurance, Ground Survey) within 10 minutes of upload. Output: Red/Amber/Green coverage matrix. Pack shall be marked GREEN when all 8 mandatory artefacts are present, validly formatted (PDF/XLSX/DOCX), and exceed minimum page thresholds: ConOps &gt;= 5 pages, SORA &gt;= 3 pages, Safety Case &gt;= 10 pages. A complete pack shall cause the case to enter open-case state and advance to SORA Assessment. An incomplete pack shall cause return-for-cla</div>
+<div class="req-meta"><strong>Pass threshold:</strong> 100% detection accuracy across 50 sample packs; all 8 mandatory artefacts correctly identified; case state transition executed correctly (open-case for complete, return-for-clarification for incomplete); processing time &lt;= 10 minutes p95</div>
+</div>
+<div class="req-card">
+<div><span class="req-id">REQ002</span> <span class="req-title">Swarm-Aware SORA Evidence and SAIL/OSO Derivation</span></div>
+<div class="req-meta">Verification: <strong>inspection</strong> · Test owner: CAA SORA Assessor (human domain expert) · Verifiable: True</div>
+<div class="req-rewrite">The SORA Assessor shall, when evaluating a BVLOS swarm trial, review the SORA evidence and extract all risk items (hazards, failure modes, controls). For each risk item, assessor shall tag whether it explicitly addresses swarm-specific failure modes: (1) Coordinated-link-loss cascades, (2) Emergent misbehavior (deadlock, oscillation), (3) Unintended inter-vehicle interactions. Target: &gt;= 3 distinct swarm-aware risk items per aircraft, distributed across the three categories. Each item must cite supporting evidence (test report, design review, simulation data). Evidence shall be defensible through reference to JARUS SORA v2.5 methodology and documented hazard analysis (FTA or STAMP). Upon </div>
+<div class="req-meta"><strong>Pass threshold:</strong> 100% of SORA packages contain &gt;= 3 swarm-aware risk items distributed across 3 categories; 100% include evidence citations (test reports, FTA, STAMP); 100% of derived SAIL/OSO explicitly reference swarm constraints with numerical bounds</div>
+</div>
+<div class="req-card">
+<div><span class="req-id">REQ003</span> <span class="req-title">Clear ConOps and ODD for Nominal and Worst-Credible Behaviour Assessment</span></div>
+<div class="req-meta">Verification: <strong>inspection</strong> · Test owner: CAA Safety Case Reviewer (human inspector) · Verifiable: True</div>
+<div class="req-rewrite">The Safety Case Reviewer shall receive a Concept of Operations (ConOps) document specifying: (1) Swarm composition and roles, (2) Operational phases with crew decision points, (3) Failure modes and contingency responses, (4) Nominal behavior thresholds (e.g., normal flight plan deviation &lt; 2 degrees, descent rate &lt; 100 ft/min). The Reviewer shall also receive the Operational Design Domain (ODD) specifying operating conditions (wind speed &lt;= 15 knots, temperature -5°C to +30°C, GPS accuracy better than 5 meters, daylight hours only). Worst-credible behavior is defined as the most severe single-failure scenario reasonably foreseeable (e.g., loss of GPS signal, C2 link loss, geofence b</div>
+<div class="req-meta"><strong>Pass threshold:</strong> 100% ConOps documents contain all 4 required sections; 100% ODD documents specify numeric environmental bounds for wind, temperature, GPS accuracy, lighting; &gt;= 90% of credible single-failure scenarios addressed by documented procedures or containment systems</div>
+</div>
+<div class="req-card">
+<div><span class="req-id">REQ004</span> <span class="req-title">Temporary Danger Area and Consultation Evidence Package</span></div>
+<div class="req-meta">Verification: <strong>inspection</strong> · Test owner: CAA Airspace Regulator / ATSU liaison · Verifiable: True</div>
+<div class="req-rewrite">The Applicant shall submit a Temporary Danger Area (TDA) request to the Airspace Regulator specifying: (1) 3D airspace volume (latitude, longitude, altitude bands, time window in ICAO format), (2) NOTAM text formatted per ICAO Annex 15 for publication to civilian traffic, (3) Coordination evidence showing documented consultation with ATSU (Air Traffic Service Unit), airspace users (e.g., commercial routes), and affected landowners. The Airspace Regulator shall review and verify: (A) TDA boundaries do not overlap with published airways, restricted airspace, or active training routes (checked against national airspace database), (B) ATSU has confirmed capacity to issue NOTAM and monitor bounda</div>
+<div class="req-meta"><strong>Pass threshold:</strong> 100% of TDA requests contain: proper 3D airspace volume specification (latitude, longitude, altitude, time), valid ICAO Annex 15 NOTAM text, documented evidence of consultation with 3 stakeholder groups (ATSU, commercial routes, landowners); 100% verified against national airspace database (zero ove</div>
+</div>
+<div class="req-card">
+<div><span class="req-id">REQ005</span> <span class="req-title">Automatic Containment Systems for Geofence Enforcement</span></div>
+<div class="req-meta">Verification: <strong>test</strong> · Test owner: Applicant autonomy team (HITL + flight test), CAA autonomy reviewer (approval gate) · Verifiable: True</div>
+<div class="req-rewrite">The UAS shall be equipped with automatic containment systems (geofence monitor + primary containment action) that prevent egress beyond the geofence (defined 3D boundary: latitude ±tolerance, longitude ±tolerance, altitude floor/ceiling) independent of C2 link state or onboard autonomy. Containment shall combine: (1) Geofence monitor running onboard, polling GNSS at 10 Hz minimum, (2) Primary containment action (priority: Return-to-Launch if GPS available; fallback: climb to safe altitude and hold). Upon geofence breach detection (aircraft position exceeds boundary by &gt; 10 meters for &gt; 2 seconds), system shall: (A) Trigger containment action within 500 milliseconds, (B) Log breach even</div>
+<div class="req-meta"><strong>Pass threshold:</strong> 100% of simulated geofence breach scenarios result in containment action within 500 ms; 100% of breaches logged with timestamp/coordinates; 100% of crew alerts delivered within 1 second; robust operation confirmed under +/- 15m GPS noise (worst-case uncertainty); HITL simulator passes and flight tes</div>
+</div>
+<h2 class="section-title">Requirements Traceability Matrix (first 10 of 20)</h2>
+<div class="table-wrap"><table><thead><tr><th>REQ</th><th>Goal</th><th>Keystone</th><th>Vibe</th><th>Gherkin</th><th>NFR</th><th>Status</th></tr></thead><tbody>
+<tr><td><strong>REQ001</strong></td><td>GOAL-001</td><td style="color:#bc8cff;">K1</td><td>PackCompleteness</td><td style="text-align:right;">3</td><td>NFR-F1-001</td><td style="color:#3fb950;">trace_complete</td></tr>
+<tr><td><strong>REQ002</strong></td><td>GOAL-002</td><td style="color:#bc8cff;">K2</td><td>SwarmAwareSORAEvidence scale</td><td style="text-align:right;">1</td><td>NFR-F2-002</td><td style="color:#3fb950;">trace_complete</td></tr>
+<tr><td><strong>REQ003</strong></td><td>GOAL-002</td><td style="color:#bc8cff;">K2</td><td></td><td style="text-align:right;">0</td><td>NFR-F3-003</td><td style="color:#f85149;">dead_end</td></tr>
+<tr><td><strong>REQ004</strong></td><td>GOAL-003</td><td style="color:#bc8cff;">K3</td><td></td><td style="text-align:right;">0</td><td>NFR-F4-004</td><td style="color:#f85149;">dead_end</td></tr>
+<tr><td><strong>REQ005</strong></td><td>GOAL-003</td><td style="color:#bc8cff;">K3</td><td>GeofenceContainment scale</td><td style="text-align:right;">1</td><td>NFR-F5-005</td><td style="color:#3fb950;">trace_complete</td></tr>
+<tr><td><strong>REQ006</strong></td><td>GOAL-003</td><td style="color:#bc8cff;">K3</td><td>C2LinkResilience scale</td><td style="text-align:right;">1</td><td>NFR-F6-006</td><td style="color:#3fb950;">trace_complete</td></tr>
+<tr><td><strong>REQ007</strong></td><td>GOAL-002</td><td style="color:#bc8cff;">K2</td><td>DAAPerformance scale</td><td style="text-align:right;">1</td><td>NFR-F7-007</td><td style="color:#3fb950;">trace_complete</td></tr>
+<tr><td><strong>REQ008</strong></td><td>GOAL-002</td><td style="color:#bc8cff;">K2</td><td>SwarmEmergentBoundedness scale</td><td style="text-align:right;">1</td><td>NFR-F8-008</td><td style="color:#3fb950;">trace_complete</td></tr>
+<tr><td><strong>REQ009</strong></td><td>GOAL-004</td><td style="color:#bc8cff;">K6</td><td>MLForensicExplainability scale</td><td style="text-align:right;">1</td><td>NFR-F9-009</td><td style="color:#3fb950;">trace_complete</td></tr>
+<tr><td><strong>REQ010</strong></td><td>GOAL-004</td><td style="color:#bc8cff;">K6</td><td>MeaningfulHumanControl scale (</td><td style="text-align:right;">1</td><td>NFR-F10-010</td><td style="color:#3fb950;">trace_complete</td></tr>
+</tbody></table></div>
+<h2 class="section-title">Findings by IEEE 830 Characteristic</h2>
+<div class="char-section">
+<div class="char-header fail"><div class="char-big">C</div>
+<div class="char-info"><h3>Correct · Chelcie</h3>
+<div class="sub">41% — FAIL · 8 findings</div></div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">REQ017-020 features built on unvalidated stakeholder assumptions</div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-conf">C10</span></div>
+</div>
+<div class="finding-body">
+<p>The source requirements explicitly state: &#x27;No user story covers&#x27; these topics. Yet four features (F19-F22) address them. Features F19 (Public &amp; Stakeholder Engagement), F20 (Security Classification Handling), F21 (Environmental Impact Assessment), F22 (Post-Trial Close-out) are implicitly derived from regulatory hints (CAP 1616, GDPR, JSP 440) and the system context, NOT from explicit CAA/MAA stakeholder approval. This violates the IEEE 830-1998 principle that requirements shall re</p>
+<div class="recommendation"><strong>Recommendation:</strong> Obtain explicit stakeholder validation (CAA program manager sign-off, MAA liaison confirmation) for each of F19-F22 before they enter the SRS. For REQ017 (Public Engagement): CAP 1616 mandates consultation, but the workbench&#x27;s scope (internal regulator tool) may exclude public-facing features—clarify if the CAA will use this tool to manage engagement, or if engagement happens outside. For REQ018 (Classified Evidence): JSP 440 / CAP 722H handling is critical for MOD partnerships, but the Vib</div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">Five foundational terms lack authoritative definition; stakeholder alignment unconfirmed</div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-conf">C10</span></div>
+</div>
+<div class="finding-body">
+<p>Dorothy identifies 16 undefined terms critical to requirements interpretation. Five are regulatory anchors: (1) &#x27;swarm-aware&#x27; (REQ002)—without this, SORA assessors have no criteria for what constitutes swarm-specific risk evidence vs. single-aircraft evidence; (2) &#x27;defensibly&#x27; (REQ002)—evocative but undefined; regulators and applicants may interpret &#x27;defensible&#x27; differently (e.g., statistical 99% confidence vs. expert judgment). (3) &#x27;meaningful human control&#x</p>
+<div class="recommendation"><strong>Recommendation:</strong> Before SRS approval, conduct joint CAA/MAA/JARUS working group session to define these five terms. Publish glossary with examples from prior BVLOS swarm trials (e.g., JARUS SORA v2.5 swarm case studies, UK BVLOS trials at Porthcawl/Cardington). For &#x27;meaningful human control&#x27;: adopt ISO 9646 workload scale + NASA-TLX measurement protocol, with explicit thresholds (e.g., workload &lt;= 60 on NASA-TLX during nominal, crew takeover within 2 seconds). For &#x27;containment&#x27;: explicitly</div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">Geofence breach, link loss, and DAA resolution outcomes undefined—SRS silent on safety actions</div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-conf">C10</span></div>
+</div>
+<div class="finding-body">
+<p>The SRS states what outcomes are needed (&#x27;containment so a fly-away cannot become uncontrolled BVLOS&#x27;, &#x27;link loss is survivable&#x27;, &#x27;encounters are resolved predictably&#x27;) but does not specify the MECHANISM or DECISION TREE. REQ005 says the system shall provide &#x27;automatic containment&#x27; but does not say: What triggers containment? (Geofence breach detected? Timeout? Crew command?) What is the fail-safe? (RTL to home? Parachute? Hover and await recovery?) What i</p>
+<div class="recommendation"><strong>Recommendation:</strong> Decompose REQ005-008 into explicit outcome rules: REQ005a: &#x27;IF geofence boundary breach detected THEN RTL initiated within 2 seconds&#x27;; REQ005b: &#x27;IF RTL fails THEN crew receives 60dB audio alert + swarm transitions to autonomous hover at last-valid altitude, maintaining separation from nearest aircraft &gt;= min-separation&#x27;; REQ005c: &#x27;IF hover fails THEN [emergency parachute deployment / immediate descent procedure per applicant design]&#x27;. Similar specificity for REQ0</div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">REQ001 happy-path focused; sad-path (incomplete pack rejection) undefined</div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-conf">C9</span></div>
+</div>
+<div class="finding-body">
+<p>REQ001 says &#x27;As a CAA case officer I want to receive a complete Operational Authorisation pack so that I can open a valid case.&#x27; This is outcome-focused (case opened) but silent on the rejection path. The SRS does not specify: What constitutes a &#x27;complete&#x27; pack? (Checklist? Signature validation? Conformance to CAP 722 Section 4.1?) If incomplete, what is the rejection message? (Item-level feedback or summary?) Can the applicant resubmit the same pack or must a new one be uplo</p>
+<div class="recommendation"><strong>Recommendation:</strong> Decompose REQ001 into two requirements: REQ001a: &#x27;The workbench shall validate each Operational Authorisation pack against a CAA-published completeness checklist (e.g., ConOps present, insurance certificate, crew competency evidence, etc.). If valid, the case shall transition to Draft status and notify the assigned case officer within 1 hour.&#x27; REQ001b: &#x27;If a pack is incomplete, the system shall identify missing items by category (ConOps, Insurance, Evidence, etc.) and notify the a</div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">Regulatory references accurate but version status and obsolescence risk require tracking</div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-conf">C8</span></div>
+</div>
+<div class="finding-body">
+<p>Cross-check conducted: (1) CAP 722 v9 is current (2024 CAA guidance). (2) CAP 722A Second Edition Dec 2022 is current. (3) CAP 722B Fifth Edition confirmed as current authority. (4) JARUS SORA v2.5 with 24 OSOs is correct (JARUS v2.5 issued 2023). (5) JSP 936 v1.1 Nov 2024 is correct (UK MOD guidance). (6) DEFSTAN 00-970 Part 9 Issue 13 is correct. (7) RA 2305 Issue 7 noted as current. HOWEVER: Risk factors for future obsolescence: (a) EASA/OECD are revising swarm guidance (anticipated 2026-2027</p>
+<div class="recommendation"><strong>Recommendation:</strong> Add an NFR to the SRS: &#x27;The workbench shall maintain a regulatory reference manifest that pinpoints exact versions (CAP 722 v9, JSP 936 v1.1, JARUS SORA v2.5, AMLAS v1.X) used to construct any trial&#x27;s evidence case. When the CAA updates foundational guidance (e.g., CAP 722 -&gt; v10), a compliance review workflow shall notify case officers of potential re-assessment triggers.&#x27; Establish a quarterly CAA/JARUS/EASA guidance update review process to flag which changes affect active c</div>
+</div></div>
+</div>
+<div class="char-section">
+<div class="char-header fail"><div class="char-big">U</div>
+<div class="char-info"><h3>Unambiguous · Odin</h3>
+<div class="sub">0% — FAIL · 22 findings</div></div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">Vague qualifier &#x27;complete&#x27; used in two contexts with conflicting meanings</div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-conf">C10</span></div>
+</div>
+<div class="finding-body">
+<p>This is the most pervasive semantic ambiguity across the SRS. Using &#x27;complete&#x27; for both artefact intake and telemetry logging creates risk that case officers and investigators will apply inconsistent acceptance criteria. Dorothy-8 rated confidence 10/10 because the distinction has material regulatory impact: incomplete application intake should halt a case (return-for-clarification), whereas incomplete telemetry might be acceptable if incident was minor. These are opposite decisions.</p>
+<div class="recommendation"><strong>Recommendation:</strong> CRITICAL: Replace &#x27;complete&#x27; with two distinct terms: &#x27;Pack Completeness&#x27; (artefact presence) and &#x27;Evidentiary Completeness&#x27; (telemetry presence). Update SRS glossary with explicit distinction. Train case officers on the two acceptance criteria.</div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">Undefined term &#x27;swarm-aware&#x27; is foundational to SORA assessment without clear criteria</div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-conf">C10</span></div>
+</div>
+<div class="finding-body">
+<p>This term is foundational to REQ002, which is a gate requirement for SORA assessment. Without defining &#x27;swarm-aware,&#x27; SORA assessors (different individuals across trials) will develop inconsistent interpretations. Some may accept single-aircraft SORA with swarm annotations; others may demand swarm-specific methodology (JARUS SORA Swarm Extension). This inconsistency violates IEEE 830 principle of unambiguous requirements.</p>
+<div class="recommendation"><strong>Recommendation:</strong> CRITICAL: Add &#x27;swarm-aware&#x27; to SRS glossary with explicit definition (see proposed rewrite). Reference JARUS SORA v2.5 swarm guidance and enumerate 3 required evidence components (collective behavior, coordination dependencies, emergent risks). Update REQ002 to reference this definition.</div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">Vague qualifier &#x27;defensibly&#x27; lacks measurable criteria for SORA approval</div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-conf">C10</span></div>
+</div>
+<div class="finding-body">
+<p>SAIL and OSO are regulatory gates that permit or deny trial progression. &#x27;Defensibly&#x27; is the success criterion for these gates, yet it is subjective. Different assessors may have different thresholds for what constitutes defensible evidence. This violates IEEE 830 unambiguity: every requirement must have one interpretation.</p>
+<div class="recommendation"><strong>Recommendation:</strong> CRITICAL: Define &#x27;defensibly&#x27; operationally in SRS glossary. Reference JARUS methodology, require GSN or CAF structured argument, and require documentation of CAA precedent. Update REQ002 to reference this definition.</div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">Undefined term &#x27;contingency matrix&#x27; lacks format specification and completeness criteria</div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-conf">C9</span></div>
+</div>
+<div class="finding-body">
+<p>Contingency matrix is the onboard state-machine specification for autonomy. Without specifying format and completeness criteria, different implementations will have different coverage and different safety profiles. Some may address only communication losses; others may also address environmental hazards. This creates inconsistency in trial assurance.</p>
+<div class="recommendation"><strong>Recommendation:</strong> MAJOR: Define &#x27;contingency matrix&#x27; in SRS glossary with format (table, minimum 15 events) and completeness criteria (100% credible failure modes mapped). Enumerate 4 event categories (communication, environmental, system, human) with examples. Update REQ011 to reference this definition and require contingency matrix review before trial authorization.</div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">Passive voice in REQ001 hides submission actor and validation trigger</div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-conf">C8</span></div>
+</div>
+<div class="finding-body">
+<p>Passive voice obscures responsibility and causality. In requirements, passive voice often hides the actor responsible for an action, creating confusion about who does what. Here, &#x27;receive&#x27; does not specify whether the case officer manually retrieves the pack or the system auto-validates and alerts. This leads to different implementations.</p>
+<div class="recommendation"><strong>Recommendation:</strong> MINOR: Replace &#x27;receive&#x27; with active voice specifying: (1) applicant submits via web portal, (2) Workbench auto-validates upon receipt, (3) case officer is notified of validation results. This clarifies the flow and responsibility.</div>
+</div></div>
+</div>
+<div class="char-section">
+<div class="char-header fail"><div class="char-big">C</div>
+<div class="char-info"><h3>Complete · Lucy</h3>
+<div class="sub">44% — FAIL · 10 findings</div></div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">20 TBDs span critical swarm-safety methodology gaps blocking REQ002 (swarm-aware SORA assessment)</div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-conf">C10</span></div>
+</div>
+<div class="finding-body">
+<p>DeFOSPAM Dorothy-1 identified &#x27;swarm-aware&#x27; as critical undefined term (confidence 10/10). Chris language file defines swarm-aware but provides no methodology. Odin rewrite references JARUS v2.5 but does not address swarm-specific gaps. Grace goal GOAL-002 (Assure Swarm-Aware Safety Assessment) is the highest-risk goal for first trial cohort because methodology does not yet exist.</p>
+<div class="recommendation"><strong>Recommendation:</strong> Establish WS-001 swarm SORA methodology workshop (Q2 2026): CAA + JARUS liaison + industry safety engineers. Define: (1) hazard taxonomy specific to swarm (loss-of-separation modes, separation-loss cascade triggers); (2) analysis methodology (FTA extensions for multi-agent systems, STAMP for distributed control); (3) acceptance criteria (e.g., &#x27;quantified maximum cascade depth = 2 aircraft, probability of cascade &lt; 0.1% per flight&#x27;); (4) evidence template (documentation structure fo</div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">Containment design standard undefined (5 critical subcriteria per Dorothy-4)</div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-conf">C10</span></div>
+</div>
+<div class="finding-body">
+<p>DeFOSPAM Dorothy-4 identified &#x27;containment&#x27; as critical undefined term with 5 subcriteria. Odin rewrite specifies mechanism and response time but not design rationale. Containment is safety-critical per Grace goal GOAL-003 (Ensure Containment &amp; Flight Safety) but lacks formal design basis. Risk: applicant may propose inadequate containment; CAA reviewer lacks standard to assess adequacy.</p>
+<div class="recommendation"><strong>Recommendation:</strong> Establish WS-002 containment design-standard workshop (Q2 2026): CAA + autonomy engineers + safety engineers. Develop: (1) containment failure-mode taxonomy (geofence-sensor loss, computation latency, motor failure, firmware bug); (2) failure-rate assumptions (design basis accident: geofence breach must not exceed 0.1% per flight hour); (3) fail-safe mechanism specification (mechanical kill-switch + software enforcement + procedural backup); (4) design reference standards (adapt DO-178C for auto</div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">Meaningful human control measurable criteria undefined (Dorothy-2, international debate ongoing)</div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-conf">C10</span></div>
+</div>
+<div class="finding-body">
+<p>DeFOSPAM Dorothy-2 identified &#x27;meaningful human control&#x27; as critical undefined term (confidence 10/10). Chris language defines it as &#x27;Active, informed crew awareness and retained authority.&#x27; Odin operationalizes with measurable thresholds (1 Hz, &lt;2s, workload %). But empirical basis for these thresholds lacking. Grace goal GOAL-004 (Assure Autonomous Decision-Making &amp; Human Control) depends on MHC definition for acceptability criteria.</p>
+<div class="recommendation"><strong>Recommendation:</strong> Establish WS-003 human factors workshop (Q3 2026): CAA + university human-factors research lab + applicant crew trainers. Conduct: (1) simulator study (swarm scenario playback with human subjects) measuring take-over response time, workload under various scenario complexities, crew situation awareness recovery time; (2) evidence synthesis (compare proposed thresholds to manned-aviation precedent, military UAV precedent); (3) develop &#x27;Meaningful Human Control Assurance Guidance&#x27; specify</div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">10 REQs (REQ008-REQ011, REQ015-REQ020) have partial operational specifications requiring per-trial negotiation or stakeholder workshops</div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-conf">C8</span></div>
+</div>
+<div class="finding-body">
+<p>Odin rewrites were authored by Odin&#x27;s IEEE 830 agents with high confidence (8-9) on operational specification. However, 6-10 REQs introduce complexity that requires either (1) external standard integration (REQ018 CAP 722H), (2) per-trial decision logic (REQ011 IFT triggers), or (3) stakeholder consensus (REQ010 workload thresholds). This is expected SRS maturity for a regulated domain with emerging technology (swarm autonomy). Recommendation is to accept per-trial negotiation for first tri</p>
+<div class="recommendation"><strong>Recommendation:</strong> Prioritize TBD workshops as follows: (1) WS-001 (swarm SORA, Q2 2026) - critical path for REQ002 operationalization; (2) WS-002 (containment design, Q2 2026) - critical path for REQ005 design justification; (3) WS-003 (human control, Q3 2026) - critical path for REQ010 threshold validation. For first trial cohort: accept per-trial specifications for REQ008 (emergent-behavior evidence), REQ009 (ML explainability fallback), REQ011 (IFT triggers), REQ015 (apportionment signatures). For REQ017-REQ02</div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">REQ001 and REQ012 use &#x27;complete&#x27; with different meanings; ambiguity not fully resolved in Odin rewrite</div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-conf">C8</span></div>
+</div>
+<div class="finding-body">
+<p>Ambiguity is correctly identified by DeFOSPAM but not fully resolved by Odin. Odin rewrite clarifies meaning through operationalization (8 artefacts for REQ001, 6 telemetry for REQ012) but uses same English word &#x27;complete&#x27; in both contexts. Chris language file does not disambiguate. Risk is low because operationalizations are distinct, but clarity is low because same word is overloaded.</p>
+<div class="recommendation"><strong>Recommendation:</strong> Update SRS terminology in final draft: (1) REQ001 (Application Intake &amp; Completeness Check): use term &#x27;pack completeness&#x27; or &#x27;submission completeness&#x27; to refer to mandatory artefacts present; define PackCompleteness scale per Vibe requirements (Vibe Scale from openrequirements-vibe-results.json). (2) REQ012 (Data MOR &amp; DPIA Obligations): use term &#x27;evidentiary completeness&#x27; or &#x27;telemetry recording completeness&#x27; to refer to 6 categories recorded; def</div>
+</div></div>
+</div>
+<div class="char-section">
+<div class="char-header warn"><div class="char-big">R</div>
+<div class="char-info"><h3>Ranked · Natasha</h3>
+<div class="sub">74% — WARN · 7 findings</div></div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">REQ017 (Public Engagement) and REQ018 (Security Classification) lack user stories and acceptance criteria; no explicit process defined</div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-conf">C10</span></div>
+</div>
+<div class="finding-body">
+<p>REQ017 and REQ018 were flagged in the raw requirements CSV as &quot;Strongly implied by CAP 1616 and GDPR&quot; and &quot;addresses how classified MOD evidence is presented&quot; respectively, but neither has a user story or acceptance criteria. Grace-goals confirm implicit scope risks: REQ017 &quot;CAP 1616 scope not specified (what level of consultation is sufficient?)&quot; and REQ018 &quot;REQ018 lacks user story and acceptance criteria; no explicit process defined.&quot; Yet both are assign</p>
+<div class="recommendation"><strong>Recommendation:</strong> IMMEDIATE: Conduct rapid requirements-gathering sessions with CAA communications (REQ017) and MOD security officer (REQ018) to author explicit user stories and acceptance criteria. GATE: These should not progress to v1.0-minor without signed acceptance criteria. ALTERNATE: If acceptance criteria cannot be defined by Q2 2026, reclassify both as v2.0 (future) and note as out-of-scope for v1.0 panel.</div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">REQ008, REQ009 volatile autonomy standards assigned v1.1 target—AMLAS/SACE guidance not yet published</div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-conf">C9</span></div>
+</div>
+<div class="finding-body">
+<p>REQ008 (Swarm Decision-Making Architecture Review) and REQ009 (ML Assurance Case) are critical to GOAL-004 (Assure Autonomous Decision-Making &amp; Human Control, rank 2) but depend on emerging AMLAS/SACE standards. DeFOSPAM reports 3 critical findings on REQ009 (undefined term &quot;emergent behavior&quot;, frozen-model manifest scope, explainability evidence criteria). Grace-goals implicitly scope RISK: &quot;AMLAS/SACE case mandatory but guidance not yet published; assumption that these stand</p>
+<div class="recommendation"><strong>Recommendation:</strong> OPTION A (Recommended): Reclassify REQ008 and REQ009 as v1.0-minor (extension phase, Q1-Q2 2027), paired with explicit dependency on AMLAS/SACE v1.0 publication. OPTION B: Create v1.0 &quot;placeholder&quot; requirement (frozen model manifest, audit trail) with v1.1 extension for full AMLAS case. Either way, establish explicit external dependency gate in phase-gate model (GOAL-007).</div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">REQ017 (Public Engagement) vs REQ018 (Classified MOD Evidence): conflict on scope boundary—unclear if classified trials can have public engagement</div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-conf">C9</span></div>
+</div>
+<div class="finding-body">
+<p>REQ017 (Public &amp; Stakeholder Engagement, GOAL-010 rank 2) mandates &quot;community consultation, press/media engagement, stakeholder feedback capture&quot; with CAP 1616 and GDPR compliance. REQ018 (Security Classification Handling, GOAL-009 rank 3) mandates &quot;evidence classification per CAP 722H, JSP 440 marking and segregation controls, reviewer security clearance validation.&quot; Grace-goals for GOAL-009 note: &quot;Interaction with public engagement (REQ017): can classified trials h</p>
+<div class="recommendation"><strong>Recommendation:</strong> DECISION GATE (pre-v1.0-minor): CAA regulatory leadership must decide one of: (A) Classified trials are out-of-scope for v1.0—only unclassified BVLOS swarm trials proceed. Then REQ017 and REQ018 are sequential: v1.0 unclassified, v2.0 classified. (B) Classified trials proceed in parallel with unclassified—then REQ017 and REQ018 must be jointly authored with explicit redaction rules (e.g., &quot;consult communities on trial logistics and safety, redact platform capabilities&quot;). (C) Classified</div>
+</div></div>
+</div>
+<div class="char-section">
+<div class="char-header fail"><div class="char-big">V</div>
+<div class="char-info"><h3>Verifiable · Iris</h3>
+<div class="sub">49% — FAIL · 10 findings</div></div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">REQ002: &#x27;Swarm-aware&#x27; and &#x27;defensibly&#x27; undefined; no acceptance criteria</div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-conf">C10</span></div>
+</div>
+<div class="finding-body">
+<p>DeFOSPAM Dorothy-1, Dorothy-3: &#x27;swarm-aware&#x27; is undefined term (confidence 10/10 criticality); &#x27;defensibly&#x27; has no criteria for defense. Chris&#x27;s definition of &#x27;swarm-aware&#x27; is &#x27;methodology or evidence accounting for collective behavior.&#x27; Operationalizing through 3-component evidence framework (coordinated-link-loss, emergent-misbehavior, inter-vehicle interactions) makes &#x27;swarm-aware&#x27; repeatable. &#x27;Defensibly&#x27; tied to JARUS v2.5 + d</p>
+<div class="recommendation"><strong>Recommendation:</strong> Replace subjective terms (&#x27;defensibly&#x27;, &#x27;swarm-aware&#x27;) with enumerated criteria and methodology references. Require evidence citations (FTA, STAMP, test reports) to tie defense logic to recognized standards.</div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">REQ005: &#x27;Automatic containment&#x27; undefined; critical safety gap (5 subcriteria)</div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-conf">C10</span></div>
+</div>
+<div class="finding-body">
+<p>DeFOSPAM Dorothy-4 (5 subcriteria undefined for &#x27;containment&#x27;); Observation-1: critical safety gap. &#x27;Containment&#x27; lacks design and verification criteria. Operationalizing through 3 design components (monitor, action, alert), specific response times (500 ms action, 1 sec alert), and margin testing (15 m GPS noise). Makes containment testable and verifiable.</p>
+<div class="recommendation"><strong>Recommendation:</strong> For all safety-critical requirements, specify design components, response-time budgets, margin factors, and verification approach (simulation + flight test). Tie to performance engineering SLAs (e.g., NFR-LAT-005 for decision latency).</div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">REQ010: &#x27;Meaningful human control&#x27; undefined; &#x27;throughout&#x27; temporal ambiguity; workload thresholds missing</div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-conf">C9</span></div>
+</div>
+<div class="finding-body">
+<p>DeFOSPAM Dorothy-2: &#x27;meaningful human control&#x27; lacks measurable criteria. &#x27;Throughout&#x27; is temporal ambiguity (no assessment frequency). Workload and takeover thresholds undefined. Chris defines &#x27;meaningful&#x27; as &#x27;Active, informed crew awareness and retained authority.&#x27; Operationalizing through: (1) frequency metric (1 Hz), (2) override latency (&lt; 2 sec), (3) intervention time window (5-10 sec phase-dependent), (4) workload thresholds (75-85%), (5) measure</p>
+<div class="recommendation"><strong>Recommendation:</strong> For all human-factors requirements, specify: (1) awareness frequency (Hz), (2) authority latency (milliseconds), (3) intervention time windows (seconds, phase-dependent), (4) workload thresholds (% of cognitive capacity), (5) measurement instrument (NASA-TLX, SWAT, etc.). Require simulator practice hours and flight-test observer validation.</div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">REQ001: Vague &#x27;complete&#x27; qualifier lacks quantification</div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-conf">C9</span></div>
+</div>
+<div class="finding-body">
+<p>DeFOSPAM Dorothy-8 identified &#x27;complete&#x27; as vague qualifier. Operationalizing through explicit enumeration of 8 required artefacts and numeric page-count thresholds makes &#x27;completeness&#x27; testable and repeatable. Acceptance criterion is binary (all 8 + format + thresholds or fail).</p>
+<div class="recommendation"><strong>Recommendation:</strong> Require all 20 REQ to enumerate specific artefacts, page counts, or numeric acceptance criteria. Use Vibe meters (METER-001, METER-002) to operationalize compliance scoring.</div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">REQ003: &#x27;Clear&#x27; and &#x27;judge&#x27; are subjective verbs; worst-credible-behaviour undefined</div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-conf">C9</span></div>
+</div>
+<div class="finding-body">
+<p>DeFOSPAM Dorothy-5: &#x27;clear&#x27; (no clarity criteria), &#x27;judge&#x27; (passive subjective verb), &#x27;worst-credible behaviour&#x27; (credibility boundary undefined). Operationalizing &#x27;clear&#x27; by enumerating 4 required ConOps sections per Vibe meter METER-002. &#x27;Worst-credible&#x27; scoped to single-failure assumption (not common-mode). &#x27;Judge&#x27; replaced with &#x27;validate against documented procedures&#x27; (testable, binary pass/fail).</p>
+<div class="recommendation"><strong>Recommendation:</strong> Replace subjective verbs (&#x27;clear&#x27;, &#x27;judge&#x27;) with testable actions (&#x27;validate&#x27;, &#x27;verify&#x27;). Enumerate specific document sections and acceptance criteria. Define &#x27;worst-credible&#x27; scope explicitly (e.g., single-failure assumption).</div>
+</div></div>
+</div>
+<div class="char-section">
+<div class="char-header fail"><div class="char-big">M</div>
+<div class="char-info"><h3>Modifiable · Amelia</h3>
+<div class="sub">48% — FAIL · 8 findings</div></div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">Terminology Collision: &#x27;Complete&#x27; Used with Conflicting Meanings Across Requirements</div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-conf">C9</span></div>
+</div>
+<div class="finding-body">
+<p>REQ001 (Application Intake &amp; Completeness Check) uses &#x27;complete&#x27; to mean &#x27;all mandatory fields submitted and valid&#x27;. REQ012 (Data MOR &amp; DPIA Obligations) uses &#x27;complete&#x27; to mean &#x27;satisfies GDPR Article 35 Data Protection Impact Assessment requirements&#x27;. These two meanings are semantically distinct but both occupy the glossary term &#x27;Completeness&#x27; without disambiguation. Chelcie-findings.json (finding-003) and odin-findings.json (finding-00</p>
+<div class="recommendation"><strong>Recommendation:</strong> Establish distinct glossary terms: (1) &#x27;Application Pack Completeness&#x27; for REQ001 (all mandatory fields present and syntactically valid), (2) &#x27;GDPR Completeness&#x27; for REQ012 (DPIA requirements satisfied per Art. 35). Update all cross-references and child FRs (FR-001 through FR-007 for REQ001; FR-221-260 for REQ012) to use precise terminology. Add decision rule in Section 3.2 (Specific Requirements Structure) clarifying that these gates are sequential: Application Pack Complete</div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">Evidence-Artifact Overlap: REQ002 vs REQ008 Swarm Assessment Deliverables</div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-conf">C8</span></div>
+</div>
+<div class="finding-body">
+<p>REQ002 (SORA 2.0 Assessment for Swarm) requires &#x27;documented hazard mitigation rationale for swarm-specific scenarios per JARUS SORA v2.5 Chapter 6&#x27; (ophellia-findings.json finding-004 documents this). REQ008 (Swarm Decision-Making Architecture Review) requires &#x27;peer-reviewed evidence that autonomous decision logic does not contradict human operator intent&#x27; (odin-findings.json finding-014 raises concern about &#x27;contradicts&#x27; being unmeasurable). Both requirements deman</p>
+<div class="recommendation"><strong>Recommendation:</strong> Clarify artifact ownership: (1) Designate REQ002 as responsible for SORA-specific hazard evidence (swarm navigation, spectrum interference, geofence bypass scenarios). (2) Designate REQ008 as responsible for autonomous decision-logic evidence (decision tree validation, reward-function alignment, human-operator override capability proof). (3) Create interface requirement IR-004 (SORA-to-DecisionLogic Traceability) establishing that REQ008 evidence must demonstrate that every swarm decision compli</div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">Fallback-Sequence Conflict: REQ005 Containment vs REQ011 Flight Termination Incomplete Ordering</div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-conf">C8</span></div>
+</div>
+<div class="finding-body">
+<p>REQ005 (Geofence / Containment Enforcement) mandates &#x27;automated swarm repositioning to bring all UAS back within operational boundary within 5 seconds if any aircraft drifts &gt;50m outside declared geofence&#x27; (amelia-ids.json FR-041-062 child FRs detail containment algorithms). REQ011 (Contingency and Flight Termination) mandates &#x27;safe controlled descent with engine shutdown if swarm loses C2 link &gt;5 seconds&#x27; (amelia-ids.json FR-063-090). Both are essential (must_have, pri</p>
+<div class="recommendation"><strong>Recommendation:</strong> (1) Add explicit sequencing rule to Section 3.3: &#x27;REQ005 (Containment) is primary fallback; REQ011 (Termination) is secondary fallback triggered only if REQ005 fails to recover swarm position within 10 seconds cumulative.&#x27; (2) Create DC-003 (Design Constraint: Fallback Priority Chain): &#x27;Swarm decision logic shall evaluate containment algorithms first; if all aircraft positions remain outside geofence after 10s, initiate termination sequence. No concurrent execution of containment </div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">Organizational Fragmentation: PE (Performance/End-User) NFRs Spread Across Multiple Sections Without Unified Governance</div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-conf">C8</span></div>
+</div>
+<div class="finding-body">
+<p>Amelia-outline.json adopts feature-based organization (by_feature scheme: 8 clusters + cross-cutting). However, cross-functional NFRs (Performance, Availability, Scalability, Security, Usability, Maintainability, Latency, Capacity) are listed as &#x27;Distributed cross-references&#x27; in Section 3.2 rather than consolidated. Specifically: (1) Latency NFRs appear in 3.3 (Containment C2 link latency &lt;50ms) and 3.4 (DAA latency &lt;2s), but latency budget reconciliation is missing. (2) Capacity</p>
+<div class="recommendation"><strong>Recommendation:</strong> (1) Retain feature-based organization for FRs (REQs 001-020 child FRs remain distributed by feature in Sections 3.1-3.9). (2) Create new unified Section 3.14 (Non-Functional Requirements Specification): Consolidate all NFRs into single section organized by NFR type (Performance, Availability, Scalability, Security, Usability, Maintainability, Latency, Capacity). (3) For each NFR type, establish: (a) global budget or threshold (e.g., &#x27;System Latency Budget: 200ms end-to-end, apportioned as: </div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">Missing Cross-Reference: Public Engagement (REQ017) Lacks Traceability to Stakeholder Feedback Loop</div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-conf">C7</span></div>
+</div>
+<div class="finding-body">
+<p>REQ017 (Public and Stakeholder Engagement) requires &#x27;documented communication of trial scope, risk mitigation, and results to public and regulatory stakeholders; feedback mechanisms established&#x27; (amelia-ids.json FR-311-370 child FRs sketch this). However, amelia-outline.json Section 3.8 does not establish feedback loops that flow back into REQs 001-016. No requirement explicitly states &#x27;REQ017 feedback shall trigger re-assessment of REQ002 (SORA) or REQ012 (Data Privacy) if stakeh</p>
+<div class="recommendation"><strong>Recommendation:</strong> (1) Create new requirement REQ021 (Feedback Integration Loop): &#x27;Public and stakeholder feedback received via REQ017 engagement shall be logged, categorized (safety hazard / privacy concern / operational feasibility / regulatory interpretation), and evaluated for impact on REQs 001-016. Feedback triggering substantive changes to core requirements shall initiate change-control process per Section 3.10 (Traceability).&#x27; (2) Add child FR under REQ017: &#x27;FR-3XX: Feedback Categorization a</div>
+</div></div>
+</div>
+<div class="char-section">
+<div class="char-header fail"><div class="char-big">T</div>
+<div class="char-info"><h3>Traceable · Lewis</h3>
+<div class="sub">62% — FAIL · 11 findings</div></div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">REQ016 (Phased Trial Build-Up) is a single point of failure affecting 5+ dependent requirements</div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-conf">C9</span></div>
+</div>
+<div class="finding-body">
+<p>REQ016 (Phased Trial Build-Up) maps to GOAL-007 (Support Phased Trial Build-Up) and GOAL-015 (Panel Override), and is traced by multiple SBE scenarios (angie: 5 scenarios). If REQ016 is not properly implemented (gating logic, reversibility mechanics, phase criteria), all phased progression and oversight mechanisms fail. This is a critical architectural requirement.</p>
+<div class="recommendation"><strong>Recommendation:</strong> Elevate REQ016 to must_have (v1.0) status. Ensure phased gate logic is thoroughly validated through scenario testing and integration testing. Implement audit trail for all phase progression decisions.</div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">Dead-end requirement: REQ003 has no forward trace to SBE or acceptance criteria</div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-conf">C9</span></div>
+</div>
+<div class="finding-body">
+<p>REQ003 (ConOps &amp; ODD Review) is not mapped to any SBE scenario (angie-traceability) or acceptance criterion (iris-criteria). This requirement lacks forward traceability to test scenarios and acceptance validation.</p>
+<div class="recommendation"><strong>Recommendation:</strong> Ensure REQ003 has mapped SBE scenarios that explicitly validate the requirement during trial. If REQ003 is not testable, reconsider necessity or move to v2.0.</div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title">Dead-end requirement: REQ004 has no forward trace to SBE or acceptance criteria</div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-conf">C9</span></div>
+</div>
+<div class="finding-body">
+<p>REQ004 (Airspace Change &amp; TDA Coordination) is not mapped to any SBE scenario (angie-traceability) or acceptance criterion (iris-criteria). This requirement lacks forward traceability to test scenarios and acceptance validation.</p>
+<div class="recommendation"><strong>Recommendation:</strong> Ensure REQ004 has mapped SBE scenarios that explicitly validate the requirement during trial. If REQ004 is not testable, reconsider necessity or move to v2.0.</div>
+</div></div>
+</div>
+</div>
+<div class="footer">
+Report generated by <a href="https://openrequirements.ai">OpenRequirements.ai</a><br>
+Based on IEEE Std 830-1998 · 2026-04-23 12:00 UTC
+</div>
+</body></html>

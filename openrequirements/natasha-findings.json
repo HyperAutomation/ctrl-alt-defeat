@@ -1,0 +1,86 @@
+[
+  {
+    "finding_title": "REQ008, REQ009 volatile autonomy standards assigned v1.1 target\u2014AMLAS/SACE guidance not yet published",
+    "finding_type": "scope_creep_risk",
+    "confidence": 9,
+    "severity": "major",
+    "reasoning": "REQ008 (Swarm Decision-Making Architecture Review) and REQ009 (ML Assurance Case) are critical to GOAL-004 (Assure Autonomous Decision-Making & Human Control, rank 2) but depend on emerging AMLAS/SACE standards. DeFOSPAM reports 3 critical findings on REQ009 (undefined term \"emergent behavior\", frozen-model manifest scope, explainability evidence criteria). Grace-goals implicitly scope RISK: \"AMLAS/SACE case mandatory but guidance not yet published; assumption that these standards apply to swarm autonomy.\" Yet both REQ008 and REQ009 are assigned v1.1 (steady state), suggesting they will be fully developed in Q4 2026. This is a version mismatch: if AMLAS/SACE guidance slips, v1.1 delivery is at risk.",
+    "recommendation": "OPTION A (Recommended): Reclassify REQ008 and REQ009 as v1.0-minor (extension phase, Q1-Q2 2027), paired with explicit dependency on AMLAS/SACE v1.0 publication. OPTION B: Create v1.0 \"placeholder\" requirement (frozen model manifest, audit trail) with v1.1 extension for full AMLAS case. Either way, establish explicit external dependency gate in phase-gate model (GOAL-007).",
+    "analyst": "Natasha",
+    "byline": "Ranking Analyst",
+    "characteristic": "R",
+    "image_url": "https://openrequirements.ai/lovable-uploads/571e34ad-8341-4b45-956e-c1c03b0e8fc2.png"
+  },
+  {
+    "finding_title": "REQ017 (Public Engagement) and REQ018 (Security Classification) lack user stories and acceptance criteria; no explicit process defined",
+    "finding_type": "unranked_requirement",
+    "confidence": 10,
+    "severity": "critical",
+    "reasoning": "REQ017 and REQ018 were flagged in the raw requirements CSV as \"Strongly implied by CAP 1616 and GDPR\" and \"addresses how classified MOD evidence is presented\" respectively, but neither has a user story or acceptance criteria. Grace-goals confirm implicit scope risks: REQ017 \"CAP 1616 scope not specified (what level of consultation is sufficient?)\" and REQ018 \"REQ018 lacks user story and acceptance criteria; no explicit process defined.\" Yet both are assigned to GOAL-010 (rank 2, conditional) and GOAL-009 (rank 3, optional) respectively, suggesting regulatory importance. Without explicit process definitions, these requirements risk becoming scope creep or being dropped from v1.0.",
+    "recommendation": "IMMEDIATE: Conduct rapid requirements-gathering sessions with CAA communications (REQ017) and MOD security officer (REQ018) to author explicit user stories and acceptance criteria. GATE: These should not progress to v1.0-minor without signed acceptance criteria. ALTERNATE: If acceptance criteria cannot be defined by Q2 2026, reclassify both as v2.0 (future) and note as out-of-scope for v1.0 panel.",
+    "analyst": "Natasha",
+    "byline": "Ranking Analyst",
+    "characteristic": "R",
+    "image_url": "https://openrequirements.ai/lovable-uploads/571e34ad-8341-4b45-956e-c1c03b0e8fc2.png"
+  },
+  {
+    "finding_title": "REQ014 (Crew Training & Competency) mapped to GOAL-001 in grace-goals source but missing from REQ->GOAL mapping",
+    "finding_type": "missing_stability_assessment",
+    "confidence": 8,
+    "severity": "major",
+    "reasoning": "REQ014 appears in GOAL-001.source_features (F16) but is not in GOAL-001.source_reqs. This suggests REQ014 is either: (a) a derived requirement of REQ001 (Application Intake), (b) a capability that depends on REQ001 evidence, or (c) an orphan requirement. Grace-goals for GOAL-001 state its scope is \"Automated pack presence/absence detection\" and \"Substantive content audit per operation type\"\u2014crew competency evidence is implicit. However, REQ014 is standalone: \"As a CAA licensing inspector I want evidenced competency so that the trial is flown by qualified crew.\" Without explicit goal ownership, REQ014 stability and necessity are under-assessed. Currently classified as \"stable\" and \"conditional\" but rationale is weak.",
+    "recommendation": "OPTION A: Declare REQ014 a derived child of REQ001 (competency evidence part of Operational Authorisation pack completeness check). OPTION B: Create new GOAL-016 specifically for \"Crew Licensing & Competency Assurance\" with priority_rank=1 (safety-critical, same as containment). OPTION C: Assess whether REQ014 is in-scope for Workbench at all, or if it is a CAA training/licensing process external to Workbench. Decision needed before v1.0-minor planning.",
+    "analyst": "Natasha",
+    "byline": "Ranking Analyst",
+    "characteristic": "R",
+    "image_url": "https://openrequirements.ai/lovable-uploads/571e34ad-8341-4b45-956e-c1c03b0e8fc2.png"
+  },
+  {
+    "finding_title": "v1.0 essentials (REQ001-006, REQ011) are marked stable, but REQ016 (Phased Trial Build-Up) is moderate\u2014reversibility procedures may evolve mid-trial",
+    "finding_type": "version_mismatch",
+    "confidence": 7,
+    "severity": "major",
+    "reasoning": "REQ001-006 and REQ011 establish the core approval workflow and contain-ment infrastructure (all tied to GOAL-001 and GOAL-003, both rank 1). These are classified as \"stable\" because they anchor to CAP 722A (RA Series, hard regulations). However, REQ016 (Phased Trial Build-Up, tied to GOAL-007) is classified as \"moderate\" because it depends on evolving CAA policy (gate definitions, override criteria, re-opening mechanics). Yet REQ016 is a v1.0-minor requirement that would be used by v1.0 trials. If phase-gate policy changes mid-trial (e.g., re-opening reversibility rules clarified in JSP 936 v2.6), the v1.0 trial cohort could face retroactive gate redefinitions, creating fairness issues.",
+    "recommendation": "OPTION A: Reclassify REQ016 as \"stable\" by explicitly pinning phase-gate structure to CAP 722A\u00a73.2 (assumed) with override authority to CAA Director (assumes MOD/CAA MOU predates). OPTION B: Create explicit \"version pinning\" clause (GOAL-014 implies this in F23): trials locked to gate policies as of their intake date, with documented \"change notice\" procedure for mid-trial policy evolution. EITHER: Establish cross-gate dependency: v1.0 core (REQ001-006) cannot proceed without v1.0 gate-reversibility SOP (REQ016 extension).",
+    "analyst": "Natasha",
+    "byline": "Ranking Analyst",
+    "characteristic": "R",
+    "image_url": "https://openrequirements.ai/lovable-uploads/571e34ad-8341-4b45-956e-c1c03b0e8fc2.png"
+  },
+  {
+    "finding_title": "REQ017 (Public Engagement) vs REQ018 (Classified MOD Evidence): conflict on scope boundary\u2014unclear if classified trials can have public engagement",
+    "finding_type": "conflicting_priority",
+    "confidence": 9,
+    "severity": "major",
+    "reasoning": "REQ017 (Public & Stakeholder Engagement, GOAL-010 rank 2) mandates \"community consultation, press/media engagement, stakeholder feedback capture\" with CAP 1616 and GDPR compliance. REQ018 (Security Classification Handling, GOAL-009 rank 3) mandates \"evidence classification per CAP 722H, JSP 440 marking and segregation controls, reviewer security clearance validation.\" Grace-goals for GOAL-009 note: \"Interaction with public engagement (REQ017): can classified trials have public engagement?\" This question is unresolved. If a Protector RG Mk1 or AUKUS coalition swarm trial is classified, REQ017 would require community engagement on what cannot be publicly disclosed (sensor specs, platform details, range locations). This creates a logical contradiction: public engagement without material facts.",
+    "recommendation": "DECISION GATE (pre-v1.0-minor): CAA regulatory leadership must decide one of: (A) Classified trials are out-of-scope for v1.0\u2014only unclassified BVLOS swarm trials proceed. Then REQ017 and REQ018 are sequential: v1.0 unclassified, v2.0 classified. (B) Classified trials proceed in parallel with unclassified\u2014then REQ017 and REQ018 must be jointly authored with explicit redaction rules (e.g., \"consult communities on trial logistics and safety, redact platform capabilities\"). (C) Classified trials are Workbench-exempt; alternative process used (outside scope). RECOMMEND: Option (B) with explicit co-authored SOP between REQ017 and REQ018. Create GOAL-016 \"Classified Trial Community Engagement (Redacted)\" with priority_rank=2 if classification is v1.0 scenario.",
+    "analyst": "Natasha",
+    "byline": "Ranking Analyst",
+    "characteristic": "R",
+    "image_url": "https://openrequirements.ai/lovable-uploads/571e34ad-8341-4b45-956e-c1c03b0e8fc2.png"
+  },
+  {
+    "finding_title": "REQ020 (Post-Trial Close-out) marked as optional v2.0 but is GOAL-005 rank 3 (incident investigation assurance)\u2014stability unclear",
+    "finding_type": "scope_creep_risk",
+    "confidence": 8,
+    "severity": "major",
+    "reasoning": "REQ020 (\"Post-Trial Assurance & Close-out\") is mapped to GOAL-005 (rank 3: \"Enable Incident Investigation & Regulatory Closure\"). Grace-goals state REQ020 \"lacks user story and acceptance criteria; close-out process undefined\" and \"DPIA obligations mentioned but not specified (GDPR scope unknown for flight data).\" This is classified as \"optional\" with version target v2.0 because priority_rank=3. However, GOAL-005 also owns REQ012 (Data MOR & DPIA), which is classified as \"conditional\" and v1.1. This creates a temporal mismatch: data is retained and logged from v1.0 onwards (REQ012) but the close-out process and evidence preservation rules are not finalized until v2.0. Trials proceeding in v1.0 will generate incident data with no defined close-out procedure, risking regulatory audit failure if an incident occurs.",
+    "recommendation": "RECLASSIFY: REQ020 should be v1.0-minor (not v2.0). Rationale: REQ012 (incident data handling, v1.1) depends on REQ020 close-out procedures. Cannot retain data and retain no procedure. OPTION A: REQ020 defines \"default\" close-out (evidence archived to CAA, 5-year hold, lessons-learned template provided). v1.1 enhances with formalized lessons-learned review board. OPTION B: Combine REQ012 + REQ020 as single \"Forensic & Close-out Assurance\" requirement with v1.0-minor scope. Either way, ensure close-out procedures are authored and tested before first trial completes (expected Q2 2027).",
+    "analyst": "Natasha",
+    "byline": "Ranking Analyst",
+    "characteristic": "R",
+    "image_url": "https://openrequirements.ai/lovable-uploads/571e34ad-8341-4b45-956e-c1c03b0e8fc2.png"
+  },
+  {
+    "finding_title": "DeFOSPAM critical findings align well with necessity ranking for REQ001, 003, 005, 006, 009; risk is in undefined term remediation timeline",
+    "finding_type": "conflicting_priority",
+    "confidence": 8,
+    "severity": "minor",
+    "reasoning": "DeFOSPAM identified 5 requirements with critical findings: REQ001 (1 critical: \"complete pack\" undefined), REQ003 (1 critical: \"worst-credible behaviour\" undefined), REQ005 (1 critical: \"uncontrolled BVLOS\" undefined), REQ006 (1 critical: \"link-loss survivable\" undefined), REQ009 (3 critical: frozen-model manifest scope, frozen-model definition, explainability evidence criteria). All five are currently classified as \"essential\" or \"conditional\" (REQ009). However, most critical terms remain undefined as of 2026-04-23. The risk is not ranking conflict but remediation timing: undefined terms must be resolved before acceptance criteria are finalized and before vendor/contractor procurement specs are written. Current v1.0 delivery target (end 2026, 8 months) is tight for term resolution.",
+    "recommendation": "GATE: All 5 critical-finding REQs must have term definitions finalized and verified by Q3 2026 (before vendor RFP release). Assign DeFOSPAM follow-up: rapid definitions workshop with CAA subject-matter experts (Dorothy/Flo lead). Do NOT wait for full glossary harmonization; definitions for these 5 REQs are blocking. Confidence: 8 because definitions are feasible (not policy blocker) but timeline is aggressive.",
+    "analyst": "Natasha",
+    "byline": "Ranking Analyst",
+    "characteristic": "R",
+    "image_url": "https://openrequirements.ai/lovable-uploads/571e34ad-8341-4b45-956e-c1c03b0e8fc2.png"
+  }
+]

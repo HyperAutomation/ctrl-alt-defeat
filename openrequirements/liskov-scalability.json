@@ -1,0 +1,254 @@
+[
+  {
+    "requirement_id": "NFR-SCL-WB-001",
+    "domain": "workbench",
+    "component": "Web front-end / BFF (Broker-For-Frontend)",
+    "scalability": {
+      "scaling_type": "horizontal",
+      "current_max_users_or_load": 25,
+      "target_max_users_or_load": 100,
+      "auto_scale_trigger": "Request rate >500 req/s per instance; CPU >70%; scale up +2 instances; scale down at <200 req/s",
+      "bottleneck_component": "None identified; stateless design enables elastic scaling",
+      "scaling_unit_cost": "GBP 2.50/hour per instance (t3.medium equiv)",
+      "growth_multiplier_tested": "5x"
+    },
+    "load_distribution": "Stateless applicant-mode: any edge node. Sticky sessions for inspector panel-mode (session affinity 3-4 hours). CDN (CloudFront) for static assets; cache TTL 1 hour.",
+    "breaking_point": "Single instance breaks at ~500-800 req/s (p95 response time >2s). At 100 concurrent users with mixed applicant/inspector workload, expect ~1500 req/s sustained; requires 3-4 instances baseline.",
+    "dependencies": [
+      "App-server capacity (NFR-SCL-WB-002)",
+      "Database read replicas for inspector sessions (NFR-SCL-WB-005)",
+      "CDN availability for static content"
+    ]
+  },
+  {
+    "requirement_id": "NFR-SCL-WB-002",
+    "domain": "workbench",
+    "component": "Artefact detector / Coverage matrix engine (ML inference, GPU-backed)",
+    "scalability": {
+      "scaling_type": "horizontal with job queue",
+      "current_max_users_or_load": 1,
+      "target_max_users_or_load": 5,
+      "auto_scale_trigger": "Job queue depth >20 items; spin up GPU worker (+1 Jetson Orin or A100 equiv); target p95 latency <600s (NFR-LAT-003)",
+      "bottleneck_component": "GPU availability; OCR + semantic inference highly serialisable; batch efficiency critical",
+      "scaling_unit_cost": "GBP 1.50/hour per GPU instance (Jetson Orin) or GBP 8.00/hour per A100 (cloud)",
+      "growth_multiplier_tested": "5x"
+    },
+    "load_distribution": "Job queue (Redis or RabbitMQ) distributes coverage-matrix requests to worker pool. Batch processing: aggregate 5-10 concurrent requests per GPU for efficiency. Inference time scales linearly with evidence pack size (100 MB ~240s nominal per budget; 500 MB ~480s per NFR-LAT-018).",
+    "breaking_point": "Single GPU instance breaks at ~1 concurrent inference job (OCR + semantic classification serialize on GPU). At 5 concurrent submissions (100 MB avg), requires 5 GPU workers to meet p95 600s SLA. Cost scales ~GBP 7.50/hour at 5x load. Batch inference efficiency drops if queue drains <2 sec between jobs (underutilization >30%).",
+    "dependencies": [
+      "GPU inventory (capex-constrained; shared with AI flag narrative service NFR-SCL-WB-003)",
+      "Evidence store read performance (S3 GetObject latency <100ms assumed)",
+      "AI inference latency budgets (OCR 180s, semantic classification 200s per NFR-LAT-003)"
+    ]
+  },
+  {
+    "requirement_id": "NFR-SCL-WB-003",
+    "domain": "workbench",
+    "component": "AI flag narrative service (LLM-backed, GPU inference)",
+    "scalability": {
+      "scaling_type": "horizontal with request queue",
+      "current_max_users_or_load": 0,
+      "target_max_users_or_load": 20,
+      "auto_scale_trigger": "Narrative request queue >10 items; spin up GPU worker (vLLM or TensorRT instance); target p95 latency <1800s (NFR-LAT-007, 30 min SLA)",
+      "bottleneck_component": "GPU memory (16GB min for 7B model; 40GB for 13B); batch tokenization throughput; model serving framework overhead",
+      "scaling_unit_cost": "GBP 2.00/hour per vLLM A100 instance",
+      "growth_multiplier_tested": "5x"
+    },
+    "load_distribution": "Request queue (async task system) aggregates narrative requests from inspector case reviews. Batch inference: process 2-4 concurrent narratives per GPU per time-step (token streaming). Evidence chunking (60s per budget NFR-LAT-007) must complete before inference.",
+    "breaking_point": "Single A100 (40GB) GPU instance handles ~2 concurrent narrative inferences at full-speed token streaming (100 tokens/s). At 20 concurrent narrative requests, requires 10 GPU instances for p95 1800s SLA. Batch efficiency drops sharply if <1 inference in flight (idle time >40% at low concurrency).",
+    "dependencies": [
+      "GPU inventory (shared with coverage matrix engine; total pool must be 10-15 GPUs for both services at 5x growth)",
+      "Evidence chunking latency (60s per budget)",
+      "Model serving framework (vLLM, TensorRT) stability and throughput guarantees"
+    ]
+  },
+  {
+    "requirement_id": "NFR-SCL-WB-004",
+    "domain": "workbench",
+    "component": "Classification boundary service (OFFICIAL vs OFFICIAL-SENSITIVE vs SECRET vs STRAP)",
+    "scalability": {
+      "scaling_type": "vertical (per-tier isolated) + horizontal within tier",
+      "current_max_users_or_load": 25,
+      "target_max_users_or_load": 100,
+      "auto_scale_trigger": "OFFICIAL tier: horizontal; scale on QPS >100 queries/s per replica. OFFICIAL-SENSITIVE: 2x on-prem replicas (fixed capacity). SECRET/STRAP: 1x air-gapped instance (no scaling; rebuild triggers slow re-provisioning 2-4 hours per ada-findings).",
+      "bottleneck_component": "SECRET/STRAP tier rebuild latency after incident; separate DB replica for upper tiers incurs 40% query overhead vs OFFICIAL tier",
+      "scaling_unit_cost": "OFFICIAL: GBP 1.50/hour per replica. OFFICIAL-SENSITIVE on-prem: GBP 800/month per replica. SECRET/STRAP air-gapped: GBP 2000/month (dedicated facility + compliance auditing)",
+      "growth_multiplier_tested": "2x"
+    },
+    "load_distribution": "Tier-specific routing enforced at BFF layer. OFFICIAL queries (60% by 2028) → cloud replicas (auto-scale 1-4 instances). OFFICIAL-SENSITIVE (25%) → on-premises DB (2 replicas, manual failover). SECRET (10%) → air-gapped instance (no failover; RTx planned if failure occurs). STRAP (5%) → MOD-dedicated infrastructure (out-of-scope for CAA scalability).",
+    "breaking_point": "OFFICIAL tier: single DB instance breaks at ~100 QPS (p95 latency >1s). At 100 concurrent inspectors with peak query rate ~150 QPS, requires 2-3 read replicas. OFFICIAL-SENSITIVE: fixed at 2 replicas; overload causes queue backlog. SECRET: fixed at 1 instance; no scale-out; rebuild on failure is 2-4 hour outage (compliance implications severe).",
+    "dependencies": [
+      "Data segregation architecture (JSP 440 compliance)",
+      "On-premises facility capacity (OFFICIAL-SENSITIVE + SECRET instances)",
+      "Air-gapped network for SECRET/STRAP (bandwidth constraint: 10 Mbps link typical; not a scalability issue for audit-log volume but impacts backup/restore time)"
+    ]
+  },
+  {
+    "requirement_id": "NFR-SCL-WB-005",
+    "domain": "workbench",
+    "component": "Clause library search (full-text + semantic, read replicas)",
+    "scalability": {
+      "scaling_type": "horizontal read replicas",
+      "current_max_users_or_load": 15,
+      "target_max_users_or_load": 80,
+      "auto_scale_trigger": "Search QPS >50 queries/s; add read replica; target p95 latency <500ms (interactive inspector workload)",
+      "bottleneck_component": "Full-text index size (100 MB per 200 MB library); semantic search (vector embedding refresh latency ~10s per library update)",
+      "scaling_unit_cost": "GBP 1.00/hour per read replica (elasticsearch t3.large equiv)",
+      "growth_multiplier_tested": "5x"
+    },
+    "load_distribution": "Read-heavy workload; all inspector queries route to replicas (master only receives incremental index updates on library revision 3-4x/year). CDN caches static clause-library PDFs (OFFICIAL only; 200 MB library, 1-hour TTL). Semantic search (AI-powered) adds 5s latency; async pre-computation recommended.",
+    "breaking_point": "Single ES node breaks at ~50 QPS (p95 latency >500ms at complex semantic queries). At 80 concurrent inspectors (prep week peak), expect ~60 QPS sustained; requires 2-3 read replicas. Vector embedding index (ML inference) is separate from full-text; adds 5-10% to query time.",
+    "dependencies": [
+      "Elasticsearch cluster stability (shard allocation, rebalance impact)",
+      "Vector embedding model serving (async; separate GPU workers)",
+      "Library versioning (S3 immutable versioning required; 5-year retention = 4 GB cumulative)"
+    ]
+  },
+  {
+    "requirement_id": "NFR-SCL-WB-006",
+    "domain": "workbench",
+    "component": "Evidence store (S3-like object storage, classification-partitioned)",
+    "scalability": {
+      "scaling_type": "horizontal (effectively unlimited via object storage)",
+      "current_max_users_or_load": 2,
+      "target_max_users_or_load": 3,
+      "auto_scale_trigger": "Automatic (S3 auto-scales to millions of objects). Partition by classification tier (separate buckets: s3://caa-wb-official, s3://caa-wb-official-sensitive, etc.) for access control + cost allocation.",
+      "bottleneck_component": "None; object storage scales beyond project scope. Metadata query (evidence file inventory) may bottleneck if not indexed (see NFR-SCL-WB-007).",
+      "scaling_unit_cost": "GBP 0.023/GB/month (standard) or GBP 0.004/GB/month (Glacier Deep Archive for video evidence)",
+      "growth_multiplier_tested": "10x"
+    },
+    "load_distribution": "Applicant-facing: PUT 100-500 MB evidence packs (100 MB avg); throughput 3-5 MB/s (per NFR-LAT-002). Inspector-facing: GET metadata queries (not bulk downloads). Archive: transition to Glacier after case closure (90-day SLA per REQ020); cost >90% reduction. Lifecycle policy: OFFICIAL →Glacier after 2 years; OFFICIAL-SENSITIVE →encrypted Glacier after 3 years; SECRET/STRAP remain standard (instant retrieval for investigation).",
+    "breaking_point": "Conceptually unlimited. Practical limits: AWS bucket quota (1000 buckets; we use 4 for tiers = no issue). GetObject latency SLA (100 ms p95 assumed) maintained by AWS. Cost at 36-month projection (140 GB): ~GBP 3.20/month standard + Glacier transition savings.",
+    "dependencies": [
+      "Metadata query service (separate DB index, see NFR-SCL-WB-007)",
+      "S3 bucket policies (classification-aware IAM roles)",
+      "Encryption key management (per-tier KMS keys; compliance overhead)"
+    ]
+  },
+  {
+    "requirement_id": "NFR-SCL-WB-007",
+    "domain": "workbench",
+    "component": "Primary database (case state, deliberation, metadata index)",
+    "scalability": {
+      "scaling_type": "vertical (consistency-constrained) + read replicas for horizontal scale-out",
+      "current_max_users_or_load": 45,
+      "target_max_users_or_load": 100,
+      "auto_scale_trigger": "Write throughput >100 TPS (transactions/sec); scale master vertically (bigger instance). Read replicas: add 1 replica per 50 concurrent readers; target <100 ms query latency.",
+      "bottleneck_component": "Write serialization at master (ACID enforcement for case state consistency). At p95 action-log write (panel deliberation), 500 ms SLA tight (NFR-LAT-009); consensus overhead when >10 concurrent writers.",
+      "scaling_unit_cost": "GBP 2.50/hour master (db.r6g.2xlarge equiv, 2 vCPU, 16GB RAM). GBP 1.50/hour per read replica.",
+      "growth_multiplier_tested": "2x"
+    },
+    "load_distribution": "Write-heavy applicant-mode (submission upload state machine); moderate write load inspector-mode (case annotations, panel-action log). Read replicas satisfy inspector case-load queries (concurrent case viewers). Separate read replica for SECRET/STRAP tier (access control + audit isolation).",
+    "breaking_point": "Master instance breaks at ~150 write TPS + 500 read TPS (single r6g.2xlarge). At 100 concurrent users (30 active writers, 70 readers), expect ~80 write TPS + 400 read TPS sustained. Requires 1 master + 3 read replicas by 2028. Action-log write contention (panel deliberation, 10+ concurrent panelists): 500 ms p95 budget becomes tight; optimistic locking or separate audit-log shard recommended.",
+    "dependencies": [
+      "Read replica consistency (replication lag <1s acceptable for inspector queries)",
+      "Backup strategy (nightly snapshots; weekly archival to S3)",
+      "Action-log write optimization (distributed ledger architecture for audit trail, see NFR-SCL-WB-008)"
+    ]
+  },
+  {
+    "requirement_id": "NFR-SCL-WB-008",
+    "domain": "workbench",
+    "component": "Audit / deliberation log (immutable append-only distributed ledger, sharded by panel)",
+    "scalability": {
+      "scaling_type": "horizontal via sharding by panel ID",
+      "current_max_users_or_load": 20,
+      "target_max_users_or_load": 20,
+      "auto_scale_trigger": "Panel action write rate >30 actions/sec; shard by panel_id (1 shard per active panel). If single shard exceeds 50 write TPS, split shard (rare; requires manual intervention).",
+      "bottleneck_component": "Write quorum latency (replication consensus for 3-replica ledger); p95 500 ms budget (NFR-LAT-009) driven by quorum ACK wait time (~150 ms per budget)",
+      "scaling_unit_cost": "GBP 2.00/month per shard replica (low volume; S3 versioning + checksums sufficient for immutability)",
+      "growth_multiplier_tested": "1x (fixed 15 panels/quarter; no growth scaling needed)"
+    },
+    "load_distribution": "Sharded write path: each panel session writes to dedicated shard (panel_id hash → shard replica 1,2,3). Quorum write: 2-of-3 replicas ACK within 150 ms (SLA envelope). Read path: any replica sufficient (eventual consistency acceptable for audit review, latency <1s).",
+    "breaking_point": "Single shard (1 panel) handles ~50 actions/sec (100 bytes each = 5 KB/sec). Panel deliberation: 8-20 concurrent panelists, ~30-50 actions/sec during voting. This workload fits in 1 shard comfortably. Quorum write latency (network round-trip + fsync) is the breaking point; LAN with <10 ms latency required (co-locate replicas in same data center). WAN failover (cross-region replica) breaks 500 ms p95 SLA (latency jumps to 300-600 ms).",
+    "dependencies": [
+      "Low-latency LAN (same availability zone); no cross-region replication",
+      "Fsync/durability guarantees (WAL, write-ahead logging enabled)",
+      "Panel session affinity (all actions from 1 panel route to same shard; no cross-shard transactions)"
+    ]
+  },
+  {
+    "requirement_id": "NFR-SCL-SWM-001",
+    "domain": "swarm",
+    "component": "Swarm telemetry and C2 communication (5-20 vehicle ops)",
+    "scalability": {
+      "scaling_type": "horizontal (per-swarm scaled independently)",
+      "current_max_users_or_load": 5,
+      "target_max_users_or_load": 20,
+      "auto_scale_trigger": "Telemetry message rate >150 msg/sec (10 vehicles × 10 Hz + coordination); spin up dedicated ground-control compute instance. C2 link bandwidth: 500+ kbps per vehicle (not a scalability bottleneck for LTE/5G).",
+      "bottleneck_component": "Ground control autonomy state machine latency <100 ms (REQ008); serializable at single process; throughput limited by single-core CPU clock speed",
+      "scaling_unit_cost": "GBP 1.20/hour per swarm ground-control instance (4-core real-time CPU, 8 GB RAM, dual LTE/5G modems)",
+      "growth_multiplier_tested": "4x"
+    },
+    "load_distribution": "Per-swarm dedicated compute instance (no multi-swarm sharing; isolation for safety). Telemetry stream to time-series DB (InfluxDB or TimescaleDB) at 150 msg/sec throughput. Real-time autonomy state machine runs on same instance (low latency <100 ms). Event logging to evidence store async (batch every 10s).",
+    "breaking_point": "Single ground-control instance (4-core i7 + 8GB) handles 5-10 vehicle swarm (50-100 msg/sec) comfortably. At 20-vehicle swarm (200+ msg/sec peak), single instance approaches CPU ceiling; add second instance for parallel state machines (distributed consensus required, adds latency). C2 uplink bandwidth per vehicle: 100-500 kbps (LTE/5G provides >1 Mbps per device; not a bottleneck).",
+    "dependencies": [
+      "C2 link connectivity (LTE/5G coverage required; satellite link fallback optional but adds latency)",
+      "Real-time kernel (Linux kernel pre-emption patches or RTOS for <100 ms latency guarantee)",
+      "Telemetry buffering (ring buffer if state machine stalls; max age <10 ms)"
+    ]
+  },
+  {
+    "requirement_id": "NFR-SCL-SWM-002",
+    "domain": "swarm",
+    "component": "DAA sensor data fusion and encounter resolution (multi-vehicle coordination)",
+    "scalability": {
+      "scaling_type": "horizontal via sensor fusion sharding by encounter cluster",
+      "current_max_users_or_load": 1,
+      "target_max_users_or_load": 3,
+      "auto_scale_trigger": "DAA encounter events >10/hour; spin up ML inference worker (Jetson Orin) for encounter classification + recommendation (async post-trial). Real-time coordination: 500 ms latency budget (NFR-LAT-012); no horizontal scaling possible (pairwise consensus is O(n²)).",
+      "bottleneck_component": "Swarm consensus protocol (pairwise de-confliction decision); latency scales O(n²) with swarm size; 10-vehicle swarm requires ~100 pairwise comparisons, ~50 coordination messages each cycle",
+      "scaling_unit_cost": "GBP 2.50/hour per encounter-analysis GPU worker",
+      "growth_multiplier_tested": "2x"
+    },
+    "load_distribution": "Real-time DAA coordination: broadcast-gossip protocol (each vehicle sends filtered track data to swarmmates at 1-5 Hz). Data fusion: onboard compute only (no ground uplink during encounter; bandwidth constrained). Post-trial encounter analysis: ground-control ML workers cluster similar encounters, train anomaly detector (async, not latency-critical).",
+    "breaking_point": "Real-time pairwise de-confliction: 5-vehicle swarm → 10 pairwise comparisons per cycle, ~50 ms compute time (Jetson level). 10-vehicle swarm → 45 pairwise comparisons, ~200 ms compute (Orin level, within 500 ms budget). 20-vehicle swarm → 190 pairwise comparisons, ~800 ms compute (exceeds 500 ms SLA; sequential resolution breaks latency budget). Mitigation: hierarchical swarm clustering (sub-swarms de-conflict internally, then parent de-conflict clusters) or distributed decision making (each aircraft pair makes independent decision).",
+    "dependencies": [
+      "Onboard compute budget (DAA inference + coordination messaging consume 30-40% of available CPU; battery endurance trade-off)",
+      "Coordination link reliability (inter-vehicle mesh network; loss-of-link triggers fallback behavior)",
+      "Ground-truth encounter dataset (50+ real encounters required to train anomaly detector for GCAP/Tempest trials)"
+    ]
+  },
+  {
+    "requirement_id": "NFR-SCL-SWM-003",
+    "domain": "swarm",
+    "component": "Onboard autonomy compute (decision-making, ML inference for tactical decisions)",
+    "scalability": {
+      "scaling_type": "vertical (battery/thermal budget constrained; no horizontal scaling possible)",
+      "current_max_users_or_load": 1,
+      "target_max_users_or_load": 1,
+      "auto_scale_trigger": "None; single compute platform per vehicle. ML inference load: add GPU accelerator (Jetson Xavier or Orin) if onboard compute budget >80% utilization.",
+      "bottleneck_component": "Battery endurance (every watt of compute = 10-20 min flight time lost). Thermal dissipation (sustained high compute throttles CPU clock). TDP budget: 10-20 W total per vehicle.",
+      "scaling_unit_cost": "GBP 800 hardware cost per vehicle (Jetson Nano) or GBP 3000 (Jetson Orin) amortized",
+      "growth_multiplier_tested": "1x"
+    },
+    "load_distribution": "Single onboard compute platform per vehicle (ARM Cortex-A72 or better). Decision-making cycle: 5-10 Hz (nominal) or 20+ Hz (encounter mode). ML inference (optional): 200 ms latency budget (NFR-LAT-015); Jetson inference time 50-80 ms for typical model.",
+    "breaking_point": "Onboard compute is TDP-constrained, not throughput-constrained. At 85% utilization, throttling begins (thermal runaway risk). At 95% utilization, decision latency degrades (>200 ms; breaks autonomy loop). Advanced autonomy (GCAP/Tempest trials) requires secondary GPU accelerator (Jetson Orin) to stay <80% utilization.",
+    "dependencies": [
+      "Battery thermal management (heat sink design, airflow adequate)",
+      "Flight duration SLA (longer missions require more efficient algorithms; compute off-loading to ground not viable for <500 ms latency decisions)",
+      "GPU accelerator availability (Jetson supply chain constraints in 2026-2027 may impact GCAP/Tempest ramp)"
+    ]
+  },
+  {
+    "requirement_id": "NFR-SCL-SWM-004",
+    "domain": "swarm",
+    "component": "Ground control segment (C2 link, mission planning, autonomy state machine)",
+    "scalability": {
+      "scaling_type": "horizontal via geographic distribution (multiple ground stations)",
+      "current_max_users_or_load": 3,
+      "target_max_users_or_load": 6,
+      "auto_scale_trigger": "Concurrent trials >1; establish second ground-control facility. Multi-facility coordination: not implemented (trials execute sequentially or in different airspace); no cross-facility load balancing.",
+      "bottleneck_component": "Mission planning optimization (dynamic retasking); compute time scales O(n) with number of waypoints; 500 waypoint mission = 10-50 ms re-planning time. C2 link latency (shared spectrum); at 2-3 concurrent swarms, spectrum congestion possible.",
+      "scaling_unit_cost": "GBP 3.10/hour per facility (compute + LTE/satellite modem + secure communications)",
+      "growth_multiplier_tested": "2x"
+    },
+    "load_distribution": "Per-facility ground control (no geographic load balancing). Mission planning: pre-flight optimization + in-flight dynamic re-tasking (async, <100 ms latency acceptable). Autonomy state machine: dedicated real-time process (1 core per swarm). Telemetry stream: time-series DB (shared across all swarms at facility).",
+    "breaking_point": "Single facility handles 1 active swarm comfortably (6 personnel: pilot, mission controller, 2 flight engineers, 2 observers). At 2-3 concurrent trials, facility becomes congested (personnel limits more than compute limits). C2 link bandwidth: 5 vehicles × 500 kbps each = 2.5 Mbps total; LTE/5G easily supports. Spectrum sharing (3+ concurrent swarms over shared frequency band) may require cognitive radio or licensed-band coordination.",
+    "dependencies": [
+      "Geographic diversity (UK-South + UK-North coverage; no long-haul cross-facility synchronization)",
+      "C2 link diversity (LTE primary + satellite backup recommended for remote trials)",
+      "Mission planning optimizer performance (O(n) or better; O(n²) algorithms break re-tasking SLA)"
+    ]
+  }
+]

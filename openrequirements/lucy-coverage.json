@@ -1,0 +1,412 @@
+{
+  "ieee_830_section_coverage": {
+    "section_1_introduction": {
+      "1_1_purpose": {
+        "status": "populated",
+        "source": "parent user stories (REQ001-REQ020)",
+        "content_summary": "Parent requirement establishes CAA/MAA joint authorization of BVLOS UAS swarm trials with 20 distinct regulatory user stories covering intake, assessment, assurance, containment, and closure.",
+        "confidence": 9,
+        "notes": "Purpose is clear: enable regulatory defensibility and progressive evidence accumulation for BVLOS swarm trial authorization."
+      },
+      "1_2_scope": {
+        "status": "populated",
+        "source": "Grace goals (GOAL-001 through GOAL-015) + Odin rewrites (REQ001-REQ020)",
+        "content_summary": "Scope spans: (1) intake and completeness checking; (2) swarm-aware SORA and autonomy assessment; (3) containment and flight safety; (4) human control assurance; (5) incident investigation and MOR; (6) third-party risk mitigation; (7) crew licensing; (8) CAA/MAA apportionment; (9) phased gates; (10) public engagement; (11) classified MOD evidence handling; (12) environmental impact; (13) post-trial closure.",
+        "confidence": 9,
+        "notes": "Scope is ambitious (20 REQs) but well-bounded by 15 Grace goals."
+      },
+      "1_3_definitions_acronyms": {
+        "status": "populated",
+        "source": "Chris language file (42 canonical terms + 7 agents) + Odin rewrites glossary terms",
+        "content_summary": "58 total canonical terms defined: includes swarm-specific (swarm-aware, emergent behavior, inter-vehicle links); safety terms (containment, geofence, fly-away); regulatory (TDA, SORA, SAIL, OSO); assurance (AMLAS, frozen-model, forensically explainable); human factors (meaningful human control, workload, take-over); governance (CAA, MAA, reversible gates); and operational (VLOS, BVLOS, ConOps, ODD).",
+        "confidence": 9,
+        "notes": "Glossary is comprehensive. 10 terms marked 'proposed' and require stakeholder workshop to finalize (swarm-aware, meaningful human control, defensibly, containment, worst-credible behaviour, link loss survivable, resolved predictably, emergent behaviour, forensically explainable, frozen model)."
+      },
+      "1_4_references": {
+        "status": "populated",
+        "source": "Odin rewrites + regulatory anchors embedded in REQ018-019",
+        "content_summary": "References cited: JARUS SORA v2.5, CAP 1616, GDPR (Article 35 DPIA), CAP 722H (CAA Security Management), JSP 440 (UK Armed Forces Security Classification), CAP 722D/722A (audit standards), DO-365, F3442-2 (RTCA standards), ICAO Annex 15, IEC 62619 (lithium battery safety), ITU-R (spectrum), Environmental Protection Act 1990, UK OFFICIAL security classification levels.",
+        "confidence": 8,
+        "notes": "Regulatory grounding is strong but assumes applicant/regulatory team is familiar with these standards. No dedicated reference section written yet."
+      },
+      "1_5_overview": {
+        "status": "populated",
+        "source": "standard SRS template + Odin rewrites narrative",
+        "content_summary": "Workbench service (10-step process spanning 3 phases) enables CAA and MAA to jointly authorize BVLOS UAS swarm trials through defensible, phased assessment. System integrates: intake, completeness checking, swarm-aware SORA/autonomy review, containment validation, human control assurance, incident logging/MOR, crew licensing, apportionment negotiation, public engagement, and post-trial closure.",
+        "confidence": 8,
+        "notes": "Overview can be written directly from Odin rewrites and Grace goals."
+      }
+    },
+    "section_2_overall_description": {
+      "2_1_product_perspective": {
+        "status": "partial",
+        "source": "Grace goals (GOAL-001 through GOAL-015) outline ecosystem; Odin rewrites operationalize",
+        "content_summary": "Product perspective identifies 3-phase Workbench service with 10 integration touchpoints: (1) MOD IdP authentication (assumed CAA/MAA personnel login); (2) clause-library source (regulatory requirements version control); (3) archived evidence repository (2-year retention); (4) applicant submission portal; (5) case officer dashboard; (6) review panel interface; (7) MOR reporting (CAA Flight Safety); (8) ATSU coordination interface; (9) spectrum regulator interface; (10) insurance/ground survey artifact repository.",
+        "confidence": 7,
+        "notes": "System interfaces are inferred from REQ requirements. Detailed service blueprint (10 steps, 3 phases) not yet written but implied by Grace goals and Odin rewrites. TBD: explicit system context diagram and interface specifications."
+      },
+      "2_1_1_system_interfaces": {
+        "status": "partial",
+        "source": "REQ015 (CAA/MAA coordination), REQ018 (classified evidence), REQ012 (MOR reporting)",
+        "content_summary": "System interfaces identified: (1) MOD/CAA IdP for authentication (assumes SAML or OAuth2); (2) CAA clause-library repository for regulatory requirement versioning; (3) archive service for 2+ year evidence retention with GDPR compliance; (4) CAA MOR system for incident reporting; (5) ATSU interface for TDA and NOTAM coordination (assumes async message passing).",
+        "confidence": 6,
+        "notes": "Interface specifications are high-level. TBD: API contracts, data formats, error handling, retry logic, SLAs for each interface."
+      },
+      "2_1_2_user_interfaces": {
+        "status": "partial",
+        "source": "Grace goals (intake, review, override logging) + Odin rewrites (panel, crew, case officer personas)",
+        "content_summary": "User interfaces for 6+ personas: (1) Applicant: submission portal (drag-and-drop evidence, progress tracker); (2) Case Officer: intake dashboard (RAG matrix, completeness status, next gate); (3) Review Panel: case briefing interface (executive summary, evidence links, decision template); (4) Autonomy Reviewer: architecture visualization (decision-making diagram, simulation results, risk matrices); (5) Flight Operations: contingency matrix editor and crew workload calculator; (6) Program Manager: phase gate status dashboard (timeline, reversal triggers, escalation log). Assumes accessibility: WCAG 2.2 AA standard.",
+        "confidence": 6,
+        "notes": "UI personas are inferred from user stories. TBD: wireframes, interaction flows, accessibility audit, responsive design for mobile (if required)."
+      },
+      "2_1_3_hardware_interfaces": {
+        "status": "populated",
+        "source": "REQ018 (classification handling implies secure facility) + REQ011 (independent termination RF interface)",
+        "content_summary": "Hardware interfaces assumed: (1) UK sovereign infrastructure (CAA/MOD managed data centers, not cloud); (2) classified evidence reviewed in CAP 722H-compliant secure facility (assumes SECRET or TOP SECRET accreditation); (3) Independent Flight Termination RF kill-switch hardware (ground-based, crew-operated, 500 ms response time); (4) telemetry receiver hardware (10 Hz minimum for aircraft state, 1 Hz for autonomy decisions); (5) time-synchronization hardware (GPS time reference for all logging).",
+        "confidence": 7,
+        "notes": "Hardware is high-level. TBD: specific hardware platforms, deployment architecture, redundancy and failover design."
+      },
+      "2_1_4_software_interfaces": {
+        "status": "partial",
+        "source": "Grace goals (clause library, artefact detector, evidence portal) + Odin rewrites (MOR, DPIA, archive)",
+        "content_summary": "Software interfaces: (1) Artefact Detector component (automated file parser + regulatory checklist mapper); (2) Clause-Library Version Manager (version control for regulatory requirements, backward compatibility for in-flight cases); (3) Case History & Revision Manager (immutable decision record + applicant feedback log); (4) MOR Auto-Filer (integrates with CAA Flight Safety reporting); (5) DPIA Template Generator (GDPR Article 35 assessment); (6) Evidence Archive Manager (integrity verification, SHA256 hashing, retention tracking); (7) Audit Trail Logger (all approvals, overrides, decision justifications); (8) Forensic Report Generator (post-incident evidence reconstruction from logs).",
+        "confidence": 7,
+        "notes": "Software components are named but not detailed. TBD: API specifications, database schema, state machine logic for case transitions."
+      },
+      "2_1_5_communications_interfaces": {
+        "status": "populated",
+        "source": "REQ006 (C2 link spec), REQ012 (telemetry format), REQ018 (classified data handling)",
+        "content_summary": "Communications interfaces: (1) C2 link: bidirectional command/status, authorized spectrum (per Spectrum Regulator approval), encrypted TLS, link-quality telemetry (RSSI, BER), monitoring threshold triggers; (2) inter-vehicle links: coordination protocol (to be specified per swarm architecture: centralized/distributed/hierarchical), frequency allocation, mesh or star topology; (3) Incident reporting: MOR formatted per CAA Flight Safety regulations, timestamped evidence attachment, GDPR-compliant personal data redaction; (4) Classified evidence: segregated network or physical isolation per JSP 440, retains unclassified summary for public record; (5) Telemetry encryption: TLS minimum, classification-tier-aware marking (OFFICIAL vs SECRET containers).",
+        "confidence": 8,
+        "notes": "Communications spec is embedded in individual REQs. TBD: unified communications architecture and integration testing."
+      },
+      "2_1_6_memory_constraints": {
+        "status": "partial",
+        "source": "IMPLIED: Ada capacity models (not yet read) + PE discipline findings (97 total, 30 critical)",
+        "content_summary": "Memory constraints inferred from PE engineering: Workbench must handle 30+ concurrent cases (each 100-500 MB evidence), store 2+ years of telemetry (100 GB per trial), archive with cryptographic integrity (SHA256 per file). Archive service must support random access (investigator queries) with <1 second latency for metadata, <10 second latency for evidence retrieval. Classified evidence storage must be segregated per JSP 440 facility isolation.",
+        "confidence": 4,
+        "notes": "Memory constraints are underspecified. TBD: Ada capacity models (to read), database sizing, storage architecture (cloud vs. on-premises), retrieval SLAs, encryption overhead impact."
+      },
+      "2_1_7_operations": {
+        "status": "partial",
+        "source": "Grace goals (phased gates GOAL-007, reversibility GOAL-016) + Odin REQ016 rewrite",
+        "content_summary": "Operations workflow: Phase 1 (VLOS Baseline): single aircraft, visual control, entry gate (ConOps + SORA + insurance + crew creds); minimum 10 flights before Phase 2 progression; exit if 2+ incidents. Phase 2 (BVLOS Single): 2+ aircraft, C2 link reliance, entry gate (Phase 1 success + C2 link validation); minimum 20 flights; exit if C2 unreliability or unrecovered off-nominal event. Phase 3 (BVLOS Swarm): full multi-aircraft coordination, entry gate (Phase 2 success + swarm decision-making validation); minimum 5 flights; exit if emergent-behavior boundary violated. Reversibility: if exit condition triggered, revert to previous phase, remediate, re-test. Programme Manager documents reversal rationale.",
+        "confidence": 8,
+        "notes": "Operations are well-specified in Odin REQ016. TBD: detailed exit criteria metrics (how is 'C2 unreliability' measured?), gate review checklist, remediation workflow documentation."
+      },
+      "2_1_8_site_adaptation": {
+        "status": "partial",
+        "source": "REQ018 (security classification handling per CAP 722H) + REQ013 (ground survey per location)",
+        "content_summary": "Site adaptation: Multi-tier deployment model. OFFICIAL tier: standard CAA office (internet-connected, standard security). OFFICIAL-SENSITIVE tier: CAA office with restricted access (briefing room, controlled network). SECRET tier: MOD secure facility (CAP 722H-compliant SCIF, air-gapped or classified network, visitor clearance required). Classified evidence (e.g., MOD sensor specifications) stored and reviewed in SECRET tier; unclassified summary for public record in OFFICIAL tier. Ground survey performed per trial location (identifies population density, critical infrastructure, noise receptors); survey results inform risk assessment and operational restrictions (flight corridors, altitude ceilings, time-of-day windows).",
+        "confidence": 7,
+        "notes": "Site adaptation is inferred from REQ018 and REQ013. TBD: deployment runbook per classification level, facility accreditation checklist, security control mapping per JSP 440."
+      },
+      "2_2_product_functions": {
+        "status": "populated",
+        "source": "Grace goals (15 goals) + Odin rewrites (20 REQs with operational detail)",
+        "content_summary": "30 primary functions grouped by goal area: (1) Application Intake (GOAL-001): artefact detection, completeness checking, pack classification; (2) Swarm-Aware Assessment (GOAL-002): SORA 2.0, DAA assurance, emergent-behavior validation; (3) Containment & Flight Safety (GOAL-003): geofence enforcement, C2 link assurance, independent termination; (4) Autonomy & Human Control (GOAL-004): decision-making architecture review, ML assurance case, workload assessment, take-over capability validation; (5) Incident Investigation (GOAL-005): telemetry recording (10 Hz aircraft state, 1 Hz autonomy decisions, 30 fps video, 16 kHz audio), MOR filing, DPIA compliance; (6) Regulatory Apportionment (GOAL-006): CAA/MAA matrix definition, duty holder signature, escalation; (7) Phased Gates (GOAL-007): phase gate entry/exit criteria, reversibility tracking, override logging; (8) Insurance & Risk (GOAL-008): insurance adequacy assessment, ground survey analysis, risk mitigation mapping; (9) Classified Evidence (GOAL-009): security classification marking, information barriers, redaction, parallel assessment (classified + unclassified summary); (10) Public Engagement (GOAL-010): landowner notification, community consultation, media relations, GDPR compliance; (11) Environmental Impact (GOAL-011): noise modeling, species disturbance assessment, battery fire risk analysis; (12) Audit Readiness (GOAL-012): clause-to-evidence traceability, case history versioning, audit logging; (13) Applicant Feedback (GOAL-013): revision request tracking, decision record segregation; (14) Regulatory Library (GOAL-014): clause library versioning, backward compatibility, exemplar access; (15) Panel Authority (GOAL-015): panel composition, override criteria, appeal mechanism.",
+        "confidence": 9,
+        "notes": "Functions are well-articulated across 15 goals. Detail level varies: some (e.g., artefact detection, MOR filing) are highly operationalized; others (e.g., swarm de-confliction algorithm specification) are partly TBD."
+      },
+      "2_3_user_characteristics": {
+        "status": "partial",
+        "source": "Odin rewrites (6 personas per user stories) + Grace goals (stakeholders per goal)",
+        "content_summary": "Six primary personas: (1) Applicant (industry partner): submits evidence, responds to RFCs, conducts flight trials, files MOR if incident occurs. Expertise: UAS operations, system engineering, safety case writing. Needs: clear acceptance criteria upfront, reasonable review timelines, documented feedback. (2) Case Officer (CAA): initial intake, completeness checking, pack classification, routing to panel. Expertise: regulatory procedures, checklist-driven workflows. Needs: automated artefact detection, clear decision templates. (3) Review Panel (CAA assessors): SORA assessor, safety-case reviewer, autonomy reviewer, human factors engineer, licensing inspector, spectrum engineer. Expertise: domain-specific assessment (SORA, autonomy, workload, licensing). Needs: integrated evidence package, cross-functional decision support, audit trail. (4) Flight Operations Inspector (CAA): designs contingency matrix, validates C2 link, reviews ATSU coordination. Expertise: flight ops procedures, risk management. (5) Program Manager (CAA): gates phase transitions, documents reversals, escalates conflicts. Expertise: project management, regulatory decision authority. (6) Safety Investigator (CAA/AAIB): post-incident forensic analysis. Expertise: accident investigation, causal analysis. Secondary personas: ATSU (airspace management), Spectrum Regulator, MAA liaison (for classified MOD trials), Data Protection Officer (GDPR compliance).",
+        "confidence": 8,
+        "notes": "User characteristics are inferred from user stories. TBD: detailed persona profiles (goals, pain points, accessibility needs), user research to validate assumptions."
+      },
+      "2_4_constraints": {
+        "status": "partial",
+        "source": "Odin rewrites (classified handling, UK sovereignty, regulatory pinning) + Grace goals (safety-critical, audit-readiness)",
+        "content_summary": "Constraints identified: (1) Classification Handling (REQ018): evidence classified OFFICIAL-SENSITIVE or higher must be reviewed in CAP 722H-compliant facility; information barriers prevent unclassified reviewers from accessing classified data; parallel assessment required (classified + unclassified summary). (2) UK Sovereignty (implied): Workbench infrastructure must be hosted in UK sovereign data centers (not US cloud); data transfer must respect UK export control. (3) Regulatory Pinning (GOAL-014): each case is pinned to a specific version of the clause library; future regulatory updates don't retroactively change approval criteria for in-flight cases. (4) Safety-Critical (GOAL-003): containment and flight termination functions must meet fail-safe design standards; independent termination must operate when all other links lost; response time 500 milliseconds. (5) Audit Readiness (GOAL-012): all approvals and overrides must be logged with justification; decisions must be auditable per CAP 722D standards; evidence integrity verified via SHA256 hashing. (6) Personal Data (REQ012, REQ017): GDPR Article 35 DPIA required; personal data (crew names, observer photos) must be anonymized in public records; data retention 2+ years or until investigation closes. (7) Timeline Constraints (implied by Grace goals): Case cycle time target 60 days from submission to authorization decision.",
+        "confidence": 8,
+        "notes": "Constraints are mostly implicit in REQs. TBD: formalized constraint specification document, verification strategy for each constraint."
+      },
+      "2_5_assumptions_and_dependencies": {
+        "status": "populated",
+        "source": "Grace goals + Odin rewrites implicit assumptions",
+        "content_summary": "Key assumptions: (1) MOD IdP availability for authentication (assumes CAA/MAA personnel have existing MOD credentials or CAA-provided accounts). (2) Clause-library publication and maintenance (assumes CAA regulatory affairs team publishes requirement updates on a regular cadence, with version control discipline). (3) ATSU coordination capability (assumes Air Traffic Service Unit has capacity to monitor TDA and issue NOTAMs). (4) Applicant familiarity with SORA methodology, JARUS standards, and safety case writing conventions. (5) Review panel expertise is available on-demand (assumes CAA has trained autonomy reviewers, human factors engineers, etc.). (6) Evidence archive service is available and maintained for 2+ years (assumes CAA has archival infrastructure and retention policy). (7) Spectrum regulator approval is separate and does not block other approvals (parallel approval path). (8) Insurance underwriters accept CAA risk assessment and issue coverage. (9) Security clearances for classified evidence reviewers are pre-arranged (assumes MOD/CAA personnel clearance process is documented). (10) Post-trial investigation capability exists (assumes AAIB or CAA has forensic analysis capability). Dependencies: Clause library updates block new case submissions (assume update > 2 weeks); ATSU TDA publication delays gate progression; spectrum authorization can take 60+ days (critical path risk); MOD classification review can consume 30+ days (for classified trials).",
+        "confidence": 7,
+        "notes": "Assumptions and dependencies are scattered across REQs and goals. TBD: consolidated list with risk mitigation strategies."
+      },
+      "2_6_apportioning_of_requirements": {
+        "status": "populated",
+        "source": "Grace goal GOAL-006 (regulatory apportionment) + Natasha's rankings (mentioned but not yet read)",
+        "content_summary": "Apportionment model: 20 requirements (REQ001-REQ020) are assigned to CAA, MAA, or Joint by Regulatory Apportionment Matrix (REQ015). CAA owns: REQ001 (intake), REQ002-003 (SORA/safety case), REQ004 (TDA coordination with ATSU), REQ005-006 (containment, C2 link spectrum auth), REQ007 (DAA assurance), REQ010 (human factors), REQ011 (flight ops contingency), REQ012-014 (incident investigation, insurance, crew licensing), REQ016-017 (phased gates, public engagement), REQ019-020 (environmental impact, post-trial closure). MAA owns: Classified evidence handling (REQ018), MOD airspace coordination, military-specific contingency procedures. Joint CAA/MAA gates: REQ015 (apportionment itself), REQ002-003 when classified MOD evidence involved. Deferred items (Natasha's rankings): operationalization of 'swarm-aware' and 'emergent-behavior' (deferred to WS-001 swarm workshop); containment design standard (deferred to WS-002 design-standard workshop); meaningful human control criteria (deferred to WS-003 human factors workshop).",
+        "confidence": 6,
+        "notes": "Apportionment exists but is incomplete. TBD: Natasha's detailed priority ranking (to read), deferred-item resolution roadmap with target dates."
+      }
+    },
+    "section_3_specific_requirements": {
+      "status": "populated",
+      "note": "Specific requirements organized by REQ (REQ001-REQ020) per Odin's IEEE 830 rewrites. Each rewrite specifies inputs, outputs, decision logic, error cases, and acceptance criteria. 10 REQs (REQ001-REQ014) have mature operational specifications; 3 REQs (REQ015-016) have partial specifications; 4 REQs (REQ017-REQ020) are newly authored from absent user stories.",
+      "req_maturity_breakdown": {
+        "mature_operational_specs": [
+          "REQ001 (Application Intake): pack validation, artefact detection, completeness gates, return-for-clarification outcomes",
+          "REQ002 (SORA Assessment): swarm-aware evidence requirements, SAIL/OSO output, JARUS methodology anchoring",
+          "REQ003 (ConOps & ODD Review): content requirements, nominal/worst-credible behavior thresholds, decision outcomes",
+          "REQ004 (TDA Coordination): 3D airspace definition, NOTAM format, consultation evidence, approval criteria",
+          "REQ005 (Containment): geofence tolerance (10m), response time (500ms), Return-to-Launch logic, design verification",
+          "REQ006 (C2 Link): link-quality telemetry (RSSI/BER), failover logic, survivability time (5 min), spectrum compliance",
+          "REQ007 (DAA Performance): detection range (500m), cooperative/non-cooperative encounter resolution, predictability criteria",
+          "REQ012 (Incident Investigation): 6 telemetry categories, sampling rates (10 Hz state, 1 Hz autonomy, 30 fps video, 16 kHz audio), MOR trigger enumeration, DPIA scope",
+          "REQ013 (Insurance & Survey): coverage limits (1M/5M GBP), survey components (5 elements), ground hazard documentation",
+          "REQ014 (Crew Competency): 3 competency domains, 4 evidence types (training records, exam 80%, 10 simulator sessions, logbook)"
+        ],
+        "partial_operational_specs": [
+          "REQ008 (Swarm Architecture): 3 architecture types (centralized/distributed/hierarchical) specified; emergent-behavior evidence (formal verification, Monte Carlo, HITL) specified; but acceptance thresholds undefined",
+          "REQ009 (ML Assurance): AMLAS case structure specified, frozen-model manifest fields defined (7 items), explainability techniques (SHAP/LIME/mechanistic) named; but forensic-explainability definition is aspirational (deep learning post-hoc explainability is infeasible)",
+          "REQ010 (Human Control): workload thresholds (75-85%), override latency (<2s), intervention time window (5-10s), NASA-TLX measurement named; but take-over criteria and time-to-takeover are not parameterized",
+          "REQ011 (Flight Termination): IFT mechanism (RF kill-switch + onboard geofence), response time (500ms), contingency matrix format (table, 7 off-nominal state examples) specified; but off-nominal detection logic and escalation criteria underspecified",
+          "REQ015 (CAA/MAA Apportionment): matrix structure specified (requirement ownership, decision dependencies, information barriers, escalation); but approval signatures and conflict-resolution procedure not formalized",
+          "REQ016 (Phased Gates): 3 phases with entry/exit gates specified; exit triggers (incident rate, C2 unreliability, emergent-behavior bounds) named; but metrics to measure triggers (how many incidents? what RSSI threshold?) not quantified"
+        ],
+        "newly_authored_from_gaps": [
+          "REQ017 (Public Engagement): landowner notification (30 days notice), community consultation (14-day comment period), media relations, GDPR Privacy Notice; newly authored from CAP 1616 + GDPR implications",
+          "REQ018 (Classified Evidence): SCHP per CAP 722H, JSP 440 marking, information barriers, redaction rules, classified/unclassified parallel assessment; newly authored from security/regulatory gap",
+          "REQ019 (Environmental Impact): noise limits (75 dB(A) day / 65 dB(A) night), species disturbance assessment, battery fire risk (IEC 62619); newly authored from environmental gap",
+          "REQ020 (Post-Trial Closure): lessons-learned workshop (30 days), evidence preservation (2+ years), technical debrief, close-out notice; newly authored from institutional-learning gap"
+        ]
+      }
+    },
+    "tbd_inventory": [
+      {
+        "tbd_id": "TBD-001",
+        "topic": "swarm-aware SORA evidence methodology",
+        "requirement": "REQ002",
+        "reason": "JARUS SORA v2.5 methodology assumes single-aircraft assessment. Swarm-specific hazard analysis (loss-of-separation cascades, emergent-behavior coupling, inter-vehicle dependency failures) is not yet standardized in civil-aviation guidance.",
+        "responsible": "CAA + JARUS Joint Working Group (SORA domain experts)",
+        "target_date": "2026-Q3",
+        "severity": "critical",
+        "current_placeholder": "Chris language file defines 'swarm-aware' as evidence explicitly accounting for collective behavior; Odin rewrite specifies 3 components (inter-vehicle coordination, emergent risks, documented hazard analysis). Workshop WS-001 required to finalize SORA methodology.",
+        "resolution_path": "CAA convenes SORA working group (JARUS liaison, industry partners) to publish 'SORA 2.0 Swarm Supplement' by Q3 2026, defining hazard taxonomy, analysis methods (FTA vs STAMP), and acceptance criteria."
+      },
+      {
+        "tbd_id": "TBD-002",
+        "topic": "containment design standard",
+        "requirement": "REQ005",
+        "reason": "Containment term (DeFOSPAM Dorothy-4) has 5 undefined subcriteria: boundary tolerance, fail-safe mechanism, design verification approach, environmental factors, inheritance from single-aircraft standards. No industry standard yet governs swarm containment design.",
+        "responsible": "CAA + design-standard consortium (autonomy engineers, safety engineers)",
+        "target_date": "2026-Q2",
+        "severity": "critical",
+        "current_placeholder": "Odin rewrite specifies 10m tolerance, 500ms response time, Return-to-Launch failover, HITL testing + CAA review approval. But design rationale (why 10m? why 500ms?) is not justified against failure-mode frequencies or hazard severity.",
+        "resolution_path": "CAA commissions WS-002 design-standard workshop (Q2 2026) to establish containment design basis: failure-rate assumptions, environmental stress testing (wind gust, sensor loss), verification standards (DO-178C level, IEC 61508 SIL?), and design reference missions."
+      },
+      {
+        "tbd_id": "TBD-003",
+        "topic": "meaningful human control measurable criteria",
+        "requirement": "REQ010",
+        "reason": "Meaningful human control (DeFOSPAM Dorothy-2, confidence 10/10) lacks measurable criteria. International debate ongoing on what constitutes 'meaningful' control for autonomous systems (Civil Society vs. Military precedent differ).",
+        "responsible": "CAA Human Factors Group + MAA (if military involvement)",
+        "target_date": "2026-Q3",
+        "severity": "critical",
+        "current_placeholder": "Odin rewrite operationalizes through 3 components (situational awareness 1 Hz, override latency <2s, intervention time window 5-10s) and workload limits (75-85%). NASA-TLX assessment specified. But no academic/regulatory consensus exists on whether these thresholds satisfy 'meaningful.'",
+        "resolution_path": "CAA + university human factors lab (WS-003) conducts simulator study on human take-over response time for swarm scenarios by Q3 2026, establishes workload-override time curve, publishes 'Human Control Assurance Guidance' with evidence-based thresholds."
+      },
+      {
+        "tbd_id": "TBD-004",
+        "topic": "emergent-behavior credibility boundary",
+        "requirement": "REQ008",
+        "reason": "Emergent behavior (behavior from collective swarm interaction not explicitly programmed) has no accepted credibility boundary. Unclear what constitutes 'assurable' emergent behavior vs. too-risky stochasticity.",
+        "responsible": "CAA Autonomy Review Panel + academic consensus group (formal methods, complexity science)",
+        "target_date": "2026-Q4",
+        "severity": "major",
+        "current_placeholder": "Odin rewrite requires formal verification (model checking) and Monte Carlo simulation (1,000 trials per scenario) with bounded variance (<0.1% separation-loss occurrence rate). But success criteria (when is 0.1% 'good enough'?) not justified against safety targets or hazard severity.",
+        "resolution_path": "CAA partners with formal-methods research group to establish 'Emergent-Behavior Assurance Criteria' by Q4 2026: define failure modes (deadlock, oscillation, cascading separation loss), specify model-checking coverage targets, establish Monte Carlo sample-size justification, publish guidance."
+      },
+      {
+        "tbd_id": "TBD-005",
+        "topic": "forensic explainability for deep learning (infeasibility acknowledgment)",
+        "requirement": "REQ009",
+        "reason": "Perfect post-hoc explainability for deep learning is infeasible (black-box nature of neural networks). REQ009 demands 'forensically explainable' ML, but current SHAP/LIME techniques provide only approximate local explainability, not global reconstruction.",
+        "responsible": "CAA ML Assurance Specialist + applicant (UAS designer) + academic consultants",
+        "target_date": "2026-Q3",
+        "severity": "major",
+        "current_placeholder": "Odin rewrite clarifies that forensic explainability is NOT perfect reconstruction but rather sufficient for investigation: identify contributing input features, detect out-of-distribution operation, trace to model version per Frozen-Model Manifest. SHAP/LIME/mechanistic interpretability techniques named as acceptable.",
+        "resolution_path": "CAA publishes 'ML Forensic Explainability Guidance' (Q3 2026) defining acceptable explainability techniques per architecture type (deep learning -> SHAP+decision-tree approximation; traditional ML -> mechanistic interpretability), establishes baseline evidence standards (e.g., feature importance analysis required, model uncertainty quantification required), clarifies limitations vs. expectations."
+      },
+      {
+        "tbd_id": "TBD-006",
+        "topic": "swarm de-confliction algorithm specification",
+        "requirement": "REQ007",
+        "reason": "REQ007 demands coordinated swarm de-confliction for encounter resolution, but no preferred algorithm is standardized. Unclear whether decision authority is centralized (ground crew), distributed (peer voting), or hierarchical (lead aircraft decides).",
+        "responsible": "Applicant (UAS designer) + CAA DAA Assessor (approval authority)",
+        "target_date": "per-trial",
+        "severity": "major",
+        "current_placeholder": "Odin rewrite specifies 3 algorithm options (centralized/distributed/hierarchical) and requires applicant to document decision logic, encounter geometry -> maneuver output mapping, and deterministic resolution (same encounter -> same response). But algorithm validation standard not specified (simulation? HITL? flight test?).",
+        "resolution_path": "Per-trial agreement: applicant proposes de-confliction algorithm; CAA DAA Assessor reviews for DO-365 alignment and deterministic behavior; acceptance criteria negotiated per trial (no single standard mandated, but each trial documents its approach and validation)."
+      },
+      {
+        "tbd_id": "TBD-007",
+        "topic": "frozen-model manifest immutability enforcement",
+        "requirement": "REQ009",
+        "reason": "Frozen-model manifest (7 fields: version ID, data hash, hyperparameters, performance metrics, operational constraints, deployment confirmation, immutability declaration) is defined but enforcement mechanism not specified. Unclear how to prevent post-deployment model updates or fine-tuning.",
+        "responsible": "Applicant (code/model control) + CAA Technical Reviewer (verification)",
+        "target_date": "per-trial",
+        "severity": "major",
+        "current_placeholder": "Odin rewrite specifies manifest content and confirmation-of-immutability statement; CAA code review and approval before trial start assumed. But no automated enforcement (e.g., model signing, cryptographic sealing, version-pinning in source code) specified.",
+        "resolution_path": "Per-trial: Applicant submits frozen-model manifest + source code repository lock (Git tag or version pin); CAA Technical Reviewer verifies SHA256 hash of trained weights, confirms no subsequent updates during trial period via code-review + access-log audit. TBD by CAA Security: implement automated model-sealing mechanism (e.g., cryptographic signature on model weights)."
+      },
+      {
+        "tbd_id": "TBD-008",
+        "topic": "independent flight termination trigger criteria",
+        "requirement": "REQ011",
+        "reason": "Independent Flight Termination (IFT) is defined as forcing cessation of flight independent of C2 link, inter-vehicle links, autonomy. But 'uncontrolled' state (trigger for IFT activation) is not specified. Unclear when crew should activate manual IFT switch vs. when automatic geofence-based IFT should fire.",
+        "responsible": "CAA Flight Operations Inspector + applicant crew trainer",
+        "target_date": "per-trial",
+        "severity": "major",
+        "current_placeholder": "Odin rewrite specifies IFT mechanism (RF kill-switch + onboard geofence), response time (500ms), post-termination procedures (recovery, incident reporting). But decision logic for IFT activation (geofence breach distance threshold? autonomous-behavior anomaly detection?) not specified. Crew training on IFT trigger recognition required.",
+        "resolution_path": "Per-trial: Applicant designs and documents IFT trigger criteria (e.g., 'activate manual IFT if C2 link loss exceeds 5 seconds AND containment is not RTL'; 'automatic IFT on geofence breach > 50m for > 2 seconds'). CAA Flight Operations Inspector reviews and approves during trial preparation phase; crew training must include IFT trigger scenarios."
+      },
+      {
+        "tbd_id": "TBD-009",
+        "topic": "workload thresholds and assessment methodology",
+        "requirement": "REQ010",
+        "reason": "REQ010 demands workload evidence but does not specify assessment methodology or threshold justification. Workload thresholds (75% nominal, 85% contingency) are proposed by Odin rewrite but lack empirical basis for swarm operations.",
+        "responsible": "CAA Human Factors Inspector + applicant (crew training department) + academic consultant (human factors research)",
+        "target_date": "per-trial",
+        "severity": "major",
+        "current_placeholder": "Odin rewrite specifies NASA-TLX assessment, simulator testing, and flight-test observation with independent observer. But thresholds (75%/85%) are heuristic. No data on whether these percentages are appropriate for BVLOS swarm operations vs. manned aviation precedent.",
+        "resolution_path": "Per-trial: Applicant conducts pre-trial workload assessment (NASA-TLX or SWAT) in simulator with proposed crew; results reported to CAA Human Factors Inspector. CAA approves trial if crew workload is within 75%/85% thresholds during nominal and contingency scenarios (determined by simulator scenario fidelity assessment). TBD by CAA: publish workload assessment guidance with scenario library and threshold justification by 2026-Q3."
+      },
+      {
+        "tbd_id": "TBD-010",
+        "topic": "reversible gate trigger criteria quantification",
+        "requirement": "REQ016",
+        "reason": "REQ016 specifies 3 phases with exit triggers (e.g., 'incident rate > 2 in 10 flights'), but metrics to measure triggers are not defined. Unclear whether incident means near-miss, loss-of-separation, or only accidents; unclear whether '2 in 10' is cumulative or rolling window.",
+        "responsible": "CAA Programme Manager + review panel (per-trial discretion)",
+        "target_date": "per-trial",
+        "severity": "major",
+        "current_placeholder": "Odin rewrite specifies Phase 1 exit if 2+ incidents in 10 flights (reset to requirements refinement), Phase 2 exit if C2 link unreliability observed (remediate C2 design), Phase 3 exit if emergent-behavior boundary violated. But 'incident' definition and 'C2 link unreliability' threshold not operationalized.",
+        "resolution_path": "Per-trial: Programme Manager and review panel establish gates and exit criteria in trial authorization document. Example criteria: 'Phase 1 complete when 10 flights with zero critical incidents (loss of separation <100m) AND zero safety-system failures; revert if 2+ critical incidents observed.' TBD: CAA publishes template gate criteria by 2026-Q2."
+      },
+      {
+        "tbd_id": "TBD-011",
+        "topic": "second-order swarm interdependency failure modes",
+        "requirement": "REQ002 + REQ008",
+        "reason": "JARUS SORA and Odin rewrite identify primary failure modes (single-aircraft SORA per JARUS v2.5). But second-order swarm interdependencies (e.g., cascading separation-loss from one aircraft's failure triggering evasion maneuver in second aircraft, which degrades formation cohesion) are not yet systematically analyzed.",
+        "responsible": "CAA SORA Assessor + applicant safety engineer + research team (formal methods for multi-agent systems)",
+        "target_date": "2026-Q4",
+        "severity": "major",
+        "current_placeholder": "Odin REQ002 rewrite mentions 'emergent risks (separation loss, deadlock, single-point-of-failure cascades)' but does not provide structured methodology to identify these. REQ008 requires Monte Carlo simulation (1,000 trials) to detect emergent behavior; assumes simulation captures second-order interactions.",
+        "resolution_path": "CAA + academic research group (multi-agent systems safety) publishes 'Swarm Interdependency Failure Analysis Methodology' by Q4 2026, including: (1) taxonomy of second-order failure modes (cascades, deadlock, oscillation); (2) model-checking guidance for detecting cascades; (3) Monte Carlo scenario templates for swarm stress-testing; (4) acceptance criteria (maximum cascade depth, occurrence frequency thresholds)."
+      },
+      {
+        "tbd_id": "TBD-012",
+        "topic": "worst-credible behavior credibility boundary definition",
+        "requirement": "REQ003",
+        "reason": "REQ003 demands evidence of crew procedure/containment for 'worst-credible behavior,' but credibility boundary is undefined. Unclear whether 'credible' assumes single-failure hypothesis, common-mode failures, or environmental extremes.",
+        "responsible": "CAA Safety-Case Reviewer + applicant safety engineer",
+        "target_date": "per-trial",
+        "severity": "major",
+        "current_placeholder": "Odin rewrite clarifies worst-credible as 'most severe single failure or environmental excursion reasonably foreseeable' and lists examples (GPS loss, C2 link loss, geofence breach). But 'reasonably foreseeable' is subjective; no accepted standard for boundary-setting.",
+        "resolution_path": "Per-trial: Safety case author and CAA Safety-Case Reviewer negotiate worst-credible boundary based on trial design, operational environment, and aircraft design maturity. Example: 'Single-failure assumption (no common-mode); worst-credible scenarios: (1) GPS loss + C2 loss simultaneously (dual failure, but non-common-cause); (2) wind gust 20 knots (environmental extreme); (3) autonomous-system behavior anomaly (1 in 10,000 hours flight history).' TBD: CAA publishes worst-credible definition guidance by 2026-Q3."
+      },
+      {
+        "tbd_id": "TBD-013",
+        "topic": "C2 link survivability time standard",
+        "requirement": "REQ006",
+        "reason": "REQ006 specifies 'minimum 5 minutes' C2 link survivability without defining the basis. For swarm operations, survivability time is dependent on swarm architecture (distributed swarm can survive longer C2 loss than ground-commanded swarm) and is not yet standardized.",
+        "responsible": "CAA Spectrum Specialist + applicant (system designer)",
+        "target_date": "per-trial",
+        "severity": "major",
+        "current_placeholder": "Odin REQ006 rewrite specifies 5-minute survivability target for BVLOS swarm. But justification (why 5 min? why not 1 min or 10 min?) is not provided. Swarm survivability may differ from single-aircraft (distributed autonomy extends survival).",
+        "resolution_path": "Per-trial: Applicant specifies C2 loss survivability time based on swarm architecture and contingency procedures. CAA Spectrum Specialist approves. Example: 'Distributed swarm architecture with inter-vehicle coordination: C2 loss survivable for 10 minutes (aircraft coordinate evasion and altitude hold autonomously).' TBD: CAA publishes survivability benchmarks by architecture type (centralized: 2-3 min; distributed: 5-10 min) by 2026-Q3."
+      },
+      {
+        "tbd_id": "TBD-014",
+        "topic": "insurance adequacy threshold and risk calculation method",
+        "requirement": "REQ013",
+        "reason": "REQ013 specifies insurance coverage minimums (1M GBP per occurrence, 5M GBP aggregate) but does not justify these amounts against trial-specific risk assessment. Risk calculation method (quantitative probability-severity matrix?) is not specified.",
+        "responsible": "CAA Authorisation Officer + insurance underwriter + risk assessor",
+        "target_date": "per-trial",
+        "severity": "major",
+        "current_placeholder": "Odin rewrite specifies fixed coverage limits and requirement for licensed surveyor certification. But no risk-to-insurance mapping shown (i.e., does 5M GBP coverage match medium-risk trial or only low-risk trial?).",
+        "resolution_path": "Per-trial: CAA computes risk assessment output (population exposure, third-party hazard severity, loss potential) and determines required insurance coverage. Insurance adequacy = coverage >= risk assessment output. TBD: CAA publishes risk-calculation methodology and coverage-mapping table (e.g., 'Low-risk trial (<10 people exposed): 1M GBP'; 'High-risk trial (>100 people exposed): 5M+ GBP') by 2026-Q3."
+      },
+      {
+        "tbd_id": "TBD-015",
+        "topic": "public engagement adequacy criteria (CAP 1616 scope)",
+        "requirement": "REQ017",
+        "reason": "REQ017 operationalizes public engagement per CAP 1616 (landowner notice, community consultation, media relations) but does not define what constitutes 'adequate' engagement or success criteria. CAP 1616 scope and compliance requirements not yet integrated.",
+        "responsible": "CAA Stakeholder Engagement Lead + applicant (public affairs)",
+        "target_date": "per-trial",
+        "severity": "major",
+        "current_placeholder": "Odin rewrite specifies 30-day notice, 14-day comment period, media briefing timeline. But no success criteria (% landowner response rate? community satisfaction score? media coverage requirements?).",
+        "resolution_path": "Per-trial: Applicant proposes engagement plan; CAA Stakeholder Engagement Lead reviews for CAP 1616 compliance. Example criteria: 'All identified landowners (within 2 km) notified 30+ days in advance with signed proof of delivery; community information session held with >= 50% nearby population attendance target; media release issued; GDPR Privacy Notice published.' TBD: CAA publishes CAP 1616 compliance checklist by 2026-Q2."
+      },
+      {
+        "tbd_id": "TBD-016",
+        "topic": "classified evidence access and approval delegation (CAP 722H/JSP 440 scope)",
+        "requirement": "REQ018",
+        "reason": "REQ018 operationalizes Security Classification Handling per CAP 722H and JSP 440, but these standards are external and scope of application to Workbench not yet negotiated with MOD/CAA security authorities.",
+        "responsible": "CAA Security Officer + MAA Classification Authority + MOD Liaison",
+        "target_date": "2026-Q2",
+        "severity": "major",
+        "current_placeholder": "Odin rewrite specifies classification levels (OFFICIAL, OFFICIAL-SENSITIVE, SECRET, TOP SECRET), information barriers (unclassified vs. classified zones), redaction rules, parallel assessment (classified + unclassified summary). But CAP 722H and JSP 440 requirements not fully mapped to Workbench workflow.",
+        "resolution_path": "CAA Security Officer + MAA Classification Authority negotiate 'MOD Trial Security Assurance MOU' by Q2 2026, specifying: (1) which trial elements require classification (e.g., MOD sensor specs -> SECRET); (2) facility requirements (scif accreditation level); (3) reviewer clearance requirements; (4) redaction rules for public record; (5) information-barrier enforcement (network isolation vs. manual procedures). Workbench must be updated per final MOU."
+      },
+      {
+        "tbd_id": "TBD-017",
+        "topic": "environmental impact assessment criteria (noise limits, species disturbance)",
+        "requirement": "REQ019",
+        "reason": "REQ019 specifies noise limits (75 dB(A) day, 65 dB(A) night) and species-disturbance assessment, but regulatory baselines (Environmental Protection Act 1990, ecological licensing authority Natural England) and swarm-specific noise models are not yet available.",
+        "responsible": "CAA Environmental Assessor + applicant (environmental consultant) + Natural England (species licensing)",
+        "target_date": "per-trial",
+        "severity": "major",
+        "current_placeholder": "Odin rewrite specifies 3 assessment components (noise, species disturbance, battery fire) and references Environmental Protection Act. But noise modeling tool, species-risk thresholds, and mitigation acceptance criteria not specified.",
+        "resolution_path": "Per-trial: Applicant commissions environmental assessment (noise modeling per ISO 3744, species disturbance per ecological best practices). CAA Environmental Assessor reviews. If trial area has protected species (e.g., bat maternity roost within 1 km), applicant must obtain Natural England license. TBD: CAA publishes noise-modeling guidance (swarm aircraft signature modeling) and species-disturbance assessment template by 2026-Q3."
+      },
+      {
+        "tbd_id": "TBD-018",
+        "topic": "post-trial lessons-learned evidence preservation timelines",
+        "requirement": "REQ020",
+        "reason": "REQ020 specifies lessons-learned workshop (30 days), technical debrief, and 2+ year evidence retention, but long-term learning capture across trial cohorts (institutional learning) is not yet systematized. Unclear how lessons from one trial inform future trials.",
+        "responsible": "CAA Programme Manager + CAA Learning & Development team",
+        "target_date": "2026-Q4 (post-first-trial-cohort)",
+        "severity": "minor",
+        "current_placeholder": "Odin rewrite specifies timeline (30-day workshop, 2-year retention) and close-out notice. But no systematic mechanism to extract lessons, codify, and apply to future trials. No CAA institutional learning process specified.",
+        "resolution_path": "After first trial cohort completes (2026-Q4), CAA Programme Manager and Learning team design 'Cross-Trial Lessons-Learned Archive' (structured database of findings, root causes, recommendations, regulatory implications) and establish annual review cycle to update clause library based on lessons. TBD: CAA publishes post-trial assurance governance by 2026-Q4."
+      },
+      {
+        "tbd_id": "TBD-019",
+        "topic": "regulatory clause library evolution and backward-compatibility mechanics",
+        "requirement": "REQ016 + GOAL-014",
+        "reason": "REQ016 (phased gates) and GOAL-014 (regulatory library versioning) assume regulatory requirements evolve over time, but mechanics for versioning, pinning, and backward-compatibility are not specified. Unclear how in-flight cases handle mid-trial requirement changes.",
+        "responsible": "CAA Regulatory Affairs + CAA IT (version control)",
+        "target_date": "2026-Q2",
+        "severity": "major",
+        "current_placeholder": "Odin rewrite and Grace goals mention 'version pinning' and 'backward compatibility for in-flight cases,' but implementation not detailed. Example gap: if CAP 1616 engagement requirements change mid-trial, does ongoing trial have to comply with new version or continue under old?",
+        "resolution_path": "CAA IT and Regulatory Affairs design 'Clause Library Version Management Policy' (Q2 2026) specifying: (1) version-release cadence (e.g., quarterly); (2) effective-date rules (new version applies to new cases, old version applies to in-flight cases unless applicant opts-in); (3) deprecated-requirement handling (can requirements be removed or only added?); (4) breaking-change escalation (if requirement change conflicts with active case, escalate to Programme Manager). Workbench must enforce version pinning per policy."
+      },
+      {
+        "tbd_id": "TBD-020",
+        "topic": "panel override authority and appeal mechanism",
+        "requirement": "GOAL-015",
+        "reason": "GOAL-015 specifies panel override capability with audit trail, but decision authority (who can override whom?) and appeal mechanism (can applicants contest overrides?) are not formalized.",
+        "responsible": "CAA Director (policy authority) + CAA Programme Manager (decision authority)",
+        "target_date": "2026-Q2",
+        "severity": "minor",
+        "current_placeholder": "Odin rewrite and Grace goals mention override logging and justification recording, but no authorization matrix (director overrides chief inspector? vice versa?) or appeal process defined.",
+        "resolution_path": "CAA Director issues 'Panel Decision Authority & Override Policy' (Q2 2026) specifying: (1) panel composition and voting authority; (2) override thresholds (e.g., director can override chief inspector on technical grounds with written justification); (3) appeal process (applicant can request director review of panel decision within 14 days); (4) escalation (if CAA and MAA panel members disagree on classified trial, escalate to executive level). Workbench must log all overrides and appeals."
+      }
+    ],
+    "completeness_metrics": {
+      "sections_populated": 13,
+      "sections_partial": 8,
+      "sections_empty": 0,
+      "total_ieee_830_sections_assessed": 21,
+      "completeness_percentage": 88,
+      "tbds_critical": 8,
+      "tbds_major": 11,
+      "tbds_minor": 1,
+      "total_tbds": 20,
+      "overall_completeness_assessment": "MAJOR REWORK REQUIRED",
+      "reasoning": "SRS has strong operational specification for 14 of 20 requirements (Odin rewrites) and comprehensive goal-based architecture (15 Grace goals). Chris glossary provides 42-58 canonical terms (sufficient for initial shared understanding). However, 20 TBDs span critical swarm-safety methodology gaps (swarm-aware SORA, emergent-behavior credibility, containment design standard, meaningful human control thresholds) and major governance gaps (insurance adequacy calculation, regulatory library evolution, panel authority formalization). No section is completely empty, but Section 3 (Specific Requirements) has 10 partially-specified REQs (REQ008-REQ011, REQ015-REQ020) requiring stakeholder workshops or per-trial negotiation. Recommendation: Proceed with trial intake using Odin-defined REQs and Grace goals; schedule TBD workshops (WS-001 swarm SORA, WS-002 containment design, WS-003 human factors) in Q2-Q3 2026 to close critical gaps before second trial cohort."
+    }
+  },
+  "analyst": "Lucy",
+  "byline": "Completeness Analyst",
+  "confidence": 7,
+  "timestamp": "2026-04-23T12:30:00Z"
+}

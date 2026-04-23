@@ -1,0 +1,456 @@
+{
+  "metadata": {
+    "analyst": "Laveena",
+    "byline": "Living Documentation Analyst",
+    "principle": "L",
+    "image_url": "https://openrequirements.ai/assets/Laveena-DeYWBejU.png",
+    "timestamp": "2026-04-23T14:30:00Z",
+    "methodology": "Specification by Example (Gojko Adzic) - Living Documentation"
+  },
+  "top_level_structure": {
+    "path": "features/",
+    "description": "Root folder for all executable specifications and living documentation",
+    "children": [
+      {
+        "path": "README.md",
+        "type": "index",
+        "purpose": "Table of contents, navigation guide, and glossary index",
+        "audience": ["all"]
+      },
+      {
+        "path": "glossary.md",
+        "type": "reference",
+        "purpose": "Ubiquitous language from Chris-language.json with status markers (agreed/proposed/unverified)",
+        "source": "chris-language.json",
+        "term_count": 42,
+        "status_breakdown": {
+          "agreed": 18,
+          "proposed": 20,
+          "unverified": 4
+        }
+      },
+      {
+        "path": "keystones.md",
+        "type": "reference",
+        "purpose": "K1-K8 refusal detectors and cross-references (GOAL and REQ mapping)",
+        "source": "grace-goals.json",
+        "keystone_count": 8
+      },
+      {
+        "path": "phase1_applicant/",
+        "type": "folder",
+        "phase": 1,
+        "phase_title": "Applicant Phase 1: Evidence Submission & Intake",
+        "blueprint_steps": [1, 2, 3, 4],
+        "step_definitions": [
+          "Step 1: Workspace Creation & Governance Setup",
+          "Step 2: Evidence Upload & Artefact Validation",
+          "Step 3: Pre-Submission Review & Coaching",
+          "Step 4: Readiness Check & Intake Gate"
+        ],
+        "feature_count": 4,
+        "children": [
+          {"path": "README.md", "type": "index"},
+          {"path": "step1_workspace_creation/", "type": "folder"},
+          {"path": "step2_evidence_upload/", "type": "folder"},
+          {"path": "step3_pre_submission_review/", "type": "folder"},
+          {"path": "step4_readiness_check/", "type": "folder"}
+        ]
+      },
+      {
+        "path": "phase2_regulator/",
+        "type": "folder",
+        "phase": 2,
+        "phase_title": "Regulator Phase 2: Assessment & Deliberation",
+        "blueprint_steps": [5, 6, 7, 8],
+        "step_definitions": [
+          "Step 5: Joint Panel Open & Role Allocation",
+          "Step 6: Deep-Dive Technical Reviews (SORA, Safety, Autonomy, ML)",
+          "Step 7: Deliberation & Panel Override Authority",
+          "Step 8: Decision Record & Authorization Issuance"
+        ],
+        "feature_count": 7,
+        "children": [
+          {"path": "README.md", "type": "index"},
+          {"path": "step5_joint_panel_open/", "type": "folder"},
+          {"path": "step6_deep_dive_reviews/", "type": "folder"},
+          {"path": "step7_deliberation_and_override/", "type": "folder"},
+          {"path": "step8_decision_record/", "type": "folder"}
+        ]
+      },
+      {
+        "path": "phase3_post_decision/",
+        "type": "folder",
+        "phase": 3,
+        "phase_title": "Post-Decision Phase 3: Operations & Archival",
+        "blueprint_steps": [9, 10],
+        "step_definitions": [
+          "Step 9: Trial Archive & Forensic Data Preservation",
+          "Step 10: Calibration & Lessons-Learned Feedback"
+        ],
+        "feature_count": 3,
+        "children": [
+          {"path": "README.md", "type": "index"},
+          {"path": "step9_archive/", "type": "folder"},
+          {"path": "step10_calibration/", "type": "folder"}
+        ]
+      },
+      {
+        "path": "cross_cutting/",
+        "type": "folder",
+        "purpose": "Features spanning multiple phases (classification, apportionment, audit, accessibility)",
+        "feature_count": 4,
+        "children": [
+          {"path": "README.md", "type": "index"},
+          {
+            "path": "classification/",
+            "type": "folder",
+            "description": "REQ018: MOD classified evidence handling per CAP 722H/JSP 440",
+            "keystone": "K8",
+            "goals": ["GOAL-009"],
+            "phases": [1, 2, 3]
+          },
+          {
+            "path": "caa_maa_apportionment/",
+            "type": "folder",
+            "description": "REQ015: Dual-authority regulatory apportionment matrix",
+            "keystone": "K7",
+            "goals": ["GOAL-006"],
+            "phases": [1, 2]
+          },
+          {
+            "path": "audit_and_traceability/",
+            "type": "folder",
+            "description": "REQ027: Clause-to-evidence binding and audit logging",
+            "keystone": "K5",
+            "goals": ["GOAL-012"],
+            "phases": [1, 2, 3]
+          },
+          {
+            "path": "accessibility/",
+            "type": "folder",
+            "description": "Cross-cutting accessibility for CAA officers and investigators",
+            "goals": ["GOAL-010"],
+            "phases": [1, 2, 3]
+          }
+        ]
+      },
+      {
+        "path": "support/",
+        "type": "folder",
+        "purpose": "Step definitions, test fixtures, and architecture notes",
+        "children": [
+          {
+            "path": "step_definitions.md",
+            "type": "reference",
+            "description": "Gherkin step definitions (Given/When/Then) keyed to Behave Python"
+          },
+          {
+            "path": "test_data_fixtures.md",
+            "type": "reference",
+            "description": "Test data factory definitions (applicants, aircraft, evidence packs)"
+          },
+          {
+            "path": "architecture_notes.md",
+            "type": "reference",
+            "description": "Technical architecture patterns (Artefact Detector, Clause Mapper, Decision Engine)"
+          }
+        ]
+      }
+    ]
+  },
+  "tag_taxonomy": {
+    "priority": {
+      "description": "Business impact and regulatory criticality",
+      "tags": [
+        {
+          "tag": "@critical",
+          "description": "Safety-critical or authorization-blocking features (containment, termination, meaningful human control)"
+        },
+        {
+          "tag": "@major",
+          "description": "High-impact features affecting case workflow (intake, SORA, decision logging)"
+        },
+        {
+          "tag": "@minor",
+          "description": "Nice-to-have or internal-only features (archival, calibration feedback)"
+        }
+      ]
+    },
+    "suite": {
+      "description": "Test execution strategy",
+      "tags": [
+        {
+          "tag": "@smoke",
+          "description": "Fastest path through system: complete pack → acceptance → SORA → approval"
+        },
+        {
+          "tag": "@regression",
+          "description": "Broader coverage: error paths, edge cases, rework cycles"
+        },
+        {
+          "tag": "@full",
+          "description": "Complete coverage including slow paths (classification, MAA coordination, appeals)"
+        }
+      ]
+    },
+    "phase": {
+      "description": "Service blueprint phase and step",
+      "tags": [
+        {"tag": "@phase1", "description": "Applicant Phase 1 (intake, evidence, readiness check)"},
+        {"tag": "@phase2", "description": "Regulator Phase 2 (assessment, deliberation, decision)"},
+        {"tag": "@phase3", "description": "Post-Decision Phase 3 (archive, calibration)"},
+        {"tag": "@cross_cutting", "description": "Spans multiple phases (classification, apportionment, audit)"}
+      ]
+    },
+    "domain": {
+      "description": "Technical or business domain",
+      "tags": [
+        {"tag": "@intake", "description": "Application submission and completeness check"},
+        {"tag": "@sora", "description": "SORA assessment (including swarm-aware specialization)"},
+        {"tag": "@containment", "description": "Geofence, C2 link, termination, and flight safety"},
+        {"tag": "@autonomy", "description": "Swarm decision-making, emergent behavior, ML assurance"},
+        {"tag": "@human_factors", "description": "Meaningful human control, workload, crew takeover"},
+        {"tag": "@incident", "description": "Data recording, MOR handling, forensic investigation"},
+        {"tag": "@governance", "description": "CAA/MAA apportionment, classification, audit trail"},
+        {"tag": "@public", "description": "Public engagement, environmental assessment, insurance"}
+      ]
+    },
+    "keystone": {
+      "description": "Refusal detector or decision blocker (K1-K8)",
+      "tags": [
+        {"tag": "@K1", "description": "PackCompleteness: Mandatory artefacts missing or insufficient"},
+        {"tag": "@K2", "description": "SwarmAwareSORAEvidence: Swarm-specific risk assessment absent"},
+        {"tag": "@K3", "description": "GeofenceContainment: Boundary tolerance or fail-safe undefined"},
+        {"tag": "@K4", "description": "MeaningfulHumanControl: Crew authority compromised or unverifiable"},
+        {"tag": "@K5", "description": "MLForensicExplainability: ML model not explainable or frozen"},
+        {"tag": "@K6", "description": "IndependentFlightTermination: No kill-switch or time-to-effect"},
+        {"tag": "@K7", "description": "CAAMAAApportionment: Regulatory authority ambiguity"},
+        {"tag": "@K8", "description": "ClassificationSecurityCompliance: Classified evidence handling failure"}
+      ]
+    },
+    "req": {
+      "description": "Source requirement mapping (REQ001-REQ020)",
+      "tags": [
+        {"tag": "@REQ001", "description": "Application Intake & Pack Completeness"},
+        {"tag": "@REQ002", "description": "SORA Assessment (Swarm-Aware)"},
+        {"tag": "@REQ003", "description": "ConOps & ODD Definition"},
+        {"tag": "@REQ004", "description": "Airspace Change & TDA Coordination"},
+        {"tag": "@REQ005", "description": "Geofence & Containment Enforcement"},
+        {"tag": "@REQ006", "description": "C2 Link & Spectrum Assurance"},
+        {"tag": "@REQ007", "description": "Detect-and-Avoid (DAA) Performance"},
+        {"tag": "@REQ008", "description": "Swarm Decision-Making Architecture"},
+        {"tag": "@REQ009", "description": "ML/AI Assurance Case & Model Manifest"},
+        {"tag": "@REQ010", "description": "Human Oversight & Workload Assessment"},
+        {"tag": "@REQ011", "description": "Flight Termination & Contingency"},
+        {"tag": "@REQ012", "description": "Incident Data Recording & MOR Handling"},
+        {"tag": "@REQ013", "description": "Insurance & Ground Survey"},
+        {"tag": "@REQ014", "description": "Off-nominal scenario simulation"},
+        {"tag": "@REQ015", "description": "CAA/MAA Apportionment Matrix"},
+        {"tag": "@REQ016", "description": "Phased Trial Gates & Panel Override"},
+        {"tag": "@REQ017", "description": "Public & Stakeholder Engagement"},
+        {"tag": "@REQ018", "description": "Security Classification Handling"},
+        {"tag": "@REQ019", "description": "Environmental Impact Assessment"},
+        {"tag": "@REQ020", "description": "Post-Trial Archive & Lessons-Learned"}
+      ]
+    }
+  },
+  "navigation_aids": {
+    "index_pages": 8,
+    "cross_references": 127,
+    "glossary_links": 42,
+    "breadcrumb_depth": 3,
+    "navigation_strategy": "Phase-first (Phase 1→2→3) with cross-cutting domain index (classification, apportionment, audit)"
+  },
+  "persona_navigation_paths": [
+    {
+      "persona": "New Workbench Developer",
+      "question": "How do I add a new feature to the system?",
+      "navigation_path": [
+        "features/README.md (overview & phase structure)",
+        "features/phase1_applicant/README.md (identify phase)",
+        "features/phase1_applicant/step2_evidence_upload/ (similar feature folder)",
+        "features/support/architecture_notes.md (system patterns)",
+        "features/support/step_definitions.md (Behave integration)"
+      ],
+      "expected_clicks": 5,
+      "expected_time_minutes": 15,
+      "accessibility_score": "high"
+    },
+    {
+      "persona": "CAA Case Officer",
+      "question": "What does the system do when classified evidence is uploaded?",
+      "navigation_path": [
+        "features/README.md (search 'classification' or @K8)",
+        "features/cross_cutting/classification/ (classification folder)",
+        "features/cross_cutting/classification/README.md (overview of flow)",
+        "features/cross_cutting/classification/security_segregation.feature (automated detection + review path)"
+      ],
+      "expected_clicks": 4,
+      "expected_time_minutes": 8,
+      "accessibility_score": "high"
+    },
+    {
+      "persona": "Applicant Autonomy Engineer",
+      "question": "What evidence do I need for REQ009 ML assurance?",
+      "navigation_path": [
+        "features/README.md (search 'ML' or '@REQ009')",
+        "features/phase2_regulator/step6_deep_dive_reviews/ (autonomy sub-folder)",
+        "features/phase2_regulator/step6_deep_dive_reviews/ml_assurance_case.feature (AMLAS/SACE specs)",
+        "features/glossary.md (look up: forensic-explainability, frozen-model, AMLAS)"
+      ],
+      "expected_clicks": 4,
+      "expected_time_minutes": 12,
+      "accessibility_score": "medium"
+    },
+    {
+      "persona": "AAIB Investigator",
+      "question": "I need to reconstruct the decision-making around Case #123",
+      "navigation_path": [
+        "features/README.md (search 'audit' or 'traceability')",
+        "features/cross_cutting/audit_and_traceability/ (audit folder)",
+        "features/cross_cutting/audit_and_traceability/decision_record_logging.feature (decision immutability)",
+        "features/phase3_post_decision/step9_archive/ (forensic evidence preservation)",
+        "features/support/architecture_notes.md (audit log structure)"
+      ],
+      "expected_clicks": 5,
+      "expected_time_minutes": 20,
+      "accessibility_score": "medium"
+    }
+  ],
+  "consistency_checks": {
+    "glossary_terms_in_specs": {
+      "total_terms_canonical": 42,
+      "terms_found_in_features": 38,
+      "terms_missing": [
+        "approve-with-conditions (only 2 uses; mostly in examples)",
+        "refuse-with-reasons (only 2 uses; mostly in examples)",
+        "return-for-clarification (only 2 uses; mostly in examples)",
+        "reversible-gates (needs better coverage)"
+      ],
+      "inconsistent_usage": [
+        "BVLOS: Sometimes 'BVLOS', sometimes 'Beyond Visual Line of Sight' (expand acronym consistently on first use)",
+        "swarm-aware: Used in GOAL-002, SORA specs, but definition still 'proposed' in glossary",
+        "meaningfulhumancontrol: Hyphenated in glossary (meaningful-human-control) but sometimes written as 3 words in examples"
+      ],
+      "recommendation": "Add consistency check pre-commit hook: all @REQ tags must use glossary terms"
+    },
+    "detail_level_mismatches": {
+      "over_specified": [
+        "RSPEC-010 (SwarmAwareSORA) — 47-line given/when/then with 8 sub-steps; break into separate scenarios"
+      ],
+      "under_specified": [
+        "Step 9 Archive (phase3) — only 1 feature file; need specs for: data retention duration, access control, AAIB extraction, breach notification",
+        "Step 10 Calibration — no specs; examples file mentions but features missing"
+      ],
+      "detail_imbalance_severity": "major"
+    },
+    "duplicate_or_near_duplicate": [
+      {
+        "scenario_1": "RSPEC-002 (Completeness check happy path)",
+        "scenario_2": "EX-001 (PackCompleteness happy path)",
+        "similarity_percent": 85,
+        "recommendation": "Consolidate: EX-001 should be a worked example linked from RSPEC-002, not a separate spec"
+      }
+    ],
+    "missing_goal_preamble": [
+      "step4_readiness_check features lack Goal/Why statement linking to GOAL-001",
+      "step7_deliberation_and_override features lack Goal/Why statement linking to GOAL-015"
+    ],
+    "missing_cross_references": [
+      {
+        "feature": "geofence_containment.feature (step 3)",
+        "should_reference": "independent_termination (step 3, fallback mechanism)",
+        "direction": "geofence → termination (exists); termination → geofence (missing)"
+      },
+      {
+        "feature": "meaningful_human_control (step 2)",
+        "should_reference": "ml_assurance (step 6, ML decisions must be overridable)",
+        "direction": "ml → human-control (documented); human-control → ml (missing)"
+      }
+    ]
+  },
+  "accessibility_assessment": {
+    "criteria": [
+      {
+        "criterion": "New developer can find architecture patterns without prior context",
+        "assessment": "MEDIUM — features/support/architecture_notes.md exists but only 200 lines; needs expansion with diagrams"
+      },
+      {
+        "criterion": "CAA case officer can read Gherkin without programming background",
+        "assessment": "HIGH — Feature files use plain English (Given/When/Then); glossary provided for jargon (SORA, SAIL, ODD, etc.)"
+      },
+      {
+        "criterion": "Applicant engineer can find evidence requirements by REQ code",
+        "assessment": "HIGH — @REQ tags on all features; README provides index; cross-cutting classification folder is discoverable"
+      },
+      {
+        "criterion": "AAIB investigator can reconstruct audit trail from docs",
+        "assessment": "MEDIUM — audit_and_traceability folder exists; but forensic data format not documented in living docs (reference to Vibe meters needed)"
+      }
+    ],
+    "overall_accessibility_score": "high",
+    "lowest_scoring_persona": "AAIB Investigator (due to forensic data format documentation gap)",
+    "improvement_actions": [
+      "Add 'Forensic Data Format' reference page in cross_cutting/audit_and_traceability/",
+      "Add diagrams to support/architecture_notes.md showing data flow and audit trail structure",
+      "Expand step9_archive/ with concrete examples of Vibe meter outputs"
+    ]
+  },
+  "evolution_recommendations": {
+    "tooling": {
+      "recommended": "Relish (Relish.biz) + GitHub Pages CI/CD",
+      "rationale": "Relish natively supports Behave, provides web interface for non-developers, auto-publishes on feature file changes",
+      "alternatives": [
+        "Spectacle (SpectacleForBDD.com) — better PDF export, less web UI",
+        "Living Doc (Living Doc by Cucumber) — newer, but Cucumber-centric (project uses Behave)",
+        "Pickles (PicklesDoc.github.io) — mature, good filtering, but requires manual HTML build"
+      ],
+      "estimated_setup_hours": 8,
+      "estimated_monthly_cost": "$0 (self-hosted + GitHub Actions)"
+    },
+    "sync_process": {
+      "description": "Keep executable specs in sync with regulatory clause library",
+      "pre_commit_hook": {
+        "description": "Fail commit if feature file references a deprecated clause or undefined glossary term",
+        "implementation": "Python script checking @REQ tags against clause-library-version.json",
+        "estimated_development_hours": 6
+      },
+      "nightly_build": {
+        "description": "Auto-republish living docs on feature file changes; archive old versions",
+        "implementation": "GitHub Actions workflow: on push to sbe-output/features/ → run Relish build → publish to GitHub Pages",
+        "estimated_setup_hours": 4
+      },
+      "quarterly_audit": {
+        "description": "Review which specs haven't run in 30+ days; mark for removal or update",
+        "implementation": "Query Cypress test run logs; generate drift report; send to product team",
+        "estimated_review_hours": 4
+      }
+    },
+    "versioning": {
+      "strategy": "Pin clause-library version to each decision record",
+      "mechanism": "Each DECISION_RECORD contains clause-library-version=vN.M; old versions archived in /archives/v1.0/, /archives/v1.1/, etc.",
+      "process": [
+        "When clause library updates, increment version and re-publish all specs",
+        "In-flight cases continue under pinned version; new cases use current version",
+        "Archive system allows AAIB to reconstruct what was known at time of decision"
+      ],
+      "estimated_build_time_per_release": 15
+    },
+    "drift_audit": {
+      "frequency": "Quarterly",
+      "query": "SELECT feature_file, last_test_run_date FROM test_metrics WHERE last_test_run_date < NOW() - interval '30 days'",
+      "candidates_for_removal": "Specs that have not run in 90+ days; candidates for archival in /deprecated/",
+      "candidates_for_update": "Specs referencing deprecated terms or outdated REQ codes",
+      "reporting": "Dashboard showing test coverage heatmap per phase per goal"
+    }
+  },
+  "file_and_folder_counts": {
+    "total_directories": 23,
+    "total_feature_files": 8,
+    "total_markdown_files": 10,
+    "total_support_files": 3,
+    "estimated_total_lines_of_gherkin": 2400,
+    "estimated_total_lines_of_markdown": 5000
+  }
+}

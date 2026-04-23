@@ -1,0 +1,290 @@
+[
+  {
+    "requirement_id": "NFR-USE-001",
+    "audience": "applicant",
+    "feature": "Phase 1 Step 1: Workspace Creation",
+    "usability_performance": {
+      "task_completion_seconds": 3,
+      "task_completion_minutes": 0.05,
+      "error_rate_percent": 0.5,
+      "abandonment_threshold_seconds": 15,
+      "network_condition": "broadband",
+      "accessibility_target": "WCAG 2.2 AA, keyboard-accessible form fields with ARIA labels"
+    },
+    "satisfaction_correlation": "First impression of tool responsiveness; directly impacts NPS and abandonment rate. Target >60 NPS steady state.",
+    "reasoning": "Workspace creation is the entry point for applicants. Noyce budget p95: 3s (NFR-LAT-001). Any delays here trigger abandonment—applicant loses confidence immediately. Must support keyboard-only navigation for users with motor impairments.",
+    "recommendation": "Skeleton state for workspace card pre-rendered, optimize auth tier to <200 ms, prioritize rendering_ui component (<400 ms). Ensure form labels auto-announce in screen readers."
+  },
+  {
+    "requirement_id": "NFR-USE-002",
+    "audience": "applicant",
+    "feature": "Phase 1 Step 2a: Evidence Upload & RAG Flag Reveal",
+    "usability_performance": {
+      "task_completion_seconds": 60,
+      "task_completion_minutes": 1,
+      "error_rate_percent": 2,
+      "abandonment_threshold_seconds": 120,
+      "network_condition": "4g",
+      "accessibility_target": "WCAG 2.2 AA; progress notification must announce every 5 artefact class processed for screen readers"
+    },
+    "satisfaction_correlation": "Time to first meaningful feedback is critical UX metric. Parent story requires 'first RAG flag visible' within <60 s p95. Correlates with perceived responsiveness and perceived progress.",
+    "reasoning": "Upload success rate target: p95 >98% on first attempt (network + classification permitting). Noyce budget (NFR-LAT-002): 30 s for 100 MB pack to artefact detector ready. First RAG flag must surface within 60 s of Step 2 complete to prevent abandonment. On 4G (typical for applicants in field), network upload alone budgets 8s, leaving 52s for processing. Progressive reveal is essential.",
+    "recommendation": "Implement skeleton coverage matrix during upload. Stream artefact detector results immediately—show RAG flag as soon as first evidence class classified. Use optimistic UI for file receipt. Announce progress every 5 processed classes for accessibility. Test upload path on 4G simulator (10-20 Mbps, variable latency)."
+  },
+  {
+    "requirement_id": "NFR-USE-003",
+    "audience": "applicant",
+    "feature": "Phase 1 Step 2b: Coverage Matrix Generation & Download",
+    "usability_performance": {
+      "task_completion_seconds": 600,
+      "task_completion_minutes": 10,
+      "error_rate_percent": 1,
+      "abandonment_threshold_seconds": 1800,
+      "network_condition": "broadband",
+      "accessibility_target": "WCAG 2.2 AA; progress bar must update every 60s; downloadable matrix PDF must be accessible (tagged, alt text for charts)"
+    },
+    "satisfaction_correlation": "Time to full coverage matrix is parent story NFR: p95 <10 minutes. Directly correlates with Applicant CSAT. Long waits (>20 min) trigger tool abandonment and lost applications.",
+    "reasoning": "Noyce budget (NFR-LAT-003): 10 minutes (600 s) p95 for 100 MB evidence pack. Spans OCR (180s), semantic inference (200s), coverage computation (90s). No intermediate feedback past skeleton renders abandonment risk. Worst-case 500 MB pack budgets 20 minutes (NFR-LAT-018).",
+    "recommendation": "Display explicit progress timeline: 'OCR in progress... 2m 30s remaining' with milestones. Progressive reveal of partial matrix as each evidence class completes. For 500 MB worst-case, surface 'Larger pack detected, ~20 min expected' upfront. Ensure PDF matrix includes alt text for coverage heatmap colors. Test on broadband (50+ Mbps) and degraded hotel wifi (5-20 Mbps)."
+  },
+  {
+    "requirement_id": "NFR-USE-004",
+    "audience": "applicant",
+    "feature": "Phase 1 Step 3: Readiness Dashboard (Operator Feedback Report)",
+    "usability_performance": {
+      "task_completion_seconds": 5,
+      "task_completion_minutes": 0.08,
+      "error_rate_percent": 0.2,
+      "abandonment_threshold_seconds": 30,
+      "network_condition": "broadband",
+      "accessibility_target": "WCAG 2.2 AA, high-contrast dashboard cards, screen reader can announce RED/AMBER/GREEN status within <200 ms"
+    },
+    "satisfaction_correlation": "Dashboard render time (Noyce NFR-LAT-004: 5s p99) drives perceived responsiveness of feedback. Slow render frustrates applicants reviewing blocking issues. Impacts abandonment and NPS.",
+    "reasoning": "Once coverage matrix is ready, Readiness Dashboard must render in <5s to maintain momentum. Report assembly is app-server responsibility (1.5s budget) with template rendering (0.8s). Accessibility requirement: screen reader users must be able to navigate RED/AMBER/GREEN findings table without exceeding 200ms per row announce.",
+    "recommendation": "Pre-fetch dashboard data in background during matrix generation (if possible). Lazy-load non-critical sections (e.g., historical case info). Ensure dashboard table rows are marked as <table role='presentation'> with proper <thead>, <tbody>, <tr> semantics. Test screen reader announce time on matrix tables (10+ rows)."
+  },
+  {
+    "requirement_id": "NFR-USE-005",
+    "audience": "applicant",
+    "feature": "Phase 1 Step 4: Submission Readiness Check",
+    "usability_performance": {
+      "task_completion_seconds": 60,
+      "task_completion_minutes": 1,
+      "error_rate_percent": 0.5,
+      "abandonment_threshold_seconds": 180,
+      "network_condition": "4g",
+      "accessibility_target": "WCAG 2.2 AA, pass/fail verdict announced before blocking issues list, keyboard operable form submission"
+    },
+    "satisfaction_correlation": "End-to-end Phase 1 completion is parent story metric: median <3 working days for well-prepared applicant. Readiness Check is gating operation. Slow checks (<1 min) are acceptable; >3 min blocks perceived progress. Threshold: >3 min → abandonment spike.",
+    "reasoning": "Noyce budget (NFR-LAT-005): 95% within 60s, p99 within 80s. Validation engine budgets 25s, cross-reference 15s. Applicant must see PASS/FAIL within 1 minute for confidence. Error rate target: <1% unhandled exceptions reaching Readiness Check.",
+    "recommendation": "Render PASS/FAIL verdict first (green checkmark or red X) before listing blocking issues. Progressive list of blocking issues with estimated remediation steps. Announce verdict via ARIA live region for screen readers. Implement timeout handling: if check >120s, surface 'Still checking...' and offer refresh button. Monitor error rate via Readiness Check endpoint logs."
+  },
+  {
+    "requirement_id": "NFR-USE-006",
+    "audience": "applicant",
+    "feature": "Upload Success Rate & Error Handling",
+    "usability_performance": {
+      "task_completion_seconds": 0,
+      "task_completion_minutes": 0,
+      "error_rate_percent": 2,
+      "abandonment_threshold_seconds": 900,
+      "network_condition": "4g",
+      "accessibility_target": "WCAG 2.2 AA, error messages announced with clear remediation steps, retry button accessible via keyboard"
+    },
+    "satisfaction_correlation": "Upload success rate p95 >98% on first attempt is hard constraint. Every failure requires retry, doubling time-to-matrix. Failed upload drives abandonment. Correlates with quarterly abandonment metric (target <10% of Phase 1 starters).",
+    "reasoning": "Network conditions for applicants vary: 4G tethering (10-50 Mbps typical), hotel wifi (5-20 Mbps, variable), enterprise broadband (50+ Mbps). Virus scan + content classification can reject files. Upload errors must be recoverable. Target: 2% error rate (e.g., misclassified file, network timeout during virus scan).",
+    "recommendation": "Implement exponential backoff retry with user-visible countdown ('Retrying in 5s...'). Distinguish network errors from classification rejections in UX. For classification rejections, surface: 'This document is marked OFFICIAL. Please check classification level.' Ensure all error messages are announced by screen reader before interactive controls. Test on saturated 4G (variable packet loss)."
+  },
+  {
+    "requirement_id": "NFR-USE-007",
+    "audience": "regulator",
+    "feature": "Step 5: Panel Case-Open (Click to Rendered)",
+    "usability_performance": {
+      "task_completion_seconds": 10,
+      "task_completion_minutes": 0.17,
+      "error_rate_percent": 0.1,
+      "abandonment_threshold_seconds": 30,
+      "network_condition": "classified_network",
+      "accessibility_target": "WCAG 2.2 AA, keyboard navigation of case list and case panel, screen reader announces case status badges"
+    },
+    "satisfaction_correlation": "Time to case-open (Noyce NFR-LAT-006: 10s p95) is critical for regulator efficiency. Inspectors in multi-day panel sessions open 10-20 cases daily. 10s delay per case = 100-200 s lost per day. Impacts 'Panel productivity metric' and NPS.",
+    "reasoning": "Regulators work inside UK sovereign data centre (LAN, low latency) or CAA corporate VPN (moderate latency). Case assembly is app-server responsibility (2s budget) with panel UI rendering (3.9s budget). Classification marking must be visible immediately to prevent accidental disclosure.",
+    "recommendation": "Prefetch next 3 likely cases based on case list order (without full rendering). Render skeleton case panel with classification header while evidence metadata loads. Ensure keyboard users can navigate case list via arrow keys and open case via Enter. Test on classified_network simulator (low bandwidth, potential latency spikes)."
+  },
+  {
+    "requirement_id": "NFR-USE-008",
+    "audience": "regulator",
+    "feature": "Step 5 Continuation: Evidence Navigation (Paragraph Pointer Resolution)",
+    "usability_performance": {
+      "task_completion_seconds": 2,
+      "task_completion_minutes": 0.03,
+      "error_rate_percent": 0.1,
+      "abandonment_threshold_seconds": 5,
+      "network_condition": "classified_network",
+      "accessibility_target": "WCAG 2.2 AA, screen reader announces section title + paragraph context within <200 ms of navigation"
+    },
+    "satisfaction_correlation": "Evidence-pointer resolution speed (Noyce NFR-LAT-008: 2s p99) is high-frequency operation during panel deliberation. Regulators click 100+ evidence links per case. Slow navigation (<2s) trains cognitive load and error rate. Impacts regulator NPS and decision quality.",
+    "reasoning": "Regulator navigates via clauses mapped to evidence paragraphs. Click clause → see paragraph. Network is LAN (low latency), so budget is DOM rendering (0.8s) + JavaScript interaction (0.6s). Must remain snappy despite evidence archive size.",
+    "recommendation": "Cache evidence pages once case loaded. Implement hash-based navigation (#clause-123) for instant page jumps without server fetch. Highlight target paragraph with subtle yellow background (max 2s). Announce section title + first 50 chars of paragraph to screen reader immediately. Test with 50+ evidence sections per case."
+  },
+  {
+    "requirement_id": "NFR-USE-009",
+    "audience": "regulator",
+    "feature": "Step 5 Continuation: AI-Flag Narrative Rendering",
+    "usability_performance": {
+      "task_completion_seconds": 1800,
+      "task_completion_minutes": 30,
+      "error_rate_percent": 5,
+      "abandonment_threshold_seconds": 3600,
+      "network_condition": "classified_network",
+      "accessibility_target": "WCAG 2.2 AA, narrative flags must be announced progressively as chunks complete; high-contrast toggle for visibility"
+    },
+    "satisfaction_correlation": "AI-flag narrative (Noyce NFR-LAT-007: 30 min p95) is long-running background operation. Regulators expect 'flags available within 30 min' per parent story. Progressive reveal (chunks completed every 2-3 min) prevents abandonment and maintains engagement.",
+    "reasoning": "AI inference spans 900s for chunk processing. One-shot batch operation. Regulators may close case panel or review other cases while waiting. Must surface chunks as they complete, not all-or-nothing at 30 min mark.",
+    "recommendation": "Stream narrative flags to panel as inference completes per evidence chunk. Show 'Flag 3 of 8 complete' progress indicator. Allow regulator to begin reviewing partial flags while others compute. If error occurs mid-stream (5% error budget), display 'Retry failed chunks?' with one-click recovery. Ensure progress announcements do not interrupt screen reader flow."
+  },
+  {
+    "requirement_id": "NFR-USE-010",
+    "audience": "regulator",
+    "feature": "Step 6: Panel Action Log Write (Comment, Flag, Decision State)",
+    "usability_performance": {
+      "task_completion_seconds": 0.5,
+      "task_completion_minutes": 0.008,
+      "error_rate_percent": 0.1,
+      "abandonment_threshold_seconds": 5,
+      "network_condition": "classified_network",
+      "accessibility_target": "WCAG 2.2 AA, optimistic UI shows 'saved' immediately, screen reader announces confirmation without interrupting typing"
+    },
+    "satisfaction_correlation": "Panel action latency (Noyce NFR-LAT-009: 500 ms p95) is perceived-performance critical. Regulators expect instant feedback on comment submission. Slow writes feel broken, even if correct. Under high contention (10+ reviewers), latency can spike to 1s (NFR-LAT-019). Satisfying perceived-performance is key to NPS >50.",
+    "reasoning": "Optimistic UI: show 'saved' before distributed log write completes. Roll back only if write fails (rare). Immutable log write budgets 150 ms, replication quorum 100 ms. Under contention, lock acquisition adds 200 ms.",
+    "recommendation": "Implement optimistic UI: display 'Your comment saved' immediately. Queue write to distributed log async. If write fails (timeout >2s), show 'Draft saved locally. Sync failed—check connection.' with manual retry. Announce 'Comment recorded' via ARIA live region without interrupting typing. Test with 10-concurrent panel reviewers."
+  },
+  {
+    "requirement_id": "NFR-USE-011",
+    "audience": "regulator",
+    "feature": "Step 8: Decision Record Export & PDF Generation",
+    "usability_performance": {
+      "task_completion_seconds": 300,
+      "task_completion_minutes": 5,
+      "error_rate_percent": 2,
+      "abandonment_threshold_seconds": 900,
+      "network_condition": "classified_network",
+      "accessibility_target": "WCAG 2.2 AA, exported PDF must be tagged and accessible; progress indicator visible during 5-min export"
+    },
+    "satisfaction_correlation": "Decision record export (Noyce NFR-LAT-010: 5 min p95) is end-of-workflow. Not critical to immediate NPS, but failure to export blocks case closure. Regulator frustration at final step impacts satisfaction. Target: >95% export success rate.",
+    "reasoning": "Moderate budget for non-critical path. PDF rendering (100s) + evidence cite resolution (80s) dominate. Signature embedding + encryption (60s) ensure regulatory compliance.",
+    "recommendation": "Display progress bar: 'Assembling decision record... 60% complete.' Allow regulator to navigate away while export happens background. Notify via toast when ready: 'Decision record ready—Download now.' Ensure exported PDF includes alt text for all charts and tables. Test on classified_network with large evidence attachments (20+ PDFs)."
+  },
+  {
+    "requirement_id": "NFR-USE-012",
+    "audience": "applicant",
+    "feature": "Mobile/Field Browsing (Rare, Degraded Network)",
+    "usability_performance": {
+      "task_completion_seconds": 300,
+      "task_completion_minutes": 5,
+      "error_rate_percent": 10,
+      "abandonment_threshold_seconds": 900,
+      "network_condition": "3g",
+      "accessibility_target": "WCAG 2.2 AA, touch-friendly buttons (min 48x48 px), high-contrast text, screen reader compatible"
+    },
+    "satisfaction_correlation": "Mobile usage is rare for applicants (desk-bound), but occasional field check-in on status triggers abandonment if experience is poor. Estimated <5% of Phase 1 workflows touch mobile. Target: graceful degradation, not full feature parity.",
+    "reasoning": "Field-range uplink or 3G tethering can drop to <1 Mbps. Upload is impractical; review-only mode is reasonable. Error rate will be higher due to network instability. Timeout handling is critical.",
+    "recommendation": "Provide read-only mobile mode: view case status, readiness findings, decision records. Disable uploads on mobile (<50 Mbps detected). Implement optimistic offline mode with local caching. Ensure all buttons meet 48x48 px minimum touch target. Test on 3G simulator with packet loss (10-20%)."
+  },
+  {
+    "requirement_id": "NFR-USE-013",
+    "audience": "duty_holder",
+    "feature": "Applicant Account Onboarding & Profile Setup",
+    "usability_performance": {
+      "task_completion_seconds": 300,
+      "task_completion_minutes": 5,
+      "error_rate_percent": 5,
+      "abandonment_threshold_seconds": 1200,
+      "network_condition": "broadband",
+      "accessibility_target": "WCAG 2.2 AA, multi-step form with clear field instructions, progress indicator, keyboard navigable"
+    },
+    "satisfaction_correlation": "First-time user experience for duty holder (company registration, credentials). Sets tone for tool adoption. Abandonment here (5%) prevents tool use entirely. Impacts organizational NPS.",
+    "reasoning": "One-time setup, not performance-critical, but perceived simplicity impacts likelihood of recommending tool to peers. Typical applicants are safety managers and autonomy engineers (non-technical).",
+    "recommendation": "Provide step-by-step form wizard with clear labels. Show progress: 'Step 2 of 4: Company Details.' Prefill company lookup via Companies House API. Announce field instructions to screen reader users. Offer 'Save and continue later' option."
+  },
+  {
+    "requirement_id": "NFR-USE-014",
+    "audience": "raiso",
+    "feature": "Regulatory Case Assignment & Allocation Dashboard",
+    "usability_performance": {
+      "task_completion_seconds": 5,
+      "task_completion_minutes": 0.08,
+      "error_rate_percent": 0.5,
+      "abandonment_threshold_seconds": 30,
+      "network_condition": "corporate",
+      "accessibility_target": "WCAG 2.2 AA, dashboard tables sortable via keyboard, status badges high-contrast"
+    },
+    "satisfaction_correlation": "RAISO (Regulatory Authority Swarm Inspection Operator) allocates cases to panel chairs. Fast, accurate allocation impacts panel scheduling and regulator satisfaction. Dashboard responsiveness correlates with Regulator NPS.",
+    "reasoning": "RAISO works in CAA offices on corporate VPN (moderate latency). Dashboard aggregates case statuses, inbound applications, panel schedules. Must be snappy for daily operations.",
+    "recommendation": "Implement sortable columns (click to sort by case ID, applicant, submission date, status). Cache allocation dashboard data, refresh every 10s. Ensure status badges (e.g., 'Awaiting Panel') use color + text (not color-only) for accessibility."
+  },
+  {
+    "requirement_id": "NFR-USE-015",
+    "audience": "panel_chair",
+    "feature": "Panel Deliberation Session Management (Multi-case, Multi-day)",
+    "usability_performance": {
+      "task_completion_seconds": 0,
+      "task_completion_minutes": 0,
+      "error_rate_percent": 0.2,
+      "abandonment_threshold_seconds": 0,
+      "network_condition": "classified_network",
+      "accessibility_target": "WCAG 2.2 AA, keyboard-operable case list and detailed review; session timeout warning before logout"
+    },
+    "satisfaction_correlation": "Panel session stability and responsiveness drive Regulator NPS and decision quality. Multi-day sessions (2 working days median) with 10+ reviewers require rock-solid UX. Session crashes trigger re-login, frustration, and lost work.",
+    "reasoning": "Intense multi-day panel sessions with high-stakes decisions. Must prioritize stability and keyboard operability. Reasonable-adjustments profile: screen reader and high-contrast users attend panels regularly.",
+    "recommendation": "Implement session keepalive with visible countdown to timeout (e.g., 'Session expires in 5 min—click here to extend'). Persist case navigation state via session storage. Provide keyboard shortcuts for common panel actions (e.g., Ctrl+S to save decision). Test with 10 concurrent reviewers."
+  },
+  {
+    "requirement_id": "NFR-USE-016",
+    "audience": "regulator",
+    "feature": "Inter-Rater Reliability & AI-Flag Calibration",
+    "usability_performance": {
+      "task_completion_seconds": 0,
+      "task_completion_minutes": 0,
+      "error_rate_percent": 0,
+      "abandonment_threshold_seconds": 0,
+      "network_condition": "classified_network",
+      "accessibility_target": "WCAG 2.2 AA, calibration audit UI for comparing rater responses"
+    },
+    "satisfaction_correlation": "Inter-rater reliability (Cohen's kappa >0.7 on held-out cases) is a regulatory assurance metric, not a user experience metric. But transparent calibration feedback improves regulator confidence in AI flags and panel decision quality.",
+    "reasoning": "Quarterly calibration audit with held-out cases. Regulators review same cases independently, then compare verdicts. System must show side-by-side comparison without bias.",
+    "recommendation": "Provide anonymized comparison: 'Your decision: GREEN. Panel average: AMBER. AI narrative: RED.' This feedback trains raters without external influence. Ensure UI supports screen reader navigation of comparison tables."
+  },
+  {
+    "requirement_id": "NFR-USE-017",
+    "audience": "applicant",
+    "feature": "Error Recovery & Retry Workflows",
+    "usability_performance": {
+      "task_completion_seconds": 30,
+      "task_completion_minutes": 0.5,
+      "error_rate_percent": 0,
+      "abandonment_threshold_seconds": 300,
+      "network_condition": "4g",
+      "accessibility_target": "WCAG 2.2 AA, clear error messages with remediation steps, retry button prominent and accessible"
+    },
+    "satisfaction_correlation": "Error recovery is make-or-break for applicant retention. If applicant encounters error and cannot recover within 5 min, abandonment risk >50%. Impacts quarterly abandonment metric (target <10%).",
+    "reasoning": "Evidence upload errors, classification rejections, readiness check failures all require clear error messaging + retry. Network errors on 4G are frequent (10% of uploads may timeout). UX must be forgiving.",
+    "recommendation": "Provide specific error message: 'Upload failed: Network timeout. Retrying in 5s...' (not generic 'Error'). Show last successful checkpoint: 'Virus scan complete. Re-uploading classification...' Support manual retry and 'Upload a different file' option. Log all errors for analysis."
+  },
+  {
+    "requirement_id": "NFR-USE-018",
+    "audience": "public_external",
+    "feature": "Public Landing Page & Documentation Portal",
+    "usability_performance": {
+      "task_completion_seconds": 5,
+      "task_completion_minutes": 0.08,
+      "error_rate_percent": 0,
+      "abandonment_threshold_seconds": 15,
+      "network_condition": "broadband",
+      "accessibility_target": "WCAG 2.2 AA, accessible PDF guides, keyboard-navigable FAQ, closed captions on demo video"
+    },
+    "satisfaction_correlation": "Public-facing documentation drives adoption and reduces support burden. Fast load, clear navigation, accessibility increase perceived professionalism and trust. Not directly measured in NPS but influences tool adoption.",
+    "reasoning": "Public site is CDN-served, should be fast. Focus is accessibility and clarity for diverse audience (non-technical stakeholders, accessibility advocates).",
+    "recommendation": "Ensure landing page loads <3s on broadband. Provide downloadable accessibility guide (WCAG 2.2 AA PDF). Include FAQ with keyboard navigation support. Embed demo video with auto-generated captions. Link to glossary of regulatory terms."
+  }
+]

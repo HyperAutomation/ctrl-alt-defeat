@@ -1,0 +1,398 @@
+[
+  {
+    "example_id": "EX-001",
+    "example_title": "PackCompleteness happy path: Complete PDRA-01 VLOS pack (Scotland pattern)",
+    "feature": "F02: Completeness Check",
+    "scenario": "SCN-002",
+    "goal": "GOAL-001",
+    "example_type": "happy_path",
+    "given": "Edinburgh Napier University submits PDRA-01 VLOS pack: ConOps v2.2, Personnel & Training Manual, Safety Case, Risk Register, Aircraft Technical Data, Insurance (GBP 10M+), Ground Survey, Environmental Assessment. All 8 artefacts present and validly formatted.",
+    "when": "Artefact Detector runs on upload",
+    "then": "All 8 artefact types flagged GREEN; case transitions to INTAKE_COMPLETE within 10 minutes",
+    "and": "Case gates to Phase 1 SORA Assessment",
+    "example_data": [
+      {
+        "applicant": "Edinburgh Napier University",
+        "operation_type": "PDRA-01-VLOS",
+        "aircraft_count": 1,
+        "mtom_kg": 9.2
+      }
+    ],
+    "addresses_finding": "Dorothy-8; REQ001",
+    "vibe_anchor": "PackCompleteness scale",
+    "notes": "Scotland exemplar: first-submission completeness",
+    "analyst": "Isabel",
+    "byline": "Examples Analyst",
+    "principle": "I"
+  },
+  {
+    "example_id": "EX-002",
+    "example_title": "PackCompleteness error: Sparse BVLOS Swarm pack missing SORA Swarm-Aware section",
+    "feature": "F02: Completeness Check",
+    "scenario": "SCN-003",
+    "goal": "GOAL-001",
+    "example_type": "error",
+    "given": "CTRL-ALT-DEFEAT submits BVLOS Swarm trial (5x RigiTech Eiger, Spadeadam): SORA lacks swarm-specific sections, ML Model Manifest absent",
+    "when": "Artefact Detector detects 7 of 8 mandatory types",
+    "then": "SORA flagged AMBER; ML Model Manifest flagged RED; case status = RETURN_FOR_CLARIFICATION",
+    "and": "Coaching feedback sent on swarm-aware SORA requirements",
+    "example_data": [
+      {
+        "applicant": "CTRL-ALT-DEFEAT",
+        "operation_type": "BVLOS-Swarm",
+        "aircraft_count": 5,
+        "mtom_kg": 4.8
+      }
+    ],
+    "addresses_finding": "Dorothy-8; GOAL-002",
+    "vibe_anchor": "PackCompleteness (SubScale: PackSectionCompleteness)",
+    "notes": "Boundary case: swarm-specific requirements drive higher completeness bar",
+    "analyst": "Isabel",
+    "byline": "Examples Analyst",
+    "principle": "I"
+  },
+  {
+    "example_id": "EX-003",
+    "example_title": "Swarm-Aware SORA SAIL mismatch: 5-aircraft autonomous swarm declared SAIL-I, actual SAIL-IV required",
+    "feature": "F03: SORA Assessment",
+    "scenario": "SCN-006",
+    "goal": "GOAL-002",
+    "example_type": "boundary",
+    "given": "Spadeadam swarm trial: 5x Eiger, autonomous swarm, GNSS/C2 denial, declared SAIL-I. But SORA lacks multi-agent hazard analysis",
+    "when": "SORA assessor applies JARUS SORA v2.5 Appendix C (Swarm)",
+    "then": "Assessor determines actual SAIL-IV required due to swarm interdependencies",
+    "and": "Case returns for re-assessment; applicant must accept SAIL-IV rigor or narrow scope",
+    "example_data": [
+      {
+        "declared_sail": "SAIL-I",
+        "actual_sail": "SAIL-IV",
+        "sail_gap_reason": "Swarm interdependencies not accounted"
+      }
+    ],
+    "addresses_finding": "Dorothy-2; GOAL-002",
+    "vibe_anchor": "SwarmAwareSORAEvidence scale",
+    "notes": "Swarm operations require higher assurance levels than single-aircraft",
+    "analyst": "Isabel",
+    "byline": "Examples Analyst",
+    "principle": "I"
+  },
+  {
+    "example_id": "EX-004",
+    "example_title": "Geofence breach action: 55.3m breach detected, RTL within 500ms",
+    "feature": "F06: Geofence & Containment",
+    "scenario": "SCN-015",
+    "goal": "GOAL-003",
+    "example_type": "happy_path",
+    "given": "Spadeadam: 5x Eiger at 54.9167N 2.5667W, 50m geofence tolerance; wind gust causes 55.3m breach",
+    "when": "Geofence logic detects breach at 100ms",
+    "then": "RTL command issued within 100ms; landing completed within 3.2s total",
+    "and": "Audit log records GEOFENCE_BREACH and RTL_COMPLETE",
+    "example_data": [
+      {
+        "geofence_tolerance_m": 50,
+        "breach_distance_m": 55.3,
+        "trigger_latency_ms": 90,
+        "completion_s": 3.2
+      }
+    ],
+    "addresses_finding": "Implicit Scope Risk GOAL-003",
+    "vibe_anchor": "GeofenceContainment scale",
+    "notes": "Tight tolerance, fast detection, safe response",
+    "analyst": "Isabel",
+    "byline": "Examples Analyst",
+    "principle": "I"
+  },
+  {
+    "example_id": "EX-005",
+    "example_title": "DAA non-cooperative encounter: Category A intruder, autonomous climb executed",
+    "feature": "F08: DAA Performance",
+    "scenario": "SCN-022",
+    "goal": "GOAL-002",
+    "example_type": "happy_path",
+    "given": "Spadeadam trial: 5x aircraft at 500ft; Cessna 172 intruder at 2000ft; DAA detects at 2.8nm",
+    "when": "DAA resolver activates; autonomous climb command issued",
+    "then": "Swarm climbs to 1100ft; intruder passes below with 900ft separation",
+    "and": "Crew alerted; DAA decision confidence 98.3%",
+    "example_data": [
+      {
+        "detection_range_nm": 3.0,
+        "cpa_separation_ft": 900,
+        "time_to_cpa_s": 18
+      }
+    ],
+    "addresses_finding": "REQ007",
+    "vibe_anchor": "DAAPerformance scale",
+    "notes": "DO-365 DAA performance: sufficient detection range and time budget",
+    "analyst": "Isabel",
+    "byline": "Examples Analyst",
+    "principle": "I"
+  },
+  {
+    "example_id": "EX-006",
+    "example_title": "C2 loss during swarm consensus: AC4 consensus timeout, autonomous RTL triggered",
+    "feature": "F07: C2 Link Resilience",
+    "scenario": "SCN-019",
+    "goal": "GOAL-003",
+    "example_type": "edge_case",
+    "given": "Spadeadam intentional C2 denial test: 5x Eiger in AC4 consensus mode; C2 powered down at t=120s",
+    "when": "C2 loss detected; aircraft enter autonomous mode; voting window opens",
+    "then": "Consensus resolves on MAINTAIN_ALTITUDE; timeout at t=420s triggers RTL; landing at t=425.8s",
+    "and": "Audit trail shows CONSENSUS_RESOLVED and LANDING_COMPLETE",
+    "example_data": [
+      {
+        "c2_loss_time_s": 120,
+        "consensus_achievement_s": 121.8,
+        "autonomous_timeout_s": 300,
+        "rtl_completion_s": 425.8
+      }
+    ],
+    "addresses_finding": "REQ006; Chris language: link-loss-survivable vague",
+    "vibe_anchor": "C2LinkResilience scale",
+    "notes": "Swarm survives C2 loss for 300s via distributed consensus and timeout-driven RTL",
+    "analyst": "Isabel",
+    "byline": "Examples Analyst",
+    "principle": "I"
+  },
+  {
+    "example_id": "EX-007",
+    "example_title": "Meaningful Human Control override latency: Crew presses button, swarm halts within 50ms",
+    "feature": "F11: Human Oversight",
+    "scenario": "SCN-035",
+    "goal": "GOAL-004",
+    "example_type": "happy_path",
+    "given": "Spadeadam autonomous formation hold: crew observes altitude deviation on GCS, presses emergency override button at t=45.2s",
+    "when": "Button press triggers C2 uplink; override command received by all aircraft at t=50ms",
+    "then": "All 5 aircraft transition to hover; crew regains full manual control",
+    "and": "Situational awareness maintained; 10Hz telemetry; workload = 1 concurrent alarm (within limit)",
+    "example_data": [
+      {
+        "override_button_time_ms": 0,
+        "c2_uplink_latency_ms": 15,
+        "swarm_transition_latency_ms": 50,
+        "total_latency_ms": 50
+      }
+    ],
+    "addresses_finding": "REQ010; Chris language: meaningful-human-control vague",
+    "vibe_anchor": "MeaningfulHumanControl scale (TakeoverLatency dimension)",
+    "notes": "Crew preserves situational awareness and authority over swarm",
+    "analyst": "Isabel",
+    "byline": "Examples Analyst",
+    "principle": "I"
+  },
+  {
+    "example_id": "EX-008",
+    "example_title": "Independent Flight Termination: RF kill-switch cuts motors within 350ms",
+    "feature": "F12: Flight Termination",
+    "scenario": "SCN-038",
+    "goal": "GOAL-003",
+    "example_type": "happy_path",
+    "given": "Spadeadam dual-link failure at t=623s: swarm drifting uncontrolled; Range Safety Officer activates independent termination RF kill-switch",
+    "when": "Kill-code transmitted at 915 MHz independent link; received by all aircraft at t=50ms",
+    "then": "All motors unpowered within 350ms; aircraft descend and land safely",
+    "and": "Post-incident inspection confirms RF kill-switch worked; no secondary hazard",
+    "example_data": [
+      {
+        "kill_code_time_s": 623,
+        "signal_propagation_ms": 50,
+        "motor_shutdown_latency_ms": 50,
+        "total_latency_ms": 100
+      }
+    ],
+    "addresses_finding": "REQ011; Chris language: independent-termination undefined",
+    "vibe_anchor": "IndependentFlightTermination scale",
+    "notes": "Ultimate safety net: RSO can force safe descent when all other systems fail",
+    "analyst": "Isabel",
+    "byline": "Examples Analyst",
+    "principle": "I"
+  },
+  {
+    "example_id": "EX-009",
+    "example_title": "CAA/MAA Apportionment: Spadeadam trial signed matrix, civil panel vs military range",
+    "feature": "F17: CAA/MAA Apportionment",
+    "scenario": "SCN-055",
+    "goal": "GOAL-006",
+    "example_type": "data_driven",
+    "given": "CTRL-ALT-DEFEAT applies for BVLOS Swarm at Spadeadam (MOD-owned). Apportionment matrix maps 15 approval gates: CAA owns 11, MAA owns 1, joint gates 3",
+    "when": "Matrix submitted with application intake",
+    "then": "CAA Lead Inspector and MAA Air Safety Officer review and sign; apportionment becomes binding contract",
+    "and": "Case status = APPORTIONMENT_COMPLETE; case progresses to Phase 1 SORA Assessment",
+    "example_data": [
+      {
+        "total_gates": 15,
+        "caa_owned": 11,
+        "maa_owned": 1,
+        "joint_gates": 3,
+        "caa_signatory": "John Smith",
+        "maa_signatory": "Flt Lt Mary Jones"
+      }
+    ],
+    "addresses_finding": "Implicit Scope Risk GOAL-006",
+    "vibe_anchor": "CAAMAAApportionmentGapFreeness scale",
+    "notes": "Apportionment prevents disputes over regulatory authority boundaries",
+    "analyst": "Isabel",
+    "byline": "Examples Analyst",
+    "principle": "I"
+  },
+  {
+    "example_id": "EX-010",
+    "example_title": "Classification custodian: SECRET evidence triggers CAP 722H / JSP 440 security path",
+    "feature": "F20: Security Classification",
+    "scenario": "SCN-063",
+    "goal": "GOAL-009",
+    "example_type": "error",
+    "given": "Hypothetical MOD trial: applicant submits SECRET sensor specifications (CLASSIFIED optical payload). Envelope marked OFFICIAL-SENSITIVE but document lacks SECRET header",
+    "when": "Artefact Detector scans classification metadata; confidence 85% that document is SECRET",
+    "then": "Case escalates to Classification Review Officer (CRO); document segregated to secure-access pool",
+    "and": "SORA proceeds on OFFICIAL docs; SECRET docs reviewed by cleared subset only; decision record redacted",
+    "example_data": [
+      {
+        "detection_confidence_percent": 85,
+        "cro_assigned": "Flt Lt Mary Jones",
+        "cro_clearance": "SC (Security Cleared)",
+        "mitigation": "Redacted summary vs full SECRET doc"
+      }
+    ],
+    "addresses_finding": "Implicit Scope Risk GOAL-009; REQ018 undefined",
+    "vibe_anchor": "Classification-aware evidence segregation",
+    "notes": "MOD classified trials require special handling; secure pathways protect disclosure",
+    "analyst": "Isabel",
+    "byline": "Examples Analyst",
+    "principle": "I"
+  },
+  {
+    "example_id": "EX-011",
+    "example_title": "Panel-action audit log write: Lead Inspector overrides AI flag; latency <500ms",
+    "feature": "F26: Panel Override & Logging",
+    "scenario": "SCN-067",
+    "goal": "GOAL-015",
+    "example_type": "happy_path",
+    "given": "SORA Assessment: AI tool flags ConOps missing 3rd loss-of-separation mitigation item. Lead Inspector John Smith overrides, noting swarm-consensus-timeout is documented in Section 4.3 Table 4-1",
+    "when": "John submits override with rationale on panel interface",
+    "then": "Audit-log entry recorded: OVERRIDE_SUBMITTED at 2026-04-23 14:15:32.847 with 342ms write latency",
+    "and": "Override is immutable; case history shows John's name, timestamp, reasoning permanently",
+    "example_data": [
+      {
+        "finding_id": "AI-SORA-0342",
+        "override_actor": "John Smith",
+        "write_latency_ms": 342,
+        "audit_immutability": "write-once"
+      }
+    ],
+    "addresses_finding": "REQ016; Implicit Scope Risk GOAL-015",
+    "vibe_anchor": "Panel override audit trail completeness",
+    "notes": "Audit trail maintains accountability while preserving human judgment authority",
+    "analyst": "Isabel",
+    "byline": "Examples Analyst",
+    "principle": "I"
+  },
+  {
+    "example_id": "EX-012",
+    "example_title": "Readiness Check fails: Mandatory Duty Holder signature missing on Safety Case",
+    "feature": "F02: Completeness Check",
+    "scenario": "SCN-004",
+    "goal": "GOAL-001",
+    "example_type": "error",
+    "given": "Applicant resubmits pack after RETURN_FOR_CLARIFICATION. All content now satisfactory. But Safety Case Section 1.1 Duty Holder Declaration signature line is blank (only name printed)",
+    "when": "Thorough Gate reviewer checks signatures section-by-section",
+    "then": "Case transitions to RETURN_FOR_CLARIFICATION; applicant asked to obtain Duty Holder signature",
+    "and": "Applicant resubmits within 3 days with hand signature; case transitions to INTAKE_COMPLETE",
+    "example_data": [
+      {
+        "applicant": "CTRL-ALT-DEFEAT",
+        "resubmission_cycle": 2,
+        "missing_element": "Duty Holder Signature",
+        "resubmission_deadline_days": 7
+      }
+    ],
+    "addresses_finding": "Dorothy-8; REQ001 acceptance criteria missing",
+    "vibe_anchor": "PackCompleteness (SubScale: PackAcceptanceCriteriaMet)",
+    "notes": "Signature is blocking gate; ensures organizational accountability for trial authorization",
+    "analyst": "Isabel",
+    "byline": "Examples Analyst",
+    "principle": "I"
+  },
+  {
+    "example_id": "EX-013",
+    "example_title": "Decision Record for approval-with-conditions: 5 conditions + 3 review triggers, Phase 1 only",
+    "feature": "F26: Panel Override & Logging",
+    "scenario": "SCN-050",
+    "goal": "GOAL-001",
+    "example_type": "happy_path",
+    "given": "Spadeadam trial passes all technical gates. Panel convenes: CAA Lead Inspector, Autonomy Specialist, MAA Air Safety. Panel decides APPROVE WITH CONDITIONS for Phase 1 only",
+    "when": "Decision Record document structured per CAP 722D Appendix E: Summary, Regulatory Basis, Approval Conditions, Review Triggers",
+    "then": "Decision Record issued: Phase 1 Scope Limit (VLOS 500m, 2-aircraft max, daylight only), CAA Observer Required, C2 Link Continuity, Emergency Authority, Incident Reporting",
+    "and": "Review Triggers: Phase 2 Readiness Gate (after 10 successful flights), Incident-Triggered Re-assessment, Workload Limit Breach",
+    "example_data": [
+      {
+        "decision": "APPROVE_WITH_CONDITIONS",
+        "phase": "Phase 1",
+        "conditions_count": 5,
+        "review_triggers": 3,
+        "signatories": [
+          "John Smith (CAA)",
+          "Flt Lt Mary Jones (MAA)",
+          "John Doe (Applicant)"
+        ]
+      }
+    ],
+    "addresses_finding": "REQ016; Implicit Scope Risk GOAL-007",
+    "vibe_anchor": "PhasedGateReversibility scale",
+    "notes": "Conditional approval balances flexibility with regulatory authority; conditions binding",
+    "analyst": "Isabel",
+    "byline": "Examples Analyst",
+    "principle": "I"
+  },
+  {
+    "example_id": "EX-014",
+    "example_title": "Decision Record for refusal: Structured document enumerates 3 blockers with clause citations",
+    "feature": "F26: Panel Override & Logging",
+    "scenario": "SCN-068",
+    "goal": "GOAL-001",
+    "example_type": "error",
+    "given": "Hypothetical applicant applies for BVLOS Swarm: 10x DJI Matrice, autonomous swarm, ML collision avoidance, NO crew override. Panel identifies crew control violation",
+    "when": "Decision Record issued citing REQ010, CAP 722D Section 3.1",
+    "then": "REFUSE AUTHORIZATION with 3 blocking findings: (1) Meaningful Human Control violation (crew monitor-only), (2) ML Explainability insufficient (no off-distribution evidence), (3) Emergent Behavior Bounds undefined",
+    "and": "Path to reapplication specified: redesign ConOps, provide ML robustness evidence, submit emergent-behavior assurance case. 30-day appeal window. Expected re-review 8-12 weeks",
+    "example_data": [
+      {
+        "decision": "REFUSE_AUTHORIZATION",
+        "blocking_findings_count": 3,
+        "appeal_window_days": 30,
+        "expected_rereview_weeks": "8-12"
+      }
+    ],
+    "addresses_finding": "REQ010; REQ009; REQ008",
+    "vibe_anchor": "GOAL-004; GOAL-002",
+    "notes": "Refusal is not dead-end; provides clear feedback and reapplication path. Crew override authority non-negotiable",
+    "analyst": "Isabel",
+    "byline": "Examples Analyst",
+    "principle": "I"
+  },
+  {
+    "example_id": "EX-015",
+    "example_title": "Post-decision archive: Decision PDF + evidence bundle + deliberation log + clause-library version pin",
+    "feature": "F28: Case History & Revision",
+    "scenario": "SCN-070",
+    "goal": "GOAL-005",
+    "example_type": "happy_path",
+    "given": "Spadeadam trial Phase 1 + Phase 2 complete. All Phase 1 flights successful (no MOR). Phase 2 approved. Trial closed 2026-06-15. Archival process begins",
+    "when": "CMS triggers post-decision archival workflow: collect documents, pin clause-library version, extract deliberation log, generate archive summary",
+    "then": "Archival package created: 280 MB (Decision PDFs, Evidence Bundles, Deliberation Log, Clause Library v2.1 pin, Archive Summary)",
+    "and": "Archive stored in CAA Secure Archive (Google Cloud Storage, geo-redundant, 10-year retention, access-logged)",
+    "example_data": [
+      {
+        "archival_timestamp": "2026-07-01T10:00:00Z",
+        "package_size_mb": 280,
+        "clause_library_version": "2.1",
+        "retention_years": 10,
+        "access_control": "CAA + AAIB only"
+      }
+    ],
+    "addresses_finding": "GOAL-012; GOAL-005; REQ020",
+    "vibe_anchor": "MORForensicCompleteness; Traceability binding completeness",
+    "notes": "Archive preserves complete audit trail for post-incident AAIB investigation and regulatory audit",
+    "analyst": "Isabel",
+    "byline": "Examples Analyst",
+    "principle": "I"
+  }
+]

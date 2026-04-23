@@ -1,0 +1,624 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Specification by Example Report</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #0d1117; color: #e6edf3; line-height: 1.6; }
+.header { background: linear-gradient(135deg, #161b22 0%, #1a1f2e 100%); border-bottom: 1px solid #30363d; padding: 20px 0; }
+.header-content { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+.brand h1 { font-size: 24px; font-weight: 700; color: #f0f6fc; }
+.powered-by { font-size: 13px; color: #8b949e; }
+.powered-by a { color: #58a6ff; text-decoration: none; }
+.container { max-width: 1200px; margin: 0 auto; padding: 32px 24px; }
+.summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-bottom: 32px; }
+.summary-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; text-align: center; }
+.summary-card .number { font-size: 32px; font-weight: 700; color: #58a6ff; }
+.summary-card.critical .number { color: #f85149; }
+.summary-card.major .number { color: #d29922; }
+.summary-card.minor .number { color: #3fb950; }
+.summary-card .label { font-size: 11px; color: #8b949e; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.pattern-pills { display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; }
+.pill { padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; border: 1px solid #30363d; background: #161b22; color: #8b949e; }
+.pill .count { background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 10px; margin-left: 6px; font-size: 11px; }
+.section-title { font-size: 20px; font-weight: 600; color: #f0f6fc; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 1px solid #30363d; }
+.table-wrap { overflow-x: auto; margin-bottom: 24px; background: #161b22; border: 1px solid #30363d; border-radius: 8px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #21262d; vertical-align: top; }
+th { color: #8b949e; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; background: #1c2129; }
+tr:last-child td { border-bottom: none; }
+.gherkin-block { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 18px 22px; margin: 10px 0; font-family: 'Courier New', monospace; font-size: 13px; line-height: 1.5; color: #c9d1d9; overflow-x: auto; white-space: pre-wrap; }
+.gh-keyword { color: #ff7b72; font-weight: 700; }
+.gh-tag { color: #58a6ff; }
+.gh-comment { color: #8b949e; }
+.gh-feature { color: #79c0ff; font-weight: 700; }
+.feature-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 10px; margin-bottom: 24px; }
+.feature-card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #c9d1d9; }
+.feature-card code { color: #79c0ff; font-size: 12px; }
+.pattern-section { margin-bottom: 40px; }
+.pattern-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding: 14px 18px; background: #161b22; border: 1px solid #30363d; border-radius: 8px; }
+.pattern-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid #30363d; object-fit: cover; flex-shrink: 0; }
+.pattern-title { flex: 1; }
+.pattern-title h3 { color: #f0f6fc; font-size: 16px; }
+.pattern-title .analyst { color: #8b949e; font-size: 13px; }
+.finding-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; margin-bottom: 14px; overflow: hidden; }
+.finding-header { display: flex; align-items: center; gap: 16px; padding: 14px 20px; border-bottom: 1px solid #21262d; background: #1c2129; }
+.finding-title-area { flex: 1; }
+.finding-title { font-size: 15px; font-weight: 600; color: #f0f6fc; }
+.finding-meta { font-size: 12px; color: #8b949e; margin-top: 2px; }
+.badges { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; }
+.badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.badge-critical { background: rgba(248,81,73,0.15); color: #f85149; border: 1px solid rgba(248,81,73,0.3); }
+.badge-major { background: rgba(210,153,34,0.15); color: #d29922; border: 1px solid rgba(210,153,34,0.3); }
+.badge-minor { background: rgba(63,185,80,0.15); color: #3fb950; border: 1px solid rgba(63,185,80,0.3); }
+.badge-confidence { background: rgba(88,166,255,0.15); color: #58a6ff; border: 1px solid rgba(88,166,255,0.3); }
+.badge-principle { background: rgba(188,140,255,0.1); color: #bc8cff; border: 1px solid rgba(188,140,255,0.2); }
+.finding-body { padding: 16px 20px; }
+.finding-section { margin-bottom: 12px; }
+.finding-section h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #8b949e; margin-bottom: 4px; }
+.finding-section p { font-size: 13px; color: #c9d1d9; }
+.recommendation-box { background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px 14px; font-size: 13px; color: #79c0ff; }
+.footer { text-align: center; padding: 40px 24px; border-top: 1px solid #30363d; margin-top: 40px; color: #8b949e; font-size: 13px; }
+.footer a { color: #58a6ff; text-decoration: none; }
+.goal-card { background: #161b22; border: 1px solid #30363d; border-left: 4px solid #58a6ff; border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; }
+.goal-rank { color: #58a6ff; font-weight: 700; font-size: 12px; margin-right: 8px; }
+.goal-title { color: #f0f6fc; font-weight: 600; font-size: 15px; }
+.goal-desc { color: #c9d1d9; font-size: 13px; margin-top: 4px; }
+.goal-meta { color: #8b949e; font-size: 11px; margin-top: 6px; }
+.status-agreed { color: #3fb950; font-weight: 600; }
+.status-proposed { color: #d29922; font-weight: 600; }
+.status-disputed { color: #f85149; font-weight: 600; }
+</style></head><body>
+<div class="header"><div class="header-content">
+<div class="brand"><h1>Specification by Example Transformation Report</h1></div>
+<div class="powered-by"><a href="https://openrequirements.ai">OpenRequirements.ai</a> | SBE methodology by Gojko Adzic</div>
+</div></div>
+<div class="container">
+
+<div style="margin-bottom:24px; color:#8b949e; font-size:14px;">
+<strong style="color:#f0f6fc;">Source:</strong> DeFOSPAM + Vibe Requirements + Performance Engineering + <code style="background:#161b22;padding:2px 6px;border-radius:4px;color:#79c0ff;">requirements-221fbff5.csv</code><br>
+<strong style="color:#f0f6fc;">Analysis date:</strong> 2026-04-23 11:30 UTC
+</div>
+
+<div class="summary-grid">
+<div class="summary-card"><div class="number">15</div><div class="label">Goals Derived</div></div>
+<div class="summary-card"><div class="number">42</div><div class="label">Canonical Terms</div></div>
+<div class="summary-card"><div class="number">10</div><div class="label">Workshops</div></div>
+<div class="summary-card"><div class="number">15</div><div class="label">Key Examples</div></div>
+<div class="summary-card"><div class="number">69</div><div class="label">Refined Specs</div></div>
+<div class="summary-card"><div class="number">17</div><div class="label">Feature Files</div></div>
+<div class="summary-card"><div class="number">84</div><div class="label">Gherkin Scenarios</div></div>
+<div class="summary-card critical"><div class="number">31</div><div class="label">Critical Findings</div></div>
+</div>
+
+<div class="pattern-pills">
+<div class="pill">G — Goals<span class="count">8</span></div>
+<div class="pill">S — Collaborate<span class="count">12</span></div>
+<div class="pill">I — Illustrate<span class="count">8</span></div>
+<div class="pill">R — Refine<span class="count">64</span></div>
+<div class="pill">A — Automate<span class="count">11</span></div>
+<div class="pill">V — Validate<span class="count">9</span></div>
+<div class="pill">L — Living Docs<span class="count">10</span></div>
+</div>
+<h2 class="section-title">Process Pattern Summary</h2>
+<div class="table-wrap"><table><thead><tr><th>Pattern</th><th>Analyst</th><th style="text-align:right;">Findings</th><th style="text-align:right;">Critical</th><th style="text-align:right;">Major</th><th style="text-align:right;">Minor</th></tr></thead><tbody>
+<tr><td><strong>G</strong> — Goals</td><td>Grace</td><td style="text-align:right;">8</td><td style="text-align:right; color:#f85149;">3</td><td style="text-align:right; color:#d29922;">5</td><td style="text-align:right; color:#3fb950;">0</td></tr>
+<tr><td><strong>S</strong> — Collaborate</td><td>Chris</td><td style="text-align:right;">12</td><td style="text-align:right; color:#f85149;">12</td><td style="text-align:right; color:#d29922;">0</td><td style="text-align:right; color:#3fb950;">0</td></tr>
+<tr><td><strong>I</strong> — Illustrate</td><td>Isabel</td><td style="text-align:right;">8</td><td style="text-align:right; color:#f85149;">3</td><td style="text-align:right; color:#d29922;">5</td><td style="text-align:right; color:#3fb950;">0</td></tr>
+<tr><td><strong>R</strong> — Refine</td><td>Rex</td><td style="text-align:right;">64</td><td style="text-align:right; color:#f85149;">0</td><td style="text-align:right; color:#d29922;">59</td><td style="text-align:right; color:#3fb950;">5</td></tr>
+<tr><td><strong>A</strong> — Automate</td><td>angie</td><td style="text-align:right;">11</td><td style="text-align:right; color:#f85149;">5</td><td style="text-align:right; color:#d29922;">6</td><td style="text-align:right; color:#3fb950;">0</td></tr>
+<tr><td><strong>V</strong> — Validate</td><td>Victoria</td><td style="text-align:right;">9</td><td style="text-align:right; color:#f85149;">4</td><td style="text-align:right; color:#d29922;">5</td><td style="text-align:right; color:#3fb950;">0</td></tr>
+<tr><td><strong>L</strong> — Living Docs</td><td>Laveena</td><td style="text-align:right;">10</td><td style="text-align:right; color:#f85149;">4</td><td style="text-align:right; color:#d29922;">6</td><td style="text-align:right; color:#3fb950;">0</td></tr>
+</tbody></table></div>
+<h2 class="section-title">Business Goals (Grace)</h2>
+<div class="goal-card">
+<span class="goal-rank">Priority 1</span><span class="goal-title">Build Defensible Approval Throughput</span>
+<div class="goal-desc">Enable CAA to consistently authorize BVLOS UAS swarm trials through high-quality, complete application intake and defensible regulatory assessment</div>
+<div class="goal-meta">📊 <strong>Measured by:</strong> PackCompleteness scale (90-100% first-submission completeness by Q3 2026); case cycle time (target: 60 days from submission to authorization decision) · 👥 <strong>Benefits:</strong> regulator, applicant</div>
+</div>
+<div class="goal-card">
+<span class="goal-rank">Priority 1</span><span class="goal-title">Ensure Containment &amp; Flight Safety</span>
+<div class="goal-desc">Provide automated and procedural safeguards to prevent uncontrolled flight, loss-of-separation, and unplanned entry into adjacent airspace through geofence enforcement, C2 link resilience, and independent flight termination</div>
+<div class="goal-meta">📊 <strong>Measured by:</strong> GeofenceContainment scale; C2LinkResilience scale; IndependentFlightTermination scale (target: 100% of geofence enforcement active, zero C2 link-loss unrecoverable events, independent termination avai · 👥 <strong>Benefits:</strong> regulator, public</div>
+</div>
+<div class="goal-card">
+<span class="goal-rank">Priority 2</span><span class="goal-title">Assure Swarm-Aware Safety Assessment</span>
+<div class="goal-desc">Establish SORA and autonomy assessment processes that explicitly account for swarm interdependencies, emergent behavior, and collective failure modes beyond individual aircraft analysis</div>
+<div class="goal-meta">📊 <strong>Measured by:</strong> SwarmAwareSORAEvidence scale; DAAPerformance scale; SwarmEmergentBoundedness scale (target: 100% of swarm trials have documented loss-of-separation cascade analysis and emergent-behavior evidence by Q · 👥 <strong>Benefits:</strong> regulator</div>
+</div>
+<div class="goal-card">
+<span class="goal-rank">Priority 2</span><span class="goal-title">Assure Autonomous Decision-Making &amp; Human Control</span>
+<div class="goal-desc">Demonstrate that swarm autonomy systems and ML-based decision-making remain within airborne limits, are forensically explainable, and preserve meaningful human crew control over safety-critical decisions</div>
+<div class="goal-meta">📊 <strong>Measured by:</strong> MLForensicExplainability scale; MeaningfulHumanControl scale; SwarmEmergentBoundedness scale (target: 100% of ML decisions logged with frozen-model manifest; 100% of critical crew interventions docume · 👥 <strong>Benefits:</strong> regulator, applicant</div>
+</div>
+<div class="goal-card">
+<span class="goal-rank">Priority 2</span><span class="goal-title">Manage Regulatory Apportionment &amp; Dual-Authority Approval</span>
+<div class="goal-desc">Establish clear, gap-free delegation of regulatory responsibility between CAA (civil airspace) and MAA (military coordination) such that authorization decisions are unambiguously accountable and do not create conflicting requirements</div>
+<div class="goal-meta">📊 <strong>Measured by:</strong> CAAMAAApportionmentGapFreeness scale (target: 100% of submitted cases have signed CAA/MAA apportionment matrix; zero cases rejected due to authority ambiguity) · 👥 <strong>Benefits:</strong> regulator</div>
+</div>
+<div class="goal-card">
+<span class="goal-rank">Priority 2</span><span class="goal-title">Support Phased Trial Build-Up &amp; Progressive Assurance</span>
+<div class="goal-desc">Enable trials to progress through gated phases (evidence submission, technical review, operational validation, full deployment) with reversibility, allowing evidence to accumulate progressively and decisions to be challenged or reversed if new risks emerge</div>
+<div class="goal-meta">📊 <strong>Measured by:</strong> PhasedGateReversibility scale (target: 100% of trials proceed through documented phase gates with override audit trail; zero gate progressions without documented evidence review) · 👥 <strong>Benefits:</strong> regulator, applicant</div>
+</div>
+<div class="goal-card">
+<span class="goal-rank">Priority 2</span><span class="goal-title">Build Public Trust &amp; Stakeholder Engagement</span>
+<div class="goal-desc">Establish structured community consultation and media engagement processes compliant with CAP 1616 (civil engagement) and GDPR, such that public concern is addressed, prior notification is provided, and regulators have documented stakeholder alignment</div>
+<div class="goal-meta">📊 <strong>Measured by:</strong> PublicEngagementCoverage scale (target: 100% of trials have documented stakeholder engagement plan; community satisfaction score &gt;= 70% where measurable) · 👥 <strong>Benefits:</strong> public, ministers</div>
+</div>
+<div class="goal-card">
+<span class="goal-rank">Priority 2</span><span class="goal-title">Ensure Evidence Traceability &amp; Regulatory Audit Readiness</span>
+<div class="goal-desc">Establish end-to-end traceability from regulatory clauses to submitted evidence and final decision, such that auditors and investigators can verify that every approval requirement was addressed and every decision was justified</div>
+<div class="goal-meta">📊 <strong>Measured by:</strong> Traceability binding completeness (target: 100% of regulatory clauses have mapped evidence; 100% of approval decisions have documented justification) · 👥 <strong>Benefits:</strong> regulator, aaib</div>
+</div>
+<div class="goal-card">
+<span class="goal-rank">Priority 2</span><span class="goal-title">Support Joint CAA/MAA Panel Decision-Making &amp; Override Authority</span>
+<div class="goal-desc">Enable CAA and MAA panels to make binding authorization decisions with override capability for exceptional cases, with full audit trail of who overrode what and why</div>
+<div class="goal-meta">📊 <strong>Measured by:</strong> Panel override audit trail completeness (target: 100% of panel overrides logged with justification; zero overrides without documented escalation authority) · 👥 <strong>Benefits:</strong> regulator, applicant</div>
+</div>
+<div class="goal-card">
+<span class="goal-rank">Priority 3</span><span class="goal-title">Enable Incident Investigation &amp; Regulatory Closure</span>
+<div class="goal-desc">Capture and preserve complete forensic evidence for post-incident investigation, mandatory occurrence reporting (MOR), and formal trial close-out with lessons-learned documentation</div>
+<div class="goal-meta">📊 <strong>Measured by:</strong> MORForensicCompleteness scale; post-trial evidence preservation rate (target: 100% of flight data and decision logs retained for 5 years; 100% of trials have formal close-out documentation within 30 d · 👥 <strong>Benefits:</strong> regulator, mod</div>
+</div>
+<div class="goal-card">
+<span class="goal-rank">Priority 3</span><span class="goal-title">Establish Insurance &amp; Ground Risk Mitigation</span>
+<div class="goal-desc">Ensure third-party risk is both insurable (via commercial liability coverage) and factually grounded (via ground survey) such that public below is protected and regulator liability is transferred</div>
+<div class="goal-meta">📊 <strong>Measured by:</strong> Ground survey coverage percentage (100% of trial area surveyed pre-flight); insurance adequacy (coverage amount meets CAA risk-assessment output) · 👥 <strong>Benefits:</strong> regulator, public</div>
+</div>
+<div class="goal-card">
+<span class="goal-rank">Priority 3</span><span class="goal-title">Manage Classified MOD Evidence &amp; Security Assurance</span>
+<div class="goal-desc">Enable CAA and MAA to review MOD-sensitive evidence (program schedules, platform specifications, sensor capabilities) without security compromise, per CAP 722H and JSP 440 security classifications</div>
+<div class="goal-meta">📊 <strong>Measured by:</strong> Classification-aware evidence segregation effectiveness (target: 100% of classified submissions reviewed with documented security procedures; zero unauthorized access incidents) · 👥 <strong>Benefits:</strong> mod, regulator</div>
+</div>
+<h2 class="section-title">Ubiquitous Language (top 25 of 42)</h2>
+<div class="table-wrap"><table><thead><tr><th style="width:22%;">Term</th><th>Canonical Definition</th><th style="width:12%;">Status</th></tr></thead><tbody>
+<tr><td><strong>Operational Authorisation pack</strong></td><td>A complete submission to the CAA containing all regulatory evidence, safety cases, operational procedures, and technical documentation required for a BVLOS UAS trial to proceed.</td><td class="status-agreed">agreed</td></tr>
+<tr><td><strong>SORA</strong></td><td>Specific Operational Risk Assessment. A regulatory framework (JARUS SORA v2.5) for assessing UAS operational risks.</td><td class="status-agreed">agreed</td></tr>
+<tr><td><strong>SAIL</strong></td><td>Specific Assurance and Integrity Level. A risk classification level output by SORA assessment that quantifies the rigor of evidence required.</td><td class="status-agreed">agreed</td></tr>
+<tr><td><strong>OSO</strong></td><td>Operational Safety Objectives. Specific, measurable safety goals derived from SORA assessment that define required mitigation levels.</td><td class="status-agreed">agreed</td></tr>
+<tr><td><strong>swarm-aware</strong></td><td>Methodology or evidence that explicitly accounts for collective behavior, coordination dependencies, and emergent risks of multiple coordinated aircraft.</td><td class="status-proposed">proposed</td></tr>
+<tr><td><strong>meaningful human control</strong></td><td>Active, informed crew awareness and retained authority to perceive system state, understand autonomous actions, and intervene before safety-critical decisions.</td><td class="status-proposed">proposed</td></tr>
+<tr><td><strong>defensibly</strong></td><td>In a manner that can be justified through evidence and logical argument to regulatory scrutiny, peer review, and accident investigation.</td><td class="status-proposed">proposed</td></tr>
+<tr><td><strong>containment</strong></td><td>Systems combining mechanical, software, and procedural measures that prevent UAS from exiting operational boundary regardless of link loss or autonomy failure.</td><td class="status-proposed">proposed</td></tr>
+<tr><td><strong>geofence</strong></td><td>Virtual 3D boundary (lat/lon/altitude/time) defining the trial operational area. Geofence violations trigger containment actions.</td><td class="status-agreed">agreed</td></tr>
+<tr><td><strong>fly-away</strong></td><td>Loss of control of UAS such that it exits authorized airspace and cannot be recovered by operator.</td><td class="status-agreed">agreed</td></tr>
+<tr><td><strong>C2 link</strong></td><td>Command and Control link - communication pathway between ground crew and UAS for transmitting commands and receiving status/telemetry.</td><td class="status-agreed">agreed</td></tr>
+<tr><td><strong>inter-vehicle links</strong></td><td>Communication pathways between UAS aircraft within swarm for coordination, de-confliction, or status exchange.</td><td class="status-agreed">agreed</td></tr>
+<tr><td><strong>link loss survivable</strong></td><td>UAS and swarm have procedures and design such that loss of C2 or inter-vehicle comms can be managed without loss of separation or collision.</td><td class="status-proposed">proposed</td></tr>
+<tr><td><strong>ODD</strong></td><td>Operational Design Domain - set of operating conditions (environmental, technical, geographical, temporal) for which UAS and autonomy systems have been validated and approved.</td><td class="status-agreed">agreed</td></tr>
+<tr><td><strong>ConOps</strong></td><td>Concept of Operations - narrative description of trial conduct including flight profiles, crew roles, decision points, and normal procedures.</td><td class="status-agreed">agreed</td></tr>
+<tr><td><strong>nominal behaviour</strong></td><td>Expected, planned system performance under normal operating conditions as described in ConOps.</td><td class="status-agreed">agreed</td></tr>
+<tr><td><strong>worst-credible behaviour</strong></td><td>Most severe adverse system performance or failure mode reasonably foreseeable that must be survived by containment, backup systems, or crew intervention.</td><td class="status-proposed">proposed</td></tr>
+<tr><td><strong>TDA</strong></td><td>Temporary Danger Area - designated airspace volume and time window reserved for trial, excluding other civilian traffic. Established by NOTAM and managed by ATSU.</td><td class="status-agreed">agreed</td></tr>
+<tr><td><strong>NOTAM</strong></td><td>Notice to Airmen - notice issued by aeronautical authorities to alert operators to potential hazards. TDA trials must be published via NOTAM.</td><td class="status-agreed">agreed</td></tr>
+<tr><td><strong>ATSU</strong></td><td>Air Traffic Service Unit - regulatory organization responsible for monitoring airspace, issuing clearances, and managing NOTAMs and TDAs.</td><td class="status-agreed">agreed</td></tr>
+<tr><td><strong>DAA</strong></td><td>Detect-and-Avoid - capability for UAS to autonomously sense, track, and resolve conflicts with other aircraft without relying on ground crew or external feeds.</td><td class="status-agreed">agreed</td></tr>
+<tr><td><strong>resolved predictably</strong></td><td>Conflicts with other aircraft are resolved deterministically and foreseeable to all participants. Requires defined avoidance maneuver selection logic, coordination method, crew awareness, and verification.</td><td class="status-proposed">proposed</td></tr>
+<tr><td><strong>swarm decision-making architecture</strong></td><td>Design of how collective decisions are made by swarm: centralized (ground-based), distributed (peer voting), or hierarchical (lead decides). Must define: decision authority, communication topology, failure modes, crew override.</td><td class="status-proposed">proposed</td></tr>
+<tr><td><strong>emergent behaviour</strong></td><td>Behavior arising from collective swarm interactions not explicitly programmed in individual aircraft. Can be desired (formation cohesion) or undesired (deadlock, separation loss).</td><td class="status-proposed">proposed</td></tr>
+<tr><td><strong>forensically explainable</strong></td><td>System (particularly ML models) whose decisions can be reconstructed and explained post-hoc through investigation of model weights, training data, decision logic, and failure modes.</td><td class="status-proposed">proposed</td></tr>
+</tbody></table></div>
+<h2 class="section-title">Executable Specifications — 17 feature files, 84 scenarios</h2>
+<h3 style="color:#bc8cff; margin-top: 18px; font-size: 15px;">Applicant</h3>
+<div class="feature-list">
+<div class="feature-card"><code>features/applicant/application_intake.feature</code></div>
+<div class="feature-card"><code>features/applicant/completeness_check.feature</code></div>
+<div class="feature-card"><code>features/applicant/submission_readiness_check.feature</code></div>
+</div>
+<h3 style="color:#bc8cff; margin-top: 18px; font-size: 15px;">Autonomy</h3>
+<div class="feature-list">
+<div class="feature-card"><code>features/autonomy/meaningful_human_control.feature</code></div>
+<div class="feature-card"><code>features/autonomy/ml_forensic_explainability.feature</code></div>
+<div class="feature-card"><code>features/autonomy/swarm_behavior_envelope.feature</code></div>
+</div>
+<h3 style="color:#bc8cff; margin-top: 18px; font-size: 15px;">Classification</h3>
+<div class="feature-list">
+<div class="feature-card"><code>features/classification/classification_custodian.feature</code></div>
+</div>
+<h3 style="color:#bc8cff; margin-top: 18px; font-size: 15px;">Containment And Safety</h3>
+<div class="feature-list">
+<div class="feature-card"><code>features/containment_and_safety/c2_link_resilience.feature</code></div>
+<div class="feature-card"><code>features/containment_and_safety/daa_performance.feature</code></div>
+<div class="feature-card"><code>features/containment_and_safety/geofence_containment.feature</code></div>
+<div class="feature-card"><code>features/containment_and_safety/independent_flight_termination.feature</code></div>
+</div>
+<h3 style="color:#bc8cff; margin-top: 18px; font-size: 15px;">Governance</h3>
+<div class="feature-list">
+<div class="feature-card"><code>features/governance/caa_maa_apportionment.feature</code></div>
+<div class="feature-card"><code>features/governance/public_engagement.feature</code></div>
+</div>
+<h3 style="color:#bc8cff; margin-top: 18px; font-size: 15px;">Panel Review</h3>
+<div class="feature-list">
+<div class="feature-card"><code>features/panel_review/panel_decision_making.feature</code></div>
+</div>
+<h3 style="color:#bc8cff; margin-top: 18px; font-size: 15px;">Post Decision</h3>
+<div class="feature-list">
+<div class="feature-card"><code>features/post_decision/archive_and_audit.feature</code></div>
+</div>
+<h3 style="color:#bc8cff; margin-top: 18px; font-size: 15px;">Sora Assessment</h3>
+<div class="feature-list">
+<div class="feature-card"><code>features/sora_assessment/sail_determination.feature</code></div>
+<div class="feature-card"><code>features/sora_assessment/swarm_aware_sora.feature</code></div>
+</div>
+<h3 style="color:#bc8cff; margin: 20px 0 10px 0; font-size: 15px;">Sample: features/applicant/submission_readiness_check.feature</h3>
+<div class="gherkin-block"><span class="gh-comment"># <span class="gh-keyword">Feature:</span> Submission Readiness &amp; Gate Control</span>
+<span class="gh-comment"># Business Goal: GOAL-001 Build Defensible Approval Throughput</span>
+<span class="gh-comment"># Quality gate ensuring minimal viable evidence before assessment commences</span>
+
+<span class="gh-tag">@applicant</span> <span class="gh-tag">@intake</span> <span class="gh-tag">@regression</span> <span class="gh-tag">@F04</span> <span class="gh-tag">@REQ001</span> <span class="gh-tag">@GOAL-001</span>
+<span class="gh-keyword">Feature:</span> Submission Readiness &amp; Gate Control
+  As a CAA intake team
+  I want to verify that complete submissions meet minimum quality standards
+  So that SORA assessors receive evidence bundles that are credible, traceable, and defence-ready
+
+  <span class="gh-keyword">Background:</span>
+    <span class="gh-keyword">Given</span> case status is INTAKE_COMPLETE
+    <span class="gh-keyword">And</span> clause library v2.1 is current
+    <span class="gh-keyword">And</span> Thorough Gate reviewer role exists
+
+  <span class="gh-tag">@critical</span>
+  <span class="gh-keyword">Scenario:</span> Readiness gate blocks SORA progression on quality defects
+    <span class="gh-keyword">Given</span> case has all mandatory artefacts present
+    <span class="gh-keyword">And</span> Thorough Gate reviewer detects ConOps lacking crew workload analysis
+    <span class="gh-keyword">When</span> reviewer initiates quality assessment
+    <span class="gh-keyword">Then</span> case transitions to RETURN_FOR_CLARIFICATION
+    <span class="gh-keyword">And</span> feedback specifies required additional analysis sections
+    <span class="gh-keyword">And</span> estimated re-review timeline is provided
+
+  <span class="gh-tag">@major</span>
+  <span class="gh-keyword">Scenario Outline:</span> Quality criterion evaluation matrix
+    <span class="gh-keyword">Given</span> &lt;operation_type&gt; submission in INTAKE_COMPLETE status
+    <span class="gh-keyword">And</span> &lt;criterion&gt; is evaluated per clause library
+    <span class="gh-keyword">When</span> Thorough Gate reviewer assesses &lt;criterion&gt;
+    <span class="gh-keyword">Then</span> outcome is &lt;gate_status&gt;
+    <span class="gh-keyword">And</span> reason recorded in case history
+
+    <span class="gh-keyword">Examples:</span>
+      | operation_type      | criterion                              | gate_status              |
+      | PDRA-01 VLOS        | ConOps describes nominal behaviour      | PASS → SORA_READY        |
+      | PDRA-01 VLOS        | Risk Register missing worst-case       | BLOCK → RETURN_FOR_CLAIM |
+      | BVLOS Swarm         | Swarm decision architecture incomplete  | BLOCK → RETURN_FOR_CLAIM |
+      | BVLOS Swarm         | DAA evidence present and traced        | PASS → SORA_READY        |
+
+  <span class="gh-tag">@major</span>
+  <span class="gh-keyword">Scenario:</span> Duty holder accountability gate
+    <span class="gh-keyword">Given</span> Safety Case submitted with Duty Holder Declaration section
+    <span class="gh-keyword">When</span> Thorough Gate reviewer verifies signature requirements
+    <span class="gh-keyword">And</span> signature is present, dated, and notarized
+    <span class="gh-keyword">Then</span> organisational accountability gate PASSES
+    <span class="gh-keyword">And</span> case eligible for SORA assessment progression
+
+  <span class="gh-tag">@minor</span>
+  <span class="gh-keyword">Scenario:</span> Evidence traceability spot-check
+    <span class="gh-keyword">Given</span> case contains 15+ artefacts across 8 document types
+    <span class="gh-keyword">When</span> Thorough Gate spot-checks 3 randomly selected clauses
+    <span class="gh-keyword">And</span> verifies each clause has at least 1 mapped evidence artefact
+    <span class="gh-keyword">Then</span> traceability sample audit completes
+    <span class="gh-keyword">And</span> case readiness status APPROVED
+</div>
+<h2 class="section-title">Validation Strategy (Victoria)</h2>
+<div class="table-wrap"><table><thead><tr><th>Suite</th><th style="text-align:right;">Scenarios</th><th>Target duration</th><th>Trigger</th></tr></thead><tbody>
+<tr><td><strong>Smoke</strong></td><td style="text-align:right;">10</td><td>&lt;5 min</td><td>on commit</td></tr>
+<tr><td><strong>Regression</strong></td><td style="text-align:right;">55</td><td>&lt;30 min</td><td>merge to main</td></tr>
+<tr><td><strong>Full</strong></td><td style="text-align:right;">69</td><td>&lt;2 hrs</td><td>nightly + release</td></tr>
+</tbody></table></div>
+<p style="color:#8b949e; font-size:13px; margin-bottom: 16px;">Performance gates (per Cerf PE agent, Gates 1-8) gate the release.</p>
+<h2 class="section-title">Findings by Pattern</h2>
+<div class="pattern-section">
+<div class="pattern-header">
+<img src="https://openrequirements.ai/assets/Grace-B_cQEfeU.png" alt="Grace" class="pattern-avatar" onerror="this.style.display='none'">
+<div class="pattern-title"><h3>G — Goals</h3><div class="analyst">Analyst: <strong>Grace</strong> — 8 findings</div></div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">Four critical regulatory requirements (REQ017-020) lack user stories and acceptance criteria—scope undefined</div><div class="finding-meta">missing_goal</div></div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-confidence">C10</span><span class="badge badge-principle">G</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>DeFOSPAM analysis confirms that REQ017-020 are documented in requirements-221fbff5.csv as titles only, with no user stories. Dorothy&#x27;s glossary, Milarna&#x27;s missing-data analysis, and Alexa&#x27;s ambiguity analysis all confirm: &#x27;REQ017 (Public/Stakeholder Engagement): No user story covers community consultation press/media handling or prior-notification to landowners. Strongly implied by CAP 1616 and GDPR but absent.&#x27; Same pattern for REQ018-020. Without user stories, there is no actor (who is responsible?), no goal (what must be achieved?), and no verification (how will we </p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Create explicit user stories for REQ017-020 immediately, with acceptance criteria and success metrics: (1) REQ017: &#x27;As a CAA community liaison I want to manage stakeholder consultation per CAP 1616 and prior notification to landowners per planning law so that community engagement is documented and GDPR obligations are met. Acceptance: community engagement plan signed off before trial authorization; 80%+ community satisfaction in post-trial survey.&#x27; (2) REQ018: &#x27;As a CAA security officer I want to handle MOD classified evidence per CAP 722H and JSP 440 so that sensitive program i</div></div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">Swarm-aware requirement scope creep: &#x27;swarm-aware SORA evidence&#x27;, &#x27;emergent behavior&#x27;, and &#x27;worst-credible&#x27; lack operationalized definitions</div><div class="finding-meta">scope_creep</div></div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-confidence">C9</span><span class="badge badge-principle">G</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>DeFOSPAM glossary confirms: &#x27;swarm-aware SORA evidence&#x27; is marked unverified with note &#x27;Critical undefined term. What constitutes swarm-aware SORA is ambiguous. Unclear what distinguishes swarm-aware SORA from standard SORA.&#x27; Similarly, &#x27;worst-credible behaviour&#x27; is marked unverified: &#x27;Ambiguous boundary: what is credible vs incredible? Who judges this? No quantitative threshold given.&#x27; And &#x27;emergent behavior&#x27; is undefined in the source requirements. Vibe Requirements confirm: SwarmAwareSORAEvidence value-spec notes that swarm guidance does not</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Before F03, F04, F09 can be implemented, CAA must publish swarm-specific SORA guidance including: (1) Loss-of-separation hazard tree for multi-agent interactions (what cascading failure modes are credible?); (2) Emergent-behavior analysis methodology (how to model collective swarm behavior? simulation? flight test protocols?); (3) Worst-credible scenario definition (e.g., &#x27;up to 2 aircraft loss-of-separation for up to 5 seconds before recovery&#x27;). Recommend CAA coordinate with JARUS WG3 and EUROCAE WG6 to align with international standards in 2026 before first swarm SORA assessments. </div></div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">Geofence tolerance and C2 link-loss survivability design standard absent—automation limits undefined</div><div class="finding-meta">implicit_scope</div></div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-confidence">C8</span><span class="badge badge-principle">G</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>DeFOSPAM glossary confirms: &#x27;containment&#x27; is marked unverified with note &#x27;Critical safety term. Distinction between automatic containment and other forms undefined. No specification of tolerance, fail-safe assumptions, or design standards.&#x27; Performance Engineering NFR analysis confirms: C2LinkResilience and GeofenceContainment are priority-1 values with no quantitative targets (no NFR for &#x27;containment tolerance&#x27; or &#x27;link-loss survivability time&#x27;). Vibe Requirements benchmark notes: &#x27;No measured data on geofence breach rates or C2 link-loss events in</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Before F06 and F07 can be verified, CAA and MAA must jointly publish design standards for: (1) Geofence containment tolerance (e.g., &#x27;breach of &gt;50m or &gt;5 seconds duration triggers emergency termination&#x27;); (2) C2 link-loss survivability minimum (e.g., &#x27;autonomous flight termination must engage within 30 seconds of C2 link loss&#x27;). These should be tied to swarm-specific risk assessment (larger swarms may need tighter tolerance). Recommend CAA coordinate with EASA and JARUS to align with European standards (EASA Special Conditions, JARUS guidance). Until standards are pu</div></div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">Phase gate structure undefined—no specification of evidence requirements, trigger criteria, or reversibility mechanics</div><div class="finding-meta">scope_creep</div></div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-confidence">C8</span><span class="badge badge-principle">G</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>DeFOSPAM analysis shows REQ016 source stories do not specify phase structure, trigger criteria, or reversibility rules. Vibe Requirements define PhasedGateReversibility as a critical value but note: &#x27;Phase gate structure not specified; unclear what evidence triggers advancement. Override criteria not defined. Re-opening reversibility mechanics not specified.&#x27; Performance Engineering NFR analysis confirms: no quantitative targets for gate progression cycle time or re-opening frequency. This is implicit scope that will expand during implementation.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Before F16, F26, F29 can be implemented, CAA must publish Phase Gate Standard specifying: (1) Five phases: (Phase 0) Intake &amp; Completeness Check; (Phase 1) Technical Review (SORA, Safety Case, Crew Training complete); (Phase 2) Operational Readiness (Containment validation, C2 link testing); (Phase 3) Operational Approval (Trial authorization issued); (Phase 4) Full Deployment. (2) Per-phase evidence gates: Phase 0 → all mandatory documents present; Phase 1 → SORA setpoints approved, Safety Case gaps resolved; Phase 2 → containment and C2 link tested with witness observation; Phase 3 → cre</div></div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">ML assurance case scope assumes AMLAS/SACE applicability to swarm autonomy—standards coverage unclear</div><div class="finding-meta">implicit_scope</div></div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-confidence">C8</span><span class="badge badge-principle">G</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>DeFOSPAM finding: &#x27;Assurable and assure not operationalized with success criteria (confidence 9, critical).&#x27; REQ009 user story states &#x27;ML components are assurable and forensically explainable&#x27; but does not define what &#x27;assurable&#x27; means for swarm ML. Vibe Requirements note: &#x27;AMLAS/SACE case mandatory but guidance not yet published; assumption that these standards apply to swarm autonomy.&#x27; Performance Engineering analysis confirms: MLForensicExplainability value defined but NFR targets depend on knowing what AMLAS/SACE requires for swarms. Industry anecdat</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Before F10 can be verified, CAA must publish Swarm ML Assurance Guidance clarifying: (1) AMLAS/SACE case scope for individual aircraft ML (perception, mode selection); (2) Separate assurance case for swarm coordination algorithms (formation control, de-confliction, collective decision-making); (3) Evidence of emergent-behavior testing (simulation, flight test); (4) Forensic explainability requirements for collective decisions (audit trail of which aircraft influenced which decision); (5) Interaction with GOAL-004 (human control): what ML decisions require human override vs. autonomous authorit</div></div>
+</div></div>
+</div>
+<div class="pattern-section">
+<div class="pattern-header">
+<img src="https://openrequirements.ai/assets/Chris-DeYpHpua.png" alt="Chris" class="pattern-avatar" onerror="this.style.display='none'">
+<div class="pattern-title"><h3>S — Collaborate</h3><div class="analyst">Analyst: <strong>Chris</strong> — 12 findings</div></div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">Swarm-aware SORA evidence is undefined</div><div class="finding-meta">isolation_signal</div></div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-confidence">C10</span><span class="badge badge-principle">S</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>REQ002 is a foundational requirement for SORA assessment. Dorothy-1 finding identified the term is undefined. Without clarity on what swarm-aware means, SORA assessors lack criteria for what evidence to demand. Different assessors might reach different SAIL levels for identical systems, leading to inconsistent authorizations.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Conduct WS-001 (all-team workshop) with SORA assessor, applicant, autonomy engineer, and test engineer. Define swarm-aware operationally with reference to JARUS SORA v2.5 multi-UAS guidance.</div></div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">Meaningful human control lacks measurable criteria</div><div class="finding-meta">missing_perspective</div></div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-confidence">C10</span><span class="badge badge-principle">S</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>REQ010 requires meaningful human control to be demonstrated but provides no definition or criteria. This term is borrowed from LAWS (Lethal Autonomous Weapons) debate and is inherently subjective. Dorothy-2 finding (confidence 10/10): without operational thresholds, CAA human factors inspectors cannot evaluate whether evidence is sufficient. Different inspectors may reach different conclusions on identical evidence.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Conduct WS-003 (all-team workshop) with CAA human factors inspector, applicant crew lead, test pilot, autonomy engineer, and human factors specialist. Define meaningful human control with measurable criteria: awareness frequency, authority preservation, takeover time, workload limits.</div></div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">Containment mechanism design and verification criteria undefined</div><div class="finding-meta">isolation_signal</div></div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-confidence">C10</span><span class="badge badge-principle">S</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>REQ005 uses automatic containment as a critical safety mechanism but does not specify five critical subcriteria. Dorothy-4 finding (confidence 10/10): geofence tolerance, fail-safe mechanism, design standard, environmental factors, and verification approach are all undefined. Different developers might implement containment with different tolerances and fail-safes, leading to inconsistent safety levels.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Conduct WS-002 (all-team workshop) with CAA airspace regulator, applicant safety engineer, autonomy engineer, avionics engineer, and test engineer. Define geofence tolerance, fail-safe design, verification approach, and success criteria.</div></div>
+</div></div>
+</div>
+<div class="pattern-section">
+<div class="pattern-header">
+<img src="https://openrequirements.ai/assets/Isabel-BjuqsE0R.png" alt="Isabel" class="pattern-avatar" onerror="this.style.display='none'">
+<div class="pattern-title"><h3>I — Illustrate</h3><div class="analyst">Analyst: <strong>Isabel</strong> — 8 findings</div></div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">Meaningful human control definition lacks measurable acceptance criteria; crew override latency and authority not specified</div><div class="finding-meta">data_too_abstract</div></div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-confidence">C10</span><span class="badge badge-principle">I</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Chris&#x27;s ubiquitous language defines &#x27;meaningful human control&#x27; as &#x27;active, informed crew awareness and retained authority to perceive system state, understand autonomous actions, and intervene before safety-critical decisions&#x27;, but REQ010 and CAP 722D Section 3.1 do not quantify &#x27;meaningful&#x27; or &#x27;before&#x27;. Vibe MeaningfulHumanControl scale has 4 dimensions (SituationalAwareness, AuthorityPreservation, TakeoverLatency, WorkloadBounds) but acceptance thresholds are undefined. Example EX-007 shows crew override latency = 50ms and workload = 1 concurrent </p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Publish CAP 722D Addendum 1 (Meaningful Human Control Acceptance Criteria) specifying: (1) SituationalAwareness minimum: crew must receive swarm state updates at &gt;= 2Hz nominal, &gt;= 10Hz if off-nominal detected. (2) AuthorityPreservation minimum: &gt;= 100% of irreversible decisions (e.g., formation change, altitude adjustment, swarm split) require explicit crew command; &gt;= 80% of reversible decisions (e.g., hold vs advance) acceptable as autonomous with crew override. (3) TakeoverLatency minimum: crew must be able to regain full control within 10 seconds of pressing override button. (</div></div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">Emergent behavior definition and credibility bounds undefined; applicants cannot determine what swarm behaviors are &#x27;assurable&#x27; vs &#x27;too risky&#x27;</div><div class="finding-meta">data_too_abstract</div></div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-confidence">C10</span><span class="badge badge-principle">I</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Chris language defines &#x27;emergent behaviour&#x27; as &#x27;behavior arising from collective swarm interactions not explicitly programmed in individual aircraft&#x27; and notes it is &#x27;high-risk term, requires formal methods or Monte Carlo verification.&#x27; Vibe SwarmEmergentBoundedness scale requires &#x27;count of distinct emergent behaviors documented, each with a defined boundary and detection/recovery mechanism&#x27;, but what constitutes a &#x27;distinct&#x27; behavior? Is formation-breakup one behavior or five (loss of leader, loss of peer link, consensus timeout, altitude dive</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Develop CAP 722D Addendum 5 (Emergent Behavior Assurance Case) specifying: (1) taxonomy of emergent behaviors for multi-agent swarms: separation-loss (aircraft proximity &lt;50m), formation-breakup (loss of leader-follower links), consensus-deadlock (voting cannot reach quorum), altitude-drift (swarm altitude deviates &gt;50m from commanded), yaw-oscillation (formation heading oscillates &gt;10deg peak-to-peak). (2) Credibility framework: single-failure assumption (one inter-vehicle link fails), environmental extremes (wind gust 10 m/s), sensor noise (GNSS accuracy +/- 5m). What is &#x27;credi</div></div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">Swarm-aware SORA evidence scope is undefined; applicants cannot distinguish evidence for SAIL-IV multi-agent risk from standard single-aircraft SAIL-II</div><div class="finding-meta">missing_concrete_example</div></div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-confidence">C9</span><span class="badge badge-principle">I</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>DeFOSPAM Dorothy-2 and Sophia-3 identified that &#x27;swarm-aware&#x27; is never defined in REQ002. Vibe analysis shows SwarmAwareSORAEvidence scale requires &#x27;3 distinct items per aircraft establishing swarm-aware risk factors&#x27;, but what qualifies as a &#x27;distinct item&#x27; is ambiguous. Spadeadam trial SORA declared SAIL-I but should be SAIL-IV due to multi-agent interdependencies. No applicant guidance exists on what evidence types (loss-of-separation cascades, emergent-behavior bounds, inter-vehicle link failure analysis) are required for swarm-aware SORA. Concrete examples (E</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Develop CAP 722B Appendix C (Swarm-Aware SORA Guidance) documenting: (1) JARUS SORA v2.5 Appendix C interpretation for CAA context, (2) five evidence buckets for swarm-aware risk (loss-of-separation analysis, emergent-behavior bounds, inter-vehicle link failure modes, autonomous-consensus timeouts, swarm-cohesion limits), (3) minimum evidence count per SAIL level (SAIL-I=0 swarm evidence, SAIL-III=1, SAIL-IV=3, SAIL-V=5+), (4) worked examples for common swarm architectures (distributed consensus, hierarchical command, hybrid). Publish by 2026-Q3.</div></div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">ML Model Manifest (&#x27;frozen model&#x27;) requirements not standardized; applicants do not know what data, architecture, training scope, and explainability evidence to provide</div><div class="finding-meta">missing_concrete_example</div></div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-confidence">C9</span><span class="badge badge-principle">I</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>REQ009 requires &#x27;forensically explainable&#x27; ML models with &#x27;frozen model manifest&#x27;, but manifest structure is undefined. Chris language defines &#x27;frozen model&#x27; but notes 7 subcriteria undefined: data retention, duration, security, manifest format, proprietary handling, ownership, reconstruction timing. Example EX-002 (Spadeadam case) is missing ML Model Manifest entirely, causing pack to fail completeness check. Example EX-014 (hypothetical refusal) applicant claims 95% explainability via LIME/SHAP but provides no evidence of off-distribution robustness. Applicants </p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Publish CAP 722D Addendum 3 (ML Model Manifest Template) specifying: (1) mandatory sections: model architecture (layers, weights count, hyperparameters), training data scope (size, domain, augmentation), testing scope (validation set, test set, out-of-distribution testing), explainability approach (decision-tree rules vs feature-importance rankings vs saliency maps per model type), version control (git commit hash of frozen weights). (2) Format template (3-page DOCX with fillable sections). (3) Explainability acceptance criteria: decision-trees = 100% path coverage; neural networks = &gt;= 80%</div></div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">Geofence tolerance and containment action latency not specified; examples show 50m tolerance and 500ms deadline, but are these enforced across all trials?</div><div class="finding-meta">missing_concrete_example</div></div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-confidence">C8</span><span class="badge badge-principle">I</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>REQ005 requires &#x27;fail-safe containment&#x27; and &#x27;geofence enforcement&#x27;, but tolerance (how far beyond geofence before action triggers?) and latency (how fast must action execute?) are not defined. Vibe GeofenceContainment scale targets &#x27;99.9% success rate&#x27; but does not specify tolerance or latency budget. Example EX-004 (Spadeadam trial) assumes 50m tolerance and 500ms latency, but is this binding for all trials, or is it trial-specific? If Scotland PDRA-01 trial (EX-001) operates at 500m VLOS distance with 100m geofence tolerance, does it use the same budget? If MOD </p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Develop CAP 722D Section 6.3 (Geofence Containment Specification) defining: (1) tolerance bands by operation type [PDRA-01 VLOS: 10m tolerance max; BVLOS single-aircraft: 25m; BVLOS swarm: 50m]. (2) Latency budget by airspace type [populated area: 300ms; sparsely populated: 500ms; uninhabited: 800ms]. (3) Fail-safe action logic (RTL vs descend vs hold depends on altitude, wind, swarm state). (4) Verification approach (Monte Carlo simulation of 1,000 scenarios per operation type, showing &gt;= 99.9% of scenarios result in zero boundary exceedance). Publish CAP 722D Addendum 2 by 2026-Q3. Update</div></div>
+</div></div>
+</div>
+<div class="pattern-section">
+<div class="pattern-header">
+<img src="https://openrequirements.ai/assets/Rex-Dmf-gqUI.png" alt="Rex" class="pattern-avatar" onerror="this.style.display='none'">
+<div class="pattern-title"><h3>R — Refine</h3><div class="analyst">Analyst: <strong>Rex</strong> — 64 findings</div></div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">RSPEC-008: Vague language reduces testability</div><div class="finding-meta">missing_precision</div></div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-confidence">C8</span><span class="badge badge-principle">R</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Then clause uses conditional language (should, may, might) instead of deterministic assertions, making pass/fail criteria ambiguous.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Replace with definite statements: &quot;system should record timestamp&quot; → &quot;the system records timestamp and actor&quot;</div></div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">RSPEC-001: Low use of canonical domain language (score 6.2)</div><div class="finding-meta">domain_language_violation</div></div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-confidence">C7</span><span class="badge badge-principle">R</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Specification uses only 3 canonical terms. Domain vocabulary from Chris&#x27;s ubiquitous language glossary is under-represented.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Inject domain terms where they clarify business intent. Example: &quot;system accepts submission&quot; → &quot;the Workbench accepts the Operational Authorisation pack, enabling SORA assessment&quot;</div></div>
+</div></div>
+</div>
+<div class="pattern-section">
+<div class="pattern-header">
+<img src="https://openrequirements.ai/assets/angie-SBE.png" alt="angie" class="pattern-avatar" onerror="this.style.display='none'">
+<div class="pattern-title"><h3>A — Automate</h3><div class="analyst">Analyst: <strong>angie</strong> — 11 findings</div></div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">Hardware-in-the-loop required for latency-critical assertions</div><div class="finding-meta">automation_anti_pattern</div></div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-confidence">C9</span><span class="badge badge-principle">A</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Latency-critical requirements (geofence RTL &lt; 100ms, override &lt; 50ms, kill-switch &lt; 350ms) cannot be reliably tested via pure software mock. Software mock latencies are non-deterministic (OS context switches, CPU load). These scenarios require actual embedded hardware or real-time simulation (FPGA, RTX). No amount of test code can substitute for true latency measurement.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Implement hardware-in-the-loop (HIL) test bench for latency-critical paths. Candidate frameworks: NI LabVIEW, dSPACE, MathWorks HIL Blockset. Integrate with Behave via serial/Ethernet client binding (not native Gherkin). Estimate: 200 hours for HIL infrastructure setup; latency assertions in Behave verified against HIL measurements.</div></div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">ML model forensics require specialized test tooling</div><div class="finding-meta">automation_anti_pattern</div></div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-confidence">C9</span><span class="badge badge-principle">A</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Scenario &#x27;Post-incident model decision reconstruction&#x27; requires ML model inference replay, SHAP/LIME explainability, saliency maps. Standard Gherkin assertion libraries cannot inspect neural network decision boundaries. Requires specialized ML testing framework (e.g., deeptest, TensorFlow Model Audit, PYNVML for GPU profiling). Integration with Behave requires custom step definition that wraps Python ML libraries.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Create dedicated ML forensics Behave plugin (Python module wrapping TensorFlow/PyTorch + SHAP). Step definitions should accept model checkpoint + input feature vector, output decision reconstruction + explainability artifacts. Test data: use synthetic training/validation splits to ensure off-distribution detection scenarios are testable. Integrate with CI/CD GPU queue (model inference is computationally expensive).</div></div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">Emergent behavior test oracle problem unsolved</div><div class="finding-meta">untestable_spec</div></div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-confidence">C9</span><span class="badge badge-principle">A</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Scenario &#x27;Emergent separation loss collision analysis&#x27; claims &#x27;No path to zero-separation collision&#x27; via formal verification. But scenario does not specify HOW to verify this claim programmatically. Formal methods (model checking, SAT solving) require specialized tools (TLA+, Alloy, Z3) and expertise. Standard test automation frameworks assume deterministic execution; formal verification is off-equilibrium problem space.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Acknowledge test oracle limitation: establish clear boundary between &#x27;executable Gherkin scenarios&#x27; and &#x27;formal verification artifacts&#x27;. Gherkin scenarios should assert the OUTCOME (formal proof accepted/rejected), not the proof itself. Recommendation: modify scenario as follows: &#x27;When formal verification model of swarm consensus is submitted / Then verification tool (TLA+ or equivalent) accepts model with 0 collision traces in 10M simulation runs&#x27;. This makes test oracle clear: tool output (pass/fail) is the source of truth, not Gherkin assertion logic.</div></div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">Shared step opportunities reduce automation maintenance burden</div><div class="finding-meta">shared_step_opportunity</div></div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-confidence">C9</span><span class="badge badge-principle">A</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Analysis of all 17 feature files identified 12 recurring step patterns (e.g., &#x27;Given clause library version is pinned to 2.1&#x27;, &#x27;When case status transitions to...&#x27;, &#x27;Then audit log records&#x27;). These steps appear 3-15 times across features. Factoring into shared library will improve maintainability and reduce duplication.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Create shared step library in Behave conftest.py with 12 reusable step definitions. Document parameter syntax for case status, timeline, audit log events. Estimated effort: 20 hours shared library development; 30% reduction in future step maintenance.</div></div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">UK sovereign infrastructure constraints affect framework selection</div><div class="finding-meta">framework_recommendation</div></div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-confidence">C9</span><span class="badge badge-principle">A</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Specification implies UK sovereign cloud (Google Cloud Storage with geo-redundancy, CAA Secure Archive). Standard open-source Gherkin frameworks (Cucumber, Behave, SpecFlow) assume public cloud (AWS, Azure) or on-prem deployment. GCS integration requires custom bindings. MOD classified trials require air-gap or classified cloud (e.g., UK IL5 equivalent). Dual-framework strategy (Behave for unclassified, isolated instance for classified) increases complexity.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Recommendation 1: Adopt Behave (Python) as primary framework. Justification: Python has strong GCS SDK (google-cloud-storage); classification-aware feature file plugins feasible. Recommendation 2: Create abstraction layer for artifact storage (interface abstraction, swappable GCS/local-storage backend) to support air-gapped classified trials. Recommendation 3: Plan separate test instances (public Workbench + classified Workbench) with shared step library but separate execution contexts.</div></div>
+</div></div>
+</div>
+<div class="pattern-section">
+<div class="pattern-header">
+<img src="https://openrequirements.ai/assets/Victoria-B17TdrBk.png" alt="Victoria" class="pattern-avatar" onerror="this.style.display='none'">
+<div class="pattern-title"><h3>V — Validate</h3><div class="analyst">Analyst: <strong>Victoria</strong> — 9 findings</div></div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">9 scenarios with high flakiness risk require test doubles, snapshots, and deterministic seeding</div><div class="finding-meta">reliability_concern</div></div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-confidence">C9</span><span class="badge badge-principle">V</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>DeFOSPAM findings (125 total, 68 critical) expose foundational term ambiguity (swarm-aware, meaningful human control, containment) that cascades into test interpretation variance. Isabel&#x27;s examples (EX-003, EX-006, EX-022, EX-038, EX-063, EX-067) all involve human judgment (SORA assessor, swarm consensus voting, DAA resolver confidence, ML classification detection) or tight timing windows (geofence breach &lt;500ms, RF kill &lt;350ms). Cerf&#x27;s performance engineering (NFR-END-WB-001: 96h soak detecting memory leaks; NFR-LAT-002: 3MB/s evidence store throughput) adds endurance dimensio</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Immediate: (1) Create test-double factory for SORA assessor, DAA resolver, swarm consensus votings, and ML classifiers with frozen decision logic. (2) Implement snapshot testing framework with configurable tolerance bands per scenario. (3) Pin all external API versions in fixture metadata. (4) Add RNG seeding to all swarm/sensor simulation scenarios. Mid-term: (5) Run high-risk scenarios twice per week to detect drift; establish baseline confidence intervals. (6) Instrument audit log write path with database metrics. (7) Integrate Cerf&#x27;s 96h soak test into full suite nightly execution.</div></div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">Smoke suite must validate keystone safety gates in &lt;5 minutes; current 10-scenario design is aligned with Grace&#x27;s P1 priority goals</div><div class="finding-meta">suite_assignment</div></div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-confidence">C9</span><span class="badge badge-principle">V</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Grace&#x27;s goals rank GOAL-001 (intake throughput), GOAL-003 (containment), GOAL-002 (swarm safety), GOAL-006 (apportionment), GOAL-015 (panel override audit) as P1/P2. Smoke suite must be a &#x27;canary&#x27; that catches regressions in these core workflows on every commit. 10 scenarios = 14% of 69 total; statistical coverage of 95% of critical paths is achievable with this selection. Parallelization on GitHub Actions (matrix strategy with 4 workers) can keep smoke &lt;5min.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Implementation: (1) Allocate GitHub Actions matrix with 4 parallel workers; assign 2-3 scenarios per worker. (2) Use docker-compose spin-up &lt;10s per test to minimize setup latency. (3) Cache dependency downloads between runs. (4) Target: smoke completes in 3-4 minutes on main branch, 5-6 minutes under load. (5) Monitor: capture p95 execution time per scenario; alert if any smoke scenario &gt;30s (indicates new flakiness). (6) Blocking: smoke must pass before merge to staging; regression + full required before release.</div></div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">Regression suite covers 55 scenarios (80% of 69); must execute &lt;30 minutes and block main-branch merge</div><div class="finding-meta">suite_assignment</div></div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-confidence">C8</span><span class="badge badge-principle">V</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Regression suite bridges smoke and full: includes all major-severity scenarios (69 all tagged @major @regression), all AC1-AC8 pass/fail paths (Isabel&#x27;s examples demonstrate twins: Scotland approval vs SORA refusal end-to-end), geofence/C2/termination failure modes (GOAL-003 containment assurance), panel override audit trails (GOAL-015 panel decision governance), apportionment (GOAL-006), classification handling (GOAL-009). Must run before merge to main to ensure release readiness. 55 scenarios = 80% coverage; remaining 14 scenarios (RSPEC-056-069) are edge cases, low-priority features, a</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Implementation: (1) Allocate 8-10 parallel GitHub Actions jobs. (2) Each job gets dedicated test PostgreSQL instance (docker-compose) with 10-20s spin-up. (3) Divide 55 scenarios among jobs; use scenario sharding by ID range (RSPEC-001-006, RSPEC-007-012, ..., RSPEC-049-055). (4) Implement database transaction rollback after each scenario to avoid state bleed. (5) Capture per-scenario execution time histogram; flag any scenario &gt;45s (target p95 &lt;30s). (6) Required check: regression suite must pass before main merge (blocking). (7) Required check: Allure dashboard &gt;95% pass rate by fea</div></div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">Full suite (69 scenarios + NFR gates) requires nightly execution and integration with Cerf&#x27;s 8 performance gates</div><div class="finding-meta">suite_assignment</div></div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-confidence">C8</span><span class="badge badge-principle">V</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Full suite captures: (1) all 69 refined scenarios (functional coverage), (2) all K1-K8 keystones (safety assurance), (3) all AC1-AC8 acceptance criteria, (4) Isabel&#x27;s 15 examples end-to-end, (5) Cerf&#x27;s 8 performance gates (NFR-LAT-001: setup latency &lt;3s, NFR-CAP-WB-001: load baseline p95 &lt;3.5s, NFR-END-WB-001: 96h soak &lt;5% drift, etc.), (6) classification boundary scenarios across all 3 tiers (OFFICIAL, OFFICIAL-SENSITIVE, SECRET), (7) 24h endurance extract for audit log forensics. Nightly execution detects issues early; mandatory before release.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Implementation: (1) Create nightly trigger in GitHub Actions: cron 0 2 * * * (0200 UTC). (2) Allocate 8 parallel workers for functional tests; each gets dedicated test DB + mocked external APIs. (3) Dedicate separate staging environment for Cerf NFR gates (soak/stress/spike); resource isolation critical for validity. (4) Sequence: functional tests (55 min) → performance gates (60 min) → alerts (if any failure). (5) Capture JUnit XML, Allure report, perf-timeline.json, flake-register.json. (6) Dashboard: display pass rate by feature, avg exec time, flake rate, coverage %, clause-lib version, ov</div></div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">Performance gates (Cerf Phase 4-8) must be automated parallel checks in full suite; audit log write latency &lt;500ms is critical for GOAL-015</div><div class="finding-meta">pipeline_recommendation</div></div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-confidence">C8</span><span class="badge badge-principle">V</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Cerf&#x27;s performance engineering (openperformance-results.json: NFR-END-WB-001 96h soak, NFR-LAT-001 setup &lt;3s, NFR-CAP-WB-001 load baseline, NFR-LAT-002 3 MB/s throughput) directly maps to operational SLAs. Isabel&#x27;s EX-011 (panel override audit trail &lt;500ms write latency) is GOAL-015 requirement. Noyce&#x27;s NFR-LAT-001 and NFR-LAT-002 are capacity budgets. Ada&#x27;s NFR-CAP-WB-001 is load baseline. These gates are not optional; they define system readiness. Integrating gates into CI ensures every release is validated against performance SLAs.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Implementation: (1) Add GitHub Actions job &#x27;Performance Gates&#x27; after functional tests pass. (2) Run gates in parallel (or sequence if resource-constrained): Gate 1 (unit tests, &lt;1min), Gate 2 (workspace creation load test, &lt;5min), Gate 3 (1h load baseline, &lt;60min), Gate 4 (stress test 2x peak, &lt;10min), Gate 5 (96h soak, &lt;5h in pre-prod), Gate 6 (audit log latency benchmark, &lt;5min), Gate 7 (coverage matrix batch inference, &lt;10min), Gate 8 (evidence store PUT throughput, &lt;10min). (3) Allocate dedicated staging environment for soak test (Gate 5). (4) Capture late</div></div>
+</div></div>
+</div>
+<div class="pattern-section">
+<div class="pattern-header">
+<img src="https://openrequirements.ai/assets/Laveena-DeYWBejU.png" alt="Laveena" class="pattern-avatar" onerror="this.style.display='none'">
+<div class="pattern-title"><h3>L — Living Docs</h3><div class="analyst">Analyst: <strong>Laveena</strong> — 10 findings</div></div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">SwarmAwareSORA definition still &#x27;proposed&#x27;; requires workshop operationalization before living docs can be complete</div><div class="finding-meta">consistency_gap</div></div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-confidence">C10</span><span class="badge badge-principle">L</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>The keystone K2 (SwarmAwareSORA) is non-negotiable for swarm trial authorization, yet the core concept remains &#x27;proposed&#x27; (unverified). This means developers building features, CAA reviewers reading specs, and applicants preparing evidence all operate with different mental models of what &#x27;swarm-aware&#x27; means. DeFOSPAM Dorothy-1 flagged this with confidence 10/10. Until this is operationalized in WS-001, the living docs cannot claim true specification completeness.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Schedule WS-001 (REQ002: Swarm-Aware SORA Assessment) as a blocker before Phase 2 feature files are marked &#x27;stable&#x27;. Workshop agenda: (1) Define swarm-aware operationally; (2) Identify swarm-specific failure modes not covered in single-aircraft SORA; (3) Map evidence requirements (test data, analysis, simulation); (4) Define SAIL outcomes for swarm complexity.</div></div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">GeofenceContainment specification lacks five critical design subcriteria; feature file is incomplete without design workshop</div><div class="finding-meta">structure_issue</div></div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-confidence">C9</span><span class="badge badge-principle">L</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>A developer trying to implement geofence logic reads the feature file and sees &#x27;RTL within 500ms&#x27;, but cannot answer: What tolerance is acceptable? What wind speed is worst-credible? What GPS accuracy assumptions? What design standard applies (DO-254 DAL B?)? Without these clarifications, the implementation will lack regulatory defensibility. DeFOSPAM Dorothy-4 identified this as confidence 10/10 critical finding.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Schedule WS-002 (REQ005: Automatic Containment Design Specification) with: CAA airspace regulator, applicant safety engineer, autonomy engineer, test engineer. Agenda: (1) Define boundary tolerance (±X meters); (2) Specify fail-safe mechanism (independent altitude limiter?); (3) Identify design standard (DO-254 DAL B? DEFSTAN 00-970 Part 9?); (4) Map environmental factors (GPS multipath, wind prediction); (5) Define verification approach (Monte Carlo? Flight test?). Output: containment design spec, geofence tolerance matrix, verification plan.</div></div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">MeaningfulHumanControl feature lacks quantified crew situational awareness and workload thresholds; specification is aspirational, not testable</div><div class="finding-meta">consistency_gap</div></div>
+<div class="badges"><span class="badge badge-critical">CRITICAL</span><span class="badge badge-confidence">C9</span><span class="badge badge-principle">L</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>A CAA human-factors inspector reading the feature file for meaningful human control can see the scenario (&#x27;crew observes altitude deviation, presses button, swarm halts within 50ms&#x27;), but cannot make a go/no-go decision without knowing: Is 50ms fast enough for true control authority? Is 10Hz telemetry update frequent enough for situational awareness? DeFOSPAM Dorothy-2 identified this as confidence 10/10 critical finding. Without quantified thresholds, the specification is aspirational (good goal, not testable requirement).</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Schedule WS-003 (REQ010: Meaningful Human Control &amp; Crew Workload Definition) with: CAA human factors inspector, applicant crew/flight ops lead, test pilot, autonomy engineer, human factors specialist. Agenda: (1) Define situational awareness update frequency (Hz? seconds?); (2) Define authority preservation scope (which decisions must crew pre-approve vs approve post-hoc?); (3) Define takeover time requirement (within X seconds for which off-nominal events?); (4) Define workload limits (max concurrent decisions? max duty cycle per hour?); (5) Map failure modes where control is lost; (6) A</div></div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">SwarmAwareSORA feature is over-specified (47 lines) while Phase 3 Archive feature is under-specified (1 feature); detail-level imbalance creates navigation friction</div><div class="finding-meta">structure_issue</div></div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-confidence">C8</span><span class="badge badge-principle">L</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>A developer navigating the feature files encounters SwarmAwareSORA with 47 lines and thinks &#x27;this must be really complex&#x27;, then navigates to Phase 3 and finds only 1 feature file for 2 different concerns. This creates a false sense of importance (SwarmAwareSORA is complex because over-specified, not because it&#x27;s intrinsically harder than other features) and undersells Phase 3 (archive seems like an afterthought). The imbalance suggests incomplete specification in Phase 3.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Rebalance detail levels: (1) Break SwarmAwareSORA into 2 separate features: &#x27;swarm-aware-hazard-analysis&#x27; (SAIL mapping) and &#x27;swarm-specific-failure-modes&#x27; (loss-of-separation cascade). (2) Expand Phase 3 from 1 feature to 3: &#x27;data-retention-and-security.feature&#x27;, &#x27;post-incident-aaib-extraction.feature&#x27;, &#x27;forensic-trail-reconstruction.feature&#x27;. (3) Add 3 worked examples for Phase 3 (currently 0 examples). (4) Limit feature files to 20–30 lines; break longer scenarios into separate features.</div></div>
+</div></div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area"><div class="finding-title">Glossary term hyphenation and acronym expansion inconsistent across feature files; pre-commit hook should enforce style</div><div class="finding-meta">consistency_gap</div></div>
+<div class="badges"><span class="badge badge-major">MAJOR</span><span class="badge badge-confidence">C8</span><span class="badge badge-principle">L</span></div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>A CAA case officer reading two different feature files encounters &#x27;meaningful human control&#x27; in one and &#x27;meaningful-human-control&#x27; in another, and wonders if they are different concepts. This undermines confidence in the glossary and creates ambiguity about which definition applies. Consistency is not just style — it affects interpretability.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Implement pre-commit hook (Python script, ~6 development hours) that: (1) Validates every bolded term against glossary.md; (2) Enforces hyphenation/capitalization style from glossary; (3) Flags unexpanded acronyms on first use; (4) Rejects commits if inconsistencies found. Hook should provide diffs showing required fixes. Alternative: Run nightly linter on feature files and report style violations in daily standup.</div></div>
+</div></div>
+</div>
+</div>
+<div class="footer">
+Report generated by <a href="https://openrequirements.ai">OpenRequirements.ai</a><br>
+Specification by Example methodology by Gojko Adzic · 2026-04-23 11:30 UTC
+</div>
+</body></html>

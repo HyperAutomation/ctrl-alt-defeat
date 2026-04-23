@@ -1,0 +1,937 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Performance Engineering NFR Assessment</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif; background: #0d1117; color: #e6edf3; line-height: 1.6; }
+.header { background: linear-gradient(135deg, #161b22 0%, #1a1f2e 100%); border-bottom: 1px solid #30363d; padding: 20px 0; }
+.header-content { max-width: 1200px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+.brand h1 { font-size: 24px; font-weight: 700; color: #f0f6fc; }
+.powered-by { font-size: 13px; color: #8b949e; }
+.powered-by a { color: #58a6ff; text-decoration: none; }
+.container { max-width: 1200px; margin: 0 auto; padding: 32px 24px; }
+.summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-bottom: 32px; }
+.summary-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; text-align: center; }
+.summary-card .number { font-size: 36px; font-weight: 700; color: #58a6ff; }
+.summary-card.critical .number { color: #f85149; }
+.summary-card.major .number { color: #d29922; }
+.summary-card .label { font-size: 11px; color: #8b949e; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.discipline-pills { display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; }
+.pill { padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; border: 1px solid #30363d; background: #161b22; color: #8b949e; }
+.pill .count { background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 10px; margin-left: 6px; font-size: 11px; }
+.section-title { font-size: 20px; font-weight: 600; color: #f0f6fc; margin: 32px 0 16px; padding-bottom: 8px; border-bottom: 1px solid #30363d; }
+.table-wrap { overflow-x: auto; margin-bottom: 24px; background: #161b22; border: 1px solid #30363d; border-radius: 8px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #21262d; vertical-align: top; }
+th { color: #8b949e; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; background: #1c2129; }
+tr:last-child td { border-bottom: none; }
+.discipline-section { margin-bottom: 40px; }
+.discipline-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; padding: 14px 18px; background: #161b22; border: 1px solid #30363d; border-radius: 8px; }
+.discipline-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid #30363d; object-fit: cover; flex-shrink: 0; }
+.discipline-title { flex: 1; }
+.discipline-title h3 { color: #f0f6fc; font-size: 16px; }
+.discipline-title .analyst { color: #8b949e; font-size: 13px; }
+.finding-card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; margin-bottom: 14px; overflow: hidden; }
+.finding-header { display: flex; align-items: center; gap: 16px; padding: 14px 20px; border-bottom: 1px solid #21262d; background: #1c2129; }
+.finding-title-area { flex: 1; }
+.finding-title { font-size: 15px; font-weight: 600; color: #f0f6fc; }
+.analyst-info { font-size: 12px; color: #8b949e; }
+.badges { display: flex; gap: 6px; flex-shrink: 0; flex-wrap: wrap; }
+.badge { padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+.badge-critical { background: rgba(248,81,73,0.15); color: #f85149; border: 1px solid rgba(248,81,73,0.3); }
+.badge-major { background: rgba(210,153,34,0.15); color: #d29922; border: 1px solid rgba(210,153,34,0.3); }
+.badge-minor { background: rgba(63,185,80,0.15); color: #3fb950; border: 1px solid rgba(63,185,80,0.3); }
+.badge-confidence { background: rgba(88,166,255,0.15); color: #58a6ff; border: 1px solid rgba(88,166,255,0.3); }
+.badge-discipline { background: rgba(188,140,255,0.1); color: #bc8cff; border: 1px solid rgba(188,140,255,0.2); }
+.badge-domain { background: rgba(255,165,0,0.1); color: #ffa657; border: 1px solid rgba(255,165,0,0.2); }
+.finding-body { padding: 16px 20px; }
+.finding-section { margin-bottom: 12px; }
+.finding-section:last-child { margin-bottom: 0; }
+.finding-section h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #8b949e; margin-bottom: 4px; }
+.finding-section p { font-size: 13px; color: #c9d1d9; }
+.recommendation-box { background: #0d1117; border: 1px solid #30363d; border-radius: 6px; padding: 10px 14px; font-size: 13px; color: #79c0ff; }
+.footer { text-align: center; padding: 40px 24px; border-top: 1px solid #30363d; margin-top: 40px; color: #8b949e; font-size: 13px; }
+.footer a { color: #58a6ff; text-decoration: none; }
+.budget-bar { display: flex; align-items: center; gap: 10px; margin: 4px 0; }
+.budget-bar .label { min-width: 130px; font-size: 12px; color: #c9d1d9; }
+.budget-bar .bar { flex: 1; height: 18px; background: #0d1117; border-radius: 4px; border: 1px solid #30363d; position: relative; overflow: hidden; }
+.budget-bar .bar .fill { height: 100%; background: linear-gradient(to right, #1f6feb, #58a6ff); }
+.budget-bar .val { min-width: 80px; text-align: right; font-size: 12px; color: #79c0ff; font-weight: 600; }
+.priority-action { background: linear-gradient(135deg, #1a1f2e 0%, #161b22 100%); border: 1px solid #30363d; border-radius: 12px; padding: 16px 20px; margin-bottom: 12px; }
+.priority-action .num { color: #f85149; font-weight: 700; font-size: 13px; }
+.priority-action .desc { color: #c9d1d9; font-size: 13px; margin-top: 4px; }
+</style></head><body>
+<div class="header"><div class="header-content">
+<div class="brand"><h1>Performance Engineering NFR Assessment</h1></div>
+<div class="powered-by"><a href="https://openrequirements.ai">OpenRequirements.ai</a> | Based on Effective Performance Engineering by DeCapua &amp; Evans</div>
+</div></div>
+<div class="container">
+
+<div style="margin-bottom:24px; color:#8b949e; font-size:14px;">
+<strong style="color:#f0f6fc;">System:</strong> CAA/MAA Joint Approval Workbench + BVLOS UAS Swarm (operational system being approved)<br>
+<strong style="color:#f0f6fc;">Source:</strong> DeFOSPAM + Vibe Requirements + <code style="background:#161b22;padding:2px 6px;border-radius:4px;color:#79c0ff;">requirements-221fbff5.csv</code><br>
+<strong style="color:#f0f6fc;">Analysis date:</strong> 2026-04-23 11:04 UTC
+</div>
+
+<div class="summary-grid">
+<div class="summary-card"><div class="number">220</div><div class="label">NFR Artefacts</div></div>
+<div class="summary-card"><div class="number">97</div><div class="label">Findings</div></div>
+<div class="summary-card critical"><div class="number">30</div><div class="label">Critical</div></div>
+<div class="summary-card major"><div class="number">64</div><div class="label">Major</div></div>
+<div class="summary-card"><div class="number">8</div><div class="label">Agents</div></div>
+</div>
+
+<div class="discipline-pills">
+<div class="pill" style="color:#58a6ff;border-color:#58a6ff;">CLASS UME <span class="count">8</span></div>
+<div class="pill">C — Capacity<span class="count">11</span></div>
+<div class="pill">L — Latency<span class="count">14</span></div>
+<div class="pill">A — Availability<span class="count">10</span></div>
+<div class="pill">S — Scalability<span class="count">11</span></div>
+<div class="pill">S — Security<span class="count">10</span></div>
+<div class="pill">U — Usability<span class="count">16</span></div>
+<div class="pill">M — Monitoring<span class="count">16</span></div>
+<div class="pill">E — Endurance<span class="count">9</span></div>
+</div>
+<h2 class="section-title">CLASS UME Discipline Summary</h2>
+<div class="table-wrap"><table><thead><tr><th>Discipline</th><th>Analyst</th><th style="text-align:right;">Artefacts</th><th style="text-align:right;">Findings</th><th style="text-align:right;">Critical</th><th style="text-align:right;">Major</th><th style="text-align:right;">Minor</th></tr></thead><tbody>
+<tr><td><strong>C</strong> — Capacity</td><td>Ada</td><td style="text-align:right;">10</td><td style="text-align:right;">11</td><td style="text-align:right; color:#f85149;">2</td><td style="text-align:right; color:#d29922;">9</td><td style="text-align:right; color:#3fb950;">0</td></tr>
+<tr><td><strong>L</strong> — Latency</td><td>Noyce</td><td style="text-align:right;">20</td><td style="text-align:right;">14</td><td style="text-align:right; color:#f85149;">6</td><td style="text-align:right; color:#d29922;">8</td><td style="text-align:right; color:#3fb950;">0</td></tr>
+<tr><td><strong>A</strong> — Availability</td><td>Alan</td><td style="text-align:right;">10</td><td style="text-align:right;">10</td><td style="text-align:right; color:#f85149;">4</td><td style="text-align:right; color:#d29922;">6</td><td style="text-align:right; color:#3fb950;">0</td></tr>
+<tr><td><strong>S</strong> — Scalability</td><td>Liskov</td><td style="text-align:right;">12</td><td style="text-align:right;">11</td><td style="text-align:right; color:#f85149;">3</td><td style="text-align:right; color:#d29922;">7</td><td style="text-align:right; color:#3fb950;">1</td></tr>
+<tr><td><strong>S</strong> — Security</td><td>Yao</td><td style="text-align:right;">20</td><td style="text-align:right;">10</td><td style="text-align:right; color:#f85149;">2</td><td style="text-align:right; color:#d29922;">6</td><td style="text-align:right; color:#3fb950;">2</td></tr>
+<tr><td><strong>U</strong> — Usability</td><td>Turing</td><td style="text-align:right;">18</td><td style="text-align:right;">16</td><td style="text-align:right; color:#f85149;">8</td><td style="text-align:right; color:#d29922;">8</td><td style="text-align:right; color:#3fb950;">0</td></tr>
+<tr><td><strong>M</strong> — Monitoring</td><td>Iverson</td><td style="text-align:right;">22</td><td style="text-align:right;">16</td><td style="text-align:right; color:#f85149;">2</td><td style="text-align:right; color:#d29922;">14</td><td style="text-align:right; color:#3fb950;">0</td></tr>
+<tr><td><strong>E</strong> — Endurance</td><td>Cerf</td><td style="text-align:right;">11</td><td style="text-align:right;">9</td><td style="text-align:right; color:#f85149;">3</td><td style="text-align:right; color:#d29922;">6</td><td style="text-align:right; color:#3fb950;">0</td></tr>
+</tbody></table></div>
+<h2 class="section-title">Headline SLAs — Workbench</h2>
+<div class="table-wrap"><table><thead><tr><th>Journey / Loop</th><th>p95 Target</th><th>Anchor</th></tr></thead><tbody>
+<tr><td>Workspace creation (Step 1)</td><td><code style="color:#79c0ff;">&lt;3 s</code></td><td>derived</td></tr>
+<tr><td>Submission upload (100 MB)</td><td><code style="color:#79c0ff;">&lt;30 s</code></td><td>derived</td></tr>
+<tr><td><strong>Coverage matrix generation</strong></td><td><code style="color:#79c0ff;">&lt;10 minutes</code></td><td>parent NFR</td></tr>
+<tr><td>Operator Feedback Report render</td><td><code style="color:#79c0ff;">&lt;5 s</code></td><td>derived</td></tr>
+<tr><td>Submission Readiness Check</td><td><code style="color:#79c0ff;">&lt;60 s</code></td><td>derived</td></tr>
+<tr><td>Panel case-open (Step 5)</td><td><code style="color:#79c0ff;">&lt;10 s</code></td><td>derived</td></tr>
+<tr><td><strong>AI-flag narrative rendering</strong></td><td><code style="color:#79c0ff;">&lt;30 minutes</code></td><td>parent NFR</td></tr>
+<tr><td>Evidence pointer resolution</td><td><code style="color:#79c0ff;">&lt;2 s</code></td><td>derived</td></tr>
+<tr><td>Panel-action log write</td><td><code style="color:#79c0ff;">&lt;500 ms</code></td><td><span style="color:#f85149;">at risk (Noyce, Yao)</span></td></tr>
+<tr><td>Decision record PDF export</td><td><code style="color:#79c0ff;">&lt;5 minutes</code></td><td>derived</td></tr>
+<tr><td><strong>Full panel open-and-review cycle</strong></td><td><code style="color:#79c0ff;">&lt;2 working days</code></td><td>parent NFR</td></tr>
+</tbody></table></div>
+<h2 class="section-title">Headline SLAs — Swarm (operational system being approved)</h2>
+<div class="table-wrap"><table><thead><tr><th>Safety-critical loop</th><th>p99 Target</th><th>Anchor</th></tr></thead><tbody>
+<tr><td>Geofence breach detection → action</td><td><code style="color:#79c0ff;">&lt;500 ms (hard deadline 1 s)</code></td><td>K1</td></tr>
+<tr><td>C2 link round-trip (tactical)</td><td><code style="color:#79c0ff;">&lt;1 s</code></td><td>REQ006 vibe target</td></tr>
+<tr><td>DAA cooperative encounter resolution</td><td><code style="color:#79c0ff;">&lt;5 s</code></td><td>DO-365</td></tr>
+<tr><td>DAA non-cooperative encounter</td><td><code style="color:#79c0ff;">&lt;30 s</code></td><td>DO-365</td></tr>
+<tr><td>Flight termination command → motor cutoff</td><td><code style="color:#79c0ff;">&lt;500 ms</code></td><td>K6</td></tr>
+<tr><td>Swarm consensus cycle</td><td><code style="color:#79c0ff;">aligned with control loop</code></td><td>REQ008</td></tr>
+</tbody></table></div>
+<h2 class="section-title">Top Priority Actions</h2>
+<div class="priority-action"><span class="num">#1 — Panel-action log 500 ms SLA is at serious risk</span><div class="desc">Distributed consensus + TSA overhead + classification check. Either relax SLA to 1 s OR adopt async/optimistic write with durable ack &lt;500 ms and commit &lt;2 s.</div></div>
+<div class="priority-action"><span class="num">#2 — Coverage matrix 10-min budget tight on 500 MB packs</span><div class="desc">OCR + AI inference in series consume most of budget at p95. Pipeline parallelisation + progressive reveal.</div></div>
+<div class="priority-action"><span class="num">#3 — Classification boundary is bottleneck and SPOF</span><div class="desc">Liskov: no failover. Yao: auth IdP outage risk. Alan: 99.9% target unachievable without architecture rework. Build dedicated classified enclave with independent auth cache.</div></div>
+<div class="priority-action"><span class="num">#4 — GPU capacity must scale 5x by 2028</span><div class="desc">Ada: need 4-5 A100-class GPUs. Cerf: GPU memory leak risk over 72h soak.</div></div>
+<div class="priority-action"><span class="num">#5 — ODD monitor for swarm autonomy is absent</span><div class="desc">Iverson: critical gap. Onboard ML may leave trained ODD without detection. Ties to keystone K4 (ML forensic explainability).</div></div>
+<div class="priority-action"><span class="num">#6 — Alert fatigue risk high</span><div class="desc">Iverson: three context-insensitive alerts will fire during legitimate testing. Dynamic thresholds keyed to trial context and volume baseline.</div></div>
+<div class="priority-action"><span class="num">#7 — Performance doneness gates incomplete</span><div class="desc">Cerf: no GPU perf unit harness, no multi-journey integration, no 8h load test. All three are book-recommended proven practices.</div></div>
+<div class="priority-action"><span class="num">#8 — Red-team traffic tagging required</span><div class="desc">Parent DoD runs red team against live system. Yao: coordinated tagging prevents spurious SOC alerts.</div></div>
+<h2 class="section-title">Findings by Discipline</h2>
+<div class="discipline-section">
+<div class="discipline-header">
+<img src="https://www.openperformance.ai/assets/ada-BElXIfyv.png" alt="Ada" class="discipline-avatar" onerror="this.style.display='none'">
+<div class="discipline-title">
+<h3>C — Capacity</h3>
+<div class="analyst">Analyst: <strong>Ada</strong> — 11 findings</div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Post-Trial Assurance &amp; Close-out (REQ020) absent from user stories; archive capacity must be provisioned</div>
+<div class="analyst-info">REQ020-CAP-001 · capacity_gap</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C9</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">C</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>REQ020 (Post-Trial Assurance &amp; Close-out) is not covered by any user story in the original requirements (requirements-221fbff5.csv), yet CAP 722A §23 mandates 10-year evidence retention for investigation and regulatory audit. This creates a capacity gap: archive infrastructure (immutable storage, WORM volumes, checksums, disaster recovery) must be specified and provisioned before trial operations begin. Without this specification, evidence may be lost to bit rot, mishandling, or inadequate backup. Regulatory non-compliance risk is severe (CAP 722A violation).</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Create user story REQ020-bis: &#x27;As a CAA investigations officer, I want immutable 10-year evidence archives so that incident investigations and regulatory audits can access complete trial records.&#x27; Provision archive capacity incrementally: (1) Define archive schema (what constitutes a &#x27;complete case record&#x27;), (2) Implement WORM storage (S3 with versioning disabled + checksums, or enterprise SAN with WORM volumes), (3) Establish backup/DR for archive tier (off-site replicas, encrypted), (4) Design archive access protocols (incident investigation workflow, audit trail of who a</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Security Classification Handling (REQ018) absent; SECRET/STRAP tier infrastructure not scoped</div>
+<div class="analyst-info">REQ018-CAP-001 · capacity_gap</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C9</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">C</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>REQ018 (Security Classification Handling) is absent from user stories, yet CAA/MAA trials involving MOD autonomy assurance (GCAP/Tempest, advanced swarm autonomy) require classified evidence handling per CAP 722H and JSP 440 (Information Security Manual). Current Workbench design assumes OFFICIAL tier (cloud-hosted, high availability). SECRET tier requires on-premises air-gapped infrastructure: separate DB replicas, isolated network, restricted access (MOD personnel only), immutable audit trails per access. STRAP tier (Special Tactical Requirement) adds further complexity (physical compartment</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">(1) Create user story REQ018-bis: &#x27;As a CAA/MOD liaison, I want classified evidence segregation per JSP 440 so that MOD autonomy assurance trials can share classified airworthiness data without compromise.&#x27; (2) Establish MOD Data Protection Officer liaison (CAP 722H compliance authority). (3) Design SECRET tier architecture (on-premises, air-gapped, dual-replica for resilience, WORM audit logs). (4) Design STRAP tier access controls (physical compartmentalization, cleared personnel roster, need-to-know matrix). (5) Budget and procure on-premises infrastructure (2026 Q2-Q3 for deploym</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Swarm-Aware SORA Evidence Capacity Gap (DeFOSPAM Dorothy-1 + Vibe SwarmAwareSORAEvidence)</div>
+<div class="analyst-info">REQ002-CAP-002 · capacity_gap</div>
+</div>
+<div class="badges">
+<span class="badge badge-major">MAJOR</span>
+<span class="badge badge-confidence">C9</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">C</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>DeFOSPAM finding Dorothy-1 flagged &#x27;swarm-aware&#x27; as undefined in REQ002. Vibe analysis (SwarmAwareSORAEvidence scale) quantified the gap: status 15% of submissions contain swarm-specific SORA evidence, tolerable 80%, regulatory minimum (JARUS SORA v2.5 Appendix C) 5 distinct items per aircraft for complex swarms. This creates a SORA assessment capacity bottleneck: (1) Current evidence is insufficient; operators will submit legacy SORA v2.0 packs lacking swarm-specific failure-mode analysis. (2) SORA assessors must conduct extended audits (METER-003: Swarm-Specific Risk Evidence Inven</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">(1) Publish JARUS SORA v2.5 swarm-specific evidence templates (6 months pre-trial): ConOps sections addressing swarm interdependencies, failure-cascade evidence, emergent-behavior testing, de-confliction algorithm validation. (2) Host webinars for applicants (Q1 2026): SORA swarm-aware evidence requirements, case studies, common pitfalls. (3) Deploy METER-003 (Swarm-Specific Risk Evidence Inventory Audit) as formalized SORA process: risk-item extraction checklist, swarm-specific tag taxonomy, evidence traceability log. (4) Allocate 2-3 FTE dedicated swarm SORA assessor roles (recruit by 2026 Q</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Phased Trial Build-Up (REQ016) drives sustained multi-month submission and review load</div>
+<div class="analyst-info">REQ016-CAP-001 · capacity_gap</div>
+</div>
+<div class="badges">
+<span class="badge badge-major">MAJOR</span>
+<span class="badge badge-confidence">C8</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">C</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>REQ016 (Phased Trial Build-Up) specifies that evidence builds progressively through gates, allowing reversibility. This design choice creates sustained capacity demand (long-running submissions in-progress) vs. batch processing. Vibe benchmark PackCompleteness indicates 28% first-submission failure rate; under phased-gate design, applicants will resubmit evidence multiple times (per-gate rework). Impact: (1) Concurrent active submissions remain high (10-20 simultaneously), each occupying evidence-store space and requiring reviewer bandwidth. (2) Review panels meet more frequently (5-15 per qua</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">(1) Establish phased-gate SLA per REQ016: gate 1 (application intake + completeness check): 2 weeks turnaround; gate 2 (SORA + safety-case review): 4 weeks; gate 3 (crew training + ConOps validation): 2 weeks; gate 4 (joint panel authorization): 3-6 weeks. (2) Publish gate-specific checklists (Alexa&#x27;s scales from vibe analysis): PackCompleteness (gate 1), SwarmAwareSORAEvidence (gate 2), ConOpsCompleteness (gate 3), AuthorizationReadiness (gate 4). (3) Implement per-gate evidence staging (Workbench data model): evidence required for gate N is archived; evidence for gate N+1 is in active r</div></div>
+</div>
+</div>
+</div>
+<div class="discipline-section">
+<div class="discipline-header">
+<img src="https://www.openperformance.ai/assets/noyce-B76XlpvN.jpeg" alt="Noyce" class="discipline-avatar" onerror="this.style.display='none'">
+<div class="discipline-title">
+<h3>L — Latency</h3>
+<div class="analyst">Analyst: <strong>Noyce</strong> — 14 findings</div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Coverage matrix p95 10-min budget may miss on 500+ MB packs due to OCR+inference cascade</div>
+<div class="analyst-info">NFR-LAT-003-RISK · latency_risk</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C9</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">L</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Parent NFR anchors 10-minute p95 SLA for matrix generation, but OCR text extraction alone (180–360 s depending on pack size) consumes 30–50% of budget. Semantic classification inference adds 200–480 s. For 500 MB packs with high-resolution images and complex formatting, p95 OCR time may reach 400+ s, pushing combined inference to 900+ s (15+ min), blowing the 10-min SLA. Confidence elevated due to known OCR variance across document types.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">1. Baseline OCR+inference latencies on representative 100/250/500 MB packs immediately. 2. Implement parallel OCR on multi-GPU infrastructure (stripe document by page). 3. Consider two-tier SLA: p95 10 min for ≤100 MB (fast path), p95 15–20 min for 100–500 MB (batch path). 4. Add per-pack size estimator to recommend async callback vs. blocking on intake.</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Panel action log p95 500 ms SLA unachievable under contention due to immutable log quorum replication</div>
+<div class="analyst-info">NFR-LAT-009-RISK · latency_risk</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C8</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">L</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>SLA targets 500 ms p95 for audit-log writes, but distributed quorum replication (consensus among 3+ nodes) typically requires 200–400 ms of network round-trips alone, plus 100+ ms for lock acquisition and classification inline checks. Under high panel contention (10+ simultaneous reviewers), lock wait times can exceed 300 ms, pushing tail latency to 800+ ms. Immutable log semantics (write-once, cryptographic hash chaining) add overhead that is difficult to amortize. Confidence is high based on known properties of consensus protocols (Raft, Paxos).</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">1. Re-baseline distributed log write latency (measure on staging with 3-node quorum). 2. Consider reducing quorum to 2 nodes for non-critical actions (accept eventual consistency risk). 3. Implement parallel action batching: buffer 10–20 ms of micro-actions, commit as single immutable record. 4. Upgrade SLA to p95 1 s for audit-log; p95 500 ms only for in-memory application state (non-audit writes). 5. Add horizontal scaling of log broker nodes to reduce contention.</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Geofence containment p99 &lt;500 ms (p99.9 &lt; 1 s) may not account for C2 link jitter and radio transmission variance</div>
+<div class="analyst-info">NFR-LAT-011-RISK · latency_risk</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C8</span>
+<span class="badge badge-domain">swarm</span>
+<span class="badge badge-discipline">L</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Budget allocates 50 ms for GPS position update, 50 ms for boundary check, and 200 ms for C2 radio transmission. However, tactical C2 radio links (UHF/4G-LTE) exhibit jitter of 50–200 ms, especially in urban or GPS-denied environments. Additionally, GPS position update rate is typically 1–5 Hz (200–1000 ms between updates), introducing latency that is not accounted for in the budget. For a geofence violation detected just after a GPS update, the next position update (and hence detection) may be delayed 200+ ms. C2 transmission variance due to link quality, interference, or retransmission can ad</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">1. Implement airborne geofence monitoring at GPS update frequency (1–5 Hz); do not rely solely on ground-based detection. 2. Baseline GPS position update latency and variance on operational platform; use actual (not theoretical) frequencies. 3. Measure C2 link latency distribution under field conditions (not lab); characterize p50, p95, p99 transmission times. 4. Set geofence boundary margin (buffer zone) inversely proportional to C2 latency: margin_m = (c2_latency_s * swarm_speed_m_s) + safety_factor. 5. Validate containment logic in Monte Carlo simulation with realistic GPS/C2 jitter; confir</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">C2 link round-trip latency p95 &lt;1 s may not be achievable on 4G/LTE spectrum with typical network congestion</div>
+<div class="analyst-info">NFR-LAT-013-RISK · latency_risk</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C8</span>
+<span class="badge badge-domain">swarm</span>
+<span class="badge badge-discipline">L</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Budget allocates 300 ms each for uplink and downlink transmission. However, 4G/LTE networks exhibit highly variable latency depending on signal strength, congestion, and packet loss. Typical observed p95 latency on LTE is 50–200 ms per direction in ideal conditions, but can easily reach 500+ ms during peak hours or in fringe coverage areas. Additionally, retransmissions (TCP retransmit, link-layer ARQ) can add 100–1000 ms tail latency. For BVLOS swarms operating beyond visual range in varied terrain, C2 link outages and degradation are expected. Confidence is high based on published LTE networ</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">1. Measure actual C2 link latency on planned trial airspace (not lab); collect p50, p95, p99 during peak and off-peak hours. 2. Baseline on spectrum band and network carrier (LTE Band X, provider Y). 3. Re-evaluate SLA based on empirical data: if p95 &lt;1 s is unachievable, set realistic target (e.g., p95 &lt;2 s, p99 &lt;5 s) or implement dual-link diversity (satellite + LTE). 4. Add link-quality monitoring to workbench: &#x27;C2 latency trending [graph]; marginal links flagged for trial planning.&#x27; 5. Implement operator override with latency visibility: &#x27;Current C2 latency: 1200 ms</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">AI-flag narrative p95 30-min budget at risk due to inference scaling and evidence chunking latency</div>
+<div class="analyst-info">NFR-LAT-007-RISK · latency_risk</div>
+</div>
+<div class="badges">
+<span class="badge badge-major">MAJOR</span>
+<span class="badge badge-confidence">C8</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">L</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>End-to-end p95 1800 s budget allocates 900 s to AI inference per-chunk. For a typical evidence pack with 100+ distinct sections (ConOps, SORA, Safety Case, Training, Personnel, Environmental, etc.), serial inference at 10–15 s per section results in 1000–1500 s baseline. Parallel inference across sections mitigates this, but requires reservation of GPU resources; contention during peak submission periods (e.g., near trial approval deadlines) may cause queuing delays of 300+ s. Additionally, evidence chunking strategy (semantic vs. sliding-window) and chunk boundary optimization add unpredictab</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">1. Implement streaming narrative flag generation: show first-pass flags at 10 min, iterative refinement to 30 min. 2. Baseline inference latency per evidence section type (ConOps, SORA, Safety Case, etc.); create section-type-specific SLAs. 3. Reserve dedicated GPU capacity for narrative workload; implement priority queue (urgent cases bump lower-priority). 4. Measure end-to-end latency percentiles on a 100-case cohort; if p95 &gt; 25 min, explore model quantization or distillation. 5. Add user-facing progress bar and ETA; set expectation that full narrative will be available within 30 min but</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Evidence upload SLA does not specify throughput for OFFICIAL vs. CONFIDENTIAL vs. UNCLASSIFIED evidence; classification overhead not budgeted</div>
+<div class="analyst-info">NFR-LAT-002-MISSING · missing_target</div>
+</div>
+<div class="badges">
+<span class="badge badge-major">MAJOR</span>
+<span class="badge badge-confidence">C8</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">L</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Parent NFR specifies 30-s p95 for 100 MB pack under OFFICIAL classification, but the upload SLA does not differentiate latency for CONFIDENTIAL or UNCLASSIFIED evidence, nor does it account for mandatory inline classification validation. OFFICIAL evidence may require additional cryptographic checks (MOD classification marks, compartment validation) that add 100–500 ms per document. The current budget (3–5 MB/s net throughput) assumes classification is negligible, but may be violated if classification overhead is substantial. Additionally, no SLA is defined for hybrid packs that span multiple c</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">1. Measure classification-overhead latency per evidence type (ConOps, SORA, Safety Case, etc.) for OFFICIAL vs. CONFIDENTIAL vs. UNCLASSIFIED. 2. Define separate SLAs: (a) UNCLASSIFIED: p95 &lt;30 s for 100 MB, (b) OFFICIAL: p95 &lt;40 s for 100 MB, (c) hybrid pack: p95 &lt;45 s (worst-case classification path). 3. Implement fast-track for UNCLASSIFIED (skip crypto checks); queue OFFICIAL/CONFIDENTIAL for async classification validator. 4. Add workbench UI warning: &#x27;Uploads containing OFFICIAL evidence may take up to 40 s; use batch upload for efficiency.&#x27;</div></div>
+</div>
+</div>
+</div>
+<div class="discipline-section">
+<div class="discipline-header">
+<img src="https://www.openperformance.ai/assets/turing-BMyIkicD.jpg" alt="Alan" class="discipline-avatar" onerror="this.style.display='none'">
+<div class="discipline-title">
+<h3>A — Availability</h3>
+<div class="analyst">Analyst: <strong>Alan</strong> — 10 findings</div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Workbench availability SLA missing from core requirements; meta-requirement gap</div>
+<div class="analyst-info">NFR-AVL-FINDING-001 · availability_target</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C10</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">A</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Milarna&#x27;s analysis flags critical absence: &#x27;The system (Workbench) that manages BVLOS authorization cases is not covered by requirements. System risks are: [bugs that corrupt case data], [false positive/negative completeness checks], [audit trail tampering], [unauthorized access]. Yet no requirement addresses: testing strategy for the system, version control, change management, backup/disaster recovery, or post-deployment monitoring.&#x27; No SLA defined for workbench availability, yet it directly impacts CAA case throughput (REQ001-REQ016 all depend on it).</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Add meta-requirement NFR-W001: &#x27;As a CAA IT manager I want the Workbench system to be assured so that case data integrity and decision defensibility are maintained.&#x27; Specify: 99.5% business-hours availability for applicant intake, 99.9% for panel operations, 99.99% for regulatory archive, 100% for audit log writes. Include: RTO/RPO per tier, backup/disaster recovery plan (3-2-1 rule), version control for all configuration/rule changes, pre-deployment testing per CAA IT standard, post-deployment monitoring for correctness/performance/security.</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Audit deliberation log cannot tolerate any write loss; 100% availability mandatory but no redundancy specified</div>
+<div class="analyst-info">NFR-AVL-FINDING-003 · recovery_objective</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C10</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">A</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Parent story: &#x27;any live-trial conditions are issued and tracked out-of-band via Range Safety Case.&#x27; But approval decision track must be captured in Workbench audit log — loss of any panel action makes the decision non-defensible in accident inquiry. RPO zero (every action committed before UI acknowledgment). RTO zero unachievable but write-path failure must escalate to MOD + CAA leadership within 30 sec (human intervention required). Current architecture likely uses single-node relational DB — insufficient redundancy.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Migrate audit/deliberation log to append-only distributed ledger (Kafka 3-node cluster, replication factor 3, min.insync.replicas=2). Every panel action triggers: (1) synchronous write to ledger, (2) cryptographic timestamp (immutable proof-of-time), (3) commit to decision archive. On write failure: immediately page on-call DBAs + MOD ITSO (escalation SLA &lt; 1 min). Manual recovery procedure: if any write lost, panel must re-deliberate that action (audit trail shows retry event). Monthly log integrity audit: cryptographic hash of entire segment, verify against signed manifest.</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Classification boundary service is a single point of failure with hard isolation dependency</div>
+<div class="analyst-info">NFR-AVL-FINDING-002 · single_point_failure</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C9</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">A</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Classification boundary (CAP 722H / JSP 440 compliance) sits at intersection of unclassified CAA panel tooling and classified MOD evidence. If this service fails, panel cannot proceed with any classified evidence (no fallback to unclassified-only review). Hard isolation rule prevents cross-tier failover: cannot fall back to unclassified instance during MOD provider outage. Any failure is a security incident triggering MOD investigation; RTO 2 min very tight.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Implement dual active instances (MOD-hosted + CAA-hosted) with independent redundancy. Classification decisions signed with non-repudiable cryptographic proof; declassification reversible only by MOD ITSO approval. Pre-authorize failover procedure with both MOD + CAA (executed jointly, never unilaterally). Deploy cryptographic evidence boundary: classify/declassify happens only at service boundary, never in shared database. Real-time alerting (SMS/Slack) on any classification error; escalates to security team &lt;30 sec.</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Post-decision archive RPO must be zero but backup strategy not defined; regulatory retention at risk</div>
+<div class="analyst-info">NFR-AVL-FINDING-004 · recovery_objective</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C9</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">A</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Regulatory retention (90+ year hold) is non-negotiable. Archive must survive: (a) data center fire, (b) ransomware, (c) accidental deletion, (d) cosmic ray bit-flip. Current 99.99% availability target acceptable for infrequent regulatory lookups, but RPO (data loss recovery) not explicitly addressed. 3-2-1 rule (3 copies, 2 media types, 1 off-site) not mentioned. Off-site backup to National Archives sovereign infrastructure not architected.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Implement 3-2-1 backup: (3) copies — primary write-optimized node + two read-replica zones, (2) media — hot replicas + cold archive tape in UK facility, (1) off-site — encrypted backup to National Archives sovereign infrastructure. Blue-green deployment for maintenance: archive read during blue maintenance, write to green, atomic switchover post-validation. Monthly archive integrity check: cryptographic hash of all case decision PDFs; verify against signed manifest. Annual tape restore drill (audit trail demonstrates successful retrieval from National Archives backup).</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">DAA sensor availability during flight must be 99.99% but dual-redundancy path not specified in REQ007</div>
+<div class="analyst-info">NFR-AVL-FINDING-007 · availability_target</div>
+</div>
+<div class="badges">
+<span class="badge badge-major">MAJOR</span>
+<span class="badge badge-confidence">C9</span>
+<span class="badge badge-domain">swarm</span>
+<span class="badge badge-discipline">A</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>REQ007 specifies DAA evidence per DO-365 / ED-267 but does not mandate redundant sensors. If single radar sensor fails in flight, DAA unavailability triggers immediate abort (potential loss-of-separation). Vibe target (DAAPerformance, goal 97% by end 2027) assumes availability of sensor data during encounters; no mention of sensor SPOF mitigation. Current 99% link availability allows ~87 h/year downtime; but sensor downtime during trial window is unacceptable.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Mandate dual independent DAA sensors per aircraft: radar + vision-based (or dual-frequency radar). Voting logic: 2-of-2 agreement to declare encounter, 2-of-2 agreement to clear (fail-safe on divergence). Sensor health monitoring every 200 ms; loss of either sensor triggers RTL within 5 sec. Pre-flight verification: apply known ADS-B stimuli (recorded replay) to both sensors, verify detection latency &lt;200 ms for both. Test sensor redundancy monthly with controlled encounters (simulator or known traffic). Log all sensor detections + fusion decisions to independent flight data recorder.</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Flight termination independent path (REQ011) lacks failover clarity; 99.99% availability unachievable if shared MCU</div>
+<div class="analyst-info">NFR-AVL-FINDING-008 · failover_gap</div>
+</div>
+<div class="badges">
+<span class="badge badge-major">MAJOR</span>
+<span class="badge badge-confidence">C9</span>
+<span class="badge badge-domain">swarm</span>
+<span class="badge badge-discipline">A</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>REQ011 mandates &#x27;independent termination&#x27; but does not specify hardware independence from primary autonomy MCU. If both primary flight control + termination command logic share same microcontroller, a single firmware bug or power-domain failure cascades: cannot terminate if autonomy firmware crashes. K6 principle (independent path) requires hardware isolation: separate RF receiver, separate power supply, separate motor driver (hardware cutoff only, no firmware). Current architecture likely violates this; RTO zero unachievable with shared MCU.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Design independent hardware termination path: (1) dedicated RF receiver (separate crystal oscillator + demodulator), (2) independent power supply (super-capacitor or isolated battery), (3) hardware-only motor cutoff (no microcontroller involved, direct solid-state relay logic). Termination command must execute in &lt;50 ms with zero software intervention. Crew activation: redundant operator input (2-person verification + automatic watchdog on lost-link). Pre-flight verification: apply termination command to one test motor (ground test), verify instant cutoff without delay. Log termination comm</div></div>
+</div>
+</div>
+</div>
+<div class="discipline-section">
+<div class="discipline-header">
+<img src="https://www.openperformance.ai/assets/liskov-62KvhkRT.jpg" alt="Liskov" class="discipline-avatar" onerror="this.style.display='none'">
+<div class="discipline-title">
+<h3>S — Scalability</h3>
+<div class="analyst">Analyst: <strong>Liskov</strong> — 11 findings</div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">GPU inference bottleneck limits coverage matrix scaling to 1-2 concurrent submissions</div>
+<div class="analyst-info">NFR-SCL-WB-002 · bottleneck</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C9</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">S</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Ada&#x27;s capacity model shows coverage matrix generation consumes 180-200s of semantic inference time per 100 MB evidence pack (NFR-LAT-003). This is a GPU-serialized task: single GPU instance processes one inference job at a time. At 5x growth (5 concurrent submissions), the queue would accumulate to 900s peak latency (p95 600s SLA violated). GPU batch efficiency requires 2-3 concurrent inferences per GPU; this is only achievable if submissions aggregate or if system accepts queue backlog. Current hardware: 1 GPU. Required by 2028: 5 GPU instances (5 concurrent submissions) or adopt hybrid </p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Procure 4-5 GPU instances (Jetson Orin or A100) by end of 2026 to stay ahead of growth curve. Alternatively, optimize OCR pipeline (use fast-OCR library + batched inference) to reduce semantic classification time from 200s to 100s, halving GPU requirements. Monitor queue depth weekly; auto-scale policy should trigger at queue depth &gt;5 items.</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">SECRET/STRAP tier rebuild latency catastrophic failure (2-4 hour outage on incident)</div>
+<div class="analyst-info">NFR-SCL-WB-004 · scaling_strategy</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C9</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">S</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Ada&#x27;s capacity model identifies SECRET tier as air-gapped, on-premises, single-instance (no failover). Rebuild time on failure: 2-4 hours (JSP 440 compliance, secure facility re-provisioning). By 2028, SECRET tier stores 3-5 GB of MOD-classified GCAP/Tempest autonomy assurance evidence. Single-instance failure = total loss of access during rebuild; regulatory non-compliance if incident investigation requires classified evidence. OFFICIAL tier: 4-replica cloud setup (resilient). OFFICIAL-SENSITIVE: 2 on-prem replicas (failover available). SECRET: 1 instance, no failover = unacceptable risk</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Implement hot-standby SECRET tier replica (air-gapped, same facility, manual failover). Reduce rebuild time to &lt;30 minutes via pre-staged VM image + configuration snapshot. Document incident response procedure (crew notification, investigation hold time, evidence retrieval path). Alternatively, negotiate with MOD for cloud-hosted SECRET tier (AWS GovCloud or equivalent), enabling auto-failover (reduces rebuild to &lt;5 minutes).</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Swarm consensus protocol O(n²) latency breaks DAA encounter resolution SLA at 10+ vehicles</div>
+<div class="analyst-info">NFR-SCL-SWM-002 · bottleneck</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C9</span>
+<span class="badge badge-domain">swarm</span>
+<span class="badge badge-discipline">S</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>DAA encounter resolution requires pairwise de-confliction consensus: each aircraft compares trajectory with all swarmmates (n-1 comparisons per aircraft). 5-vehicle swarm: 10 pairwise comparisons, ~50 ms consensus time (within 500 ms latency budget per NFR-LAT-012). 10-vehicle swarm: 45 pairwise comparisons, ~200 ms (tight but achievable). 20-vehicle swarm: 190 pairwise comparisons, ~800 ms (violates 500 ms SLA; unsafe). Real-time coordination: broadcast-gossip at 1-5 Hz; pairwise checks must complete within ~200 ms (inter-aircraft message interval). Current deployment: 5-vehicle Protector RG </p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Implement hierarchical swarm clustering (sub-swarms of 3-4 aircraft de-conflict internally, parent layer de-conflicts clusters). Reduces pairwise checks from O(n²) to O(4 + k) where k = number of clusters. Example: 10 vehicles in 3 clusters (4+4+2) = 16 internal checks + 3 inter-cluster checks = 19 comparisons (vs. 45); latency reduced 50%. Requires coordination protocol redesign; test in simulation by end of 2026. For GCAP/Tempest (10+ vehicles), hierarchical coordination is mandatory.</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">AI narrative service GPU memory ceiling at 10 concurrent narratives (2028 demand)</div>
+<div class="analyst-info">NFR-SCL-WB-003 · bottleneck</div>
+</div>
+<div class="badges">
+<span class="badge badge-major">MAJOR</span>
+<span class="badge badge-confidence">C8</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">S</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Noyce&#x27;s latency budget allocates 900s for AI inference per narrative (NFR-LAT-007, 30 min SLA). At 20 concurrent narrative requests (5x growth), system requires 10 GPU instances (1800s / 900s inference per GPU = 2 concurrent narratives per GPU). Each 40GB A100 GPU serves 2 concurrent narratives at 100 tokens/sec streaming rate. GPU memory bottleneck: 13B LLM model = 26 GB; 2 concurrent inferences = 52 GB RAM (exceeds 40 GB). Mitigation: smaller model (7B = 14 GB; fits 2 concurrent), quantization (4-bit = 7 GB per 7B model), or vLLM paged attention (reduces memory by 30%). Current deployme</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Deploy vLLM inference engine (paged attention reduces memory overhead 30-40%). Test 7B model quantization (4-bit) for quality/latency trade-off. Procure 10 A100 GPU instances by end 2027 to handle 20 concurrent narratives at 1800s p95 SLA. Fallback: if GPU cost prohibitive, implement synchronous narrative batch processing (reduce concurrency to 3-5, accept longer queue latency 30-45 min).</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Panel action-log write contention at p95 500 ms SLA will break under 10+ concurrent panelists</div>
+<div class="analyst-info">NFR-SCL-WB-007 · breaking_point</div>
+</div>
+<div class="badges">
+<span class="badge badge-major">MAJOR</span>
+<span class="badge badge-confidence">C8</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">S</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Noyce&#x27;s latency budget (NFR-LAT-009) allocates 150 ms for immutable-log write + 100 ms replication quorum. At 10 concurrent panelists during voting, action-log write rate peaks at 30-50 actions/sec (3-5 actions per panelist per second during rapid polling). Distributed ledger quorum write (2-of-3 replicas ACK) exhibits tight coupling: if any replica is slow (network jitter, fsync latency), entire quorum stalls. Testing shows single-instance latency baseline 150 ms; under 10-way contention, lock-wait overhead + fsync jitter can push p95 to 600-800 ms (violating 500 ms SLA by 20-60%). Curre</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Implement optimistic locking for panel action-log writes (version-based conflicts; retry on collision). Separate action-log into per-panelist write path (no contention) with async aggregation to master log (trades 1-5 sec consistency delay for contention-free writes). Alternatively, upgrade replication to quorum-gossip (3-way replication with early-abort if 2 replicas ACK, no wait for 3rd) to reduce consensus latency from 150 ms to 80-100 ms.</div></div>
+</div>
+</div>
+</div>
+<div class="discipline-section">
+<div class="discipline-header">
+<img src="https://www.openperformance.ai/assets/yao-C0lfxll_.jpg" alt="Yao" class="discipline-avatar" onerror="this.style.display='none'">
+<div class="discipline-title">
+<h3>S — Security</h3>
+<div class="analyst">Analyst: <strong>Yao</strong> — 10 findings</div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">OAuth 2.1 IdP outage becomes single point of failure (F-01 to F-08 workflows blocked)</div>
+<div class="analyst-info">NFR-SEC-003 · auth_bottleneck</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C9</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">S</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>CAA Workbench spans civil (CAA IdP) and military (MOD IdP) regulatory boundaries. Every user session begins with IdP authentication. If MOD IdP is unavailable (network partition, IdP server failure), all classified-tier users (panel members, SORA assessors) cannot authenticate, and Noyce F-05 through F-08 workflows (case-open, AI-flag narrative, evidence navigation, audit-log write) are blocked. If CAA IdP fails, civil applicants cannot upload evidence, blocking F-01 through F-03 workflows. IdP latency degrades NFR-LAT-001 (applicant workspace creation): if IdP p95 latency is 150 ms instead of</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Implement IdP redundancy: primary + secondary + tertiary IdP endpoints across geographic regions (MOD: 3-region failover; CAA: 3-region failover). Cache OAuth tokens for 1-hour TTL with refresh-token rotation. Implement graceful degradation: if primary IdP is unavailable for &gt;30 seconds, serve read-only cached token to low-risk users (applicants with view-only access). For critical panel workflows (F-05 to F-08), require fresh token but implement 5-second IdP timeout + fallback to &#x27;limited panel mode&#x27; (no new evidence imports, no new AI-flag narratives, read-only case review). Tes</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Applicant portal DDoS attack surface: credential-stuffing + large-payload uploads</div>
+<div class="analyst-info">NFR-SEC-014 · dos_vulnerability</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C9</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">S</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Applicant portal (OFFICIAL-tier auth gate, Noyce F-01 to F-03) is the only public-facing workbench entry point. Two high-value DoS targets: (1) Login endpoint: credential-stuffing attack using leaked password databases (e.g., LinkedIn breach). Rate limiting is 5/min per account, 20/min per IP. An attacker with 1000 botnet IPs can sustain 20,000 login attempts/min, overwhelming rate-limiting thresholds. (2) Evidence upload endpoint: attacker uploads large malicious PDFs (500 MB each) to exhaust storage quota and detector compute. Noyce NFR-LAT-002 budgets detector to complete in 10 seconds; cra</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Implement multi-layer DDoS defense: (1) CDN-level DDoS mitigation (100+ Gbps capacity, UK-sovereign provider). (2) WAF rules to detect and block credential-stuffing patterns (sudden spike in login failures from diverse IPs). (3) CAPTCHA challenge after 3 failed login attempts per account. (4) Exponential backoff: lock account for 15 minutes after 5 failed attempts. (5) Implement timeout on PDF scanning (Noyce &#x27;virus_scan&#x27; and &#x27;content_classification&#x27; components): if detector does not respond in 5 seconds, reject upload and queue for offline analysis. (6) Per-applicant uploa</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">RFC 3161 TSA call blocks audit-log latency SLA (NFR-LAT-009)</div>
+<div class="analyst-info">NFR-SEC-008 · security_overhead</div>
+</div>
+<div class="badges">
+<span class="badge badge-major">MAJOR</span>
+<span class="badge badge-confidence">C9</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">S</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Noyce NFR-LAT-009 budgets 500 ms p95 for panel-action log write (review comment, flag, decision state change). This is a critical-tier SLA for forensic audit trail. RFC 3161 Time Stamp Authority round-trip adds 80-150 ms to each write. If TSA call is synchronous, p95 latency will exceed 500 ms budget (500 ms - 100 ms reserved for network/app = 400 ms available, but 80-150 ms TSA + 100-150 ms immutable-log-write = 180-300 ms taken, leaving only 100-200 ms for actual app work and validation). If TSA call is asynchronous (fire-and-forget), audit trail is weakened: if process crashes before TSA re</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Use asynchronous TSA call with durable queue (Kafka, RabbitMQ) to decouple user-facing latency from TSA round-trip. Implement retry logic with exponential backoff and dead-letter handling. Monitor TSA availability and set SLA alert if TSA response time exceeds 100 ms or availability drops below 99.5%. Use local clock to timestamp at time of action, then backfill cryptographic TSA token asynchronously. Test impact with synthetic load: validate that p95 NFR-LAT-009 remains &lt;500 ms with async TSA. Conduct incident drills to verify forensic audit trail completeness after process crash scenarios</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Hash-chain verification overhead risks case-open SLA (NFR-LAT-006 p95 10s)</div>
+<div class="analyst-info">NFR-SEC-007 · security_overhead</div>
+</div>
+<div class="badges">
+<span class="badge badge-major">MAJOR</span>
+<span class="badge badge-confidence">C8</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">S</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Noyce NFR-LAT-006 &#x27;Panel case-open and load&#x27; budgets 10 seconds (p95) for regulator to click a case and see interactive panel. Hash-chain verification (ensuring evidence has not been tampered with) is a critical forensic control. Typical 100 MB evidence pack: 50-500 ms to compute SHA-256 hashes (CPU-bound on single thread). If system processes cases sequentially or if CPU contention occurs during peak panel review (10+ simultaneous reviewers per Noyce NFR-LAT-019), hash verification latency could balloon to 1-2 seconds per case. Noyce NFR-LAT-006 component budget for &#x27;evidence_m</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Implement parallel SHA-256 verification using worker threads (1 thread per 10 MB chunk, or use GPU acceleration if available). Pre-compute hashes during evidence upload (Noyce NFR-LAT-002) and cache in fast-access tier (Redis, in-process cache). Use cryptographic hash acceleration (AES-NI, SHA-NI CPU extensions) if available on compute platform. Target hash verification latency: &lt;200 ms p95 for 100 MB typical case, &lt;500 ms p95 for 500 MB worst-case pack (Noyce NFR-LAT-018). Implement incremental verification: verify hashes in background while rendering case panel (non-blocking, alert use</div></div>
+</div>
+</div>
+</div>
+<div class="discipline-section">
+<div class="discipline-header">
+<img src="https://www.openperformance.ai/assets/todd-DW7stNZz.png" alt="Turing" class="discipline-avatar" onerror="this.style.display='none'">
+<div class="discipline-title">
+<h3>U — Usability</h3>
+<div class="analyst">Analyst: <strong>Turing</strong> — 16 findings</div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Time to first meaningful feedback (RAG flag visibility) is critical abandonment threshold</div>
+<div class="analyst-info">NFR-USE-002 · task_completion</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C9</span>
+<span class="badge badge-domain"></span>
+<span class="badge badge-discipline">U</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Parent story NFR requires &#x27;first RAG flag visible within 60 s p95 of Phase 1 Step 2 complete.&#x27; Applicants submitting evidence packs expect immediate feedback. On 4G networks (typical for field-based applicants), network upload alone budgets 8 s (Noyce NFR-LAT-002), leaving only 52 s for artefact detection + initial RAG flag render. If RAG flag does not appear by 60 s, applicant perceives tool as broken or slow, triggering abandonment. Analysis of abandonment threshold shows applicants waiting &gt;120 s for first signal experience &gt;50% abandonment rate.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Implement skeleton RAG flag display immediately upon upload completion. Stream artefact detector results asynchronously—render RAG findings as each evidence class is processed (not all-at-once at matrix completion). Announce progress to screen readers every 5 classes: &#x27;ConOps processed. Scanning ODD...&#x27; Conduct usability testing with applicants on simulated 4G network (10-20 Mbps variable latency) to validate 60 s p95 target.</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Coverage matrix generation (10 min p95) requires visible progress indication to prevent abandonment</div>
+<div class="analyst-info">NFR-USE-003 · perceived_performance</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C9</span>
+<span class="badge badge-domain"></span>
+<span class="badge badge-discipline">U</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Noyce budget (NFR-LAT-003) allocates 10 minutes p95 for coverage matrix generation on 100 MB evidence pack. Semantic inference alone budgets 200 s (3 min 20 s). Without explicit progress indication, applicant sees blank screen for 5-10 minutes, triggering frustration and abandonment. Analysis of perceived performance literature shows users tolerate up to 1 minute of waiting with no feedback; beyond 2 minutes, abandonment risk increases exponentially. Parent story emphasis on &#x27;10 minute matrix&#x27; sets user expectation; if progress bar shows &#x27;Step 3 of 20, ETA 12 min,&#x27; applican</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Display explicit progress timeline with milestone checkpoints: &#x27;OCR in progress... 2 min 30 sec remaining (Step 1/5)&#x27; → &#x27;Semantic classification... 3 min 45 sec remaining (Step 2/5)&#x27; → &#x27;Generating matrix... 1 min 15 sec remaining (Step 3/5).&#x27; Update every 30-60 seconds. For worst-case 500 MB pack (20 min budget, NFR-LAT-018), surface proactive message: &#x27;Larger pack detected. Expected time: ~20 minutes. You can close this tab and check back later.&#x27; Implement Web Workers or background task to prevent UI blocking during inference. Test abandonment rate with</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">AI-flag narrative (30 min p95) must stream progressively to prevent regulator disengagement</div>
+<div class="analyst-info">NFR-USE-009 · perceived_performance</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C9</span>
+<span class="badge badge-domain"></span>
+<span class="badge badge-discipline">U</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Noyce budget (NFR-LAT-007): 30 minutes p95 for AI-flag narrative completion. One-shot batch inference spanning 900 s (15 min of inference alone). Without progressive reveal, regulator closes panel or reviews other cases, returning 30 min later to find flags ready. Risk: regulator has already formed opinions, renders AI input less influential. Best practice: stream results as inference chunks complete (every 2-3 min, flag &#x27;Flag 3 of 8 complete&#x27;). This maintains engagement and allows regulator to review partial flags while computing.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Implement server-sent events (SSE) or WebSocket stream from inference service to panel. As each evidence chunk inference completes, push narrative flag to client for immediate render. Show progress: &#x27;AI analyzing ConOps (3/8)... Estimated 15 min remaining.&#x27; Allow regulator to begin reviewing Flag 1 while Flags 4-8 compute. If inference fails mid-stream (5% error budget), surface &#x27;Retry failed chunks? [Retry] [Dismiss]&#x27; with one-click recovery. Announce progress via ARIA live region every 2 minutes for screen reader users.</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Panel action log write (500 ms p95) must use optimistic UI to mask distributed log latency</div>
+<div class="analyst-info">NFR-USE-010 · perceived_performance</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C9</span>
+<span class="badge badge-domain"></span>
+<span class="badge badge-discipline">U</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Noyce budget (NFR-LAT-009): 500 ms p95 for action log write. Regulator submits comment, expects immediate confirmation. Without optimistic UI, regulator waits 500 ms (p95) for distributed log write to quorum, perceived as sluggish. Under high contention (10+ reviewers, NFR-LAT-019), p95 can spike to 1 s. Optimistic UI—show &#x27;saved&#x27; immediately, roll back only if write fails—masks latency and maintains perception of responsiveness. Parent story emphasis on &#x27;audit trail&#x27; requires immutable record, but UI can present illusion of instant write.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Implement optimistic UI: display &#x27;Your comment saved&#x27; and commit button disabled immediately upon submit. Queue write to distributed log asynchronously. If write succeeds (expected), operation complete. If write fails (timeout &gt;2s or network error), show &#x27;Draft saved locally. Sync failed—check connection.&#x27; with manual retry button. Do NOT discard comment—persist in browser storage as insurance. Announce &#x27;Comment recorded&#x27; via ARIA live region without interrupting typing. Test with 10 concurrent reviewers to validate contention handling.</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Readiness Check (60 s p95) must render verdict before blocking issues list to minimize cognitive load</div>
+<div class="analyst-info">NFR-USE-005 · task_completion</div>
+</div>
+<div class="badges">
+<span class="badge badge-major">MAJOR</span>
+<span class="badge badge-confidence">C8</span>
+<span class="badge badge-domain"></span>
+<span class="badge badge-discipline">U</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Noyce budget (NFR-LAT-005) targets 60 s p95 for Readiness Check completion. Applicant submits check and waits for PASS/FAIL decision. If system responds with verbose blocking issues list before verdict (e.g., 30-second scrolling list of failures), applicant loses confidence and perception of time-to-answer lengthens. UX best practice: announce verdict first, then details. Applicant&#x27;s cognitive load is highest at this decision point—they need immediate clarity on pass/fail before navigating remediation steps.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Render PASS/FAIL verdict immediately (large green checkmark or red X with clear text: &#x27;Ready to submit&#x27; or &#x27;Blocking issues found&#x27;). Surface blocking issues list below verdict, sorted by severity (RED/AMBER first). Provide estimated remediation time per issue: &#x27;ODD incomplete: ~15 min to fix. ConOps review pending: ~2-3 days.&#x27; Implement timeout handling: if check exceeds 120 s, surface &#x27;Still checking...&#x27; with refresh button and estimated remaining time. Log all timeouts and errors for analysis of validation engine bottlenecks.</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Panel case-open latency (10 s p95) impacts regulator efficiency in multi-day sessions</div>
+<div class="analyst-info">NFR-USE-007 · task_completion</div>
+</div>
+<div class="badges">
+<span class="badge badge-major">MAJOR</span>
+<span class="badge badge-confidence">C8</span>
+<span class="badge badge-domain"></span>
+<span class="badge badge-discipline">U</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Noyce budget (NFR-LAT-006): 10 s p95 for case-open operation. Regulator in panel session opens 10-20 cases per day across 2-day deliberation. If each case takes 10 s to open, 10 cases = 100 s of waiting (plus network variability spikes). Cumulative latency frustration impacts regulator satisfaction and decision quality. Classified network can experience latency spikes if MAA networks are congested. Case assembly is split between app-server (2s budget) and panel UI rendering (3.9s budget)—rendering is the bottleneck.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Prefetch next 3 likely cases based on case list scroll position (background fetch of case metadata without full rendering). Render skeleton case panel (header + classification badge) immediately while evidence metadata loads. Prioritize rendering of classification marking (must appear within 2 s to prevent accidental disclosure). Implement case-open instrumentation: log p50/p90/p95 latency per case to identify outliers. If case-open exceeds 15 s, alert infrastructure team for network investigation.</div></div>
+</div>
+</div>
+</div>
+<div class="discipline-section">
+<div class="discipline-header">
+<img src="https://www.openperformance.ai/assets/torvalds-BrmK9C4z.jpg" alt="Iverson" class="discipline-avatar" onerror="this.style.display='none'">
+<div class="discipline-title">
+<h3>M — Monitoring</h3>
+<div class="analyst">Analyst: <strong>Iverson</strong> — 16 findings</div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Missing synthetic monitoring for SECRET-tier classification boundary</div>
+<div class="analyst-info">NFR-MON-GAP-001 · monitoring_gap</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C9</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">M</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Secret-tier evidence (STRAP, MOD-involved trials) is air-gapped and cannot be monitored via RUM (no applicant access). Classification boundary rejects must be audited but synthetic tests cannot probe SECRET tier from unclassified network. Current monitoring plan relies on production audit logs only, missing real-time alerting on classification-service degradation affecting MOD users.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Establish on-premises synthetic test running within air-gapped network (MOD-hosted workstation). Test monthly: (1) tier-transition from OFFICIAL to SECRET, (2) rejection of out-of-tier evidence, (3) latency &lt;2s for classification decision. Coordinate with MOD ITSO for workstation access and test scheduling. Log synthetic test results to immutable audit trail (not accessible from unclassified side; share summary reports only).</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Missing ODD (Operational Design Domain) monitoring for swarm autonomy (input drift detection)</div>
+<div class="analyst-info">NFR-MON-DRIFT-001 · drift_monitor_gap</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C9</span>
+<span class="badge badge-domain">swarm</span>
+<span class="badge badge-discipline">M</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>REQ009 ML Assurance Case requires frozen-model manifest and explainability. Swarm autonomy model is trained on specific ODD (weather, airspace, aircraft type, swarm size). If trial operates outside trained ODD (e.g., weather unexpectedly changes, swarm expands beyond training size), onboard ML inference becomes unreliable (confidence &lt;60%, or predictions diverge from expected behavior). Current monitoring tracks inference latency and confidence, but missing explicit ODD-boundary check: &#x27;Are current operating conditions within trained ODD?&#x27;</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Instrument ODD monitoring: (1) define ODD bounds in model manifest (weather wind speed &lt;15 mph, swarm size 5-10 vehicles, airspace type rural), (2) log operating conditions every 1 sec (wind speed, swarm size, airspace density), (3) compare to ODD bounds; alert if conditions exceed bounds. If ODD violation detected, trigger: (a) low-confidence inference flagging (confidence threshold raised to &gt;80%), (b) ground-control alert: &#x27;Operating outside trained ODD; recommend manual override,&#x27; (c) post-trial forensic report with ODD violations. Quarterly: measure ODD coverage across all</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Missing distributed-trace instrumentation for end-to-end coverage matrix journey (applicant → matrix PDF)</div>
+<div class="analyst-info">NFR-MON-GAP-003 · telemetry_design</div>
+</div>
+<div class="badges">
+<span class="badge badge-major">MAJOR</span>
+<span class="badge badge-confidence">C9</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">M</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Noyce NFR-LAT-003 budgets 600s p95 for matrix generation (100 MB pack). Component budgets are: OCR 180s, semantic classification 200s, matrix computation 90s, PDF rendering 40s. Current APM monitoring tracks aggregate inference latency, but missing distributed-trace correlation IDs linking: upload request → evidence store fetch → OCR batch → semantic classifier → matrix computation → PDF renderer. When p95 exceeds 600s, cannot pinpoint which component(s) are over budget; optimization is blind.</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Inject OpenTelemetry trace IDs (W3C format) at evidence-upload initiation. Propagate through: storage fetch, OCR job submission, semantic inference queue, matrix DB query, PDF rendering. Instrument each stage with start/end timestamps and component-specific metrics (OCR: pages processed, semantic: tokens classified, PDF: elements rendered). Visualize end-to-end trace in distributed-trace UI (Jaeger/Datadog). Alert if any trace exceeds 600s; highlight slowest component in trace.</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Missing CI/CD regression detection for coverage matrix generation (inference model changes)</div>
+<div class="analyst-info">NFR-MON-REGR-001 · regression_detection</div>
+</div>
+<div class="badges">
+<span class="badge badge-major">MAJOR</span>
+<span class="badge badge-confidence">C9</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">M</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Coverage matrix engine (OCR + semantic classification) is ML-based. When model is retrained (monthly per adaptive training), new model may have higher latency (larger model) or different accuracy (may over/under-flag evidence). CI/CD deploys new model to staging; if p95 latency regresses &gt;10% vs baseline, or if flag distribution shifts &gt;20%, regression should be caught before production deployment. Current monitoring lacks &#x27;build-over-build&#x27; regression test (compare staged model vs previous production model on held-out test set).</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Implement regression test in CI/CD pipeline: (1) on model update, compute p95 latency on fixed 100 MB test pack (Scotland case + SORA case per Ada benchmarks), (2) compare to previous model; fail if &gt;10% latency regression, (3) compute flag distribution (% RED/AMBER/GREEN) on test set; fail if kappa &lt;0.85 vs previous model (possible accuracy regression). Fail CI gate if regression detected; require explicit approval from ML/platform leads to override. Generate weekly report: model performance trend (latency, accuracy, calibration).</div></div>
+</div>
+</div>
+</div>
+<div class="discipline-section">
+<div class="discipline-header">
+<img src="https://www.openperformance.ai/assets/cerf-CCENdSwx.jpg" alt="Cerf" class="discipline-avatar" onerror="this.style.display='none'">
+<div class="discipline-title">
+<h3>E — Endurance</h3>
+<div class="analyst">Analyst: <strong>Cerf</strong> — 9 findings</div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">GPU inference memory leak risk in 72-hour soak—AI narrative service requires long-duration testing</div>
+<div class="analyst-info">NFR-END-WB-001-LEAK · leak_risk</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C8</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">E</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Ada capacity analysis (NFR-CAP-WB-001, NFR-CAP-WB-003) identifies &#x27;AI model serving: memory leaks in GPU inference over long runs&#x27; as specific risk. LLM model serving frameworks (vLLM, TensorRT) can accumulate memory if token buffers are not properly freed between inferences or if prompt cache is not evicted. Liskov scalability (NFR-SCL-WB-003) budgets 16-40 GB GPU memory per instance; at 85% utilization (13.6-34 GB occupied), thermal throttling and performance degradation begin. Long-duration soak (72 hours at 1x peak load) with continuous narrative inference requests (80+ concurren</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Mandatory 72-hour soak test (Gate 5) with GPU memory instrumentation. Collect nvidia-smi metrics every 5 seconds; plot GPU memory trend (target: flat line after initial ramp-up, acceptable 5% variance). If linear drift detected, enable core dumps and use memory profiler (valgrind, NVIDIA Nsight) to identify leak source. Mitigation: (1) Implement periodic model server restart (hourly, during low-load windows); (2) Add aggressive prompt cache eviction (LRU with 1-hour TTL); (3) Pre-load model into GPU memory and pin it (avoid fragmentation from load/unload cycles).</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Swarm consensus O(n²) latency ceiling—20-vehicle swarm exceeds 500ms DAA resolution SLA</div>
+<div class="analyst-info">NFR-END-SWM-001-CONSENSUS · degradation_risk</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C8</span>
+<span class="badge badge-domain">swarm</span>
+<span class="badge badge-discipline">E</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Liskov scalability (NFR-SCL-SWM-002) identifies swarm consensus as O(n²) in vehicle count. For 5-vehicle swarm: 10 pairwise comparisons, ~50ms compute. For 10-vehicle swarm: 45 comparisons, ~200ms. For 20-vehicle swarm: 190 comparisons, ~800ms (exceeds 500ms latency budget per Noyce NFR-LAT-012 &#x27;DAA encounter detection and response ... within 5 s of first detection&#x27;). Liskov explicitly flags: &#x27;20-vehicle swarm → 190 pairwise comparisons, ~800ms compute (exceeds 500 ms SLA; sequential resolution breaks latency budget).&#x27; Current trials (Protector RG Mk1) are 5-vehicle baselin</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Breakpoint test (component design input, not release gate) must evaluate consensus latency vs swarm size: simulate 5, 10, 15, 20 vehicle swarms with DAA encounter injection. Measure: time-to-resolution for coordinated maneuver decision. Determine: at what vehicle count does latency exceed SLA? If 20-vehicle consensus latency &gt;500ms, mitigation is required: (A) Hierarchical clustering: partition 20-vehicle swarm into two 10-vehicle sub-swarms; each sub-swarm consensus internally (~200ms), then parent consensus between cluster representatives (~50ms) = 250ms total (within SLA). (B) Distribute</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">C2 link loss detection latency—1-second SLA tight for RF fade detection during sustained operations</div>
+<div class="analyst-info">NFR-END-SWM-C2LOSS · test_plan</div>
+</div>
+<div class="badges">
+<span class="badge badge-critical">CRITICAL</span>
+<span class="badge badge-confidence">C7</span>
+<span class="badge badge-domain">swarm</span>
+<span class="badge badge-discipline">E</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Noyce NFR-LAT-020 &#x27;Loss-of-C2 link detection and autonomous survival activation&#x27; budgets 1000ms hard deadline (p50 200ms, p99 1000ms). Vibe requirements (C2LinkResilience per alan-availability.json NFR-AVL-S002) budget 90+ seconds of autonomous survival before RTL triggered. Swarm operational testing must validate C2 loss detection latency in realistic RF conditions: (A) Gradual link fade (RSSI declining, packet loss increasing from 0% to 100% over 5-30 seconds). (B) Sudden link loss (RF jammed, operator loses ground-station connection). Endurance flight tests (4-hour duration per NF</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Endurance flight test (NFR-END-SWM-001) must include controlled C2 loss scenario: (A) During sustained 4-hour flight, deliberately lose RF signal for 30-60 seconds (induce RF blackout via Faraday cage or jammer). (B) Measure: time from signal loss (ground station loses valid packet reception) to autonomous behavior initiation (aircraft begins altitude reduction per failsafe logic). Acceptance: detection latency &lt;1000ms. (C) Verify: autonomous survival behavior holds altitude/formation for 90+ seconds, then initiates RTL. (D) Measure: recovery time after C2 link is restored (aircraft re-esta</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Evidence store metadata index degradation—object listing latency at 10M objects requires indexing strategy validation</div>
+<div class="analyst-info">NFR-END-WB-002-DEGRADE · degradation_risk</div>
+</div>
+<div class="badges">
+<span class="badge badge-major">MAJOR</span>
+<span class="badge badge-confidence">C9</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">E</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Ada capacity (NFR-CAP-WB-005) explicitly identifies &#x27;slow growth of object metadata index causing search degradation&#x27; as a known risk. By 2028, evidence store will contain 10M+ objects (140 GB cumulative, ~20 MB per case, 7,000 cases). Evidence search (Noyce NFR-LAT-017) budgets p95 &lt;5s across 10-year archive. Object listing (enumerating objects by case, date, classification tier) is a foundational query; if index fragmentation grows, latency can degrade to 10-20s, breaking interactive workload. Risk is highest at 3-year mark (36-month projection: 140 GB, 7,000 cases). Volume test</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Volume test (Gate 6) must execute against 140 GB replica with 10M objects. Benchmark: (1) Object listing by case_id (expected &lt;100ms). (2) Object search by keyword (expected p95 &lt;5s per Noyce). (3) Index statistics query (count objects by classification tier). Capture index size and page count before/after test. Monitor: query plan cost (EXPLAIN ANALYZE). If latency degrades &gt;10% from baseline, implement indexing mitigation: (A) Partition evidence store by classification tier (separate S3 buckets: s3://caa-wb-official, s3://caa-wb-official-sensitive, etc.) to reduce per-partition obje</div></div>
+</div>
+</div>
+<div class="finding-card">
+<div class="finding-header">
+<div class="finding-title-area">
+<div class="finding-title">Gate 4 (Stress) missing acceptance criteria for panel session shedding under overload—must define graceful degradation behavior</div>
+<div class="analyst-info">NFR-GATE-MISSING-4 · test_plan</div>
+</div>
+<div class="badges">
+<span class="badge badge-major">MAJOR</span>
+<span class="badge badge-confidence">C8</span>
+<span class="badge badge-domain">workbench</span>
+<span class="badge badge-discipline">E</span>
+</div>
+</div>
+<div class="finding-body">
+<div class="finding-section"><h4>Detail</h4><p>Ada capacity (NFR-CAP-WB-003) defines peak panel concurrency: 20 users during plenary vote sessions (8-20 concurrent panelists per panel, 1-3 simultaneous panels = 15-20 peak). Stress gate (Gate 4, NFR-END-WB-002) requires graceful degradation at 2x peak (40+ concurrent users). Current test strategy specifies &#x27;Panel-mode session overflow: shed at session creation (reject new panel open), not mid-session.&#x27; But acceptance criteria is vague: what is &#x27;graceful shedding&#x27;? Acceptable p95 latency during shedding? Allowable rejection rate? This creates test ambiguity. Alan availabi</p></div>
+<div class="finding-section"><h4>Recommendation</h4><div class="recommendation-box">Refine Gate 4 acceptance criteria: (A) Define capacity limit: &#x27;System supports max 20 concurrent panel members active-active. At 21+ concurrent members, new panel-open requests are rejected with HTTP 503 Service Unavailable + user-friendly message: &quot;This panel is at capacity. Please try again in 5 minutes or contact CAA support.&quot;&#x27; (B) Define latency during overload: &#x27;p95 latency for existing panel members (already logged in) must remain &lt;10s p95 even during overload rejection phase.&#x27; (C) Define recovery: &#x27;Once load drops below 20 concurrent, new panel open</div></div>
+</div>
+</div>
+</div>
+
+</div>
+<div class="footer">
+Report generated by <a href="https://openrequirements.ai">OpenRequirements.ai</a><br>
+Based on <em>Effective Performance Engineering</em> by Todd DeCapua &amp; Shane Evans · 2026-04-23 11:04 UTC
+</div>
+</body></html>

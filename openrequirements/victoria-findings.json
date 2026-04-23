@@ -1,0 +1,185 @@
+[
+  {
+    "finding_title": "9 scenarios with high flakiness risk require test doubles, snapshots, and deterministic seeding",
+    "finding_type": "reliability_concern",
+    "confidence": 9,
+    "severity": "critical",
+    "scenario": "RSPEC-006, RSPEC-015, RSPEC-020, RSPEC-022, RSPEC-038, RSPEC-055, RSPEC-063, RSPEC-067, plus cluster of geofence/C2/DAA/termination scenarios",
+    "suite": "smoke, regression, full",
+    "estimated_duration": "varies by scenario (100-2000ms)",
+    "risk_factors": [
+      "non_deterministic_ai (SORA assessor judgment, swarm consensus RNG, DAA ML confidence, classification ML)",
+      "timing_sensitive (geofence RTL <500ms, termination <350ms, audit log write <500ms)",
+      "external_dependency (JARUS SORA v2.5, DO-365, CAA/MAA policy, classification model versions)",
+      "state_dependent (concurrent database writes, panel mode multi-user, consensus voting order)"
+    ],
+    "mitigation": "Deploy test doubles for all external MOD/CAA IdP and decision-making services; use fixed-seed RNG for swarm consensus and sensor noise simulation; implement snapshot testing with configurable tolerance (±1 SAIL level for SORA, ±5% for ML confidence, ±50ms for latency); run timing-sensitive tests on dedicated isolated instances; pin external API versions (JARUS v2.5, CAP 722D v3.1, DO-365 v2.0); require 3x retry with jitter for high-risk scenarios; escalate to human ack if outcome diverges across retries",
+    "reasoning": "DeFOSPAM findings (125 total, 68 critical) expose foundational term ambiguity (swarm-aware, meaningful human control, containment) that cascades into test interpretation variance. Isabel's examples (EX-003, EX-006, EX-022, EX-038, EX-063, EX-067) all involve human judgment (SORA assessor, swarm consensus voting, DAA resolver confidence, ML classification detection) or tight timing windows (geofence breach <500ms, RF kill <350ms). Cerf's performance engineering (NFR-END-WB-001: 96h soak detecting memory leaks; NFR-LAT-002: 3MB/s evidence store throughput) adds endurance dimension. Snapshot testing with tolerance is the pragmatic mitigation for non-deterministic AI while maintaining safety gates.",
+    "recommendation": "Immediate: (1) Create test-double factory for SORA assessor, DAA resolver, swarm consensus votings, and ML classifiers with frozen decision logic. (2) Implement snapshot testing framework with configurable tolerance bands per scenario. (3) Pin all external API versions in fixture metadata. (4) Add RNG seeding to all swarm/sensor simulation scenarios. Mid-term: (5) Run high-risk scenarios twice per week to detect drift; establish baseline confidence intervals. (6) Instrument audit log write path with database metrics. (7) Integrate Cerf's 96h soak test into full suite nightly execution.",
+    "analyst": "Victoria",
+    "byline": "Validation Analyst",
+    "principle": "V",
+    "image_url": "https://openrequirements.ai/assets/Victoria-B17TdrBk.png"
+  },
+  {
+    "finding_title": "Smoke suite must validate keystone safety gates in <5 minutes; current 10-scenario design is aligned with Grace's P1 priority goals",
+    "finding_type": "suite_assignment",
+    "confidence": 9,
+    "severity": "critical",
+    "scenario": "RSPEC-001, RSPEC-002, RSPEC-006, RSPEC-015, RSPEC-020, RSPEC-022, RSPEC-038, RSPEC-055, RSPEC-063, RSPEC-067",
+    "suite": "smoke",
+    "estimated_duration": "150-300 seconds (with parallelization)",
+    "risk_factors": [
+      "coverage_completeness (10 scenarios must cover 69 total; 14% sampling must hit critical paths)",
+      "execution_latency (timing-sensitive scenarios can inflate run time; need parallelization)"
+    ],
+    "mitigation": "Allocate 10 scenarios to smoke: (1) Submission intake (RSPEC-001) — GOAL-001, (2) PackCompleteness happy (RSPEC-002) — GOAL-001, (3) Swarm-aware SORA (RSPEC-006) — GOAL-002, (4) Geofence RTL (RSPEC-015) — GOAL-003, (5) C2 consensus (RSPEC-020) — GOAL-003, (6) DAA encounter (RSPEC-022) — GOAL-002, (7) Flight termination (RSPEC-038) — GOAL-003, (8) CAA/MAA apportionment (RSPEC-055) — GOAL-006, (9) Classification handling (RSPEC-063) — GOAL-009, (10) Panel audit trail (RSPEC-067) — GOAL-015. These span all P1/P2 goals and cover critical regulatory gates (intake, SORA, safety, termination, apportionment, audit). Parallelize across 3-4 test workers to target <5min total.",
+    "reasoning": "Grace's goals rank GOAL-001 (intake throughput), GOAL-003 (containment), GOAL-002 (swarm safety), GOAL-006 (apportionment), GOAL-015 (panel override audit) as P1/P2. Smoke suite must be a 'canary' that catches regressions in these core workflows on every commit. 10 scenarios = 14% of 69 total; statistical coverage of 95% of critical paths is achievable with this selection. Parallelization on GitHub Actions (matrix strategy with 4 workers) can keep smoke <5min.",
+    "recommendation": "Implementation: (1) Allocate GitHub Actions matrix with 4 parallel workers; assign 2-3 scenarios per worker. (2) Use docker-compose spin-up <10s per test to minimize setup latency. (3) Cache dependency downloads between runs. (4) Target: smoke completes in 3-4 minutes on main branch, 5-6 minutes under load. (5) Monitor: capture p95 execution time per scenario; alert if any smoke scenario >30s (indicates new flakiness). (6) Blocking: smoke must pass before merge to staging; regression + full required before release.",
+    "analyst": "Victoria",
+    "byline": "Validation Analyst",
+    "principle": "V",
+    "image_url": "https://openrequirements.ai/assets/Victoria-B17TdrBk.png"
+  },
+  {
+    "finding_title": "Regression suite covers 55 scenarios (80% of 69); must execute <30 minutes and block main-branch merge",
+    "finding_type": "suite_assignment",
+    "confidence": 8,
+    "severity": "critical",
+    "scenario": "RSPEC-001 through RSPEC-055 (all major-severity, AC1-AC8 paths, geofence/C2/termination failures, panel overrides, apportionment, classification)",
+    "suite": "regression",
+    "estimated_duration": "1200-1800 seconds (with parallelization and 20-30min SLA)",
+    "risk_factors": [
+      "execution_latency (55 scenarios at 30s each = 27 minutes; parallelization required)",
+      "database_contention (panel database, audit log, classification tier transitions can lock under concurrent load)"
+    ],
+    "mitigation": "Allocate 8-10 parallel workers; assign 5-7 scenarios per worker. Isolate test databases per worker (no shared pool). Use transaction rollback after each scenario to prevent state leakage. Implement retry logic: 2x auto-retry on database lock, human ack required on persistent failure before merge. Monitor: track test-database lock wait time per scenario; alert if any scenario >60s (indicates contention). Target: regression completes in 25-30 minutes.",
+    "reasoning": "Regression suite bridges smoke and full: includes all major-severity scenarios (69 all tagged @major @regression), all AC1-AC8 pass/fail paths (Isabel's examples demonstrate twins: Scotland approval vs SORA refusal end-to-end), geofence/C2/termination failure modes (GOAL-003 containment assurance), panel override audit trails (GOAL-015 panel decision governance), apportionment (GOAL-006), classification handling (GOAL-009). Must run before merge to main to ensure release readiness. 55 scenarios = 80% coverage; remaining 14 scenarios (RSPEC-056-069) are edge cases, low-priority features, and full NFR tests (reserved for nightly full suite).",
+    "recommendation": "Implementation: (1) Allocate 8-10 parallel GitHub Actions jobs. (2) Each job gets dedicated test PostgreSQL instance (docker-compose) with 10-20s spin-up. (3) Divide 55 scenarios among jobs; use scenario sharding by ID range (RSPEC-001-006, RSPEC-007-012, ..., RSPEC-049-055). (4) Implement database transaction rollback after each scenario to avoid state bleed. (5) Capture per-scenario execution time histogram; flag any scenario >45s (target p95 <30s). (6) Required check: regression suite must pass before main merge (blocking). (7) Required check: Allure dashboard >95% pass rate by feature before release. (8) Required check: Performance Gate 3 (1h load baseline) must pass in last main-branch test run.",
+    "analyst": "Victoria",
+    "byline": "Validation Analyst",
+    "principle": "V",
+    "image_url": "https://openrequirements.ai/assets/Victoria-B17TdrBk.png"
+  },
+  {
+    "finding_title": "Full suite (69 scenarios + NFR gates) requires nightly execution and integration with Cerf's 8 performance gates",
+    "finding_type": "suite_assignment",
+    "confidence": 8,
+    "severity": "major",
+    "scenario": "All 69 RSPEC scenarios + Cerf performance gates (Gate 1-8) + soak/stress/spike tests",
+    "suite": "full",
+    "estimated_duration": "6000-7200 seconds (1.5-2 hours with parallelization and endurance tests)",
+    "risk_factors": [
+      "execution_latency (96h soak test, stress test 2x peak load, spike test 3x peak)",
+      "resource_contention (96h soak requires isolated infrastructure; spike test competes with other tests)"
+    ],
+    "mitigation": "Schedule full suite nightly 0200 UTC (off-peak); allow 2-hour execution window. Parallelize functional tests (55 regression + 14 edge cases) on 8 workers; run performance gates sequentially after functional tests complete. Allocate dedicated staging environment for NFR tests (soak, stress, spike); no resource sharing with smoke/regression. Implement alerts: email + Slack if any gate fails or flake rate >2%. No auto-retry for full suite; manual investigation required.",
+    "reasoning": "Full suite captures: (1) all 69 refined scenarios (functional coverage), (2) all K1-K8 keystones (safety assurance), (3) all AC1-AC8 acceptance criteria, (4) Isabel's 15 examples end-to-end, (5) Cerf's 8 performance gates (NFR-LAT-001: setup latency <3s, NFR-CAP-WB-001: load baseline p95 <3.5s, NFR-END-WB-001: 96h soak <5% drift, etc.), (6) classification boundary scenarios across all 3 tiers (OFFICIAL, OFFICIAL-SENSITIVE, SECRET), (7) 24h endurance extract for audit log forensics. Nightly execution detects issues early; mandatory before release.",
+    "recommendation": "Implementation: (1) Create nightly trigger in GitHub Actions: cron 0 2 * * * (0200 UTC). (2) Allocate 8 parallel workers for functional tests; each gets dedicated test DB + mocked external APIs. (3) Dedicate separate staging environment for Cerf NFR gates (soak/stress/spike); resource isolation critical for validity. (4) Sequence: functional tests (55 min) → performance gates (60 min) → alerts (if any failure). (5) Capture JUnit XML, Allure report, perf-timeline.json, flake-register.json. (6) Dashboard: display pass rate by feature, avg exec time, flake rate, coverage %, clause-lib version, override rate, perf gate status. (7) Alert thresholds: flake rate >2%, any perf gate red, clause-lib version mismatch. (8) Required check for release: full suite passed in last 7 days + all gates green + flake rate <2%.",
+    "analyst": "Victoria",
+    "byline": "Validation Analyst",
+    "principle": "V",
+    "image_url": "https://openrequirements.ai/assets/Victoria-B17TdrBk.png"
+  },
+  {
+    "finding_title": "Twin-sample regression (Scotland approval vs SORA refusal) must be required check on every PR to validate end-to-end regulatory paths",
+    "finding_type": "pipeline_recommendation",
+    "confidence": 8,
+    "severity": "critical",
+    "scenario": "RSPEC-002 (PackCompleteness happy: Scotland VLOS approval) paired with RSPEC-003 (PackCompleteness error: BVLOS Swarm Swarm-Aware SORA mismatch → refusal)",
+    "suite": "regression",
+    "estimated_duration": "30-45 seconds",
+    "risk_factors": [
+      "end_to_end_validation (twin tests must exercise same code paths but with different inputs; divergence indicates logic error)",
+      "regulatory_defensibility (twins demonstrate that system correctly distinguishes approval vs refusal; critical for CAA audit)"
+    ],
+    "mitigation": "Add required check to GitHub Actions workflow on every PR: 'twin-sample regression (Scotland → SORA)'. Both twins must pass (Scotland case must result in INTAKE_COMPLETE; BVLOS Swarm case must result in RETURN_FOR_CLARIFICATION). Capture decision records and audit trails for both; compare decision reasoning to ensure divergence is justified by evidence difference, not code bug. Alert on outcome mismatch or reasoning inconsistency.",
+    "reasoning": "Isabel's examples (EX-001: Scotland VLOS pack complete, → INTAKE_COMPLETE; EX-002: BVLOS Swarm pack incomplete swarm-specific sections, → RETURN_FOR_CLARIFICATION) form a regulatory twin pair. Grace's GOAL-001 (Build Defensible Approval Throughput) and GOAL-002 (Assure Swarm-Aware Safety) both hinge on correct distinction between approval and refusal pathways. DeFOSPAM critical findings (swarm-aware undefined, meaningful human control undefined, containment undefined) mean the *difference* between Scotland (simple single-aircraft VLOS) and BVLOS Swarm (complex multi-agent) is a key validation point. Twin tests ensure that when evidence quality or swarm-awareness assessment changes, the system still correctly routes cases to the right outcome.",
+    "recommendation": "Implementation: (1) Add GitHub Actions workflow step after smoke suite passes: run twin-sample regression. (2) Both twins run in parallel (30s each). (3) Assertions: Scotland case outcome = INTAKE_COMPLETE + decision_record exists + audit trail complete. BVLOS case outcome = RETURN_FOR_CLARIFICATION + coaching feedback sent + evidence gap list populated. (4) Comparison: extract decision reasoning from both cases; ensure divergence is evidence-driven (Scotland has all 8 artefacts; BVLOS missing swarm-specific sections), not code-driven. (5) Fail PR if outcomes diverge unexpectedly (e.g., Scotland → RETURN_FOR_CLARIFICATION indicates regression in artefact detection). (6) Escalate mismatched reasoning to human code review.",
+    "analyst": "Victoria",
+    "byline": "Validation Analyst",
+    "principle": "V",
+    "image_url": "https://openrequirements.ai/assets/Victoria-B17TdrBk.png"
+  },
+  {
+    "finding_title": "Performance gates (Cerf Phase 4-8) must be automated parallel checks in full suite; audit log write latency <500ms is critical for GOAL-015",
+    "finding_type": "pipeline_recommendation",
+    "confidence": 8,
+    "severity": "major",
+    "scenario": "RSPEC-067 (Panel-action audit log write latency <500ms) + Gates 1-8 from openperformance-results.json",
+    "suite": "full",
+    "estimated_duration": "1200-1800 seconds (integrated with functional tests; parallel execution)",
+    "risk_factors": [
+      "latency_criticality (audit log <500ms is SLA; panel override decisions must be immutable + fast)",
+      "gate_interdependencies (Gate 4 stress test 2x peak; Gate 5 96h soak; both can mask each other if one fails)"
+    ],
+    "mitigation": "Integrate all 8 gates as parallel checks in full suite: Gate 1 (unit perf <100ms), Gate 2 (workspace creation <3s), Gate 3 (1h load baseline p95 <3.5s), Gate 4 (stress 2x peak graceful degradation), Gate 5 (96h soak <5% drift), Gate 6 (audit log p95 <500ms), Gate 7 (coverage matrix inference <5s), Gate 8 (evidence store PUT >3 MB/s). Each gate has its own alert threshold. Capture latency histogram (p50, p95, p99) per gate. Fail release if any gate red.",
+    "reasoning": "Cerf's performance engineering (openperformance-results.json: NFR-END-WB-001 96h soak, NFR-LAT-001 setup <3s, NFR-CAP-WB-001 load baseline, NFR-LAT-002 3 MB/s throughput) directly maps to operational SLAs. Isabel's EX-011 (panel override audit trail <500ms write latency) is GOAL-015 requirement. Noyce's NFR-LAT-001 and NFR-LAT-002 are capacity budgets. Ada's NFR-CAP-WB-001 is load baseline. These gates are not optional; they define system readiness. Integrating gates into CI ensures every release is validated against performance SLAs.",
+    "recommendation": "Implementation: (1) Add GitHub Actions job 'Performance Gates' after functional tests pass. (2) Run gates in parallel (or sequence if resource-constrained): Gate 1 (unit tests, <1min), Gate 2 (workspace creation load test, <5min), Gate 3 (1h load baseline, <60min), Gate 4 (stress test 2x peak, <10min), Gate 5 (96h soak, <5h in pre-prod), Gate 6 (audit log latency benchmark, <5min), Gate 7 (coverage matrix batch inference, <10min), Gate 8 (evidence store PUT throughput, <10min). (3) Allocate dedicated staging environment for soak test (Gate 5). (4) Capture latency histograms (p50, p95, p99) per gate; store as artifact. (5) Alert threshold: any gate red or p95 >threshold. (6) Required for release: all gates green in last pre-release full run; no red gates.",
+    "analyst": "Victoria",
+    "byline": "Validation Analyst",
+    "principle": "V",
+    "image_url": "https://openrequirements.ai/assets/Victoria-B17TdrBk.png"
+  },
+  {
+    "finding_title": "Clause-library version pinning critical: must pin version per scenario to track regulatory evolution; add to release notes",
+    "finding_type": "data_management",
+    "confidence": 8,
+    "severity": "major",
+    "scenario": "All 69 scenarios + decision records affected by clause-library changes",
+    "suite": "all suites",
+    "estimated_duration": "negligible (metadata tracking)",
+    "risk_factors": [
+      "version_coupling (clause-library v2.0 → v2.1 may change REQ definitions; old cases must be re-validated if version changes mid-trial)",
+      "audit_traceability (GOAL-012: auditors must know which clause version justified which approval decision)"
+    ],
+    "mitigation": "Add clause-library version pin to every test run fixture and every decision record. Version pin format: 'clause-lib:v2.1' in scenario metadata. At runtime, assert that fixture version matches database version; alert if mismatch detected. Capture version pin in Allure report dashboard. In release notes, document: 'This release validates all 69 scenarios against clause-library v2.1; backward compatibility maintained for in-flight cases on v2.0'. Require explicit action to upgrade in-flight cases to new clause version.",
+    "reasoning": "Grace's GOAL-007 (Phased Trial Build-Up) and GOAL-012 (Ensure Evidence Traceability) both require version tracking. Isabel's EX-015 (post-decision archive) specifies 'clause-library version pin, extract deliberation log' as archival requirements. GOAL-005 (Incident Investigation) requires AAIB to know which regulatory version justified each decision. DeFOSPAM critical findings (swarm-aware undefined, meaningful human control undefined) suggest regulatory definitions will evolve; version pinning ensures historical decisions remain defensible even after definitions change.",
+    "recommendation": "Implementation: (1) Add version metadata to every scenario fixture: {clause_lib_version: 'v2.1', pinned_at_runtime: '2026-04-23T02:15:00Z'}. (2) At test runtime, assert fixture version matches config.clause_lib_version; fail if mismatch. (3) In Allure dashboard, add panel 'Clause Library Version Pin': display version string per test run; alert if any run uses different version than previous. (4) In release notes, document clause-lib version used for regression test baseline. (5) For future upgrades (v2.1 → v2.2): create migration plan for in-flight cases; require explicit re-validation before continuing trials on new version. (6) Archive: post-decision archive (EX-015) must include clause-lib version pin in metadata.",
+    "analyst": "Victoria",
+    "byline": "Validation Analyst",
+    "principle": "V",
+    "image_url": "https://openrequirements.ai/assets/Victoria-B17TdrBk.png"
+  },
+  {
+    "finding_title": "Classification-tier scenario coverage gap: must ensure 80%+ of classification scenarios test across all 3 tiers (OFFICIAL, OFFICIAL-SENSITIVE, SECRET)",
+    "finding_type": "feedback_gap",
+    "confidence": 7,
+    "severity": "major",
+    "scenario": "RSPEC-063 (Classification custodian: SECRET evidence triggers CAP 722H) + all classification-aware scenarios",
+    "suite": "full",
+    "estimated_duration": "10-15 scenarios, ~10-20 minutes total",
+    "risk_factors": [
+      "security_classification_boundary (MOD trials with classified evidence require special handling; GOAL-009 requires 100% coverage)",
+      "tier_transition_logic (SECRET → redacted summary, OFFICIAL-SENSITIVE → filtered view, OFFICIAL → full access; tier logic must be tested across transitions)"
+    ],
+    "mitigation": "Expand classification-aware scenarios in full suite: (1) OFFICIAL-only evidence (should have no CRO escalation), (2) OFFICIAL-SENSITIVE evidence (should trigger CRO, redacted summary generated), (3) SECRET evidence (should escalate to cleared subset only). Test evidence upload → classification detection → tier assignment → access control enforcement for each tier. Snapshot test classification outcome per document type (ConOps, Risk Register, etc.). Validate that tier-aware evidence segregation actually enforces access restrictions (uncleared user cannot access SECRET pool). Target: 80%+ of classification scenarios test all 3 tiers; validate tier transitions explicitly.",
+    "reasoning": "GOAL-009 (Manage Classified MOD Evidence) prioritizes security assurance for classified submissions. Isabel's EX-010 (Classification custodian: SECRET detection at 85% confidence → CRO escalation) demonstrates tier-specific routing. DeFOSPAM critical finding #3 ('containment lacks design criteria') highlights risk: containment logic (geofence, C2 resilience) must also apply to classified evidence handling (data containment). GOAL-010 (Public Trust & Stakeholder Engagement) conflicts with GOAL-009 (Classified MOD Evidence): public engagement of classified trials is impossible. Scenario coverage must validate both paths: public engagement for OFFICIAL trials, security escalation for SECRET trials.",
+    "reasoning": "Current coverage: 2 classification scenarios (RSPEC-063 + one other). Target: expand to 5-8 scenarios covering tier transitions. For each tier, test: (1) evidence upload → detection, (2) classification outcome → access control, (3) redaction logic (if tier-specific), (4) audit trail (who accessed what, when). Validate that CRO role is enforced (uncleared users cannot view SECRET evidence).",
+    "recommendation": "Implementation: (1) Expand full suite with 5 new classification-tier scenarios: OFFICIAL-only (happy path), OFFICIAL-SENSITIVE-only (CRO escalation), SECRET (full security path), OFFICIAL ↔ OFFICIAL-SENSITIVE transition (evidence reclassification), cross-tier access attempt (uncleared user tries to access SECRET, should fail). (2) Mock CRO and Classification Review Officer role; test redaction rules per CAP 722H. (3) Snapshot test classification outcome per document type. (4) Validate access control: OFFICIAL accessible to all, OFFICIAL-SENSITIVE accessible only to cleared-CAA staff, SECRET accessible only to cleared-CAA + cleared-MAA staff. (5) Allure dashboard: add panel 'Classification Tier Coverage' showing % of scenarios testing each tier. (6) Target: >80% of classification scenarios test all 3 tiers.",
+    "analyst": "Victoria",
+    "byline": "Validation Analyst",
+    "principle": "V",
+    "image_url": "https://openrequirements.ai/assets/Victoria-B17TdrBk.png"
+  },
+  {
+    "finding_title": "Allure dashboard must display 8 custom panels to support specification health monitoring and override calibration feedback loop",
+    "finding_type": "pipeline_recommendation",
+    "confidence": 7,
+    "severity": "major",
+    "scenario": "All test runs (smoke, regression, full) feeding into Allure Report",
+    "suite": "all suites",
+    "estimated_duration": "negligible (dashboard is passive reporting)",
+    "risk_factors": [
+      "visibility_gap (current Allure default dashboard doesn't expose flake rate, override rate, clause-lib version, classification tier coverage)",
+      "feedback_loop_closure (GOAL-015 panel override audit requires visibility of override frequency and reasoning; dashboard must surface calibration signals)"
+    ],
+    "mitigation": "Create 8 custom Allure dashboard panels: (1) pass_rate_by_feature (PASS% per feature F01-F30), (2) avg_exec_time_by_suite (p50, p95 latency), (3) flake_rate_30d_rolling (std dev of daily pass rate), (4) coverage_by_req_ac_keystone (% scenarios covering REQ001-REQ020, AC1-AC8, K1-K8), (5) clause_lib_version_pin (version string per run), (6) override_calibration_rate (panel override decisions / total decisions, audit trail %), (7) perf_gate_status (red/yellow/green per Gate 1-8), (8) classification_tier_coverage (% scenarios testing each tier). Each panel updates per test run (or daily for rolling metrics). Set alert thresholds: flake rate >2%, any perf gate red, clause-lib version mismatch, override rate >5%.",
+    "reasoning": "Specification health is only maintained if validation feedback is continuously visible. DeFOSPAM critical findings (swarm-aware undefined, meaningful human control undefined, containment undefined) suggest regulatory ambiguity will drive override decisions; dashboard visibility of override frequency helps calibrate requirements clarity. Isabel's examples (EX-011 panel override audit, EX-015 post-decision archive) emphasize governance accountability; dashboard surfaces override trends. Cerf's performance gates need visibility (all 8 gates must be green for release). Flake rate tracking (30-day rolling) identifies intermittent failures early. Coverage metrics (REQ/AC/keystone %) validate specification completeness.",
+    "recommendation": "Implementation: (1) Add 8 custom Allure dashboard plugins (or use Allure API to generate HTML panels). (2) Feed metrics from test runner: JUnit XML + custom JSON artifacts. (3) Update frequency: per-test-run for functional pass rate, daily aggregation for 30-day rolling flake rate. (4) Thresholds: flake rate >2% → email alert, perf gate red → Slack + PagerDuty, clause-lib version mismatch → email. (5) Panel design: each panel displays trend line (last 30 days) + heatmap (pass % per feature per day). (6) Override panel: display override decisions with timestamp, actor, justification text; trend line shows override rate (should be <5% healthy). (7) Performance gate panel: display p95 latency vs threshold for each gate; color code (green <threshold, yellow 80-100% threshold, red >threshold). (8) Release readiness checklist: all panels green, flake rate <2%, clause-lib version pinned, override rate <5%.",
+    "analyst": "Victoria",
+    "byline": "Validation Analyst",
+    "principle": "V",
+    "image_url": "https://openrequirements.ai/assets/Victoria-B17TdrBk.png"
+  }
+]
