@@ -79,9 +79,9 @@ export function ScreenshotGallery() {
                 src={s.src}
                 alt={s.title}
                 loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover object-top opacity-80 group-hover:opacity-100 group-hover:scale-[1.02] transition-all duration-500"
+                className="absolute inset-0 w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent pointer-events-none" />
               <div className="absolute inset-0 ring-1 ring-inset ring-matrix/10 group-hover:ring-matrix/40 transition-colors pointer-events-none" />
             </div>
             <div className="p-5 border-t border-matrix/20">
