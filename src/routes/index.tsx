@@ -105,9 +105,9 @@ function Index() {
           <div className="hidden md:flex items-center gap-8 text-xs uppercase tracking-widest text-muted-foreground">
             <button type="button" onClick={() => setDeckOpen(true)} className="hover:text-matrix transition-colors glitch uppercase tracking-widest">~/mission</button>
             
+            <a href="https://github.com/codespaces/probable-space-computing-machine-65w4xx69945hxqj?editor=web" target="_blank" rel="noopener noreferrer" className="hover:text-matrix transition-colors glitch">~/codespace</a>
             <a href="#repos" className="hover:text-matrix transition-colors glitch">~/REPOS</a>
             <a href="#gallery" className="hover:text-matrix transition-colors glitch">~/gallery</a>
-            <a href="https://github.com/codespaces/probable-space-computing-machine-65w4xx69945hxqj?editor=web" target="_blank" rel="noopener noreferrer" className="hover:text-matrix transition-colors glitch">~/codespace</a>
             
           </div>
           <Link
