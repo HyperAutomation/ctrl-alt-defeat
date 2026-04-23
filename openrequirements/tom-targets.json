@@ -1,0 +1,1127 @@
+[
+  {
+    "value_tag": "PackCompleteness",
+    "target_type": "wish",
+    "sub_scale_ref": "composite",
+    "level": 90,
+    "unit": "percentage",
+    "deadline": "2026-09-30",
+    "conditions": "First-submission operational authorisation packs containing all mandatory document types and substantive sections before Readiness Check",
+    "increments": [
+      {
+        "milestone": "by end Phase 2 (artefact detector + reg mapper)",
+        "level": 85,
+        "deadline": "2026-06-30"
+      }
+    ],
+    "gap_from_status": 18,
+    "gap_from_tolerable": "positive (Status 72% > assumed Tolerable ~65%)",
+    "feasibility": "achievable",
+    "stakeholder_driver": "Applicant / Operator — wants clear acceptance criteria upfront; CAA Case Officer — wants complete packs to avoid rework cycles",
+    "reasoning": "Wish sits between Status (72%) and Record (95%), reflecting vocal applicant ambition to eliminate rework through upfront clarity. 90% is achievable with improved application guidance, automated pack completeness checkers, and AMLAS learning dissemination. This target serves operator cost reduction and CAA throughput improvement.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "PackCompleteness",
+    "target_type": "goal",
+    "sub_scale_ref": "composite",
+    "level": 100,
+    "unit": "percentage",
+    "deadline": "2026-12-31",
+    "conditions": "100% of first-submission packs on Readiness Check contain all mandatory document types (ConOps, SORA, Safety Case, Training Plan, Personnel List, Environmental Assessment) with substantive sections meeting per-document acceptance gates",
+    "increments": [
+      {
+        "milestone": "by Submission Readiness Check",
+        "level": 100,
+        "deadline": "2026-12-31"
+      }
+    ],
+    "gap_from_status": 28,
+    "gap_from_tolerable": "positive",
+    "feasibility": "achievable",
+    "stakeholder_driver": "CAA Case Officer (REQ001) — primary; CAA Safety-Case Reviewer (REQ003) — dependent; CAA SORA Assessor (REQ002) — dependent",
+    "reasoning": "Goal = 100% first-submission completeness is the committed regulatory target per Isaac's Tolerable and CAA case-officer authority. This eliminates rework cycles and predictably enables Phase 2 gate progression. Achievable within 9 months with CAA application guidance, AMLAS exemplar dissemination, and automated pack checkers. This is the plan of record.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "PackCompleteness",
+    "target_type": "stretch",
+    "sub_scale_ref": "composite",
+    "level": 100,
+    "unit": "percentage",
+    "deadline": "2026-12-31",
+    "conditions": "100% of first-submission packs pass Readiness Check with zero rework cycles and applicant satisfaction (post-submission confidence) >= 80%",
+    "increments": [
+      {
+        "milestone": "by 10th case through Workbench",
+        "level": 95,
+        "deadline": "2026-11-30"
+      }
+    ],
+    "gap_from_status": 28,
+    "gap_from_tolerable": "positive",
+    "feasibility": "achievable",
+    "stakeholder_driver": "Applicant / Operator — cost reduction via first-submission success; CAA Case Officer — zero rework overhead",
+    "reasoning": "Stretch = 100% completeness PLUS applicant satisfaction >= 80% adds a customer-experience dimension. Requires not just technical completeness but also clear regulatory communication and feedback loops. Achievable by combining pack completeness with CAA communication excellence and interactive application guidance.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "SwarmAwareSORAEvidence",
+    "target_type": "wish",
+    "sub_scale_ref": "composite",
+    "level": 60,
+    "unit": "percentage of submissions",
+    "deadline": "2026-09-30",
+    "conditions": ">= 60% of BVLOS swarm submissions contain >= 3 distinct swarm-specific SORA evidence items per aircraft addressing loss-of-separation, loss-of-coordination, and emergent failure",
+    "increments": [
+      {
+        "milestone": "by end Phase 2 (SORA mapping + swarm taxonomy alignment)",
+        "level": 40,
+        "deadline": "2026-06-30"
+      }
+    ],
+    "gap_from_status": 45,
+    "gap_from_tolerable": "positive (Status 15%)",
+    "feasibility": "stretch",
+    "stakeholder_driver": "CAA SORA Assessor (REQ002) — drives defensible SAIL/OSO setpoints; Applicant Autonomy Engineer — wants quantified bounds on emergent behaviors",
+    "reasoning": "Wish = 60% reflects the vocal ambition to mainstream swarm-aware SORA evidence. Currently only 15% of submissions include swarm-specific items. The 45% gap requires JARUS SORA v2.5 adoption, EUROCAE WG6 swarm taxonomy maturity, and AMLAS learning dissemination. Stretch feasibility because this depends on industry-wide adoption of emerging guidance.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "SwarmAwareSORAEvidence",
+    "target_type": "goal",
+    "sub_scale_ref": "composite",
+    "level": 80,
+    "unit": "percentage of submissions",
+    "deadline": "2027-12-31",
+    "conditions": ">= 80% of BVLOS swarm submissions demonstrate >= 3 distinct swarm-aware SORA evidence items per aircraft with explicit interdependency, emergent-behavior, and coordination-mechanism evidence",
+    "increments": [
+      {
+        "milestone": "by first joint panel (demonstration of swarm SORA assessment readiness)",
+        "level": 70,
+        "deadline": "2027-06-30"
+      }
+    ],
+    "gap_from_status": 65,
+    "gap_from_tolerable": "positive",
+    "feasibility": "stretch",
+    "stakeholder_driver": "CAA SORA Assessor (REQ002) — committed to defensible swarm risk classification; CAA Autonomy Reviewer (REQ008) — assurance of collective decision-making",
+    "reasoning": "Goal = 80% by end 2027 is the team-committed target enabling standard swarm SORA assessment within 24 months. Requires JARUS SORA v2.5 full adoption, EUROCAE WG6 swarm guidance publication, and AMLAS case study dissemination. Stretch feasibility because adoption depends on regulatory momentum and operator training investment.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "SwarmAwareSORAEvidence",
+    "target_type": "stretch",
+    "sub_scale_ref": "composite",
+    "level": 95,
+    "unit": "percentage of submissions",
+    "deadline": "2028-12-31",
+    "conditions": ">= 95% of BVLOS swarm submissions with comprehensive swarm-aware SORA evidence, >= 4 distinct items per aircraft, and interoperability schema for coalition swarm variants documented",
+    "increments": [
+      {
+        "milestone": "by steady-state year 1 (SORA assessment fully mature for swarms)",
+        "level": 95,
+        "deadline": "2028-12-31"
+      }
+    ],
+    "gap_from_status": 80,
+    "gap_from_tolerable": "positive",
+    "feasibility": "uncertain",
+    "stakeholder_driver": "CAA SORA Assessor — aspirational interoperability with allied air forces; Applicant Autonomy Engineer — coalition swarm capability",
+    "reasoning": "Stretch = 95% approaching Ideal (100% regulatory acceptance). Requires not just mature JARUS SORA guidance but also coalition interoperability schema (NATO/DCDC swarm standards). Feasibility is uncertain because it depends on multi-national coordination beyond CAA scope.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "ConOpsClarity",
+    "target_type": "wish",
+    "sub_scale_ref": "NominalBehaviorSpecification + WorstCredibleBoundaryDefinition",
+    "level": 80,
+    "unit": "percentage inter-rater agreement (Cohen's kappa >= 0.8)",
+    "deadline": "2026-09-30",
+    "conditions": ">= 80% of ConOps sections explicitly define both nominal and worst-credible behaviors for each operational phase, with two independent safety-case reviewers scoring clarity identically",
+    "increments": [
+      {
+        "milestone": "by end Phase 2 (ConOps exemplar library published)",
+        "level": 70,
+        "deadline": "2026-06-30"
+      }
+    ],
+    "gap_from_status": 25,
+    "gap_from_tolerable": "positive (Status 55%)",
+    "feasibility": "achievable",
+    "stakeholder_driver": "CAA Safety-Case Reviewer (REQ003) — primary; CAA Flight-Ops Inspector (REQ011) — contingency planning; Applicant / Operator — wants clear worst-credible definition",
+    "reasoning": "Wish = 80% kappa represents achievable clarity improvement via ConOps exemplar library and ASTM F3642 guidance adoption. Currently only 55% of ConOps documents achieve inter-rater clarity. This target enables contingency and geofence design downstream.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "ConOpsClarity",
+    "target_type": "goal",
+    "sub_scale_ref": "NominalBehaviorSpecification + WorstCredibleBoundaryDefinition",
+    "level": 90,
+    "unit": "percentage inter-rater agreement (Cohen's kappa >= 0.9)",
+    "deadline": "2027-12-31",
+    "conditions": ">= 90% of ConOps sections with explicit worst-credible boundaries defined as [mean + 3-sigma] or [absolute worst-case physics], with >= 0.9 inter-rater reliability from independent reviewers",
+    "increments": [
+      {
+        "milestone": "by first joint panel (ConOps review maturity demonstrated)",
+        "level": 85,
+        "deadline": "2027-06-30"
+      }
+    ],
+    "gap_from_status": 35,
+    "gap_from_tolerable": "positive",
+    "feasibility": "achievable",
+    "stakeholder_driver": "CAA Safety-Case Reviewer (REQ003) — committed clarity gate; CAA Airspace Regulator (REQ004, REQ005) — geofence/TDA setpoints dependent on ConOps boundaries",
+    "reasoning": "Goal = 90% kappa by end 2027 is the team-committed target enabling confident TDA and geofence design. Achievable with ASTM F3642 deployment, training, and CAA review process standardization. This is the plan of record for ConOps clarity across all trial phases.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "ConOpsClarity",
+    "target_type": "stretch",
+    "sub_scale_ref": "NominalBehaviorSpecification + WorstCredibleBoundaryDefinition + ReviewerAgreement",
+    "level": 95,
+    "unit": "percentage inter-rater agreement (Cohen's kappa >= 0.95)",
+    "deadline": "2028-12-31",
+    "conditions": ">= 95% of ConOps sections with quantified nominal and worst-credible behaviors, explicit recovery strategies for each off-nominal phase, and >= 0.95 inter-rater reliability from three independent reviewers",
+    "increments": [
+      {
+        "milestone": "by steady-state year 1",
+        "level": 95,
+        "deadline": "2028-12-31"
+      }
+    ],
+    "gap_from_status": 40,
+    "gap_from_tolerable": "positive",
+    "feasibility": "achievable",
+    "stakeholder_driver": "CAA Safety-Case Reviewer — aspirational clarity; MAA Range Safety Officer (if range trial) — high-confidence range impact zoning",
+    "reasoning": "Stretch = 95% kappa approaching near-perfect inter-rater agreement. Requires mature ConOps authoring practices, automated clarity checking, and expert training. Achievable by year 1 steady-state if investment in ConOps tooling and training is sustained.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "GeofenceContainment",
+    "target_type": "wish",
+    "sub_scale_ref": "BoundaryTolerance + FailureModeCoverage",
+    "level": 99.9,
+    "unit": "percentage",
+    "deadline": "2026-09-30",
+    "conditions": ">= 99.9% of Monte Carlo simulated failure scenarios (>= 1,000 trials, single + dual failures, environmental ODD) result in zero boundary exceedance with autonomous containment",
+    "increments": [
+      {
+        "milestone": "by end Phase 3 (VLOS swarm flight test)",
+        "level": 99.5,
+        "deadline": "2026-09-30"
+      }
+    ],
+    "gap_from_status": 0.3,
+    "gap_from_tolerable": "positive (Status 99.6% > assumed Tolerable 99.5%)",
+    "feasibility": "achievable",
+    "stakeholder_driver": "CAA Airspace Regulator (REQ005) — primary; Third-Party Air Users — zero-tolerance for boundary exceedance; Public Below (ground risk) — fly-away protection",
+    "reasoning": "Wish = 99.9% containment is the baseline regulatory target and reflects stakeholder vocal ambition. Currently Status is 99.6%, so the 0.3% gap is modest but critical for airspace user protection. Achievable through Monte Carlo expansion and redundancy investment.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "GeofenceContainment",
+    "target_type": "goal",
+    "sub_scale_ref": "BoundaryTolerance + FailureModeCoverage + SurvivalTime",
+    "level": 99.95,
+    "unit": "percentage",
+    "deadline": "2027-12-31",
+    "conditions": ">= 99.95% of >= 10,000 Monte Carlo trials across single + dual failures, GPS denial, barometric failure, and software faults result in zero boundary exceedance, with mean containment time <= 5 seconds",
+    "increments": [
+      {
+        "milestone": "by end Phase 4 (BVLOS single aircraft swarm nominal)",
+        "level": 99.9,
+        "deadline": "2027-06-30"
+      }
+    ],
+    "gap_from_status": 0.35,
+    "gap_from_tolerable": "positive",
+    "feasibility": "achievable",
+    "stakeholder_driver": "CAA Airspace Regulator (REQ005) — committed hard containment; Third-Party Air Users — zero tolerance; MAA Range Safety (if applicable) — range non-negotiable",
+    "reasoning": "Goal = 99.95% by end 2027 is the team-committed containment standard with comprehensive failure mode coverage and validated survival time. Achievable through redundant geofence logic (soft + hard), improved Monte Carlo models, and flight test validation. This is the hard safety requirement per CAA Airspace Regulator authority.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "GeofenceContainment",
+    "target_type": "stretch",
+    "sub_scale_ref": "BoundaryTolerance + FailureModeCoverage + SurvivalTime",
+    "level": 99.99,
+    "unit": "percentage",
+    "deadline": "2028-12-31",
+    "conditions": ">= 99.99% (four nines) of >= 50,000 Monte Carlo trials across all failure modes including multi-aircraft collision avoidance during containment with provably correct geofence logic",
+    "increments": [
+      {
+        "milestone": "by steady-state year 1",
+        "level": 99.99,
+        "deadline": "2028-12-31"
+      }
+    ],
+    "gap_from_status": 0.39,
+    "gap_from_tolerable": "positive",
+    "feasibility": "stretch",
+    "stakeholder_driver": "CAA Airspace Regulator — aspirational safety margin; Third-Party Air Users — ultra-conservative protection; MAA Range Safety — operational record achievement",
+    "reasoning": "Stretch = 99.99% (four nines) requires formal verification of geofence logic and massive Monte Carlo campaigns. Feasibility is stretch because this demands investment in formal methods beyond current industry practice. Aspirational for year 1 steady-state.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "C2LinkResilience",
+    "target_type": "wish",
+    "sub_scale_ref": "C2LossAutoSurvivalTime + C2LossCrewTakeoverLatency",
+    "level": 60,
+    "unit": "seconds",
+    "deadline": "2026-09-30",
+    "conditions": ">= 60 seconds autonomous survival after complete C2 loss without loss-of-separation or uncontrolled flight; >= 120 seconds if crew manual takeover is available",
+    "increments": [
+      {
+        "milestone": "by end Phase 3 (VLOS swarm)",
+        "level": 45,
+        "deadline": "2026-09-30"
+      }
+    ],
+    "gap_from_status": 15,
+    "gap_from_tolerable": "positive (Status 45%)",
+    "feasibility": "achievable",
+    "stakeholder_driver": "Applicant / Operator — cost-driven, prefers crew takeover as fallback; CAA Spectrum Specialist (REQ006) — C2 link monitoring and loss-of-link response",
+    "reasoning": "Wish = 60 seconds autonomous survival reflects vocal operator ambition to extend C2 loss tolerance beyond current 45 seconds through improved autonomous decision-making and inter-vehicle coordination. Achievable with swarm decision-making maturity.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "C2LinkResilience",
+    "target_type": "goal",
+    "sub_scale_ref": "C2LossAutoSurvivalTime + C2LossCrewTakeoverLatency + InterVehicleLinkLossBehavior",
+    "level": 90,
+    "unit": "seconds",
+    "deadline": "2027-12-31",
+    "conditions": ">= 90 seconds autonomous survival (no C2, nominal formation maintained, loss-of-separation prevented) with documented inter-vehicle link loss behavior and >= 120 seconds crew takeover window",
+    "increments": [
+      {
+        "milestone": "by end Phase 5 (full engine autonomous swarm)",
+        "level": 120,
+        "deadline": "2027-12-31"
+      }
+    ],
+    "gap_from_status": 45,
+    "gap_from_tolerable": "positive",
+    "feasibility": "stretch",
+    "stakeholder_driver": "CAA Spectrum Specialist (REQ006) — committed link-loss resilience standard; Applicant — higher operational autonomy reduces crew workload",
+    "reasoning": "Goal = 90 seconds by end 2027 is the team-committed C2 resilience target supporting BVLOS autonomous swarm operations. Requires mature swarm decision-making and inter-vehicle coordination. Stretch feasibility because algorithm maturity is still emerging.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "C2LinkResilience",
+    "target_type": "stretch",
+    "sub_scale_ref": "C2LossAutoSurvivalTime + CombinedFailureSurvival",
+    "level": 300,
+    "unit": "seconds",
+    "deadline": "2028-12-31",
+    "conditions": ">= 300 seconds autonomous survival with combined C2 + GPS loss, documented mission-level decision-making (RTL vs abort vs continue), and zero loss-of-separation events",
+    "increments": [
+      {
+        "milestone": "by steady-state year 1",
+        "level": 300,
+        "deadline": "2028-12-31"
+      }
+    ],
+    "gap_from_status": 255,
+    "gap_from_tolerable": "positive",
+    "feasibility": "uncertain",
+    "stakeholder_driver": "Applicant — aspirational high autonomy; CAA Autonomy Reviewer (REQ008) — mission-level decision-making assurance",
+    "reasoning": "Stretch = 300 seconds represents highly autonomous swarm capable of mission-level decisions under combined C2 + GPS loss. Feasibility is uncertain because this requires proving correct autonomous decision-making under epistemic uncertainty—a frontier challenge in assurance.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "DAAPerformance",
+    "target_type": "wish",
+    "sub_scale_ref": "CooperativeEncounterResolution + NonCooperativeEncounterResolution",
+    "level": 93,
+    "unit": "percentage",
+    "deadline": "2026-09-30",
+    "conditions": ">= 93% of >= 100 encounter scenarios (cooperative + non-cooperative mix) with loss-of-separation recovery within 10 seconds and zero secondary conflicts",
+    "increments": [
+      {
+        "milestone": "by end Phase 3 (VLOS swarm)",
+        "level": 90,
+        "deadline": "2026-09-30"
+      }
+    ],
+    "gap_from_status": 5,
+    "gap_from_tolerable": "positive (Status 88%)",
+    "feasibility": "achievable",
+    "stakeholder_driver": "CAA DAA Assessor (REQ007) — performance standard aligned with DO-365 + margin; Applicant — cost-driven DAA algorithm selection",
+    "reasoning": "Wish = 93% (DO-365 baseline + 3% margin) reflects achievable improvement over current 88% status through sensor fusion and non-cooperative detection algorithm maturity. Supports VLOS swarm operations in supervised airspace.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "DAAPerformance",
+    "target_type": "goal",
+    "sub_scale_ref": "CooperativeEncounterResolution + NonCooperativeEncounterResolution + DecisionConsistency",
+    "level": 97,
+    "unit": "percentage",
+    "deadline": "2027-12-31",
+    "conditions": ">= 97% (DO-365 + 20% margin) of >= 200 encounter scenarios with consistent DAA decisions (>= 95% repeat-encounter identity), recovery within 8 seconds, zero secondary conflicts",
+    "increments": [
+      {
+        "milestone": "by end Phase 4 (BVLOS nominal)",
+        "level": 95,
+        "deadline": "2027-06-30"
+      }
+    ],
+    "gap_from_status": 9,
+    "gap_from_tolerable": "positive",
+    "feasibility": "achievable",
+    "stakeholder_driver": "CAA DAA Assessor (REQ007) — committed DO-365 + 20% performance standard; CAA Safety-Case Reviewer — decision consistency confidence",
+    "reasoning": "Goal = 97% by end 2027 is the team-committed DAA performance standard supporting BVLOS swarm operations. Requires mature sensor fusion, algorithm stability, and comprehensive encounter testing. Achievable with algorithm optimization and field validation.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "DAAPerformance",
+    "target_type": "stretch",
+    "sub_scale_ref": "CooperativeEncounterResolution + NonCooperativeEncounterResolution + SwarmCoordinationUponEncounter",
+    "level": 99.5,
+    "unit": "percentage",
+    "deadline": "2028-12-31",
+    "conditions": ">= 99.5% (DO-365 + 30% margin) of >= 500 encounter scenarios with swarm formation maintained post-encounter, coordinated evasion across multi-aircraft formation, zero secondary conflicts, and >= 98% decision consistency",
+    "increments": [
+      {
+        "milestone": "by steady-state year 1",
+        "level": 99.5,
+        "deadline": "2028-12-31"
+      }
+    ],
+    "gap_from_status": 11.5,
+    "gap_from_tolerable": "positive",
+    "feasibility": "stretch",
+    "stakeholder_driver": "CAA DAA Assessor — aspirational swarm encounter performance; CAA Autonomy Reviewer — coordinated evasion under swarm constraints",
+    "reasoning": "Stretch = 99.5% (DO-365 + 30% margin) with swarm formation resilience. Requires mature swarm coordination algorithms and extensive encounter testing. Stretch feasibility because coordinated multi-aircraft evasion is a frontier challenge.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "SwarmEmergentBoundedness",
+    "target_type": "wish",
+    "sub_scale_ref": "EmergentBehaviorInventory + BoundaryQuantification",
+    "level": 5,
+    "unit": "count of bounded emergent behaviors",
+    "deadline": "2026-09-30",
+    "conditions": ">= 5 distinct emergent behaviors identified (formation geometry, coordinated maneuver, flocking, collective decision-making, swarm split/rejoin) each with quantified boundary and detection criteria",
+    "increments": [
+      {
+        "milestone": "by end Phase 3 (VLOS swarm, 3-aircraft formation)",
+        "level": 4,
+        "deadline": "2026-09-30"
+      }
+    ],
+    "gap_from_status": 2,
+    "gap_from_tolerable": "positive (Status 3)",
+    "feasibility": "achievable",
+    "stakeholder_driver": "CAA Autonomy Reviewer (REQ008) — assurance of collective decision-making; Applicant Autonomy Engineer — design guidance via quantified bounds",
+    "reasoning": "Wish = 5 bounded behaviors reflects achievable acceleration from current 3 behaviors through EUROCAE WG6 swarm taxonomy adoption and AMLAS learning. This is the minimum viable swarm-behavior assurance case.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "SwarmEmergentBoundedness",
+    "target_type": "goal",
+    "sub_scale_ref": "EmergentBehaviorInventory + BoundaryQuantification + RecoveryCapability",
+    "level": 6,
+    "unit": "count of bounded emergent behaviors",
+    "deadline": "2027-12-31",
+    "conditions": ">= 6 emergent behaviors with quantified bounds, detection criteria, and documented recovery/abort actions for each out-of-bounds condition, with >= 95% flight test coverage within bounds",
+    "increments": [
+      {
+        "milestone": "by end Phase 5 (BVLOS 5-aircraft swarm)",
+        "level": 6,
+        "deadline": "2027-12-31"
+      }
+    ],
+    "gap_from_status": 3,
+    "gap_from_tolerable": "positive",
+    "feasibility": "stretch",
+    "stakeholder_driver": "CAA Autonomy Reviewer (REQ008) — committed swarm-behavior assurance; CAA Safety-Case Reviewer — hazard mitigation completeness",
+    "reasoning": "Goal = 6 behaviors by end 2027 is the team-committed swarm-assurance standard. Requires systematic emergent-behavior taxonomy, boundary quantification methodology, and extensive flight test. Stretch feasibility due to novel domain maturity.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "SwarmEmergentBoundedness",
+    "target_type": "stretch",
+    "sub_scale_ref": "EmergentBehaviorInventory + BoundaryQuantification + RecoveryCapability + TestCoverage",
+    "level": 8,
+    "unit": "count of behaviors with boundaries, recovery, and >= 99% test coverage",
+    "deadline": "2028-12-31",
+    "conditions": ">= 8 emergent behaviors with quantified bounds, automated anomaly detection (ML-based), recovery procedures, and >= 99% swarm flight-hours within all defined bounds across nominal and failure scenarios",
+    "increments": [
+      {
+        "milestone": "by steady-state year 1",
+        "level": 8,
+        "deadline": "2028-12-31"
+      }
+    ],
+    "gap_from_status": 5,
+    "gap_from_tolerable": "positive",
+    "feasibility": "uncertain",
+    "stakeholder_driver": "CAA Autonomy Reviewer — aspirational swarm behavior predictability; CAA AI/ML Specialist — anomaly detection integration",
+    "reasoning": "Stretch = 8 behaviors with automated anomaly detection. Feasibility is uncertain because this requires integration of ML-based behavior monitoring into assurance case—a novel integration challenge.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "MLForensicExplainability",
+    "target_type": "wish",
+    "sub_scale_ref": "ModelTransparencyLevel + ReviewerReconstruction",
+    "level": 80,
+    "unit": "percentage",
+    "deadline": "2026-09-30",
+    "conditions": ">= 80% of safety-critical ML decisions explainable via model-type-specific evidence (decision-tree: 100%, SVM: feature importance + boundary, neural network: LIME/SHAP with >= 80% coverage)",
+    "increments": [
+      {
+        "milestone": "by end Phase 2 (ML assurance case framework)",
+        "level": 65,
+        "deadline": "2026-06-30"
+      }
+    ],
+    "gap_from_status": 52,
+    "gap_from_tolerable": "positive (Status 28%)",
+    "feasibility": "stretch",
+    "stakeholder_driver": "CAA AI/ML Assurance Specialist (REQ009) — forensic ML evidence; Applicant — cost-driven model selection (trees vs neural nets)",
+    "reasoning": "Wish = 80% explainability reflects vocal regulator ambition to mainstream ML assurance. Current 28% status is dangerously low. 80% is achievable with LIME/SHAP adoption, frozen-model documentation, and explicit model-type selection criteria.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "MLForensicExplainability",
+    "target_type": "goal",
+    "sub_scale_ref": "ModelTransparencyLevel + ReviewerReconstruction + FrozenModelDocumentation",
+    "level": 90,
+    "unit": "percentage",
+    "deadline": "2027-12-31",
+    "conditions": ">= 90% of safety-critical ML decisions with full explainability evidence, frozen-model manifest (training data provenance, hyperparameters, validation performance), and runtime decision logging with >= 80% decision-path coverage for neural networks",
+    "increments": [
+      {
+        "milestone": "by first approved MPTF (Model Preparation Test Flight)",
+        "level": 85,
+        "deadline": "2027-06-30"
+      }
+    ],
+    "gap_from_status": 62,
+    "gap_from_tolerable": "positive",
+    "feasibility": "stretch",
+    "stakeholder_driver": "CAA AI/ML Assurance Specialist (REQ009) — committed ML explainability standard; CAA Safety-Case Reviewer — hazard cause-effect traceability",
+    "reasoning": "Goal = 90% by end 2027 is the team-committed ML assurance standard. Requires ASTM F38 ML standard adoption, AMLAS guidance dissemination, and operator investment in explainability tooling. Stretch feasibility due to neural network opacity challenge.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "MLForensicExplainability",
+    "target_type": "stretch",
+    "sub_scale_ref": "ModelTransparencyLevel + ReviewerReconstruction + DecisionLogging",
+    "level": 95,
+    "unit": "percentage",
+    "deadline": "2028-12-31",
+    "conditions": ">= 95% of safety-critical ML decisions with certified explainability (independent reviewer sign-off on decision reconstruction), certified frozen-model provenance (hash + timestamp), and automated anomaly-detection logging of out-of-distribution inputs",
+    "increments": [
+      {
+        "milestone": "by steady-state year 1",
+        "level": 95,
+        "deadline": "2028-12-31"
+      }
+    ],
+    "gap_from_status": 67,
+    "gap_from_tolerable": "positive",
+    "feasibility": "uncertain",
+    "stakeholder_driver": "CAA AI/ML Assurance Specialist — aspirational model forensic confidence; CAA Flight Safety Investigator (REQ012) — MOR investigation readiness",
+    "reasoning": "Stretch = 95% with certified provenance and anomaly detection. Feasibility is uncertain because certified explainability certification infrastructure does not yet exist in aerospace.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "MeaningfulHumanControl",
+    "target_type": "wish",
+    "sub_scale_ref": "SituationalAwarenessScore + AuthorityPreservationScore",
+    "level": 70,
+    "unit": "composite score [0-100]",
+    "deadline": "2026-09-30",
+    "conditions": "Composite score >= 70 across SituationalAwareness (>= 2Hz nominal update frequency), AuthorityPreservation (>= 90% of irreversible decisions require crew sign-off), TakeoverLatency (>= 10 seconds available)",
+    "increments": [
+      {
+        "milestone": "by end Phase 3 (VLOS crew training validated)",
+        "level": 65,
+        "deadline": "2026-09-30"
+      }
+    ],
+    "gap_from_status": 18,
+    "gap_from_tolerable": "positive (Status 52%)",
+    "feasibility": "achievable",
+    "stakeholder_driver": "CAA Human Factors Inspector (REQ010) — crew fitness and workload; Applicant — operational efficiency",
+    "reasoning": "Wish = 70 composite reflects achievable human factors improvement through HMI design iteration and crew training maturation. Targets situational awareness and authority preservation as primary levers.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "MeaningfulHumanControl",
+    "target_type": "goal",
+    "sub_scale_ref": "SituationalAwarenessScore + AuthorityPreservationScore + TakeoverLatencyScore + WorkloadScore",
+    "level": 85,
+    "unit": "composite score [0-100]",
+    "deadline": "2027-12-31",
+    "conditions": "Composite >= 85 with SituationalAwareness >= 10Hz off-nominal, AuthorityPreservation >= 90% reversible + 100% irreversible, TakeoverLatency >= 10 sec, WorkloadBounds <= 0.6 duty cycle (per Alexa's sub-scale), all validated in VLOS and BVLOS trials",
+    "increments": [
+      {
+        "milestone": "by first joint panel (human factors readiness)",
+        "level": 80,
+        "deadline": "2027-06-30"
+      }
+    ],
+    "gap_from_status": 33,
+    "gap_from_tolerable": "positive",
+    "feasibility": "stretch",
+    "stakeholder_driver": "CAA Human Factors Inspector (REQ010) — committed human control standard; CAA Flight-Ops Inspector (REQ011) — contingency trigger clarity",
+    "reasoning": "Goal = 85 by end 2027 is the team-committed human control standard. Most challenging is WorkloadScore (currently ~35 status); swarm operations require alert prioritization and crew decision-support to achieve <= 0.6 duty cycle. Stretch feasibility due to HMI/workflow design maturity.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "MeaningfulHumanControl",
+    "target_type": "stretch",
+    "sub_scale_ref": "SituationalAwarenessScore + AuthorityPreservationScore + TakeoverLatencyScore + WorkloadScore",
+    "level": 100,
+    "unit": "composite score [0-100]",
+    "deadline": "2028-12-31",
+    "conditions": "Perfect [100] human control across all dimensions: >= 10Hz situational awareness, 100% authority preservation for all decisions, >= 10 sec takeover latency (all phases), WorkloadBounds <= 3 concurrent alarms + <= 3 min active control per hour",
+    "increments": [
+      {
+        "milestone": "by steady-state year 1",
+        "level": 100,
+        "deadline": "2028-12-31"
+      }
+    ],
+    "gap_from_status": 48,
+    "gap_from_tolerable": "positive",
+    "feasibility": "unreachable",
+    "stakeholder_driver": "CAA Human Factors Inspector — aspirational full authority restoration",
+    "reasoning": "Stretch = 100 is theoretically aspirational but unreachable given swarm operational complexity. Swarms inherently generate multiple concurrent alerts. A better target is 90-95 with defined acceptable alert protocols. Flag as unreachable and recommend Goal = 85 as achievable ceiling.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "IndependentFlightTermination",
+    "target_type": "wish",
+    "sub_scale_ref": "TerminationTriggerReliability + TerminationExecutionCompleteness",
+    "level": 99.95,
+    "unit": "percentage",
+    "deadline": "2026-09-30",
+    "conditions": ">= 99.95% of simulated off-nominal scenarios trigger independent flight termination and execute within <= 10 seconds to safe configuration (motors off, drift ceased, no secondary hazards)",
+    "increments": [
+      {
+        "milestone": "by end Phase 3 (VLOS swarm termination validation)",
+        "level": 99.5,
+        "deadline": "2026-09-30"
+      }
+    ],
+    "gap_from_status": 0.85,
+    "gap_from_tolerable": "positive (Status 99.1%)",
+    "feasibility": "achievable",
+    "stakeholder_driver": "CAA Flight-Ops Inspector (REQ011) — contingency mitigation; Public Below — uncontrolled descent prevention",
+    "reasoning": "Wish = 99.95% termination reliability is the baseline target and aligns with industry practice. Current 99.1% status requires modest redundancy and test expansion to close 0.85% gap.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "IndependentFlightTermination",
+    "target_type": "goal",
+    "sub_scale_ref": "TerminationTriggerReliability + TerminationExecutionCompleteness + PostTerminationActions",
+    "level": 99.99,
+    "unit": "percentage",
+    "deadline": "2027-12-31",
+    "conditions": ">= 99.99% of >= 100 simulated scenarios with dual-redundant termination systems, complete execution within <= 10 seconds, and documented post-termination actions (crew alert, ATSU notification, data preservation, recovery plan)",
+    "increments": [
+      {
+        "milestone": "by end Phase 5 (BVLOS swarm)",
+        "level": 99.9,
+        "deadline": "2027-12-31"
+      }
+    ],
+    "gap_from_status": 0.89,
+    "gap_from_tolerable": "positive",
+    "feasibility": "achievable",
+    "stakeholder_driver": "CAA Flight-Ops Inspector (REQ011) — committed termination standard; CAA Flight Safety Investigator (REQ012) — data preservation post-termination",
+    "reasoning": "Goal = 99.99% (four nines) by end 2027 is the team-committed termination standard. Requires dual-redundant logic, comprehensive testing, and integration with MOR/ATSU protocols. Achievable through proven redundancy approaches.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "IndependentFlightTermination",
+    "target_type": "stretch",
+    "sub_scale_ref": "TerminationTriggerReliability + TerminationExecutionCompleteness + EnvironmentalRobustness",
+    "level": 99.999,
+    "unit": "percentage",
+    "deadline": "2028-12-31",
+    "conditions": ">= 99.999% (five nines) with triple-redundant systems, provably correct termination logic (formal verification), and environmental robustness across ODD extremes",
+    "increments": [
+      {
+        "milestone": "by steady-state year 1",
+        "level": 99.999,
+        "deadline": "2028-12-31"
+      }
+    ],
+    "gap_from_status": 0.899,
+    "gap_from_tolerable": "positive",
+    "feasibility": "uncertain",
+    "stakeholder_driver": "CAA Flight-Ops Inspector — aspirational ultra-high reliability",
+    "reasoning": "Stretch = 99.999% (five nines) requires formal verification—a significant investment. Feasibility is uncertain because formal termination proof is not standard practice in aerospace.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "MORForensicCompleteness",
+    "target_type": "wish",
+    "sub_scale_ref": "DataSchemaCoverage + DataIntegrity",
+    "level": 95,
+    "unit": "percentage",
+    "deadline": "2026-09-30",
+    "conditions": ">= 95% of incident events with complete state variable logging (position, velocity, heading, engine status, autonomy mode, sensor inputs, crew inputs, alerts) sampled >= 10Hz, no gaps > 100ms, data integrity verified",
+    "increments": [
+      {
+        "milestone": "by end Phase 2 (logging architecture validation)",
+        "level": 90,
+        "deadline": "2026-06-30"
+      }
+    ],
+    "gap_from_status": 7,
+    "gap_from_tolerable": "positive (Status 88%)",
+    "feasibility": "achievable",
+    "stakeholder_driver": "CAA Flight Safety Investigator (REQ012) — MOR investigation support; Applicant — data preservation cost",
+    "reasoning": "Wish = 95% completeness reflects achievable improvement from current 88% through logging architecture refinement and redundant storage. Supports MOR investigation efficiency.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "MORForensicCompleteness",
+    "target_type": "goal",
+    "sub_scale_ref": "DataSchemaCoverage + DataIntegrity + ForensicProvenance",
+    "level": 100,
+    "unit": "percentage",
+    "deadline": "2027-12-31",
+    "conditions": "100% of incident events with complete state variable logging, >= 10Hz sampling (>= 50Hz for dynamics), zero gaps > 100ms, cryptographic hash + timestamp certification for each data file, and retention through full MOR investigation",
+    "increments": [
+      {
+        "milestone": "by first approved MPTF",
+        "level": 98,
+        "deadline": "2027-06-30"
+      }
+    ],
+    "gap_from_status": 12,
+    "gap_from_tolerable": "positive",
+    "feasibility": "achievable",
+    "stakeholder_driver": "CAA Flight Safety Investigator (REQ012) — committed forensic evidence standard; CAA Data Protection Officer — DPIA compliance",
+    "reasoning": "Goal = 100% by end 2027 is the team-committed forensic completeness standard. Requires redundant logging systems, provenance certification, and retention protocol integration. Achievable with modern flight data recorder technology.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "MORForensicCompleteness",
+    "target_type": "stretch",
+    "sub_scale_ref": "DataSchemaCoverage + DataIntegrity + ForensicProvenance + RetentionCompliance",
+    "level": 100,
+    "unit": "percentage",
+    "deadline": "2028-12-31",
+    "conditions": "100% of incidents with cross-verified forensic evidence (independent logging systems reconciled), automated anomaly-detection flagging of out-of-nominal data, and blockchain-certified provenance chain for chain-of-custody assurance",
+    "increments": [
+      {
+        "milestone": "by steady-state year 1",
+        "level": 100,
+        "deadline": "2028-12-31"
+      }
+    ],
+    "gap_from_status": 12,
+    "gap_from_tolerable": "positive",
+    "feasibility": "uncertain",
+    "stakeholder_driver": "CAA Flight Safety Investigator — aspirational forensic confidence; Insurance underwriters — loss-investigation support",
+    "reasoning": "Stretch = 100% with cross-verification and blockchain provenance. Feasibility is uncertain because blockchain integration for forensic evidence is emerging practice in aerospace.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "CrewCompetencyEvidence",
+    "target_type": "wish",
+    "sub_scale_ref": "CertificationCoverage + TrainingCompleteness",
+    "level": 4,
+    "unit": "documented competencies per crew member",
+    "deadline": "2026-09-30",
+    "conditions": ">= 4 competencies per crew member: CAA UAS operator certificate, aircraft type rating, operational endorsement (BVLOS or swarm ops), and emergency-procedure certification",
+    "increments": [
+      {
+        "milestone": "by end Phase 3 (VLOS crew certified)",
+        "level": 3.5,
+        "deadline": "2026-09-30"
+      }
+    ],
+    "gap_from_status": 0.5,
+    "gap_from_tolerable": "positive (Status 3.5)",
+    "feasibility": "achievable",
+    "stakeholder_driver": "CAA Licensing Inspector (REQ014) — crew fitness; Applicant — training cost optimization",
+    "reasoning": "Wish = 4 competencies reflects achievable crew training maturation with swarm-operations endorsement adoption. Modest gap from Status.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "CrewCompetencyEvidence",
+    "target_type": "goal",
+    "sub_scale_ref": "CertificationCoverage + TrainingCompleteness + SimulationProficiency",
+    "level": 5,
+    "unit": "documented competencies per crew member",
+    "deadline": "2027-12-31",
+    "conditions": "5 competencies per crew member: full CAA licensing (operator + type + swarm endorsement), role-specific training (documented pass/fail), >= 90% simulator emergency-procedure success, >= 50 flight hours (pilot) / >= 20 hours (sensor op), and proficiency check within 12 months",
+    "increments": [
+      {
+        "milestone": "by end Phase 4 (BVLOS crew qualified)",
+        "level": 4.5,
+        "deadline": "2027-06-30"
+      }
+    ],
+    "gap_from_status": 1.5,
+    "gap_from_tolerable": "positive",
+    "feasibility": "achievable",
+    "stakeholder_driver": "CAA Licensing Inspector (REQ014) — committed crew competency standard; CAA Human Factors Inspector (REQ010) — workload fitness",
+    "reasoning": "Goal = 5 competencies by end 2027 is the team-committed crew competency standard. Requires swarm-operations endorsement curriculum maturity, standardized training, and simulator validation. Achievable within 24 months.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "CrewCompetencyEvidence",
+    "target_type": "stretch",
+    "sub_scale_ref": "CertificationCoverage + TrainingCompleteness + SimulationProficiency + OperationalExperience",
+    "level": 6,
+    "unit": "documented competencies per crew member",
+    "deadline": "2028-12-31",
+    "conditions": "6 competencies: full certification, role-specific training (>= 90% pass), >= 95% simulator proficiency, >= 100 flight hours pilot / >= 50 sensor-op hours, annual proficiency check + advanced swarm-tactics endorsement",
+    "increments": [
+      {
+        "milestone": "by steady-state year 1",
+        "level": 6,
+        "deadline": "2028-12-31"
+      }
+    ],
+    "gap_from_status": 2.5,
+    "gap_from_tolerable": "positive",
+    "feasibility": "achievable",
+    "stakeholder_driver": "CAA Licensing Inspector — aspirational crew excellence; Military operators — high-autonomy swarm command",
+    "reasoning": "Stretch = 6 competencies with advanced swarm tactics. Achievable by year 1 steady-state with continued training investment and flight experience accumulation.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "CAAMAAApportionmentGapFreeness",
+    "target_type": "wish",
+    "sub_scale_ref": "HazardCoverage + DesignDomainCoverage",
+    "level": 85,
+    "unit": "percentage",
+    "deadline": "2026-09-30",
+    "conditions": ">= 85% of safety-critical hazards (from SORA) and design/operational domains assigned to CAA or MAA with no unassigned gaps; overlap conflicts identified",
+    "increments": [
+      {
+        "milestone": "by end Phase 2 (apportionment alignment with SORA)",
+        "level": 80,
+        "deadline": "2026-06-30"
+      }
+    ],
+    "gap_from_status": 5,
+    "gap_from_tolerable": "positive (Status 80%)",
+    "feasibility": "achievable",
+    "stakeholder_driver": "CAA/MAA Liaison (REQ015) — regulatory clarity; Applicant — unambiguous responsibility assignment",
+    "reasoning": "Wish = 85% reflects achievable improvement from Status 80% through clearer CAA/MAA role definitions for novel domains (swarm coordination, emergent behavior, ML assurance).",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "CAAMAAApportionmentGapFreeness",
+    "target_type": "goal",
+    "sub_scale_ref": "HazardCoverage + DesignDomainCoverage + OperationalDomainCoverage",
+    "level": 100,
+    "unit": "percentage",
+    "deadline": "2027-12-31",
+    "conditions": "100% of SORA hazards, design domains, and operational domains assigned to exactly one regulatory body (CAA or MAA) with signed apportionment matrix, zero gaps, zero overlaps",
+    "increments": [
+      {
+        "milestone": "by end Phase 4 (signed CAA/MAA apportionment)",
+        "level": 95,
+        "deadline": "2027-06-30"
+      }
+    ],
+    "gap_from_status": 20,
+    "gap_from_tolerable": "positive",
+    "feasibility": "stretch",
+    "stakeholder_driver": "CAA/MAA Liaison (REQ015) — committed gap-free apportionment; Applicant — regulatory predictability",
+    "reasoning": "Goal = 100% by end 2027 is the team-committed apportionment standard. Requires joint CAA/MAA governance process to address novel domains. Stretch feasibility due to multi-stakeholder coordination complexity.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "CAAMAAApportionmentGapFreeness",
+    "target_type": "stretch",
+    "sub_scale_ref": "HazardCoverage + OverlapDetection + InteropSchema",
+    "level": 100,
+    "unit": "percentage",
+    "deadline": "2028-12-31",
+    "conditions": "100% gap-free signed apportionment PLUS interoperability schema for coalition swarm variants (NATO/DCDC alignment) and automated apportionment audit (conflict detection via ML)",
+    "increments": [
+      {
+        "milestone": "by steady-state year 1",
+        "level": 100,
+        "deadline": "2028-12-31"
+      }
+    ],
+    "gap_from_status": 20,
+    "gap_from_tolerable": "positive",
+    "feasibility": "unreachable",
+    "stakeholder_driver": "CAA/MAA Liaison — aspirational coalition readiness; Ministry of Defence — multi-national interop",
+    "reasoning": "Stretch = 100% with NATO interop schema. Feasibility is unreachable because coalition interoperability is outside CAA/MAA scope and requires MOD/DCDC alignment. Recommend revising Goal to 100% national apportionment as the realistic ceiling.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "PhasedGateReversibility",
+    "target_type": "wish",
+    "sub_scale_ref": "GateCount + CriterionClarity",
+    "level": 4,
+    "unit": "count of well-defined gates",
+    "deadline": "2026-09-30",
+    "conditions": ">= 4 distinct trial phases (ground test, VLOS single, VLOS multi, BVLOS nominal) each with explicit progression criteria and documented exit procedures if new risk evidence emerges",
+    "increments": [
+      {
+        "milestone": "by end Phase 3 (VLOS gates defined)",
+        "level": 3,
+        "deadline": "2026-09-30"
+      }
+    ],
+    "gap_from_status": 1.5,
+    "gap_from_tolerable": "positive (Status 2.5)",
+    "feasibility": "achievable",
+    "stakeholder_driver": "CAA Programme Manager (REQ016) — predictable trial progression; Applicant — unambiguous phase criteria",
+    "reasoning": "Wish = 4 gates reflects achievable expansion from Status 2.5 through systematic phase definition and reversibility procedure documentation.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "PhasedGateReversibility",
+    "target_type": "goal",
+    "sub_scale_ref": "GateCount + CriterionClarity + ReversibilityDocumentation",
+    "level": 5,
+    "unit": "count of well-defined gates",
+    "deadline": "2027-12-31",
+    "conditions": ">= 5 phases (ground test, VLOS-single, VLOS-multi, BVLOS-nominal, BVLOS-swarm, autonomous-decision) with quantified criteria, reversibility procedures tested on each gate, and all evidence immutably logged",
+    "increments": [
+      {
+        "milestone": "by end Phase 5 (reversibility procedures validated)",
+        "level": 5,
+        "deadline": "2027-12-31"
+      }
+    ],
+    "gap_from_status": 2.5,
+    "gap_from_tolerable": "positive",
+    "feasibility": "stretch",
+    "stakeholder_driver": "CAA Programme Manager (REQ016) — committed reversible-gate standard; CAA Flight Safety Investigator (REQ012) — data immutability",
+    "reasoning": "Goal = 5 gates by end 2027 is the team-committed phased-trial standard. Requires systematic gate design, reversibility procedure validation, and data governance. Stretch feasibility due to novel regulatory approach (traditional aerospace is forward-only).",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "PhasedGateReversibility",
+    "target_type": "stretch",
+    "sub_scale_ref": "GateCount + ReversibilityDocumentation + DataImmutability",
+    "level": 6,
+    "unit": "count of gates with rollback budget <= 1 hour",
+    "deadline": "2028-12-31",
+    "conditions": "6 phases with rollback procedures executable within 1-hour time budget (data revert, crew retraining, vehicle reconfiguration), automated data provenance verification, and simulation-based gate-reversal risk assessment",
+    "increments": [
+      {
+        "milestone": "by steady-state year 1",
+        "level": 6,
+        "deadline": "2028-12-31"
+      }
+    ],
+    "gap_from_status": 3.5,
+    "gap_from_tolerable": "positive",
+    "feasibility": "uncertain",
+    "stakeholder_driver": "CAA Programme Manager — aspirational trial agility",
+    "reasoning": "Stretch = 6 gates with 1-hour rollback time budget. Feasibility is uncertain because operationalizing rapid phase reversals at scale is untested in aerospace regulation.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "PublicEngagementCoverage",
+    "target_type": "wish",
+    "sub_scale_ref": "StakeholderIdentification + PriorNotification",
+    "level": 3,
+    "unit": "count of engaged stakeholder groups",
+    "deadline": "2026-09-30",
+    "conditions": ">= 3 stakeholder groups engaged (local residents, aviation community, environmental) with >= 30-day prior notification before first flight",
+    "increments": [
+      {
+        "milestone": "by CAP 1616 consultation period (end Phase 1)",
+        "level": 2,
+        "deadline": "2026-04-30"
+      }
+    ],
+    "gap_from_status": 1,
+    "gap_from_tolerable": "positive (Status 2)",
+    "feasibility": "achievable",
+    "stakeholder_driver": "Applicant — social-license cost; CAA / Local Authority — CAP 1616 compliance (implicit)",
+    "reasoning": "Wish = 3 stakeholder groups reflects achievable CAP 1616 baseline engagement. Current Status 2 (aviation + authorities) is insufficient; residents and environmental groups are vocal about BVLOS trials.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "PublicEngagementCoverage",
+    "target_type": "goal",
+    "sub_scale_ref": "StakeholderIdentification + FeedbackCollection + FeedbackResponseCoverage",
+    "level": 5,
+    "unit": "count of engaged stakeholder groups",
+    "deadline": "2027-12-31",
+    "conditions": ">= 5 stakeholder groups (residents, landowners, environmental, aviation, media) with prior notification >= 60 days, documented feedback collection (survey, workshop, forum), and documented response to all feedback (acceptance, mitigation, or justified rejection)",
+    "increments": [
+      {
+        "milestone": "by Submission Readiness Check (6 months pre-authorization)",
+        "level": 4,
+        "deadline": "2027-06-30"
+      }
+    ],
+    "gap_from_status": 3,
+    "gap_from_tolerable": "positive",
+    "feasibility": "stretch",
+    "stakeholder_driver": "Applicant — social-license assurance; CAA — CAP 1616 full compliance; Local Authority — community relations",
+    "reasoning": "Goal = 5 groups by end 2027 is the team-committed public engagement standard. Requires structured community consultation, feedback mechanisms, and transparent response protocols. Stretch feasibility because REQ017 has NO USER STORY and is absent from regulatory guidance.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  },
+  {
+    "value_tag": "PublicEngagementCoverage",
+    "target_type": "stretch",
+    "sub_scale_ref": "StakeholderIdentification + FeedbackResponseCoverage + PublishedDashboard",
+    "level": 6,
+    "unit": "count of groups with published feedback dashboard",
+    "deadline": "2028-12-31",
+    "conditions": "6 stakeholder groups engaged + CAP 1616 + media engagement + independent community advocate + published consultation dashboard (feedback themes, applicant responses, residual concerns, dispute resolution mechanism)",
+    "increments": [
+      {
+        "milestone": "by steady-state year 1",
+        "level": 6,
+        "deadline": "2028-12-31"
+      }
+    ],
+    "gap_from_status": 4,
+    "gap_from_tolerable": "positive",
+    "feasibility": "uncertain",
+    "stakeholder_driver": "Applicant — exceptional social-license strength; CAA — transparency precedent; Civil society — democratic accountability",
+    "reasoning": "Stretch = 6 groups + published transparency dashboard. Feasibility is uncertain because publishing feedback/disputes may invite legal challenge or Freedom of Information requests for applicant-sensitive data.",
+    "analyst": "Tom",
+    "byline": "Target Analyst",
+    "component": "T",
+    "image_url": "https://openrequirements.ai/lovable-uploads/2fc38ebc-5c90-460a-a5d5-446dbe2fc8ad.png"
+  }
+]

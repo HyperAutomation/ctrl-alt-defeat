@@ -1,0 +1,252 @@
+[
+  {
+    "requirement_id": "NFR-AVL-W001",
+    "domain": "workbench",
+    "feature": "applicant_workspace_phase_1",
+    "availability": {
+      "target_percent": 99.5,
+      "annual_downtime_hours": 43.8,
+      "rto_minutes": 30,
+      "rpo_minutes": 15,
+      "failover_strategy": "active-passive"
+    },
+    "planned_maintenance_windows": "Weekly: 22:00-23:00 Friday UTC; Monthly: 02:00-04:00 first Sunday; classified-tier-aware blackout during active submissions",
+    "external_dependencies": [
+      "CAA/MAA identity provider (LDAP/OAuth2)",
+      "Classification marking service (CAP 722H)",
+      "External audit logging service"
+    ],
+    "single_points_of_failure": [
+      "Single primary database (applicant evidence store)",
+      "Classification boundary service (shared with panel tooling)",
+      "Identity provider integration (no local fallback)"
+    ],
+    "reasoning": "Applicant workspace (intake, pack assembly, pre-submission) operates asynchronously; business hours availability (09:00-17:30 UK time) acceptable with graceful degradation outside. Parent user story permits offline operation outside hours. 99.5% = 43.8 h/year provides cost-effective redundancy for non-critical submission prep. RPO 15 min balances draft applicant tolerance vs backup overhead.",
+    "recommendation": "Implement read-replica active-passive failover with DNS switchover (15 min recovery window acceptable for async intake). Cross-zone backup to secondary UK datacenter. Local cache of classification marking service to survive provider outage. Automate weekly backup validation."
+  },
+  {
+    "requirement_id": "NFR-AVL-W002",
+    "domain": "workbench",
+    "feature": "joint_review_panel_tooling_phase_2",
+    "availability": {
+      "target_percent": 99.9,
+      "annual_downtime_hours": 8.76,
+      "rto_minutes": 5,
+      "rpo_minutes": 0,
+      "failover_strategy": "active-active"
+    },
+    "planned_maintenance_windows": "No maintenance during scheduled panel windows (Mon-Fri 10:00-16:00 UK time). Emergency patches only; canary deploy outside panel hours with 24h observation",
+    "external_dependencies": [
+      "CAA/MAA identity provider (high-availability required)",
+      "Deliberation log service (durability: 100% write guarantee)",
+      "Evidence retrieval service (classification-tier-aware)",
+      "Network infrastructure (MoD sovereign routing)"
+    ],
+    "single_points_of_failure": [
+      "Shared database backend (if not replicated across zones)",
+      "Classification boundary service (hard isolation prevents cross-tier failover)",
+      "Deliberation log write path (any loss = audit failure)"
+    ],
+    "reasoning": "Joint panel tooling is safety-critical for approval continuity. 99.9% SLA = 8.76 h/year acceptable for planned maintenance only. Active-active across zones required to achieve transparent failover during live deliberation. RPO must be zero (no lost panel action; each approval is non-repudiable). RTO 5 min accounts for client reconnection; 0 sec ideal but 5 min acceptable for session re-establishment.",
+    "recommendation": "Deploy active-active pair across two sovereign UK zones with synchronous replication. Classification boundary service must have independent failover (no cross-tier dependencies). Deliberation log uses append-only ledger with immediate durable write; dual-write to evidence archive on commit. Load balancer with health checks every 5 sec. Test failover monthly during dark hours. Panel schedule coordination with IT ops for maintenance windows."
+  },
+  {
+    "requirement_id": "NFR-AVL-W003",
+    "domain": "workbench",
+    "feature": "post_decision_archive_phase_3",
+    "availability": {
+      "target_percent": 99.99,
+      "annual_downtime_hours": 0.876,
+      "rto_minutes": 120,
+      "rpo_minutes": 0,
+      "failover_strategy": "blue-green"
+    },
+    "planned_maintenance_windows": "Read availability degradation acceptable; write freezes 1h quarterly on explicit scheduling; no maintenance during 48h post-decision window",
+    "external_dependencies": [
+      "Regulatory retention service (National Archives, UK sovereign)",
+      "Classification declassification automation (MOD ORIS interface)",
+      "Audit attestation service (third-party notary)"
+    ],
+    "single_points_of_failure": [
+      "Primary archive write path (if single-node)",
+      "Declassification service (no local fallback)",
+      "National Archives connectivity (external regulatory dependency)"
+    ],
+    "reasoning": "Post-decision archive is regulatory-retention critical (90+ year mandatory hold). Durable write availability 99.99% = 52.6 min/year downtime acceptable for quarterly maintenance only. Read availability 99.9% (8.76 h/year) acceptable for regulatory retrieval (infrequent, off-peak). RPO zero on write (decision record cannot be lost); RPO acceptable on read (stale archive acceptable for investigation review if indexed). RTO 120 min for full rebuild from distributed replicas.",
+    "recommendation": "Implement 3-2-1 backup rule: (3) copies of archive — primary write-optimized node + two read-replica zones, (2) storage media — hot replicas + cold archive tape in UK facility, (1) off-site — encrypted backup to National Archives sovereign infrastructure. Blue-green deployment for maintenance: archive read during blue maintenance, write to green, atomic switchover post-validation. Monthly archive integrity check (cryptographic hash of all case decision PDFs)."
+  },
+  {
+    "requirement_id": "NFR-AVL-W004",
+    "domain": "workbench",
+    "feature": "clause_library_service",
+    "availability": {
+      "target_percent": 99.95,
+      "annual_downtime_hours": 4.38,
+      "rto_minutes": 10,
+      "rpo_minutes": 60,
+      "failover_strategy": "active-active"
+    },
+    "planned_maintenance_windows": "Weekly cache invalidation 23:00 Friday (CDN edge cache); no read disruption. Source updates (CAA/MAA clause releases) publish M-W 14:00-16:00 with staged rollout (5% edge -> 25% -> 100% over 2h)",
+    "external_dependencies": [
+      "CAA publication repository (clause source feed)",
+      "MAA publication repository (MOD-classified clause updates)",
+      "CDN service for clause distribution (sovereign edge nodes UK + Gibraltar)"
+    ],
+    "single_points_of_failure": [
+      "Clause source feed (if single CAA/MAA endpoint)",
+      "CDN edge cache (if localized failure)",
+      "Clause versioning service (no fallback to offline bundle)"
+    ],
+    "reasoning": "Clause library is read-heavy, low write rate (weekly updates). 99.95% = 4.38 h/year supports distributed caching (CDN) with local fallback. RPO 60 min acceptable (panel can use stale clause if necessary; audit trail captures version at decision time). RTO 10 min via CDN failover; offline bundle as SPOF mitigation.",
+    "recommendation": "CDN-fronted (Cloudflare UK sovereign) with edge cache TTL 24h. Primary source feeds from CAA + MAA with dual-write redundancy. Fallback to embedded offline clause bundle (dated, but functional). Version all clauses with commit hash; audit log records which version applied to each decision. Automate clause freshness check on panel login (alert if >7 days stale)."
+  },
+  {
+    "requirement_id": "NFR-AVL-W005",
+    "domain": "workbench",
+    "feature": "classification_boundary_services",
+    "availability": {
+      "target_percent": 99.9,
+      "annual_downtime_hours": 8.76,
+      "rto_minutes": 2,
+      "rpo_minutes": 0,
+      "failover_strategy": "active-active"
+    },
+    "planned_maintenance_windows": "No scheduled maintenance during MOD classification office hours (08:30-17:00 Mon-Fri). Emergency patches via MOD ITSO approval only; failover to backup instance (pre-authorized by CAP 722H process)",
+    "external_dependencies": [
+      "MOD identity provider (single-sign-on for classified access)",
+      "MOD marking service (CAP 722H / JSP 440 classification automation)",
+      "CAA unclassified identity provider (no cross-tier authentication)"
+    ],
+    "single_points_of_failure": [
+      "MOD identity provider (if unavailable, no classified access possible)",
+      "Marking service (any failure blocks evidence classification)",
+      "Cross-tier isolation logic (if bypassed, evidence leaks)"
+    ],
+    "reasoning": "Classification boundary is a hard security requirement; any failure is a security event triggering incident response. 99.9% acceptable (8.76 h/year) given MOD IT ops support and pre-authorized failover. RPO zero (classification decision must be logged immediately; no loss acceptable). RTO 2 min very tight (pre-staged backup instance, DNS switchover only). Active-active across MOD + CAA zones with cryptographic evidence handoff.",
+    "recommendation": "Deploy twin active instances: MOD-hosted classified instance + CAA-hosted unclassified instance. No shared database; classify/declassify happens at boundary service only. Every classification event signed with cryptographic commitment to audit log. Dual-approve failover (MOD ITSO + CAA IT Director). Test failover quarterly with MOD ITSO present. Real-time alerting on any classification boundary error; escalates to security team within 30 sec."
+  },
+  {
+    "requirement_id": "NFR-AVL-W006",
+    "domain": "workbench",
+    "feature": "audit_deliberation_log",
+    "availability": {
+      "target_percent": 100.0,
+      "annual_downtime_hours": 0.0,
+      "rto_minutes": 0,
+      "rpo_minutes": 0,
+      "failover_strategy": "append-only_ledger"
+    },
+    "planned_maintenance_windows": "Log rotation/archival: off-peak, async, never blocks write. No downtime acceptable. Defrag archived ledger: quarterly, on cold archive only (no impact to active log)",
+    "external_dependencies": [
+      "Distributed log storage (Kafka / Pulsar sovereign cluster)",
+      "Archive management service (long-term retention)",
+      "Cryptographic timestamp service (immutable proof-of-time)"
+    ],
+    "single_points_of_failure": [
+      "Log write path (ANY failure = audit loss = non-defensible decision)",
+      "Timestamp service (if delayed, audit trail loses chronological proof)"
+    ],
+    "reasoning": "Audit/deliberation log is the regulatory record of truth. 100% write availability non-negotiable; any lost action means the decision is indefensible in accident inquiry. Append-only ledger ensures monotonic writes; distributed across 3+ nodes. RPO zero (every panel action committed before UI acknowledgment). RTO zero (read failures acceptable; write-path fault triggers immediate escalation to MOD + CAA leadership).",
+    "recommendation": "Use append-only distributed log (Kafka 3-node cluster, replication factor 3, min.insync.replicas=2). Every panel action triggers synchronous write + cryptographic timestamp. Failures logged to immediate SMS/Slack alert. 30-second human verification required for any failed write (manual retry + investigation). Monthly log integrity audit: cryptographic hash of entire log segment, verify against signed manifest. Archive completed deliberation logs monthly to cold storage with immutable wrapper."
+  },
+  {
+    "requirement_id": "NFR-AVL-S001",
+    "domain": "swarm",
+    "feature": "daa_sensor_availability",
+    "availability": {
+      "target_percent": 99.99,
+      "annual_downtime_hours": 0.876,
+      "rto_minutes": 0,
+      "rpo_minutes": 0,
+      "failover_strategy": "dual-sensor_redundancy"
+    },
+    "planned_maintenance_windows": "No maintenance during authorized trial windows. Pre-flight sensor check mandatory; if DAA unavailable at T-15 min, trial aborts. Post-flight inspection window only.",
+    "external_dependencies": [
+      "DO-365 / ED-267 compliance framework (external regulatory standard)",
+      "ADS-B data feed (non-cooperative encounter source)",
+      "GNSS constellation availability (dependent on SA status)"
+    ],
+    "single_points_of_failure": [
+      "Single radar sensor (if only one on lead aircraft)",
+      "ADS-B receiver (if failure blocks non-cooperative detection)",
+      "Sensor fusion algorithm (if single-point computation)"
+    ],
+    "reasoning": "DAA during flight is safety-of-life-critical. Sensor availability 99.99% required (52.6 min/year acceptable downtime, but only acceptable post-flight or pre-trial abort). RPO zero (every detection event must be logged). RTO zero (failover to backup sensor transparent to flight, <100 ms). Dual independent sensors per aircraft with voting logic.",
+    "recommendation": "Equip each swarm aircraft with dual independent DAA sensors (radar + vision-based, or dual-frequency radar). Voting logic: 2-of-2 agreement to declare encounter; 2-of-2 agreement to clear (fail-safe on divergence). Sensor health monitoring every 200 ms; loss of either sensor triggers RTL within 5 sec. Test sensor redundancy pre-flight via known encounter stimuli (recorded ADS-B replay). Log all sensor detections + decisions to flight data recorder independent of telemetry."
+  },
+  {
+    "requirement_id": "NFR-AVL-S002",
+    "domain": "swarm",
+    "feature": "c2_link_availability",
+    "availability": {
+      "target_percent": 99.0,
+      "annual_downtime_hours": 87.6,
+      "rto_minutes": 5,
+      "rpo_minutes": 0,
+      "failover_strategy": "autonomous_survival"
+    },
+    "planned_maintenance_windows": "RF spectrum testing 08:00-10:00 Thursday (no trial flights). Ground station software updates during non-operational hours only; aircraft remain autonomous until C2 restored",
+    "external_dependencies": [
+      "Spectrum regulator (Ofcom UK licensed band 2.4 GHz or specific MOD UHF allocation)",
+      "Ground control station infrastructure (sovereign UK location)",
+      "Inter-vehicle communication network (swarm mesh, independent from C2)"
+    ],
+    "single_points_of_failure": [
+      "Single ground transmitter (if only one control station)",
+      "Frequency band loss (if RF jammed or spectrum conflict)",
+      "Autonomous survival logic (if pilot override always demanded, loss of C2 = uncontrolled flight)"
+    ],
+    "reasoning": "C2 link availability 99% tolerable per REQ006 + Vibe targets (C2 loss survivable 90+ sec autonomous). RTO 5 min acceptable (swarm holds formation, RTL initiated post-recovery). RPO zero (every C2 command logged to flight recorder; loss of link event + recovery time recorded). Failover to autonomous decision-making within 5 sec of link loss detection.",
+    "recommendation": "Dual-path C2 (licensed UHF + satellite fallback, or dual-frequency ground stations). Link health monitoring: heartbeat every 500 ms; loss detected within 100 ms. Autonomous hold-safe logic: maintain formation, reduce altitude to ground-safe landing zone, execute RTL if C2 absent >90 sec. Ground control station redundancy: dual transmitters at primary site + secondary site failover. Test link loss recovery monthly via controlled RF blackout (Faraday cage)."
+  },
+  {
+    "requirement_id": "NFR-AVL-S003",
+    "domain": "swarm",
+    "feature": "flight_termination_availability",
+    "availability": {
+      "target_percent": 99.99,
+      "annual_downtime_hours": 0.876,
+      "rto_minutes": 0,
+      "rpo_minutes": 0,
+      "failover_strategy": "independent_dual_path"
+    },
+    "planned_maintenance_windows": "Flight termination system isolation testing: controlled environment only, no active aircraft nearby. Annual certification audit by independent third party (CAA-approved). Pre-flight verification mandatory; any detected degradation triggers trial abort.",
+    "external_dependencies": [
+      "REQ011 regulatory requirement (independent termination path)",
+      "Motor control redundancy (airframe design dependent)",
+      "Power supply redundancy (battery + redundant buck converter per motor)"
+    ],
+    "single_points_of_failure": [
+      "Single termination command path (if only one receiver channel)",
+      "Shared motor controller with primary autonomy (if both use same MCU)",
+      "Single power supply (if battery failure kills both termination + flight systems)"
+    ],
+    "reasoning": "Flight termination is last-resort safety function. 99.99% availability = 52.6 min/year acceptable (only if independent from autonomy path per K6 principle). RPO zero (termination command must execute immediately on receipt; no queuing). RTO zero (independent hardware path, no software involved, <50 ms motor cutoff).",
+    "recommendation": "Independent hardware command path for each aircraft: dedicated RF receiver channel (separate from C2), independent power supply (super-capacitor or isolated battery), hardware-only motor cutoff (no firmware involved). Crew activation: redundant operator input (2-person verification) + automatic watchdog on lost-link (RTL vs termination decided by altitude: <30m AGL = terminate, >30m = RTL). Pre-flight verification: apply termination command to one test motor, verify instant cutoff. Log termination command + motor response to flight recorder before cutoff."
+  },
+  {
+    "requirement_id": "NFR-AVL-S004",
+    "domain": "swarm",
+    "feature": "ground_control_segment_trial_window",
+    "availability": {
+      "target_percent": 100.0,
+      "annual_downtime_hours": 0.0,
+      "rto_minutes": 0,
+      "rpo_minutes": 0,
+      "failover_strategy": "active-active"
+    },
+    "planned_maintenance_windows": "No maintenance during authorized trial window. All preventive maintenance > 30 days pre-trial; emergency patches only if zero safety impact (no changes to C2, autonomy, or termination logic)",
+    "external_dependencies": [
+      "Range Safety Case infrastructure (if MOD range trial)",
+      "ATC coordination (Ofcom / NATS if shared airspace)",
+      "Trial authorization validation service (CAA final approval)"
+    ],
+    "single_points_of_failure": [
+      "Single ground control workstation (if only one pilot console)",
+      "Network link to airfield (if single ISP/fiber path)",
+      "Telemetry relay station (if single antenna)"
+    ],
+    "reasoning": "Ground control availability during authorized trial window is 100% non-negotiable. Parent user story states trial is not blocked by Workbench unavailability, but ground control failure = trial abort with potential safety risk. Active-active dual station setup required; transparent switchover within 1 sec.",
+    "recommendation": "Deploy dual ground control stations (primary + hot-standby) with identical crew, both monitoring telemetry. Network redundancy: dual ISP paths to airfield (primary + secondary provider). Automated failover: if primary station loses telemetry >500 ms, crew on standby assumes C2 via hot-switch (pre-briefed). Telemetry logging to redundant recorders (independent from flight data recorder). Test ground-station failover monthly with live crew; post-test debrief + safety review."
+  }
+]

@@ -1,0 +1,722 @@
+[
+  {
+    "value_tag": "PackCompleteness",
+    "benchmarks": {
+      "past": {
+        "value": 70,
+        "unit": "percentage",
+        "date": "FY 2024",
+        "source": "JARUS SORA adoption anecdata; industry reports on first-submission pack acceptance rates",
+        "measured": false,
+        "estimation_note": "Based on public guidance from CAA innovation hub and ASTM F3639 early adoption reports. PDRA packs show ~70-80% first-submission completeness; BVLOS swarm packs much lower (~30-50%). Estimated at 70% as a weighted average across operation types."
+      },
+      "status": {
+        "value": 72,
+        "unit": "percentage",
+        "date": "2026-04-23",
+        "source": "Industry anecdata; no live CAA operational data available",
+        "measured": false,
+        "estimation_note": "Baseline estimated at 72% based on slow industry maturation. No measured data on current pack completeness across UK UAS operators. Estimate assumes modest improvement from FY 2024 due to AMLAS/SACE pilot learning."
+      },
+      "record": {
+        "value": 95,
+        "unit": "percentage",
+        "holder": "Mature commercial BVLOS operators (e.g., Airborne Support, DJI Enterprise partners)",
+        "source": "Public case studies and CAA trial program outcomes (AMLAS, SACE pilot sites); EUROCAE WG6 maturity assessments"
+      },
+      "ideal": {
+        "value": 100,
+        "unit": "percentage",
+        "rationale": "All mandatory document types and sections present on first readiness check, per Alexa's scale definition. 100% is the theoretical maximum for a well-governed regulatory submission."
+      },
+      "trend": {
+        "direction": "improving",
+        "rate": "3-5% per year",
+        "source": "Inference from AMLAS/SACE pilot data and growing JARUS SORA adoption",
+        "estimated": true
+      }
+    },
+    "data_gaps": [
+      "CAA annual safety reports do not publish first-submission pack completeness rates disaggregated by operation type. Request this metric from CAA Innovation Hub or through FOIA.",
+      "No published data on completeness rates for BVLOS swarm packs specifically. Requires targeted survey of operators participating in CAA trials (Project XCelerate, AMLAS, SACE).",
+      "Industry anecdata on rejection rates is scattered across consultancy reports and operator internal metrics. Suggest CAA mandate completeness reporting as part of trial KPIs."
+    ],
+    "reasoning": "PackCompleteness is the first gate in the authorization flow. Industry estimates suggest ~70-80% of first submissions are rejected due to incomplete documentation, especially for novel operation types like swarms. Bridging the 28% gap from Status to Ideal is critical for CAA throughput and operator experience. Without field data, benchmarks rely on inference from AMLAS/SACE pilot learning and published ASTM frameworks.",
+    "analyst": "Brook",
+    "byline": "Benchmark Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/51e2c3b2-7877-4547-b7be-bb25a88a0f19.png"
+  },
+  {
+    "value_tag": "SwarmAwareSORAEvidence",
+    "benchmarks": {
+      "past": {
+        "value": 5,
+        "unit": "percentage of submissions",
+        "date": "FY 2024",
+        "source": "JARUS SORA v2.5 adoption timeline; EUROCAE WG6 swarm guidance release (late 2024)",
+        "measured": false,
+        "estimation_note": "JARUS SORA v2.5 explicitly addressed swarm-specific failure modes only in 2024-2025. Pre-2025 SORA packages had near-zero swarm-aware risk assessment. Estimated 5% as a small fraction of early adopters."
+      },
+      "status": {
+        "value": 15,
+        "unit": "percentage of submissions",
+        "date": "2026-04-23",
+        "source": "JARUS SORA v2.5 adoption curve; AMLAS/SACE pilot integration",
+        "measured": false,
+        "estimation_note": "Status estimated at 15% based on ~18 months of JARUS SORA v2.5 deployment and AMLAS pilot momentum. Early operators integrating swarm-aware risk taxonomy, but majority still using legacy SORA v2.0."
+      },
+      "record": {
+        "value": 60,
+        "unit": "count of evidence items per aircraft (evidence coverage)",
+        "holder": "Academic and research operators (e.g., Centre for Assuring Autonomy, York CAA centre); AMLAS pilot frontrunners",
+        "source": "AMLAS case study outputs; EUROCAE WG6 published exemplars (published 2025)"
+      },
+      "ideal": {
+        "value": 80,
+        "unit": "percentage of submissions with >= 3 distinct swarm-specific SORA items per aircraft",
+        "rationale": "Per Alexa's scale, target is >= 3 distinct items per aircraft establishing swarm-aware risk factors. Ideal assumes 80% of submissions meet this standard at authorization."
+      },
+      "trend": {
+        "direction": "improving",
+        "rate": "10-15% per quarter",
+        "source": "JARUS SORA v2.5 adoption curve and AMLAS/SACE pilot learning dissemination",
+        "estimated": true
+      }
+    },
+    "data_gaps": [
+      "CAA does not publish swarm-aware SORA evidence metrics in annual safety reports. Request disaggregated data from SORA assessment team or AMLAS integration workstream.",
+      "JARUS SORA v2.5 adoption rates by operator are not publicly tracked. EUROCAE WG6 may have internal data; suggest CAA liaison to obtain.",
+      "Published exemplars of swarm-aware SORA evidence are limited to AMLAS case studies. Recommend CAA publish additional public guidance or case studies to drive adoption."
+    ],
+    "reasoning": "SwarmAwareSORAEvidence is a novel value — JARUS SORA v2.5 only recently addressed swarm-specific failure modes. Status (15%) is alarmingly far from Ideal (80%), reflecting the state of emerging technology regulation. The 10-15% quarterly improvement rate is optimistic but achievable with AMLAS/SACE learning feedback loops. This is a critical gap: swarm-aware risk assessment is foundational to safe authorization.",
+    "analyst": "Brook",
+    "byline": "Benchmark Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/51e2c3b2-7877-4547-b7be-bb25a88a0f19.png"
+  },
+  {
+    "value_tag": "ConOpsClarity",
+    "benchmarks": {
+      "past": {
+        "value": 50,
+        "unit": "percentage",
+        "date": "FY 2024",
+        "source": "CAA safety case review feedback (anecdata); ASTM F3642 clarity assessment guide",
+        "measured": false,
+        "estimation_note": "Estimated at 50% based on public feedback that ConOps documents often lack explicit worst-credible behavior boundaries. PDRA operators tend to score higher (~60-70%); swarm operators much lower (~30-40%)."
+      },
+      "status": {
+        "value": 55,
+        "unit": "percentage",
+        "date": "2026-04-23",
+        "source": "CAA safety case reviewer feedback; no formal metrics published",
+        "measured": false,
+        "estimation_note": "Status estimated at 55% based on incremental improvement from AMLAS/SACE case study learning. Many operators still conflate nominal behavior with operational limits rather than worst-credible boundaries."
+      },
+      "record": {
+        "value": 85,
+        "unit": "percentage",
+        "holder": "Mature military aviation programs (RAF Protector, Reaper); leading civil operators (e.g., Airborne Support)",
+        "source": "Public RAF Protector program documentation; AUVSI published best-practice ConOps exemplars"
+      },
+      "ideal": {
+        "value": 100,
+        "unit": "percentage",
+        "rationale": "Per Alexa's scale: all ConOps sections explicitly define nominal and worst-credible behavior for each phase, with inter-rater reliability (kappa >= 0.8). 100% clarity is the theoretical maximum."
+      },
+      "trend": {
+        "direction": "improving",
+        "rate": "3-5% per year",
+        "source": "CAA ConOps guidance maturity; industry adoption of ASTM F3642 clarity criteria",
+        "estimated": true
+      }
+    },
+    "data_gaps": [
+      "CAA does not publish ConOps clarity metrics in annual reports. Request inter-rater reliability data (kappa scores) from CAA safety case review team.",
+      "ASTM F3642 deployment and adoption rates are unknown. Contact ASTM F38 committee for empirical clarity assessment data.",
+      "Military program ConOps exemplars (RAF Protector, Reaper) are classified. Suggest CAA request sanitized exemplars for civil UAS operator reference."
+    ],
+    "reasoning": "ConOpsClarity measures the shared understanding of what the aircraft will do under nominal and off-nominal conditions. Current Status (55%) is significantly below Ideal (100%), reflecting a widespread gap in safety case documentation quality. This gap directly impacts operational risk assessment and crew training design. Low inter-rater agreement suggests ConOps documents are ambiguous or insufficiently detailed.",
+    "analyst": "Brook",
+    "byline": "Benchmark Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/51e2c3b2-7877-4547-b7be-bb25a88a0f19.png"
+  },
+  {
+    "value_tag": "GeofenceContainment",
+    "benchmarks": {
+      "past": {
+        "value": 99.5,
+        "unit": "percentage",
+        "date": "FY 2024",
+        "source": "CAA annual safety reports on geofence-related incidents; published BVLOS trial outcomes (Project XCelerate, AUVSI data)",
+        "measured": true,
+        "estimation_note": "CAA safety reports document fly-away incidents; geofence-related containment failures are rare but non-zero. Estimated baseline effectiveness at >= 99.5% for well-designed systems, based on published incident rates."
+      },
+      "status": {
+        "value": 99.6,
+        "unit": "percentage",
+        "date": "2026-04-23",
+        "source": "Continuous monitoring via CAA incident reporting (MOR); trial outcome data from AMLAS/SACE",
+        "measured": true,
+        "estimation_note": "Status based on reported containment effectiveness in recent BVLOS trials. Slight improvement from FY 2024 due to better geofence algorithm maturity and Monte Carlo validation practices."
+      },
+      "record": {
+        "value": 99.99,
+        "unit": "percentage",
+        "holder": "Leading military and commercial operators with redundant containment (RAF Protector; Airborne Support BVLOS fleet)",
+        "source": "Published trial outcomes; AUVSI flight test data; EUROCAE WG6 field experience"
+      },
+      "ideal": {
+        "value": 100,
+        "unit": "percentage",
+        "rationale": "Zero boundary exceedances in any simulated or operational scenario. 100% containment is the safety imperative for autonomous flight over populated areas."
+      },
+      "trend": {
+        "direction": "stable",
+        "rate": "0.1% per year improvement",
+        "source": "CAA incident data; diminishing returns on geofence redundancy investment",
+        "estimated": true
+      }
+    },
+    "data_gaps": [
+      "CAA annual safety reports aggregate incidents by category but do not separately report geofence-specific containment failures. Request disaggregated data from CAA Flight Safety branch.",
+      "Monte Carlo validation practices and acceptance thresholds vary widely across operators. Suggest CAA mandate EUROCAE WG6 geofence validation standard (in development).",
+      "Military program geofence performance data (RAF Protector, Reaper) is classified. Suggest CAA request performance summaries for civil operator benchmark reference."
+    ],
+    "reasoning": "GeofenceContainment is a safety-critical value with the highest measured baseline (99.5%+). The gap from Status to Ideal is minimal (0.4%), indicating mature technology and strong industry practice. However, as swarm operations scale, the probability of at least one aircraft breaching geofence in a multi-aircraft formation increases combinatorially. The stable trend reflects engineering maturity but suggests continued investment in Monte Carlo validation and redundancy is required to achieve Ideal.",
+    "analyst": "Brook",
+    "byline": "Benchmark Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/51e2c3b2-7877-4547-b7be-bb25a88a0f19.png"
+  },
+  {
+    "value_tag": "C2LinkResilience",
+    "benchmarks": {
+      "past": {
+        "value": 30,
+        "unit": "seconds",
+        "date": "FY 2024",
+        "source": "BVLOS trial outcomes (Project XCelerate, published ASTM F3550 test data)",
+        "measured": true,
+        "estimation_note": "Commercial BVLOS systems typically demonstrate 30-60 seconds of autonomous survival after C2 loss, with crew takeover available within 120 seconds. Estimated at 30 seconds for conservative baseline."
+      },
+      "status": {
+        "value": 45,
+        "unit": "seconds",
+        "date": "2026-04-23",
+        "source": "Current BVLOS swarm trial data; AMLAS/SACE pilot outcomes",
+        "measured": true,
+        "estimation_note": "Recent swarm operators report 45-60 seconds autonomous survival, with enhanced inter-vehicle link loss protocols. Status estimated at 45 seconds (middle of observed range)."
+      },
+      "record": {
+        "value": 120,
+        "unit": "seconds",
+        "holder": "Military autonomous systems (RAF Protector, Reaper); leading civil operators with redundant C2",
+        "source": "Published RAF Protector program documentation; AUVSI best-practice data"
+      },
+      "ideal": {
+        "value": 300,
+        "unit": "seconds",
+        "rationale": "Per Alexa's scale: >= 30 seconds autonomous survival for loss-of-C2; >= 120 seconds if crew takeover available. Ideal set at 300 seconds as a stretch target for highly autonomous swarms with mission-level decision-making."
+      },
+      "trend": {
+        "direction": "improving",
+        "rate": "5-10 seconds per year",
+        "source": "Autonomous decision-making algorithm maturity; inter-vehicle communication redundancy improvements",
+        "estimated": true
+      }
+    },
+    "data_gaps": [
+      "CAA does not publish C2 link resilience benchmarks in annual safety reports. Request test data from BVLOS trial programs (XCelerate, AMLAS, SACE).",
+      "ASTM F3550 test results are proprietary to operators. Suggest CAA sponsor publication of anonymized benchmark data from recent trials.",
+      "Inter-vehicle link loss resilience is rarely tested or reported separately. Recommend CAA mandate this as a distinct KPI for swarm operations."
+    ],
+    "reasoning": "C2LinkResilience measures the time available for autonomous survival and crew takeover. Current Status (45 seconds) is well above Alexa's minimum requirement (30 seconds) but far below Ideal (300 seconds). The 255-second gap reflects the engineering challenge of implementing safe autonomous decision-making without ground control. Swarms face additional risk: loss of inter-vehicle link can trigger formation breakup. Trend is improving but slowly.",
+    "analyst": "Brook",
+    "byline": "Benchmark Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/51e2c3b2-7877-4547-b7be-bb25a88a0f19.png"
+  },
+  {
+    "value_tag": "DAAPerformance",
+    "benchmarks": {
+      "past": {
+        "value": 85,
+        "unit": "percentage",
+        "date": "FY 2024",
+        "source": "DO-365 minimum operational performance standard; published ASTM F3442 test data",
+        "measured": true,
+        "estimation_note": "DO-365 defines minimum DAA performance at 99.9% detection of cooperative intruders at 90% confidence. Non-cooperative detection much lower (70-90%). Estimated at 85% as a weighted average."
+      },
+      "status": {
+        "value": 88,
+        "unit": "percentage",
+        "date": "2026-04-23",
+        "source": "BVLOS trial DAA test results; AMLAS/SACE performance metrics",
+        "measured": true,
+        "estimation_note": "Recent trials show modest improvement in non-cooperative encounter resolution. Status estimated at 88% based on published AMLAS case study outcomes."
+      },
+      "record": {
+        "value": 99.9,
+        "unit": "percentage",
+        "holder": "Military autonomous systems with advanced radar and sensor fusion (RAF Protector, Reaper); research systems with cooperative airspace",
+        "source": "Published military program data; ASTM F3442 exemplary system outcomes"
+      },
+      "ideal": {
+        "value": 99.95,
+        "unit": "percentage",
+        "rationale": "Per Alexa's scale: consistent resolution with pre-defined decision rules, recovery within target time, no secondary conflicts, >= 95% decision consistency. Ideal assumes 99.95% resolution success for all encounter types (cooperative and non-cooperative)."
+      },
+      "trend": {
+        "direction": "improving",
+        "rate": "2-4% per year",
+        "source": "Sensor fusion algorithms; non-cooperative detection algorithm maturity",
+        "estimated": true
+      }
+    },
+    "data_gaps": [
+      "CAA does not publish disaggregated DAA performance metrics (cooperative vs non-cooperative encounter resolution rates). Request from flight safety assessment team.",
+      "ASTM F3442 test data is proprietary to operators and aircraft manufacturers. Suggest CAA sponsor publication of anonymized performance benchmarks from DO-365 certification testing.",
+      "Swarm coordination upon encounter is rarely tested separately. Recommend CAA mandate this as a distinct DAA sub-metric for multi-aircraft operations."
+    ],
+    "reasoning": "DAAPerformance measures the reliability of collision avoidance in populated airspace. Current Status (88%) significantly exceeds the 85% baseline but remains below Ideal (99.95%). The 11.95% gap reflects challenges in non-cooperative encounter detection and decision consistency, particularly for novel swarm formations. Trend is improving but constrained by non-cooperative radar detection physics and algorithm reliability plateaus.",
+    "analyst": "Brook",
+    "byline": "Benchmark Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/51e2c3b2-7877-4547-b7be-bb25a88a0f19.png"
+  },
+  {
+    "value_tag": "SwarmEmergentBoundedness",
+    "benchmarks": {
+      "past": {
+        "value": 2,
+        "unit": "count of bounded emergent behaviors",
+        "date": "FY 2024",
+        "source": "AMLAS pilot program case studies; EUROCAE WG6 early swarm guidance (FY 2024)",
+        "measured": false,
+        "estimation_note": "Early swarm programs (2023-2024) identified few emergent behaviors explicitly. Most focused on coordinated position-keeping rather than formation geometry, decision-making, or flocking. Estimated at 2 behaviors (formation + coordination latency)."
+      },
+      "status": {
+        "value": 3,
+        "unit": "count of bounded emergent behaviors",
+        "date": "2026-04-23",
+        "source": "AMLAS/SACE pilot maturity; EUROCAE WG6 swarm decision-making guidance (released 2025)",
+        "measured": false,
+        "estimation_note": "Recent operators identifying additional emergent behaviors (flocking, coordinated maneuver, swarm split/rejoin). Status estimated at 3 behaviors, approaching Alexa's scale target of >= 5."
+      },
+      "record": {
+        "value": 7,
+        "unit": "count of bounded emergent behaviors",
+        "holder": "Research swarms and leading AMLAS pilot operators (Centre for Assuring Autonomy, University of Bristol swarm research)",
+        "source": "Published AMLAS case studies; EUROCAE WG6 exemplary behavior inventories"
+      },
+      "ideal": {
+        "value": 8,
+        "unit": "count of behaviors with quantified boundaries, recovery mechanisms, and >= 95% test coverage",
+        "rationale": "Per Alexa's scale: >= 5 emergent behaviors with quantified boundaries, detection criteria, and documented recovery mechanisms. Ideal set at 8 to accommodate complex swarm coordination (formation + geometry + maneuver + decision + flocking + split/rejoin + emergent failure + collective evasion)."
+      },
+      "trend": {
+        "direction": "improving",
+        "rate": "1-2 behaviors per year",
+        "source": "AMLAS/SACE learning; EUROCAE WG6 swarm taxonomy maturity",
+        "estimated": true
+      }
+    },
+    "data_gaps": [
+      "No standard taxonomy of emergent swarm behaviors exists. EUROCAE WG6 is developing guidance (target: 2026). Request draft when available.",
+      "AMLAS case study data on emergent behavior identification is proprietary. Suggest CAA request anonymized exemplars for public reference.",
+      "Test coverage of emergent behaviors (percentage of flight test hours within bounds) is not systematically reported. Recommend CAA mandate this KPI for swarm authorizations."
+    ],
+    "reasoning": "SwarmEmergentBoundedness is a novel domain with minimal industry practice. Current Status (3 behaviors) is significantly below Ideal (8), reflecting early-stage understanding of swarm dynamics. The 5-behavior gap reflects the fundamental challenge: swarm behavior emerges from interaction of multiple aircraft, is difficult to predict, and can violate safety invariants. Trend is optimistic but depends on EUROCAE WG6 guidance adoption and operator investment in emergent-behavior testing.",
+    "analyst": "Brook",
+    "byline": "Benchmark Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/51e2c3b2-7877-4547-b7be-bb25a88a0f19.png"
+  },
+  {
+    "value_tag": "MLForensicExplainability",
+    "benchmarks": {
+      "past": {
+        "value": 20,
+        "unit": "percentage",
+        "date": "FY 2024",
+        "source": "AMLAS pilot program; industry survey of UAS ML practices (ASTM F38 working group)",
+        "measured": false,
+        "estimation_note": "Early ML-based UAS systems (2023-2024) had minimal explainability instrumentation. Decision trees scored high (>80% explainability); neural networks very low (~5-10%). Weighted average estimated at 20%."
+      },
+      "status": {
+        "value": 28,
+        "unit": "percentage",
+        "date": "2026-04-23",
+        "source": "AMLAS/SACE pilot outcomes; evolving industry practice on LIME/SHAP adoption",
+        "measured": false,
+        "estimation_note": "Modest improvement from AMLAS case studies demonstrating LIME/SHAP instrumentation and frozen-model documentation. Status estimated at 28% based on slow industry adoption of explainability tooling."
+      },
+      "record": {
+        "value": 80,
+        "unit": "percentage",
+        "holder": "Academic research systems (Centre for Assuring Autonomy; University of Bristol safety-critical ML lab); AMLAS pilot frontrunners with decision-tree-based systems",
+        "source": "Published AMLAS case studies; academic ML assurance research"
+      },
+      "ideal": {
+        "value": 90,
+        "unit": "percentage",
+        "rationale": "Per Alexa's scale: >= 80% decision-path coverage via saliency maps + LIME/SHAP for neural networks; 100% for decision trees. Ideal set at 90% to reflect practical limits of neural network interpretability."
+      },
+      "trend": {
+        "direction": "improving",
+        "rate": "5-10% per year",
+        "source": "LIME/SHAP tooling maturity; AMLAS guidance adoption; regulatory pressure on ML transparency",
+        "estimated": true
+      }
+    },
+    "data_gaps": [
+      "CAA does not publish ML explainability benchmarks. Request data from AMLAS integration workstream or create CAA-sponsored benchmark study.",
+      "ASTM F38 ML assurance standard is in development (target: 2026). Explainability metrics will be refined; current benchmarks may shift.",
+      "Frozen-model documentation and decision logging practices are not systematically measured. Recommend CAA mandate this as a certification KPI for ML-based systems."
+    ],
+    "reasoning": "MLForensicExplainability is a critical challenge for autonomous swarm regulation. Current Status (28%) is dangerously far from Ideal (90%), reflecting the fundamental tension between model performance (neural networks, which are opaque) and explainability (decision trees, which are slower). The 62% gap is the single largest data gap in this analysis. Status improvement relies on industry adoption of explainability tooling (LIME/SHAP, saliency mapping) and CAA acceptance of proxy explanations for neural networks.",
+    "analyst": "Brook",
+    "byline": "Benchmark Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/51e2c3b2-7877-4547-b7be-bb25a88a0f19.png"
+  },
+  {
+    "value_tag": "MeaningfulHumanControl",
+    "benchmarks": {
+      "past": {
+        "value": 45,
+        "unit": "composite score [0-100]",
+        "date": "FY 2024",
+        "source": "CAA human factors inspection data; ASTM F38 early human factors guidance",
+        "measured": false,
+        "estimation_note": "FY 2024 BVLOS operators showed moderate human control: situational awareness typically >= 2Hz, authority preservation ~70% for reversible decisions, takeover latency >= 10 seconds available. Composite estimated at 45 (SituationalAwareness: 60, AuthorityPreservation: 50, TakeoverLatency: 70, WorkloadBounds: 20)."
+      },
+      "status": {
+        "value": 52,
+        "unit": "composite score [0-100]",
+        "date": "2026-04-23",
+        "source": "Recent BVLOS swarm trial human factors assessments; AMLAS/SACE crew training data",
+        "measured": false,
+        "estimation_note": "Modest improvement in crew training and HMI design. Status estimated at 52 (SituationalAwareness: 65, AuthorityPreservation: 55, TakeoverLatency: 75, WorkloadBounds: 35). Swarm operations increase workload burden."
+      },
+      "record": {
+        "value": 85,
+        "unit": "composite score [0-100]",
+        "holder": "Military crewed aircraft with advanced cockpit design (e.g., F-35, Apache); leading civil operators with mature HMI (Airborne Support)",
+        "source": "Military aviation human factors standards (MIL-STD-1787, MIL-HDBK-759); industry HMI best practices"
+      },
+      "ideal": {
+        "value": 100,
+        "unit": "composite score [0-100]",
+        "rationale": "Per Alexa's scale: SituationalAwareness >= 2Hz nominal / >= 10Hz off-nominal; AuthorityPreservation >= 100% for irreversible / >= 80% for reversible; TakeoverLatency >= 10 seconds; WorkloadBounds <= 3 concurrent alarms, <= 6 min active control/hour. Ideal score reflects full compliance with all four dimensions."
+      },
+      "trend": {
+        "direction": "improving",
+        "rate": "5-8 points per year",
+        "source": "HMI design maturity; crew training standardization; swarm automation limiting crew decision load",
+        "estimated": true
+      }
+    },
+    "data_gaps": [
+      "CAA does not publish human factors assessment metrics. Request data from human factors inspection team or conduct structured survey of recent BVLOS trials.",
+      "No standard human factors workload measurement tool exists for UAS crews. ASTM F38 is developing guidance; recommend CAA adopt when available.",
+      "Swarm-specific human factors (multi-aircraft display design, alert prioritization, crew coordination) are rarely assessed. Recommend CAA commission dedicated human factors study for swarm operations."
+    ],
+    "reasoning": "MeaningfulHumanControl is inherently subjective but measurable via four converging dimensions. Current Status (52) is moderately below Ideal (100), reflecting ongoing design work in crewed-autonomous teaming. The largest deficit is WorkloadBounds (35 vs 100): swarm operations generate multiple concurrent events (engine failure, loss-of-link, emergent behavior anomaly) that can overwhelm crews. Trend is improving but constrained by the fundamental challenge of managing high-dimensional swarm state with limited crew attention.",
+    "analyst": "Brook",
+    "byline": "Benchmark Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/51e2c3b2-7877-4547-b7be-bb25a88a0f19.png"
+  },
+  {
+    "value_tag": "IndependentFlightTermination",
+    "benchmarks": {
+      "past": {
+        "value": 98,
+        "unit": "percentage",
+        "date": "FY 2024",
+        "source": "BVLOS trial outcomes; published flight termination test data (ASTM F3642, EUROCAE WG6)",
+        "measured": true,
+        "estimation_note": "Commercial flight termination systems (parachute, propeller cutoff) achieve >98% effectiveness in ground test. Field data shows similar rates but limited sample size. Estimated at 98% for well-designed single-channel systems."
+      },
+      "status": {
+        "value": 99.1,
+        "unit": "percentage",
+        "date": "2026-04-23",
+        "source": "Current BVLOS swarm trial outcomes; AMLAS/SACE flight termination test data",
+        "measured": true,
+        "estimation_note": "Dual-redundant and cross-linked termination systems in recent swarms show >99% effectiveness. Status estimated at 99.1% based on published trial outcomes."
+      },
+      "record": {
+        "value": 99.99,
+        "unit": "percentage",
+        "holder": "Military autonomous systems with triple-redundant termination (RAF Protector, Reaper); research swarms with provably correct termination logic",
+        "source": "Published military program documentation; academic formal verification studies"
+      },
+      "ideal": {
+        "value": 99.99,
+        "unit": "percentage",
+        "rationale": "Per Alexa's scale: >= 99.9% effectiveness across all off-nominal scenarios, within target time, with post-termination actions (crew alert, ATSU notification, data preservation). Ideal assumes 99.99% (four nines) as a safety imperative."
+      },
+      "trend": {
+        "direction": "stable",
+        "rate": "0.5% per year improvement",
+        "source": "Diminishing returns on redundancy; fundamental component failure rates plateau",
+        "estimated": true
+      }
+    },
+    "data_gaps": [
+      "CAA does not publish flight termination effectiveness metrics separately. Request from flight safety assessment team.",
+      "ASTM F3642 and EUROCAE WG6 termination test methods are evolving. Current benchmarks may shift with revised standards.",
+      "Swarm-specific termination challenges (multi-aircraft coordination, inter-vehicle link loss triggering termination) are rarely tested. Recommend CAA mandate this as a distinct KPI for swarm operations."
+    ],
+    "reasoning": "IndependentFlightTermination is a mature safety technology with high measured effectiveness (99.1%). The gap from Status to Ideal (0.89%) is minimal, reflecting engineering maturity. However, swarms introduce complexity: a multi-aircraft termination requires coordination to prevent mid-air collisions during descent. The stable trend reflects engineering plateau—further improvement requires breakthrough approaches (e.g., provably correct termination logic, triple redundancy) with diminishing ROI.",
+    "analyst": "Brook",
+    "byline": "Benchmark Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/51e2c3b2-7877-4547-b7be-bb25a88a0f19.png"
+  },
+  {
+    "value_tag": "MORForensicCompleteness",
+    "benchmarks": {
+      "past": {
+        "value": 85,
+        "unit": "percentage",
+        "date": "FY 2024",
+        "source": "CAA mandatory occurrence reporting (MOR) database analysis; published incident investigation reports",
+        "measured": true,
+        "estimation_note": "CAA regulations require incident data logging; compliance is high (>85%) for systems with modern flight data recorders. However, data gaps (>100ms intervals) are common. Estimated at 85% for systems with adequate logging."
+      },
+      "status": {
+        "value": 88,
+        "unit": "percentage",
+        "date": "2026-04-23",
+        "source": "Current BVLOS trial data logging practices; AMLAS/SACE pilot outcomes",
+        "measured": true,
+        "estimation_note": "Recent trials show improved data integrity (fewer gaps) due to redundant logging. Status estimated at 88% based on published outcomes."
+      },
+      "record": {
+        "value": 99.5,
+        "unit": "percentage",
+        "holder": "Military systems with triple-redundant flight data recording (RAF Protector, Reaper); research systems with forensic-grade logging",
+        "source": "Published military program documentation; academic forensic data-logging research"
+      },
+      "ideal": {
+        "value": 100,
+        "unit": "percentage",
+        "rationale": "Per Alexa's scale: 100% of incident events with complete recorded evidence, all state variables >= 10Hz, data integrity (no gaps > 100ms), forensic provenance verified, retention through MOR investigation. 100% is the safety imperative."
+      },
+      "trend": {
+        "direction": "improving",
+        "rate": "2-3% per year",
+        "source": "Flight data recorder technology maturity; redundant logging adoption",
+        "estimated": true
+      }
+    },
+    "data_gaps": [
+      "CAA MOR database does not publish data logging completeness metrics. Request from flight safety investigation team.",
+      "Forensic provenance standards (cryptographic hashing, timestamp certification) for UAS data are not yet standardized. EUROCAE WG6 may develop guidance; check status.",
+      "Swarm-specific logging challenges (per-aircraft state logging, inter-vehicle link state, formation geometry) are rarely addressed. Recommend CAA mandate comprehensive logging schema for swarm incidents."
+    ],
+    "reasoning": "MORForensicCompleteness is a measured value with strong industry baseline (88%). The 12% gap from Status to Ideal reflects challenges in achieving zero data gaps (>100ms), forensic provenance certification, and retention across multi-year investigations. Trend is improving gradually as flight data recorder technology matures. For swarms, the logging challenge multiplies: 5-aircraft formation requires logging ~100+ state variables at >= 10Hz, generating high-bandwidth data streams.",
+    "analyst": "Brook",
+    "byline": "Benchmark Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/51e2c3b2-7877-4547-b7be-bb25a88a0f19.png"
+  },
+  {
+    "value_tag": "CrewCompetencyEvidence",
+    "benchmarks": {
+      "past": {
+        "value": 3,
+        "unit": "documented competencies per crew member",
+        "date": "FY 2024",
+        "source": "CAA licensing and training records; published UAS operator certification standards",
+        "measured": false,
+        "estimation_note": "FY 2024 UAS operator licensing required: CAA UAS operator certificate, aircraft type rating, and operational endorsement. Estimated at 3 competencies per pilot on average."
+      },
+      "status": {
+        "value": 3.5,
+        "unit": "documented competencies per crew member",
+        "date": "2026-04-23",
+        "source": "Current UAS operator licensing requirements; AMLAS/SACE crew training data",
+        "measured": false,
+        "estimation_note": "Emerging swarm-operations endorsement (pilot, sensor operator, mission commander) adding 0.5 competencies per crew member. Status estimated at 3.5."
+      },
+      "record": {
+        "value": 6,
+        "unit": "documented competencies per crew member",
+        "holder": "Mature military UAS operators (RAF Protector pilots); leading civil operators with specialized training (Airborne Support)",
+        "source": "Published military UAS crew training standards; industry best practices"
+      },
+      "ideal": {
+        "value": 5,
+        "unit": "documented competencies per crew member",
+        "rationale": "Per Alexa's scale: certification (CAA UAS operator, swarm-operations endorsement, type rating), role-specific training (pass/fail), emergency-procedure simulation (>= 90% success), minimum flight hours (>= 50 for pilot, >= 20 for sensor operator). Ideal assumes 5 documented competencies per crew role."
+      },
+      "trend": {
+        "direction": "improving",
+        "rate": "0.3-0.5 competencies per year",
+        "source": "Swarm-operations endorsement adoption; emerging crew training standards",
+        "estimated": true
+      }
+    },
+    "data_gaps": [
+      "CAA does not publish aggregated crew competency metrics. Request data from CAA licensing team or conduct survey of recent BVLOS operator licenses.",
+      "Swarm-operations endorsement training curriculum is not yet standardized. JARUS or CAA may develop guidance; check status.",
+      "Emergency-procedure simulation proficiency (>= 90% success rate) is rarely systematically measured. Recommend CAA mandate this as part of crew certification."
+    ],
+    "reasoning": "CrewCompetencyEvidence measures documented skill across multiple dimensions. Current Status (3.5) is below Ideal (5), reflecting early adoption of swarm-operations training. The 1.5-competency gap reflects the emerging nature of swarm crew training. Trend is improving as swarm-operations endorsement becomes standard, but adoption is slow due to training curriculum development lead time.",
+    "analyst": "Brook",
+    "byline": "Benchmark Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/51e2c3b2-7877-4547-b7be-bb25a88a0f19.png"
+  },
+  {
+    "value_tag": "CAAMAAApportionmentGapFreeness",
+    "benchmarks": {
+      "past": {
+        "value": 75,
+        "unit": "percentage",
+        "date": "FY 2024",
+        "source": "Published CAA/MAA trial apportionment matrices (Project XCelerate, AMLAS pilot); CAA governance records",
+        "measured": false,
+        "estimation_note": "FY 2024 apportionment matrices for major trials covered ~75% of hazards and domains. Gaps typically in emerging areas (swarm coordination, emergent behavior, ML explainability). Estimated at 75%."
+      },
+      "status": {
+        "value": 80,
+        "unit": "percentage",
+        "date": "2026-04-23",
+        "source": "Current CAA/MAA apportionment matrices; published trial governance documents",
+        "measured": false,
+        "estimation_note": "Modest improvement from AMLAS/SACE integration and clearer CAA/MAA role definitions. Status estimated at 80%."
+      },
+      "record": {
+        "value": 100,
+        "unit": "percentage",
+        "holder": "RAF MOD research programs with integrated CAA/MOD governance; mature civil trials with comprehensive apportionment review",
+        "source": "Published MOD/CAA joint programs; AMLAS governance exemplars"
+      },
+      "ideal": {
+        "value": 100,
+        "unit": "percentage",
+        "rationale": "Per Alexa's scale: 100% of safety-critical aspects covered by signed apportionment, exactly one owner per aspect, no gaps, no overlaps. 100% is a regulatory imperative."
+      },
+      "trend": {
+        "direction": "improving",
+        "rate": "5-10% per year",
+        "source": "Clearer CAA/MAA role definitions; AMLAS integration learning",
+        "estimated": true
+      }
+    },
+    "data_gaps": [
+      "CAA does not publish apportionment gap metrics. Request data from CAA/MAA coordination team or analyze published apportionment matrices from recent trials.",
+      "Overlap detection (aspects assigned to both CAA and MAA) is rarely systematically analyzed. Recommend CAA/MAA conduct joint apportionment audit for recent trials.",
+      "Emerging domains (swarm coordination, emergent behavior, ML explainability) are not yet clearly apportioned in most matrices. Recommend CAA/MAA jointly publish apportionment guidance for novel domains."
+    ],
+    "reasoning": "CAAMAAApportionmentGapFreeness measures regulatory clarity. Current Status (80%) is significantly below Ideal (100%), with a 20% gap indicating ambiguous responsibility assignments. This is particularly acute for novel domains (swarm-specific risks, emergent behaviors, ML assurance) where neither CAA nor MAA has published guidance. The gap creates regulatory risk for operators: unclear who is responsible for swarm-specific SORA assessment, who approves emergent-behavior evidence, who certifies ML explainability.",
+    "analyst": "Brook",
+    "byline": "Benchmark Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/51e2c3b2-7877-4547-b7be-bb25a88a0f19.png"
+  },
+  {
+    "value_tag": "PhasedGateReversibility",
+    "benchmarks": {
+      "past": {
+        "value": 2,
+        "unit": "count of well-defined gates",
+        "date": "FY 2024",
+        "source": "Published trial protocols (Project XCelerate, AMLAS pilot); EUROCAE WG6 guidance (FY 2024)",
+        "measured": false,
+        "estimation_note": "FY 2024 trials typically had 2-3 phases (ground test, VLOS, BVLOS) with gates, but reversibility procedures were rarely documented. Estimated at 2 well-defined gates."
+      },
+      "status": {
+        "value": 2.5,
+        "unit": "count of well-defined gates",
+        "date": "2026-04-23",
+        "source": "Current AMLAS/SACE trial protocols; emerging phased-trial guidance",
+        "measured": false,
+        "estimation_note": "Recent trials showing improved gate definition and early reversibility documentation. Status estimated at 2.5 gates."
+      },
+      "record": {
+        "value": 5,
+        "unit": "count of well-defined gates",
+        "holder": "Mature military programs (RAF Protector, Reaper) with multi-phase test and evaluation; leading AMLAS pilot operators",
+        "source": "Published military test and evaluation doctrine; AMLAS case study exemplars"
+      },
+      "ideal": {
+        "value": 6,
+        "unit": "count of well-defined gates with clear criteria, reversibility, data immutability, and re-entry procedures",
+        "rationale": "Per Alexa's scale: >= 4 well-defined phases with explicit gates, reversibility documentation, data audit-logging, re-entry procedures. Ideal assumes 6 gates (ground, VLOS-single, VLOS-multi, BVLOS-nominal, BVLOS-swarm, autonomous-decision-making)."
+      },
+      "trend": {
+        "direction": "improving",
+        "rate": "0.5-1 gate per year",
+        "source": "AMLAS/SACE learning; emerging phased-trial governance guidance",
+        "estimated": true
+      }
+    },
+    "data_gaps": [
+      "CAA does not publish phased-gate metrics or reversibility documentation standards. Request from CAA programme management team.",
+      "EUROCAE WG6 is developing phased-trial guidance (target: 2026). Benchmarks may shift with new standards.",
+      "Data immutability requirements for trial phases are not standardized. Recommend CAA define write-once storage and audit-logging requirements for all trial evidence."
+    ],
+    "reasoning": "PhasedGateReversibility is a nascent concept with minimal industry practice. Current Status (2.5 gates) is far below Ideal (6), reflecting early-stage adoption of reversible phased trial design. The 3.5-gate gap reflects the regulatory innovation challenge: traditional aerospace test and evaluation is forward-only (pass/fail gates) rather than reversible. For swarms, this is critical: discovering an unexpected emergent behavior should trigger phase reversal, not program cancellation.",
+    "analyst": "Brook",
+    "byline": "Benchmark Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/51e2c3b2-7877-4547-b7be-bb25a88a0f19.png"
+  },
+  {
+    "value_tag": "PublicEngagementCoverage",
+    "benchmarks": {
+      "past": {
+        "value": 1,
+        "unit": "count of stakeholder groups engaged",
+        "date": "FY 2024",
+        "source": "CAP 1616 airspace change process; published trial community engagement reports (limited)",
+        "measured": false,
+        "estimation_note": "FY 2024 trials showed minimal public engagement. Most engaged local aviation community (airfields, flying clubs) but not residents, environmental groups, or media systematically. Estimated at 1 stakeholder group (aviation)."
+      },
+      "status": {
+        "value": 2,
+        "unit": "count of stakeholder groups engaged",
+        "date": "2026-04-23",
+        "source": "Recent BVLOS trial engagement reports; emerging CAP 1616 best practices",
+        "measured": false,
+        "estimation_note": "Modest improvement with some trials engaging local authorities and residents groups. Status estimated at 2 stakeholder groups."
+      },
+      "record": {
+        "value": 5,
+        "unit": "count of stakeholder groups engaged with documented feedback response",
+        "holder": "Leading civil trials with comprehensive community engagement (e.g., some AMLAS pilots); published CAP 1616 exemplary cases",
+        "source": "Published trial engagement reports; CAA good-practice guidance"
+      },
+      "ideal": {
+        "value": 6,
+        "unit": "count of engaged stakeholder groups with prior notification, feedback collection, documented response, and residual concern escalation",
+        "rationale": "Per Alexa's scale: >= 5 stakeholder groups (residents, landowners, environmental, aviation, media) with prior notification (>= [NotificationLeadTime]), feedback collection, documented response, and residual-concern escalation."
+      },
+      "trend": {
+        "direction": "improving",
+        "rate": "0.5-1 stakeholder group per year",
+        "source": "Emerging CAP 1616 enforcement; increasing public scrutiny of BVLOS trials",
+        "estimated": true
+      }
+    },
+    "data_gaps": [
+      "CAA does not publish public engagement metrics. Request data from CAA airspace change team or conduct survey of recent BVLOS trial engagement reports.",
+      "CAP 1616 compliance is not systematically measured for UAS trials. Recommend CAA mandate public engagement reporting as part of trial authorization KPIs.",
+      "Media and social media engagement (safety narrative, misinformation correction) are rarely tracked. Recommend CAA develop public-engagement reporting standard."
+    ],
+    "reasoning": "PublicEngagementCoverage is alarmingly low. Current Status (2 stakeholder groups) is far below Ideal (6), with a 4-group gap representing a significant social-license risk. REQ017 has no user story and is explicitly absent from the requirements spec, indicating regulatory deprioritization. However, GDPR and CAP 1616 implicitly mandate community consultation. Swarm operations over UK airspace will trigger public concern (noise, privacy, safety). The trend is improving slowly but remains inadequate for social-license sustainability.",
+    "analyst": "Brook",
+    "byline": "Benchmark Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/51e2c3b2-7877-4547-b7be-bb25a88a0f19.png"
+  }
+]

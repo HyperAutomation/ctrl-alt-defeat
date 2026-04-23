@@ -1,0 +1,307 @@
+[
+  {
+    "requirement_id": "NFR-END-WB-001",
+    "domain": "workbench",
+    "test_type": "soak",
+    "target_components": [
+      "application_intake_submission",
+      "evidence_store",
+      "panel_deliberation_log",
+      "database_connection_pool"
+    ],
+    "endurance": {
+      "duration_hours": 96,
+      "load_multiplier": "0.8x peak (20 concurrent users applicant-mode + 36 inspector-mode)",
+      "max_degradation_percent": 5,
+      "recovery_time_minutes": 0,
+      "data_volume_projection": "~18 GB cumulative (12-month growth pace)"
+    },
+    "acceptance_criteria": [
+      "p95 latency drift <5% over 24h at 80% peak load (applicant workspace creation latency p95 starts <3s, must remain <3.15s)",
+      "p95 latency drift <5% over subsequent 72h at 50% steady-state (15 concurrent users)",
+      "zero unhandled exceptions in application layer logs",
+      "database connection pool utilization stable (<80% of 40-connection budget)",
+      "audit log write latency p95 stable (<500ms) throughout 96h",
+      "log file handle count stable (<100 open handles on primary app instance)"
+    ],
+    "gate_number": "5",
+    "reasoning": "Applicant intake and inspector review are continuous workloads. Evidence store metadata indexing degradation is a known risk (ada-capacity.json NFR-CAP-WB-001: 'object metadata index causing search degradation'). Panel deliberation log is append-only write-heavy; drift in write latency indicates ledger fragmentation or connection pool leaks. 96-hour soak spans business cycles (24h at peak, 72h at steady-state) to detect circadian degradation patterns. Memory leaks in GPU inference (AI narrative flags) must be verified during long runs.",
+    "recommendation": "Execute in pre-prod environment with 20% production data volume (10 GB evidence store replica). Use load generator to simulate 20 applicant users uploading 100-200 MB packs over 24h, then 50% steady-state for 72h. Instrument: collect JVM heap metrics, database connection pool metrics, audit log write latency histograms. Capture database slow query logs (>100ms). Alert threshold: if p95 latency exceeds 3.15s or connection pool >35/40, pause and investigate. Post-test: analyze memory growth trends (linear = leak, flat = clean)."
+  },
+  {
+    "requirement_id": "NFR-END-WB-002",
+    "domain": "workbench",
+    "test_type": "stress",
+    "target_components": [
+      "web_frontend_bff",
+      "app_server_workspace_creation",
+      "database_master",
+      "evidence_store"
+    ],
+    "endurance": {
+      "duration_hours": 2,
+      "load_multiplier": "2x peak (50 concurrent users applicant-mode + 90 inspector-mode)",
+      "max_degradation_percent": 20,
+      "recovery_time_minutes": 15,
+      "data_volume_projection": "same as peak (18 GB)"
+    },
+    "acceptance_criteria": [
+      "system degrades gracefully: queues requests instead of rejecting (coverage matrix job queue depth acceptable; new submissions queue in Redis, not rejected)",
+      "p95 latency increases to <6s (acceptable 2x degradation from 3s baseline)",
+      "zero crash failures in app server layer",
+      "database master latency <1s p95 (write consistency maintained)",
+      "after load drops, p95 latency returns to baseline within 15 minutes",
+      "panel-mode sessions shed gracefully (reject new panel opens at capacity, but maintain existing sessions without mid-session drops)"
+    ],
+    "gate_number": "4",
+    "reasoning": "Liskov scalability (NFR-SCL-WB-001) identifies breaking points: web frontend breaks at 500-800 req/s; app server (coverage matrix) at ~1 concurrent inference; database at 150 write TPS + 500 read TPS. Stress test 2x peak to verify graceful degradation and recovery. Applicant workflow tolerates queue delays (asynchronous); inspector workflow cannot tolerate mid-session drops. Classification tier transitions (SECRET evidence ingestion burst) can trigger 2x spike; system must not deny service.",
+    "recommendation": "Execute in staging environment with production-like infrastructure (load balancer + 3 app instances). Ramp load to 2x peak over 10 minutes (gradual stress). Monitor: database CPU, app server memory, coverage matrix job queue depth, active HTTP connections. Deliberately trigger 5x peak for 30s (spike scenario) and measure recovery. Post-stress: verify no corrupted transactions, no orphaned sessions, database consistency check passes."
+  },
+  {
+    "requirement_id": "NFR-END-WB-003",
+    "domain": "workbench",
+    "test_type": "spike",
+    "target_components": [
+      "applicant_intake_ingestion",
+      "evidence_store",
+      "database_write_path"
+    ],
+    "endurance": {
+      "duration_hours": 0.5,
+      "load_multiplier": "3x peak (sudden wave of 75 concurrent applicants, all uploading simultaneously)",
+      "max_degradation_percent": 30,
+      "recovery_time_minutes": 10,
+      "data_volume_projection": "intake surge ~5-10 GB evidence ingest in 5 minutes"
+    },
+    "acceptance_criteria": [
+      "spike event: Quarterly panel cycle start (sudden submission wave per ada-capacity.json 'Quarterly panel cycle start — sudden wave of applicant submissions'), Clause-library publication (burst of re-checks), Incident day (re-reads of historical decisions)",
+      "system absorbs 75 concurrent uploads without rejecting; queueing acceptable",
+      "p95 latency spikes to <10s (transient, acceptable for batch scenario)",
+      "evidence store throughput >3 MB/s sustained for 5 minutes (upload rate spec per Noyce NFR-LAT-002)",
+      "recovery: within 10 minutes of spike drop, system returns to baseline",
+      "zero incomplete uploads (all-or-nothing semantics for evidence packs)"
+    ],
+    "gate_number": "N/A (stress gate precondition)",
+    "reasoning": "Spike tests known burst events. Quarterly panel cycles initiate waves of re-submissions. Clause library publications trigger re-assessment of in-flight applications (evidence search + re-checking). Incident days (accident investigations) trigger historical evidence re-reads. System must sustain 3x peak for 15 minutes without dropping requests; queue-based architecture (Redis) provides backpressure.",
+    "recommendation": "Execute spike test for each known event: (1) Clause-library publication: simulate 1000+ historical cases each requiring re-check (search + coverage matrix). (2) Incident day: simulate 100+ concurrent analysts querying same evidence (read-heavy). (3) Quarterly submission wave: simulate 75 new applicant uploads all arriving within 5-minute window. Monitor: evidence store PUT latency histogram, evidence store object count growth, database transaction latency p95, coverage matrix job queue depth. Measure recovery time from peak load drop."
+  },
+  {
+    "requirement_id": "NFR-END-WB-004",
+    "domain": "workbench",
+    "test_type": "breakpoint",
+    "target_components": [
+      "gpu_inference_pool",
+      "coverage_matrix_inference",
+      "ai_narrative_service",
+      "evidence_search"
+    ],
+    "endurance": {
+      "duration_hours": 0.25,
+      "load_multiplier": "1x → 10x peak (binary search for component breaking point)",
+      "max_degradation_percent": 100,
+      "recovery_time_minutes": 5,
+      "data_volume_projection": "100 MB evidence pack batch"
+    },
+    "acceptance_criteria": [
+      "identify GPU inference breakpoint: single GPU instance breaks at ~1 concurrent inference job (per Liskov NFR-SCL-WB-002); plan auto-scale to +1 GPU worker when queue depth >20 items",
+      "identify SECRET classification tier breakpoint: air-gapped instance cannot scale; single SECRET DB replica (per Liskov NFR-SCL-WB-004); rebuild latency 2-4 hours on failure (unacceptable; mitigation: never scale SECRET tier horizontally, reserve 3 dedicated instances or trigger incident escalation)",
+      "identify swarm consensus breakpoint (NFR-SCL-SWM-002): pairwise de-confliction O(n²) scales to 10-vehicle swarm (~45 pairwise comparisons, ~200ms compute); 20-vehicle swarm exceeds 500ms latency SLA (migration: hierarchical clustering or distributed consensus)",
+      "add 50% safety margin to auto-scale triggers: if GPU inference breaks at 1 concurrent, trigger scale-out at 0.5 concurrent (pre-scale before hitting ceiling)"
+    ],
+    "gate_number": "N/A (design input for Gates 3-4)",
+    "reasoning": "Breakpoint tests identify exact capacity limits per Liskov scalability. Allows precision auto-scale tuning. GPU inference (coverage matrix, AI narrative) is bottleneck; batching 5-10 jobs per GPU improves efficiency. Classification tier segregation creates separate bottlenecks (SECRET tier cannot scale). Swarm consensus complexity O(n²) means multi-vehicle swarms hit soft capacity limits.",
+    "recommendation": "Execute binary search: start at 1x peak, increment by +1x peak every 2 minutes. Stop when latency exceeds SLA. Record: job queue depth, GPU memory utilization, p95 latency vs load. Repeat for each component (coverage matrix, AI narrative, evidence search). Map results to Liskov NFR-SCL values. Implement auto-scale rules with 50% safety margin (scale at half the observed breaking point). For classification tiers: accept that SECRET tier is capacity-constrained; document incident escalation procedure if load approaches 85% of single-instance capacity."
+  },
+  {
+    "requirement_id": "NFR-END-WB-005",
+    "domain": "workbench",
+    "test_type": "volume",
+    "target_components": [
+      "evidence_store_metadata_index",
+      "clause_library_search",
+      "audit_log_ledger",
+      "database_query_performance"
+    ],
+    "endurance": {
+      "duration_hours": 8,
+      "load_multiplier": "1x peak",
+      "max_degradation_percent": 10,
+      "recovery_time_minutes": 0,
+      "data_volume_projection": "10-year projection: 140 GB evidence store, 5 GB clause library, 1.5 GB audit trail"
+    },
+    "acceptance_criteria": [
+      "Evidence store metadata query (NFR-LAT-017): p95 search latency remains <5s across 10-year volume projection (140 GB, 10M+ objects)",
+      "Clause library search (NFR-LAT-004): p95 latency <500ms at 10-year volume (5 GB, 4 GB cumulative versions retained)",
+      "Audit log ledger scan/export (REQ020): export of 10-year audit trail (1.5 GB, ~1M entries at 15 panels/year × 100 actions/panel) completes within Noyce latency budget",
+      "Index fragmentation: evidence store object listing latency does not degrade >10% from fresh baseline",
+      "Database query plan regression: queries that execute in <100ms at 2GB data volume remain <150ms at 140GB (acceptable 50% growth due to index bloat)"
+    ],
+    "gate_number": "6",
+    "reasoning": "Ada capacity model projects 36-month evidence store at 140 GB (NFR-CAP-WB-005). Clause library accumulates versions (5-year retention = ~4 GB). Audit logs grow 1.5 GB over 10 years. Volume tests verify indexing strategy scales; metadata query performance on object inventory is known risk (ada-findings.json 'slow growth of object metadata index causing search degradation'). Search must remain interactive (<5s) even at 10M objects.",
+    "recommendation": "Populate test database with 10-year data projection: use production data sanitization (PII redaction) to create 140 GB evidence store replica. Run benchmark queries: (1) evidence search by keyword across 10M objects, (2) clause library full-text search, (3) audit log export for single case (15 years of history per case in steady state). Measure: query latency histogram, index size, query plan cost (EXPLAIN ANALYZE). Monitor: database page cache hit rate (target >95%). If query latency degrades >10%, trigger index optimization (REINDEX, statistics refresh). Post-test: validate export correctness (row count, checksum)."
+  },
+  {
+    "requirement_id": "NFR-END-WB-006",
+    "domain": "workbench",
+    "test_type": "degradation",
+    "target_components": [
+      "ai_inference_gpu_memory",
+      "database_connection_pool",
+      "evidence_store_object_listing"
+    ],
+    "endurance": {
+      "duration_hours": 72,
+      "load_multiplier": "1x peak",
+      "max_degradation_percent": 5,
+      "recovery_time_minutes": 30,
+      "data_volume_projection": "18 GB evidence store (12-month projection)"
+    },
+    "acceptance_criteria": [
+      "GPU inference memory watermark <85% on 72h soak; no fragmentation or memory leaks detected",
+      "Database connection pool utilization: peak 35/40, steady-state 15/40; zero connection leak (monitor per-hour statistics for upward drift)",
+      "Evidence store object listing latency: stable <2s for listing 100k objects; no drift over 72h",
+      "Panel action log write latency: p95 stable at 500ms baseline; standard deviation <100ms (no variance creep)",
+      "AI narrative inference latency: p95 stable (completion time for single narrative inference batch does not drift >5% over 72h)"
+    ],
+    "gate_number": "5",
+    "reasoning": "Endurance profile examines degradation over long durations. GPU inference (coverage matrix + AI narrative) can leak memory if model serving framework (vLLM, TensorRT) has unfixed bugs. Database connection pool leaks manifest as steady drift in active-connection count. Evidence store metadata index growth can slow object listing if not optimized. Panel action log (immutable append-only ledger) can drift if fsync latency increases with ledger size. Applicant workflow (submission intake) is low-latency sensitive; 72h soak verifies no ambient latency creep.",
+    "recommendation": "Execute 72-hour soak at 1x peak load (20 applicant + 36 inspector concurrent users). Instrument: collect detailed metrics every 5 minutes: GPU memory (nvidia-smi), database connection pool active count, evidence store object-listing query latency, distributed log write latency, AI narrative inference latency. Build time-series plot for each metric; analyze for linear drift or step-function jumps. Thresholds: if GPU memory exceeds 85%, or connection pool active >35, or object listing latency drifts >5%, trigger alert and pause test. Post-test: analyze correlation between metrics (e.g., does object listing latency drift correlate with database CPU load?)."
+  },
+  {
+    "requirement_id": "NFR-END-WB-007",
+    "domain": "workbench",
+    "test_type": "stress",
+    "target_components": [
+      "audit_deliberation_log",
+      "classification_boundary_service",
+      "panel_session_state_machine"
+    ],
+    "endurance": {
+      "duration_hours": 0.5,
+      "load_multiplier": "2x peak panel concurrency (20 concurrent panelists, 3 simultaneous panels)",
+      "max_degradation_percent": 20,
+      "recovery_time_minutes": 5,
+      "data_volume_projection": "1 panel × 100 actions + classification boundary checks"
+    },
+    "acceptance_criteria": [
+      "Panel action log write (NFR-LAT-009): p95 latency under contention (10 simultaneous panelists) must not exceed 1000ms (elevated from 500ms baseline per NFR-LAT-019); zero action loss",
+      "Classification boundary checks (NFR-LAT-005): during high-contention panel write phase, classification marking latency remains <150ms (tight envelope)",
+      "Distributed ledger quorum writes: 2-of-3 replicas ACK within 150ms (latency envelope); zero divergence between replicas",
+      "Panel session state machine: concurrent case-opens (panelists opening different cases) do not interfere; case state remains consistent"
+    ],
+    "gate_number": "4",
+    "reasoning": "Panel deliberation is high-stakes low-concurrency workload. Stress test simulates 2x expected peak: 10-20 concurrent panelists (vs 8-12 baseline) making simultaneous annotations on same case or different cases. Contention can spike distributed log write latency (lock acquisition, quorum ACK delays). Classification boundary service must remain responsive even during high write load (audit trail must be immutable and timestamped).",
+    "recommendation": "Execute in pre-prod with dual panel sessions running in parallel (3 concurrent panels × 6-7 panelists each = 18-21 concurrent users simulated). Synchronize: trigger simultaneous annotations from all panelists (coordinated load spike). Monitor: audit log write latency histogram, classification boundary service response time, distributed ledger replica consistency. Verify: no action lost, no duplicate actions, ledger has monotonic sequence numbers. Post-test: audit log integrity check (verify all actions present, in order, with valid timestamps)."
+  },
+  {
+    "requirement_id": "NFR-END-SWM-001",
+    "domain": "swarm",
+    "test_type": "endurance",
+    "target_components": [
+      "swarm_telemetry_logging",
+      "c2_link_continuity",
+      "autonomy_state_machine",
+      "daa_sensor_fusion"
+    ],
+    "endurance": {
+      "duration_hours": 4,
+      "load_multiplier": "1x sustained (5-10 vehicle swarm nominal telemetry rate 5-10 Hz per vehicle)",
+      "max_degradation_percent": 5,
+      "recovery_time_minutes": 0,
+      "data_volume_projection": "1.5-3 GB telemetry per trial (90-120 min flight)"
+    },
+    "acceptance_criteria": [
+      "C2 link latency (NFR-LAT-013): p95 round-trip <1000ms (tactical) sustained for 4 hours; no single-packet loss events >2 consecutive packets",
+      "Autonomy state machine (NFR-LAT-014): swarm consensus cycle latency p95 <200ms for 4-hour duration; decision heartbeat remains synchronized across all aircraft",
+      "DAA sensor fusion (NFR-LAT-012): encounter detection and response latency p95 <5000ms for cooperative encounters; zero false-negative detections",
+      "Telemetry logging: evidence stream to ground-control database remains unbroken; no gaps >1 second in telemetry records",
+      "Geofence enforcement (NFR-LAT-011): geofence boundary check latency stable <500ms; zero boundary violations logged"
+    ],
+    "gate_number": "N/A (operational readiness, not release gate)",
+    "reasoning": "Swarm endurance differs from workbench: real aircraft have limited battery (2-4 hour missions). Telemetry is continuous high-frequency stream (50-100 msg/sec for 5-vehicle swarm). C2 link fading (RF interference, shadowing) can trigger autonomy survival behavior. Sensor fusion complexity grows with swarm size. Ground control segment must sustain <100ms state-machine latency for 4 hours without degradation (if latency drifts, encounter resolution becomes untimely).",
+    "recommendation": "Conduct endurance flight test: launch 5-10 vehicle swarm for sustained 90-120 minute flight (saturate available battery capacity). Simulate: (1) One cooperative encounter mid-flight (DAA + coordination response). (2) Transient C2 link fade (30-60 second RF blackout, trigger autonomous hold + RTL). (3) Continuous telemetry logging to ground-control database + evidence archive. Monitor: C2 link latency histogram (real RF measurements), swarm consensus decision lag across aircraft, telemetry gap detection. Post-flight: analyze telemetry stream for consistency and completeness. Verify all encounter events logged with timestamps."
+  },
+  {
+    "requirement_id": "NFR-END-SWM-002",
+    "domain": "swarm",
+    "test_type": "stress",
+    "target_components": [
+      "daa_sensor_fusion",
+      "swarm_consensus_protocol",
+      "c2_uplink_bandwidth"
+    ],
+    "endurance": {
+      "duration_hours": 0.25,
+      "load_multiplier": "2x vehicle count (10-20 vehicle swarm at high decision frequency)",
+      "max_degradation_percent": 30,
+      "recovery_time_minutes": 5,
+      "data_volume_projection": "same as sustained (high-frequency scenario)"
+    },
+    "acceptance_criteria": [
+      "DAA encounter rate: 10+ encounters per 15-minute window; system resolves each within p95 <5s (cooperative) per NFR-LAT-012",
+      "Swarm consensus latency (NFR-LAT-014): pairwise de-confliction decision latency p95 <200ms for 10-vehicle swarm; for 20-vehicle swarm, acknowledge graceful degradation (target <300ms, acceptable >500ms indicates need for hierarchical clustering)",
+      "C2 uplink bandwidth: sustained 2-3 Mbps for 20-vehicle swarm (100 kbps per vehicle + coordination overhead); no packet loss >1% (RF fading simulator)",
+      "Autonomy model inference (NFR-LAT-015): onboard ML inference latency p95 <200ms during encounter-resolution decision cycles",
+      "Recovery: after stress window, swarm formation re-establishes and consensus synchronizes within 30 seconds"
+    ],
+    "gate_number": "N/A (validation, not release gate)",
+    "reasoning": "Swarm stress tests multi-vehicle coordination under high encounter rates and decision load. DAA sensor fusion is CPU-intensive onboard (fusion algorithm, pairwise comparisons). Swarm consensus is O(n²) in vehicle count; 20 vehicles = 190 pairwise comparisons per consensus cycle. C2 bandwidth is radio-spectrum constraint (500 kbps per vehicle typical for LTE; 20 vehicles = 10 Mbps, unrealistic for single ground station). Stress scenario validates coordination complexity and identifies bottlenecks.",
+    "recommendation": "Execute high-encounter-rate flight test: pre-program 10+ cooperative aircraft targets (via ADS-B simulator) to create sustained encounter scenarios over 15-minute window. Measure: DAA detection time per encounter, resolution latency (time to coordinated maneuver completion), C2 uplink bandwidth utilization, swarm consensus lag. For 20-vehicle simulation: use numerical simulation (not live flight) to evaluate pairwise de-confliction latency; compare to 500ms SLA. Document: at what vehicle count does latency exceed budget? Recommendation: if 20-vehicle swarm consensus latency exceeds 500ms, implement hierarchical clustering (sub-swarms internally resolve, parent consensus at cluster level)."
+  },
+  {
+    "requirement_id": "NFR-END-SWM-003",
+    "domain": "swarm",
+    "test_type": "security_perf",
+    "target_components": [
+      "c2_command_authentication",
+      "onboard_model_validation",
+      "geofence_enforcement",
+      "flight_termination_path"
+    ],
+    "endurance": {
+      "duration_hours": 1,
+      "load_multiplier": "1x peak + red-team probes",
+      "max_degradation_percent": 5,
+      "recovery_time_minutes": 0,
+      "data_volume_projection": "nominal + anomalous command injection"
+    },
+    "acceptance_criteria": [
+      "C2 command authentication (NFR-SEC-016): HMAC-SHA256 verification latency <3ms per command; zero false-positive rejections (valid commands rejected)",
+      "Onboard model validation (NFR-SEC-018): frozen-model hash verification latency <50ms at mission startup; model tampering detected (hash mismatch) triggers flight-termination failsafe",
+      "Geofence enforcement (NFR-SEC-017, NFR-LAT-011): boundary check latency <50ms; geofence violation triggers containment action within 500ms; zero boundary overshoots",
+      "Flight termination (NFR-LAT-016): command authentication + motor shutdown within 500ms hard deadline; zero false negatives (invalid termination commands rejected)",
+      "Red-team probe resilience: system does not degrade p95 latency >5% even during concurrent red-team probes (spoofed commands, model injection attempts, geofence tampering)"
+    ],
+    "gate_number": "7",
+    "reasoning": "Security-performance integration test (Gate 7) verifies that security controls (authentication, model validation, geofence checks) do not degrade latency or create new exploitable timing channels. Red-team can probe during active load to simulate adversary attempting to exploit system under stress. Flight termination is safety-critical; authentication overhead must not delay termination.",
+    "recommendation": "Execute 1-hour live swarm flight + concurrent red-team exercises: (1) Red-team attempts spoofed C2 commands (wrong HMAC); system rejects with <3ms overhead. (2) Red-team attempts to inject rogue model weights; hash verification detects tampering, triggers failsafe. (3) Red-team attempts geofence boundary tampering (GPS spoofing simulator); system detects violation and triggers RTL. (4) Nominal flight continues while red-team is active. Measure: p95 latencies for all security operations; compare to baseline. Post-test: analyze red-team success rate (expected zero successful exploits; non-zero indicates security flaw or performance-latency issue)."
+  },
+  {
+    "requirement_id": "NFR-END-WB-008",
+    "domain": "workbench",
+    "test_type": "regression",
+    "target_components": [
+      "applicant_workspace",
+      "evidence_upload",
+      "coverage_matrix_generation",
+      "panel_decision_record_drafting",
+      "ai_narrative_service"
+    ],
+    "endurance": {
+      "duration_hours": 2,
+      "load_multiplier": "1x peak",
+      "max_degradation_percent": 0,
+      "recovery_time_minutes": 0,
+      "data_volume_projection": "twin-sample: Scotland case + SORA case (opposite ends of complexity spectrum)"
+    },
+    "acceptance_criteria": [
+      "End-to-end twin-sample journey: each case (Scotland PDRA-01 VLOS, SORA advanced swarm) completes within Noyce SLA budgets: (1) Workspace creation <3s p95, (2) Evidence upload + classification <30s p95 for 100 MB pack, (3) Coverage matrix <10 min p95, (4) Readiness check <60s p95, (5) Panel case-open <10s p95, (6) AI narrative flags within 30 min p95, (7) Decision record export <5 min p95",
+      "Decision record drafting latency: p95 <30 min end-to-end from case-open to decision PDF ready (inclusive of all AI inference, evidence assembly, signature embedding)",
+      "Zero functional regressions: decision output matches expected content (no missing sections, no formatting errors, classification marking correct)",
+      "Test data: use real applicant submissions (Scotland trial + SORA-advanced swarm trial) to validate realistic complexity; if data unavailable, use synthetic data matching complexity profiles"
+    ],
+    "gate_number": "8",
+    "reasoning": "Final doneness gate (Gate 8): proves end-to-end journey works at expected performance. Twin-sample ensures both simple cases (PDRA-01 VLOS) and complex cases (advanced swarm with high evidence volume) complete within budget. Decision record drafting is the final deliverable; must not regress performance relative to prior release.",
+    "recommendation": "Execute full applicant-to-decision workflow twice: (1) Scotland PDRA-01 VLOS case (low complexity, <100 MB evidence, short panel duration). (2) SORA advanced swarm case (high complexity, 300-500 MB evidence, extended panel deliberation). Measure: wall-clock time for each step. Record: decision PDF content (verify no missing sections, proper classification marking, signature/encryption applied). Compare to prior release baseline (if available). Post-test: generate regression report: 'Gate 8 PASS: end-to-end twin-sample latency within budget; decision record quality acceptable.'"
+  }
+]

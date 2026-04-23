@@ -1,0 +1,465 @@
+[
+  {
+    "requirement_id": "NFR-LAT-001",
+    "domain": "workbench",
+    "feature": "Applicant workspace creation (Step 1)",
+    "sla": "99% of workspace creation requests shall complete within 3 s; 100% within 5 s. Measured from HTTP POST to ready-to-upload state.",
+    "performance_budget": {
+      "end_to_end_ms": {
+        "p50": 500,
+        "p90": 1500,
+        "p95": 3000,
+        "p99": 5000
+      },
+      "component_budgets": [
+        { "component": "network + CDN", "budget_ms": 100 },
+        { "component": "web_server_auth", "budget_ms": 200 },
+        { "component": "app_server_workspace_creation", "budget_ms": 800 },
+        { "component": "database_write", "budget_ms": 1000 },
+        { "component": "session_init", "budget_ms": 500 },
+        { "component": "rendering_ui", "budget_ms": 400 }
+      ]
+    },
+    "tier": "critical",
+    "source": "Parent user story NFR - 'Full workbench open-and-review cycle shall not require more than two working days'; Tier-1 interactive user journey."
+  },
+  {
+    "requirement_id": "NFR-LAT-002",
+    "domain": "workbench",
+    "feature": "Evidence upload throughput (100 MB pack, Step 2)",
+    "sla": "95% of evidence uploads of packs ≤100 MB shall complete within 30 s under OFFICIAL classification, measured from HTTP POST to artefact detector ready. Per-MB throughput: 3–5 MB/s average, p95.",
+    "performance_budget": {
+      "end_to_end_ms": {
+        "p50": 15000,
+        "p90": 22000,
+        "p95": 30000,
+        "p99": 40000
+      },
+      "component_budgets": [
+        { "component": "network_upload", "budget_ms": 8000 },
+        { "component": "web_server_receive", "budget_ms": 2000 },
+        { "component": "chunk_store_write", "budget_ms": 5000 },
+        { "component": "virus_scan", "budget_ms": 3000 },
+        { "component": "content_classification", "budget_ms": 2000 },
+        { "component": "artefact_detector_ready_signal", "budget_ms": 10000 }
+      ]
+    },
+    "tier": "critical",
+    "source": "Parent user story NFR - 'Clause-coverage matrix available within 10 minutes of submission upload'; evidenced by per-MB throughput calculation."
+  },
+  {
+    "requirement_id": "NFR-LAT-003",
+    "domain": "workbench",
+    "feature": "Coverage matrix generation (Step 2 continuation, 100 MB typical pack)",
+    "sla": "95% of clause-coverage matrix generations for typical 100 MB evidence packs shall complete within 10 minutes (600 s) of upload completion, measured from artefact detector ready to matrix PDF download available. 99% within 12 minutes.",
+    "performance_budget": {
+      "end_to_end_ms": {
+        "p50": 240000,
+        "p90": 450000,
+        "p95": 600000,
+        "p99": 720000
+      },
+      "component_budgets": [
+        { "component": "evidence_indexing", "budget_ms": 60000 },
+        { "component": "ocr_text_extraction", "budget_ms": 180000 },
+        { "component": "semantic_classification_inference", "budget_ms": 200000 },
+        { "component": "coverage_matrix_computation", "budget_ms": 90000 },
+        { "component": "pdf_rendering_export", "budget_ms": 40000 }
+      ]
+    },
+    "tier": "critical",
+    "source": "Parent user story NFR - 'Clause-coverage matrix available within 10 minutes of submission upload'; end-to-end budget includes large batch ML inference."
+  },
+  {
+    "requirement_id": "NFR-LAT-004",
+    "domain": "workbench",
+    "feature": "Operator Feedback Report rendering (Step 3, post-matrix)",
+    "sla": "99% of Readiness Dashboard renders shall complete within 5 s of upload completion signal, measured from request to interactive page ready.",
+    "performance_budget": {
+      "end_to_end_ms": {
+        "p50": 800,
+        "p90": 2500,
+        "p95": 5000,
+        "p99": 7000
+      },
+      "component_budgets": [
+        { "component": "network", "budget_ms": 100 },
+        { "component": "web_server", "budget_ms": 200 },
+        { "component": "app_server_report_assembly", "budget_ms": 1500 },
+        { "component": "database_query", "budget_ms": 1000 },
+        { "component": "template_rendering", "budget_ms": 800 },
+        { "component": "javascript_interactivity_init", "budget_ms": 400 }
+      ]
+    },
+    "tier": "critical",
+    "source": "Derived from parent NFR and typical web UI interactivity standards for operator-facing dashboards."
+  },
+  {
+    "requirement_id": "NFR-LAT-005",
+    "domain": "workbench",
+    "feature": "Submission Readiness Check (Step 4)",
+    "sla": "95% of Readiness Checks shall complete within 60 s, measured from user 'check' action to pass/fail verdict and list of blocking issues returned.",
+    "performance_budget": {
+      "end_to_end_ms": {
+        "p50": 15000,
+        "p90": 40000,
+        "p95": 60000,
+        "p99": 80000
+      },
+      "component_budgets": [
+        { "component": "network", "budget_ms": 100 },
+        { "component": "validation_engine", "budget_ms": 25000 },
+        { "component": "cross_reference_check", "budget_ms": 15000 },
+        { "component": "completeness_rules_evaluation", "budget_ms": 10000 },
+        { "component": "database_lookups", "budget_ms": 5000 },
+        { "component": "response_assembly_render", "budget_ms": 5000 }
+      ]
+    },
+    "tier": "critical",
+    "source": "Parent user story implied SLA; gates the submission workflow."
+  },
+  {
+    "requirement_id": "NFR-LAT-006",
+    "domain": "workbench",
+    "feature": "Panel case-open and load (Step 5)",
+    "sla": "99% of case-open operations shall complete within 10 s, measured from regulator's case-selection click to interactive case panel fully rendered.",
+    "performance_budget": {
+      "end_to_end_ms": {
+        "p50": 2000,
+        "p90": 6000,
+        "p95": 10000,
+        "p99": 15000
+      },
+      "component_budgets": [
+        { "component": "network", "budget_ms": 100 },
+        { "component": "web_server_case_fetch", "budget_ms": 500 },
+        { "component": "app_server_case_assembly", "budget_ms": 2000 },
+        { "component": "database_case_query", "budget_ms": 2000 },
+        { "component": "evidence_metadata_load", "budget_ms": 1500 },
+        { "component": "panel_ui_rendering", "budget_ms": 3900 }
+      ]
+    },
+    "tier": "critical",
+    "source": "Panel-facing interactive path; tight budget to minimize regulator waiting time."
+  },
+  {
+    "requirement_id": "NFR-LAT-007",
+    "domain": "workbench",
+    "feature": "AI-flag narrative rendering (Step 5 continuation)",
+    "sla": "95% of AI-assisted narrative flag renders shall complete within 30 minutes (1800 s) of case panel opening, measured from narrative inference trigger to readable flag explanations available for each evidence section.",
+    "performance_budget": {
+      "end_to_end_ms": {
+        "p50": 600000,
+        "p90": 1200000,
+        "p95": 1800000,
+        "p99": 2400000
+      },
+      "component_budgets": [
+        { "component": "evidence_chunking_for_inference", "budget_ms": 60000 },
+        { "component": "ai_inference_per_chunk", "budget_ms": 900000 },
+        { "component": "narrative_aggregation", "budget_ms": 120000 },
+        { "component": "evidence_linking", "budget_ms": 240000 },
+        { "component": "flag_explanation_rendering", "budget_ms": 480000 }
+      ]
+    },
+    "tier": "critical",
+    "source": "Parent user story NFR - 'AI-assisted narrative flags within 30 minutes'; one-shot batch inference path."
+  },
+  {
+    "requirement_id": "NFR-LAT-008",
+    "domain": "workbench",
+    "feature": "Evidence page/paragraph navigation",
+    "sla": "99% of page/section navigation requests within case review shall render within 2 s, measured from user click to new evidence section visible.",
+    "performance_budget": {
+      "end_to_end_ms": {
+        "p50": 400,
+        "p90": 1200,
+        "p95": 2000,
+        "p99": 3000
+      },
+      "component_budgets": [
+        { "component": "network", "budget_ms": 100 },
+        { "component": "app_server_fetch", "budget_ms": 300 },
+        { "component": "cache_hit_probability", "budget_ms": 200 },
+        { "component": "dom_rendering", "budget_ms": 800 },
+        { "component": "javascript_interaction", "budget_ms": 600 }
+      ]
+    },
+    "tier": "critical",
+    "source": "Regulator panel workflow interactivity; tighter budget for cached, non-AI navigation."
+  },
+  {
+    "requirement_id": "NFR-LAT-009",
+    "domain": "workbench",
+    "feature": "Panel-action log write (audit trail, Step 6)",
+    "sla": "95% of panel-action (review comment, flag, decision state change) writes shall complete within 500 ms, measured from user submit to immutable audit record confirmed in distributed log.",
+    "performance_budget": {
+      "end_to_end_ms": {
+        "p50": 150,
+        "p90": 350,
+        "p95": 500,
+        "p99": 750
+      },
+      "component_budgets": [
+        { "component": "network", "budget_ms": 50 },
+        { "component": "app_server_validation", "budget_ms": 100 },
+        { "component": "classification_check_inline", "budget_ms": 150 },
+        { "component": "immutable_log_write", "budget_ms": 150 },
+        { "component": "replication_quorum", "budget_ms": 100 }
+      ]
+    },
+    "tier": "critical",
+    "source": "Regulatory audit and forensic traceability requirement; tight SLA for transactional write."
+  },
+  {
+    "requirement_id": "NFR-LAT-010",
+    "domain": "workbench",
+    "feature": "Decision record export as PDF (Step 8)",
+    "sla": "95% of decision record PDF exports shall complete within 5 minutes (300 s), measured from user 'export' action to downloadable file ready.",
+    "performance_budget": {
+      "end_to_end_ms": {
+        "p50": 60000,
+        "p90": 180000,
+        "p95": 300000,
+        "p99": 400000
+      },
+      "component_budgets": [
+        { "component": "decision_record_assembly", "budget_ms": 60000 },
+        { "component": "evidence_cite_resolution", "budget_ms": 80000 },
+        { "component": "pdf_template_rendering", "budget_ms": 100000 },
+        { "component": "signature_embedding", "budget_ms": 20000 },
+        { "component": "encryption_archive", "budget_ms": 40000 }
+      ]
+    },
+    "tier": "target",
+    "source": "End-of-workflow export; moderate budget for one-shot, non-critical path."
+  },
+  {
+    "requirement_id": "NFR-LAT-011",
+    "domain": "swarm",
+    "feature": "Geofence detection and action trigger",
+    "sla": "99% of geofence-breach events shall result in containment action (command queued to avionics) within 500 ms (hard deadline 1 s). Measured from breach detection to control signal dispatch.",
+    "performance_budget": {
+      "end_to_end_ms": {
+        "p50": 100,
+        "p90": 300,
+        "p95": 500,
+        "p99": 800
+      },
+      "component_budgets": [
+        { "component": "gps_position_update_latency", "budget_ms": 50 },
+        { "component": "geofence_boundary_check", "budget_ms": 50 },
+        { "component": "decision_logic_execution", "budget_ms": 100 },
+        { "component": "c2_command_composition", "budget_ms": 100 },
+        { "component": "radio_transmission_latency", "budget_ms": 200 }
+      ]
+    },
+    "tier": "critical",
+    "source": "Parent NFR REQ005; safety-critical containment loop."
+  },
+  {
+    "requirement_id": "NFR-LAT-012",
+    "domain": "swarm",
+    "feature": "DAA encounter detection and response",
+    "sla": "99% of cooperative DAA encounters shall be resolved (maneuver command issued or non-interference confirmed) within 5 s of first detection. Non-cooperative: within 30 s per DO-365 scenario profile. Hard deadline 60 s.",
+    "performance_budget": {
+      "end_to_end_ms": {
+        "p50": 2000,
+        "p90": 3500,
+        "p95": 5000,
+        "p99": 8000
+      },
+      "component_budgets": [
+        { "component": "sensor_fusion_latency", "budget_ms": 500 },
+        { "component": "target_classification", "budget_ms": 800 },
+        { "component": "collision_resolution_inference", "budget_ms": 1500 },
+        { "component": "swarm_consensus_coordination", "budget_ms": 1200 },
+        { "component": "command_generation_transmission", "budget_ms": 1000 }
+      ]
+    },
+    "tier": "critical",
+    "source": "Parent NFR REQ007; DO-365 compliance for autonomous systems."
+  },
+  {
+    "requirement_id": "NFR-LAT-013",
+    "domain": "swarm",
+    "feature": "C2 link latency (uplink + downlink)",
+    "sla": "95% of C2 round-trip commands shall exhibit latency ≤1 s (tactical), p99 ≤2 s. Measured from operator input to aircraft acknowledgment received.",
+    "performance_budget": {
+      "end_to_end_ms": {
+        "p50": 300,
+        "p90": 700,
+        "p95": 1000,
+        "p99": 2000
+      },
+      "component_budgets": [
+        { "component": "operator_input_capture", "budget_ms": 20 },
+        { "component": "uplink_transmission_latency", "budget_ms": 300 },
+        { "component": "airborne_command_parsing", "budget_ms": 100 },
+        { "component": "downlink_ack_transmission", "budget_ms": 300 },
+        { "component": "operator_display_update", "budget_ms": 280 }
+      ]
+    },
+    "tier": "critical",
+    "source": "Vibe Requirements - C2 link latency (MeaningfulHumanControl) Tolerable <1 s."
+  },
+  {
+    "requirement_id": "NFR-LAT-014",
+    "domain": "swarm",
+    "feature": "Swarm consensus cycle (decision synchronization)",
+    "sla": "95% of swarm consensus cycles (collision avoidance, formation coordination) shall complete within 200 ms of most-recent sensor update from any aircraft, measured at swarm decision heartbeat frequency.",
+    "performance_budget": {
+      "end_to_end_ms": {
+        "p50": 50,
+        "p90": 120,
+        "p95": 200,
+        "p99": 300
+      },
+      "component_budgets": [
+        { "component": "inter_aircraft_message_broadcast", "budget_ms": 50 },
+        { "component": "consensus_protocol_execution", "budget_ms": 80 },
+        { "component": "decision_aggregation", "budget_ms": 40 },
+        { "component": "command_dispatch", "budget_ms": 30 }
+      ]
+    },
+    "tier": "critical",
+    "source": "Derived from Parent NFR REQ008 (Swarm Decision-Making); control loop alignment."
+  },
+  {
+    "requirement_id": "NFR-LAT-015",
+    "domain": "swarm",
+    "feature": "Onboard ML inference for autonomy decisions",
+    "sla": "95% of onboard ML inference for tactical decisions (e.g., next-waypoint selection, DAA evasion maneuver) shall complete within 200 ms, p99 within 400 ms.",
+    "performance_budget": {
+      "end_to_end_ms": {
+        "p50": 80,
+        "p90": 150,
+        "p95": 200,
+        "p99": 400
+      },
+      "component_budgets": [
+        { "component": "sensor_data_preparation", "budget_ms": 30 },
+        { "component": "model_inference_execution", "budget_ms": 120 },
+        { "component": "output_post_processing", "budget_ms": 30 },
+        { "component": "decision_integration_to_control", "budget_ms": 20 }
+      ]
+    },
+    "tier": "critical",
+    "source": "Parent NFR REQ009 (ML Assurance Case); airborne autonomy constraint."
+  },
+  {
+    "requirement_id": "NFR-LAT-016",
+    "domain": "swarm",
+    "feature": "Flight termination command to motor cutoff",
+    "sla": "100% of flight termination commands shall result in motor shutdown within 500 ms (hard deadline), measured from command issuance at operator or autonomous trigger to propeller stop.",
+    "performance_budget": {
+      "end_to_end_ms": {
+        "p50": 150,
+        "p90": 300,
+        "p95": 400,
+        "p99": 500
+      },
+      "component_budgets": [
+        { "component": "termination_signal_generation", "budget_ms": 50 },
+        { "component": "c2_transmission", "budget_ms": 200 },
+        { "component": "airborne_command_parsing", "budget_ms": 50 },
+        { "component": "motor_shutdown_execution", "budget_ms": 150 },
+        { "component": "mechanical_settling", "budget_ms": 50 }
+      ]
+    },
+    "tier": "critical",
+    "source": "Parent NFR REQ011 (Flight Termination); safety-critical hard real-time deadline."
+  },
+  {
+    "requirement_id": "NFR-LAT-017",
+    "domain": "workbench",
+    "feature": "Evidence search across classification boundary (10-year archive)",
+    "sla": "95% of evidence archive searches (by keyword, regulation clause, aircraft ID, date range) shall return results within 5 s for queries spanning up to 10 years of prior trial records, measured from user query submit to result list rendered.",
+    "performance_budget": {
+      "end_to_end_ms": {
+        "p50": 1000,
+        "p90": 3000,
+        "p95": 5000,
+        "p99": 8000
+      },
+      "component_budgets": [
+        { "component": "network", "budget_ms": 100 },
+        { "component": "classification_boundary_check", "budget_ms": 500 },
+        { "component": "search_index_query", "budget_ms": 2000 },
+        { "component": "security_filtering", "budget_ms": 1000 },
+        { "component": "result_assembly_render", "budget_ms": 1400 }
+      ]
+    },
+    "tier": "target",
+    "source": "Derived from workbench archive use-cases; moderate priority for non-critical regulatory queries."
+  },
+  {
+    "requirement_id": "NFR-LAT-018",
+    "domain": "workbench",
+    "feature": "Coverage matrix generation for 500 MB evidence pack (worst case)",
+    "sla": "95% of coverage matrix generations for large 500 MB evidence packs shall complete within 20 minutes (1200 s), p99 within 30 minutes.",
+    "performance_budget": {
+      "end_to_end_ms": {
+        "p50": 480000,
+        "p90": 900000,
+        "p95": 1200000,
+        "p99": 1800000
+      },
+      "component_budgets": [
+        { "component": "evidence_indexing", "budget_ms": 120000 },
+        { "component": "ocr_text_extraction_large", "budget_ms": 360000 },
+        { "component": "semantic_classification_inference", "budget_ms": 480000 },
+        { "component": "coverage_matrix_computation", "budget_ms": 180000 },
+        { "component": "pdf_rendering_export", "budget_ms": 60000 }
+      ]
+    },
+    "tier": "target",
+    "source": "Worst-case scenario; may require horizontal scaling of inference tier."
+  },
+  {
+    "requirement_id": "NFR-LAT-019",
+    "domain": "workbench",
+    "feature": "Panel action log write under high contention (10 simultaneous reviewers)",
+    "sla": "95% of action log writes during peak panel review (10+ concurrent reviewers) shall complete within 1 s (elevated p95 due to lock contention), p99 within 2 s.",
+    "performance_budget": {
+      "end_to_end_ms": {
+        "p50": 300,
+        "p90": 700,
+        "p95": 1000,
+        "p99": 2000
+      },
+      "component_budgets": [
+        { "component": "network", "budget_ms": 100 },
+        { "component": "app_server_lock_acquisition", "budget_ms": 200 },
+        { "component": "classification_check", "budget_ms": 200 },
+        { "component": "distributed_log_write_quorum", "budget_ms": 300 },
+        { "component": "replication_ack", "budget_ms": 200 }
+      ]
+    },
+    "tier": "target",
+    "source": "Derived from panel review concurrency model; stress-tested scenario."
+  },
+  {
+    "requirement_id": "NFR-LAT-020",
+    "domain": "swarm",
+    "feature": "Loss-of-C2 link detection and autonomous survival activation",
+    "sla": "100% of C2 link loss shall be detected and autonomous survival behavior initiated within 1 s of link loss onset, measured from last valid uplink command to first autonomous flight control input.",
+    "performance_budget": {
+      "end_to_end_ms": {
+        "p50": 200,
+        "p90": 600,
+        "p95": 900,
+        "p99": 1000
+      },
+      "component_budgets": [
+        { "component": "c2_heartbeat_monitoring", "budget_ms": 100 },
+        { "component": "loss_of_signal_detection", "budget_ms": 200 },
+        { "component": "failsafe_logic_execution", "budget_ms": 300 },
+        { "component": "control_mode_transition", "budget_ms": 200 },
+        { "component": "first_autonomous_output", "budget_ms": 200 }
+      ]
+    },
+    "tier": "critical",
+    "source": "Vibe Requirements - C2 link latency (C2LinkResilience) and REQ006; safety-critical failsafe."
+  }
+]

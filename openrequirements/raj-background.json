@@ -1,0 +1,548 @@
+[
+  {
+    "value_tag": "PackCompleteness",
+    "owner": "CAA case officer (application intake team)",
+    "authority": "CAA Innovation Hub",
+    "motivation": "Complete submission packs enable efficient case opening and reduce rework cycles. Incomplete packs block downstream review (SORA, safety case, crew training) and delay authorization decisions. Operator throughput depends on intake quality.",
+    "risks": [
+      {
+        "risk": "Operators submit incomplete packs to test regulator's expectations, triggering rejection and resubmission cycles",
+        "probability": "high",
+        "impact": "high",
+        "mitigation": "Publish prescriptive document checklist (per operation type) in CAA guidance before intake. Implement Quick Gate automated detector (METER-001) to flag gaps within 10 minutes of submission. Offer pre-submission consultation."
+      },
+      {
+        "risk": "Swarm operations require novel documents (swarm decision-making architecture, emergent-behavior manifest) not yet standardized",
+        "probability": "high",
+        "impact": "medium",
+        "mitigation": "CAA publishes swarm-specific document templates and examples (AMLAS case studies) 6 months before accepting first swarm packs. Provide operator guidance webinars."
+      },
+      {
+        "risk": "Mandatory document list evolves as regulations mature (e.g., new ML explainability template), invalidating previously-accepted packs",
+        "probability": "medium",
+        "impact": "medium",
+        "mitigation": "Grandfather existing cases; grandfather-plus-6-month transition window for new documents. Use phased gate structure (PhasedGateReversibility) to allow evidence re-evaluation without full resubmission."
+      }
+    ],
+    "value_of_value": "Gate all other work. If pack is incomplete, no downstream review can proceed. Business impact: operator frustration, extended authorization timelines, reduced trial throughput. Regulatory impact: integrity of case file depends on complete evidence.",
+    "priority_rank": 1,
+    "priority_tier": "critical",
+    "strategic_alignment": "Supports MAA/CAA Protector RG Mk1 transition by establishing consistent application intake process. Feeds BVLOS/urban-logistics expansion (CAA priority) by removing intake bottleneck.",
+    "keystone_reference": "K1 (application intake process integrity)",
+    "reasoning": "PackCompleteness is the first gate in the authorization flow. Status (72%) vs Tolerable (100%) indicates 28% first-submission failure rate, directly correlating to operator rework cycles and CAA case officer workload. This is a foundational problem: poor intake efficiency cascades to all downstream activities.",
+    "analyst": "Raj",
+    "byline": "Background Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/a0dcbe3e-5ffa-40f6-b429-bec941531d8f.png"
+  },
+  {
+    "value_tag": "SwarmAwareSORAEvidence",
+    "owner": "CAA SORA assessor (flight safety team)",
+    "authority": "CAA SORA Assessment Authority (aligned with JARUS SORA v2.5 working group)",
+    "motivation": "Swarm-aware SORA evidence documents coordinated-failure modes (loss-of-separation cascades, emergent misbehavior) that single-aircraft SORA misses entirely. Without swarm-specific risk pathways, SAIL and OSO determinations are defensibly unsound and authorization is at risk.",
+    "risks": [
+      {
+        "risk": "JARUS SORA v2.5 swarm guidance is recent (2025); operators and CAA assessors lack familiarity with swarm-specific risk taxonomy",
+        "probability": "high",
+        "impact": "high",
+        "mitigation": "CAA publishes exemplary swarm SORA evidence packages (draw from AMLAS case studies). Conduct assessor training workshops (2-3 day SORA v2.5 swarm module). Reference EUROCAE WG6 swarm guidance."
+      },
+      {
+        "risk": "Operators claim swarm-aware SORA evidence without substantive content (e.g., 'loss-of-separation controlled via inter-vehicle link' without specifying detection latency or failsafe mechanism)",
+        "probability": "high",
+        "impact": "high",
+        "mitigation": "Ray's METER-003 (Swarm-Specific Risk Evidence Inventory Audit) defines operationally what counts as swarm-aware: >= 3 distinct items per aircraft with documented evidence (test report, design review, simulation data). Audit enforces specificity."
+      },
+      {
+        "risk": "Status (15% of submissions) far below Ideal (80%); implies most current operators have not adopted swarm-aware SORA at all",
+        "probability": "high",
+        "impact": "high",
+        "mitigation": "AMLAS/SACE pilots develop swarm SORA templates and case studies (2025-2026). CAA publishes monthly SORA assessment updates as feedback loop: what swarm-aware evidence impressed assessors becomes public guidance."
+      }
+    ],
+    "value_of_value": "Safety-critical. Swarm-specific failure modes (coordinated link loss, formation instability, emergent decision-making cascades) can trigger loss-of-separation outcomes that single-aircraft hazard trees never predict. If SORA lacks swarm-aware risk pathways, SAIL determination becomes a guess, not defensible regulation.",
+    "priority_rank": 2,
+    "priority_tier": "critical",
+    "strategic_alignment": "Directly enables MAA/CAA BVLOS swarm authorization pathway (Protector RG Mk1 early work, GCAP platform trials). Supports AMLAS/SACE learning dissemination. Prerequisite for urban-logistics swarms and Project Alvina attritable-mass experimentation.",
+    "keystone_reference": "K2 (swarm-specific risk assessment integrity)",
+    "reasoning": "Status (15%) vs Tolerable (3 items per aircraft) shows widespread adoption gap. Swarm regulations are nascent; operators are still learning what swarm-aware risk assessment looks like. High improvement rate (10-15% quarterly) suggests AMLAS/SACE learning is accelerating adoption, but baseline is dangerously low.",
+    "analyst": "Raj",
+    "byline": "Background Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/a0dcbe3e-5ffa-40f6-b429-bec941531d8f.png"
+  },
+  {
+    "value_tag": "ConOpsClarity",
+    "owner": "CAA safety-case reviewer + applicant ConOps author",
+    "authority": "CAA Innovation Hub (ConOps guidance); CAA case officer (review gate)",
+    "motivation": "ConOps clarity determines whether crew training is well-grounded and safety case hazard analysis is defensible. Vague ConOps (e.g., 'swarm will maintain formation' without specifying tolerance or recovery procedure) leads to crew confusion and unanalyzed failure modes.",
+    "risks": [
+      {
+        "risk": "Status (55%) far below Tolerable (85%); indicates ConOps documents define nominal behavior but omit worst-credible boundaries",
+        "probability": "high",
+        "impact": "high",
+        "mitigation": "Publish ConOps template with mandatory sections: nominal behavior (quantified parameters), worst-credible boundary (explicit limits for each operational phase). Use inter-rater reliability test (Ray's METER-004, kappa >= 0.8) as gate."
+      },
+      {
+        "risk": "Swarm operations add complexity: ConOps must describe formation geometry, inter-aircraft separation, swarm decision logic, and coordinated failure modes—most operators lack framework for this",
+        "probability": "high",
+        "impact": "medium",
+        "mitigation": "Publish exemplary swarm ConOps (draw from AMLAS case studies). Require swarm-specific sections: (1) nominal formation geometry and tolerance, (2) inter-vehicle link loss behavior, (3) collective decision-making (consensus, voting, leader-follower)."
+      },
+      {
+        "risk": "Reviewers interpret ConOps differently; two independent reviewers score clarity inconsistently",
+        "probability": "medium",
+        "impact": "medium",
+        "mitigation": "Ray's METER-004 operationalizes this: dual-reviewer test with structured questionnaire and kappa >= 0.8 target. If reviewers disagree, ConOps is sent back for clarification."
+      }
+    ],
+    "value_of_value": "Crew training and investigability depend on clear ConOps. If worst-credible scenarios are undefined, crew procedures are ad-hoc and incident investigation is blocked (post-incident: 'how was the aircraft supposed to behave in this state?'). Regulatory impact: ambiguous ConOps triggers authorization refusal.",
+    "priority_rank": 3,
+    "priority_tier": "critical",
+    "strategic_alignment": "Supports CAA priority (BVLOS expansion, urban-logistics) by establishing clear ConOps review process. Enables crew competency assessment (REQ014, CrewCompetencyEvidence) by grounding training on explicit operational boundaries.",
+    "keystone_reference": "K3 (operational clarity for crew training and hazard analysis)",
+    "reasoning": "Current Status (55%) reflects widespread gap in operational boundary definition. Swarm operations are nascent; most ConOps documents treat swarm formation as a simple waypoint list rather than a dynamic, emergent system with explicit worst-credible limits. Trend is improving slowly (3-5% per year).",
+    "analyst": "Raj",
+    "byline": "Background Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/a0dcbe3e-5ffa-40f6-b429-bec941531d8f.png"
+  },
+  {
+    "value_tag": "GeofenceContainment",
+    "owner": "Applicant (airframe/autonomy designer) + CAA airspace regulator",
+    "authority": "CAA airspace change team (trial segregation approval)",
+    "motivation": "Geofence is the automated last line of defense against uncontrolled BVLOS flight. Single-point-failure in geofence enforcement can release aircraft into uncontrolled airspace, creating public-below and third-party safety hazard. Keystone K1 safety mechanism.",
+    "risks": [
+      {
+        "risk": "Monte Carlo simulation (METER-005) assumes benign GPS error model; real environment may have multipath, spoofing, or jamming outside ODD bounds",
+        "probability": "medium",
+        "impact": "high",
+        "mitigation": "Expand Monte Carlo environmental ODD to include GPS denial (up to 60s), GPS accuracy degradation (up to 50m CEP), electromagnetic interference. Conduct live fly-away test (METER-006) in representative RF environment."
+      },
+      {
+        "risk": "Geofence logic shares compute platform with autonomy logic; failure in autonomy (e.g., control loop instability) could corrupt geofence state",
+        "probability": "low",
+        "impact": "very high",
+        "mitigation": "Require independent termination system (IndependentFlightTermination) on separate hardware path. Geofence enforcement must not depend on main autonomy processor. Use watchdog timer as secondary containment mechanism."
+      },
+      {
+        "risk": "Status (99.6%) nearly meets Tolerable (99.5%); but Status may be measured in benign simulation conditions, not representative of real swarm operations",
+        "probability": "medium",
+        "impact": "high",
+        "mitigation": "Conduct METER-006 live fly-away test with entire swarm (not single aircraft), evaluating formation integrity during geofence enforcement. Multi-aircraft interactions (e.g., formation flutter) may expose geofence assumptions."
+      },
+      {
+        "risk": "Gap analysis: Tolerable (99.5%) vs Survival (99.0%) is only 0.5%; implies very narrow regulatory margin if geofence performance degrades after authorization",
+        "probability": "low",
+        "impact": "high",
+        "mitigation": "Establish continuous post-flight monitoring (METER-010): each flight accumulates real-world geofence performance data. If trend moves below 99.5%, trial pauses pending investigation."
+      }
+    ],
+    "value_of_value": "Safety-critical. Uncontrolled BVLOS beyond geofence could result in collision with third-party aircraft, property damage, or public injury. Regulatory impact: failure on this value means authorization refusal. No geofence evidence = no BVLOS approval.",
+    "priority_rank": 4,
+    "priority_tier": "critical",
+    "strategic_alignment": "Prerequisite for MAA/CAA BVLOS authorization (Protector RG Mk1 trials, GCAP platform early work). Enables Project Alvina attritable-mass experimentation in segregated airspace. CAA BVLOS expansion and urban-logistics depend on reliable geofence assurance.",
+    "keystone_reference": "K1 (automated containment; safety-critical single-point failure mitigation)",
+    "reasoning": "GeofenceContainment is the most-mature safety technology in this set. Status (99.6%) is already above Tolerable (99.5%), indicating technology maturity. Risk is primarily in simulation-to-reality gap and multi-aircraft interactions. Trend is stable (0.1% per year improvement), reflecting engineering plateau.",
+    "analyst": "Raj",
+    "byline": "Background Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/a0dcbe3e-5ffa-40f6-b429-bec941531d8f.png"
+  },
+  {
+    "value_tag": "C2LinkResilience",
+    "owner": "Applicant (C2 system designer) + CAA spectrum specialist",
+    "authority": "CAA spectrum / communications assurance team",
+    "motivation": "C2 link loss is inevitable in RF-contested environments. Autonomous survival time is the grace period for crew detection and RTL trigger. Without documented survival time (>= 30 seconds), BVLOS authorization cannot be defended if link loss occurs.",
+    "risks": [
+      {
+        "risk": "Status (45 seconds autonomous survival) meets Alexa's minimum (>= 30s) but differs from Isaac's Tolerable constraint on link availability (99%). Conflation of two metrics: survival time vs. availability.",
+        "probability": "medium",
+        "impact": "medium",
+        "mitigation": "Ray's METER-007 measures both: autonomous survival time AND link availability. Clarify: survival time = duration after link loss before unsafe state; availability = percentage of mission time link is operational. Both must pass."
+      },
+      {
+        "risk": "Swarms compound risk: if lead aircraft loses link, followers may lose inter-vehicle link (RF interference, network topology collapse). Cascading link loss can trigger uncontrolled formation breakup.",
+        "probability": "high",
+        "impact": "high",
+        "mitigation": "Define swarm-specific C2 resilience: (1) individual aircraft survival after main C2 loss, (2) swarm cohesion during inter-vehicle link loss (maintenance of separation). Test both independently (METER-007)."
+      },
+      {
+        "risk": "RF environment during trial may not match ODD assumptions (e.g., cellular tower interference, tactical RF testing nearby). Link resilience test may be invalidated by environment change.",
+        "probability": "medium",
+        "impact": "high",
+        "mitigation": "Conduct RF environment survey pre-trial (spectrum monitoring, interference characterization). Update METER-007 assumptions based on survey. Re-test if RF environment changes materially."
+      }
+    ],
+    "value_of_value": "Enables BVLOS operations. Without documented C2 resilience, crew cannot regain control after link loss and aircraft is uncontrollable. Regulatory impact: insufficient survival time means authorization refusal or VLOS-only constraint.",
+    "priority_rank": 5,
+    "priority_tier": "critical",
+    "strategic_alignment": "Supports CAA BVLOS expansion and urban-logistics (priority). Prerequisite for Project Alvina attritable-mass swarm trials (resilience to communication degradation in contested RF environment).",
+    "keystone_reference": "K4 (graceful degradation under link loss)",
+    "reasoning": "Status (45 seconds) vs Tolerable (99% availability) are different metrics; confusion here is a major risk. Current industry practice measures survival time; Isaac's constraint emphasizes link availability as primary metric. Need clarity on which constraint dominates.",
+    "analyst": "Raj",
+    "byline": "Background Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/a0dcbe3e-5ffa-40f6-b429-bec941531d8f.png"
+  },
+  {
+    "value_tag": "DAAPerformance",
+    "owner": "Applicant (DAA algorithm developer) + CAA DAA assessor",
+    "authority": "CAA flight safety assessment team (aligned with DO-365 / F3442 certification body)",
+    "motivation": "DAA system resolves encounters with cooperative and non-cooperative aircraft. Failure results in mid-air collision. DO-365 is the regulatory standard; swarms must demonstrate consistent, predictable resolution across cooperative and non-cooperative encounter geometries.",
+    "risks": [
+      {
+        "risk": "Status (88%) far below Tolerable (99.5%) and Regulatory (99.9%); indicates significant gap in non-cooperative encounter resolution",
+        "probability": "high",
+        "impact": "very high",
+        "mitigation": "Invest in non-cooperative radar detection algorithm development and testing. Ray's METER-008 runs 100+ encounter scenarios; analyze failures and iterate radar/decision logic. Target >= 99% before authorization."
+      },
+      {
+        "risk": "Swarm coordination during encounter is rarely tested (sub-scale DecisionConsistency); decision consistency may fail if swarm formation state affects encounter resolution logic",
+        "probability": "medium",
+        "impact": "high",
+        "mitigation": "Extend METER-008 to include swarm-formation-aware encounters: e.g., formation tight (3m separation) vs. loose (50m separation). DAA logic must resolve encounters consistently regardless of formation geometry."
+      },
+      {
+        "risk": "DO-365 certification assumes single-aircraft DAA; multi-aircraft coordinated resolution is not yet in standard. Swarms may trigger resolution maneuvers that interfere with each other.",
+        "probability": "medium",
+        "impact": "high",
+        "mitigation": "Define swarm DAA protocol: (1) lead aircraft triggers resolution, (2) followers execute coordinated maneuver (offset formation, altitude change). Test coordinated resolution in METER-008 subset."
+      }
+    ],
+    "value_of_value": "Safety-critical. DAA failure results in collision with third-party aircraft (manned or unmanned). Regulatory impact: failure on DAA means authorization refusal for any airspace with other air traffic. Status (88%) far below Tolerable (99.5%) indicates significant development work required.",
+    "priority_rank": 6,
+    "priority_tier": "critical",
+    "strategic_alignment": "Prerequisite for CAA BVLOS expansion into Class G airspace with civilian air traffic. Enables MAA/CAA trials in airspace shared with military training routes. Required for urban-logistics scenarios with helicopter traffic.",
+    "keystone_reference": "K5 (mid-air collision avoidance)",
+    "reasoning": "DAA is a mature domain (DO-365 standard exists) but swarm adaptation is nascent. Status gap (88% vs 99.5%) reflects engineering challenge of non-cooperative detection in high-clutter environments and multi-aircraft decision coordination. Trend is improving slowly (2-4% per year), constrained by algorithmic limits and sensor physics.",
+    "analyst": "Raj",
+    "byline": "Background Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/a0dcbe3e-5ffa-40f6-b429-bec941531d8f.png"
+  },
+  {
+    "value_tag": "SwarmEmergentBoundedness",
+    "owner": "Applicant (autonomy architect) + CAA autonomy reviewer",
+    "authority": "CAA innovation / autonomy assurance team (emerging role; no precedent yet)",
+    "motivation": "Swarm behavior emerges from interaction of individual control laws; emergent behavior can violate safety invariants unexpectedly. Documentation of emergent behaviors and quantified boundaries is essential to assure swarms are controllable within operational envelope.",
+    "risks": [
+      {
+        "risk": "Status (3 behaviors identified) far below Tolerable (>= 95% flight hours within bounds); implies emergent behaviors are not yet systematically identified or bounded",
+        "probability": "high",
+        "impact": "very high",
+        "mitigation": "METER-009 (Emergent Behavior Boundary Documentation Audit) requires operator to identify >= 5 distinct emergent behaviors (formation, coordination latency, flocking, decision deadlock, split/rejoin). METER-010 validates each is within bounds in >= 95% of flight hours."
+      },
+      {
+        "risk": "Emergent behavior taxonomy is not standardized; operators may identify different behaviors or miss critical ones. No accepted list of 'expected swarm behaviors'.",
+        "probability": "high",
+        "impact": "high",
+        "mitigation": "EUROCAE WG6 is developing swarm-behavior taxonomy (target: 2026 guidance). AMLAS case studies establish accepted behaviors. Publish monthly CAA guidance update on emergent-behavior identification."
+      },
+      {
+        "risk": "Survival threshold (Isaac: 90% flight hours within bounds) is lower than Tolerable (95%); if swarm operates outside bounds in > 10% of flights, does trial pause or continue?",
+        "probability": "medium",
+        "impact": "high",
+        "mitigation": "Clarify policy: if any single emergent behavior exceeds bounds in > 5% of flights, trial pauses pending investigation. Operator re-tightens boundary or demonstrates bounds are incorrect and updates manifest. Re-test required."
+      }
+    ],
+    "value_of_value": "Swarm assurance. If emergent behaviors are undocumented and unbounded, swarms can exhibit runtime surprises (unintended formation geometry changes, oscillation, consensus deadlock) that violate safety constraints. Regulatory impact: inability to explain swarm behavior blocks authorization.",
+    "priority_rank": 7,
+    "priority_tier": "critical",
+    "strategic_alignment": "Prerequisite for autonomous swarm authorization (MAA/CAA trials). Supports Project Alvina attritable-mass experimentation (emergent behavior in large swarms is critical challenge). Enables GCAP platform early autonomy work.",
+    "keystone_reference": "K6 (emergent-behavior assurance)",
+    "reasoning": "SwarmEmergentBoundedness is the most-nascent value in this set. Status (3 behaviors) vs Tolerable (95% flight hours in bounds) are measuring different things: the count of behaviors identified vs. the test coverage of those behaviors. This confusion reflects that swarm assurance is still being defined. Large gap (Status far below Tolerable) and improving trend (1-2 behaviors per year) indicate active learning.",
+    "analyst": "Raj",
+    "byline": "Background Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/a0dcbe3e-5ffa-40f6-b429-bec941531d8f.png"
+  },
+  {
+    "value_tag": "MLForensicExplainability",
+    "owner": "Applicant (ML model developer) + CAA AI/ML assurance specialist + AAIB (investigative interest)",
+    "authority": "CAA AI/ML assurance authority (emerging; parallels AMLAS/SACE work)",
+    "motivation": "ML-based autonomy decision-making (mode selection, emergency response, formation adjustment) must be forensically explainable for post-incident investigation. Black-box neural networks defeat AAIB investigative capacity and block authorization based on AI-safety grounds.",
+    "risks": [
+      {
+        "risk": "Status (28%) far below Tolerable (80%) and dangerously close to Survival (70%); indicates widespread lack of ML explainability instrumentation",
+        "probability": "high",
+        "impact": "very high",
+        "mitigation": "AMLAS guidance mandates explainability approach by model type: decision trees (100%), SVMs (feature importance + boundary visualization), neural networks (LIME/SHAP saliency maps). Ray's METER-011 tests reconstruction by independent reviewer (>= 80% target)."
+      },
+      {
+        "risk": "Neural networks (high performance) are inherently opaque; SHAP/LIME explanations are proxy approximations, not ground truth. AAIB may reject proxy explanations as insufficient for accident investigation.",
+        "probability": "medium",
+        "impact": "very high",
+        "mitigation": "Recommend decision-tree or SVM models for safety-critical decisions (mode selection, termination trigger). Reserve neural networks for non-critical optimization (swarm formation smoothing). AMLAS/SACE case studies establish acceptable proxy explanations."
+      },
+      {
+        "risk": "Gap from Status (28%) to Survival (70%) is only 42%; system could enter unassurable state very quickly if additional ML components are added",
+        "probability": "high",
+        "impact": "high",
+        "mitigation": "Freeze model development after authorization gate. All ML components must pass explainability test (METER-011) before integration. Post-deployment model updates require re-certification."
+      }
+    ],
+    "value_of_value": "Forensic integrity and public trust. If ML decisions cannot be explained post-incident, investigation is blocked and public confidence in autonomous swarms is destroyed. Regulatory impact: failure on this value means AAIB refusal to investigate, which blocks authorization on AI-safety grounds (links to JSP 936 Part 1 RAISO accountability).",
+    "priority_rank": 8,
+    "priority_tier": "critical",
+    "strategic_alignment": "Links to JSP 936 Part 1 (RAISO accountability for autonomy). Supports MAA interest in Project Alvina (attritable swarms with autonomy). Enables early GCAP autonomy work by establishing explainability baseline.",
+    "keystone_reference": "K7 (ML forensic explainability for post-incident investigation)",
+    "reasoning": "MLForensicExplainability is the single-largest gap in this analysis: 62% gap from Status (28%) to Ideal (90%). This reflects the fundamental tension between model performance (neural networks are fast) and explainability (neural networks are opaque). Gap closure depends on industry adoption of explainability tooling (LIME/SHAP) and regulatory acceptance of proxy explanations.",
+    "analyst": "Raj",
+    "byline": "Background Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/a0dcbe3e-5ffa-40f6-b429-bec941531d8f.png"
+  },
+  {
+    "value_tag": "MeaningfulHumanControl",
+    "owner": "Applicant (HMI designer) + CAA human factors inspector + DDH (legal/ethical implications)",
+    "authority": "CAA human factors and innovation teams; DDH policy guidance on AI oversight",
+    "motivation": "Meaningful human control ensures crew retains authority over safety-critical decisions and can intervene if autonomy fails. Without demonstrated MHC, authorization may be refused on legal/ethical grounds (AI accountability, responsibility assignment).",
+    "risks": [
+      {
+        "risk": "Status (52) far below Tolerable (70); largest deficit is WorkloadBounds (35 vs 100). Swarm operations generate multiple concurrent events (engine failure, loss-of-link, emergent-behavior anomaly) that overwhelm crew attention.",
+        "probability": "high",
+        "impact": "high",
+        "mitigation": "Redesign HMI: (1) Auto-triage alerts (only 1-2 concurrent maximum displayed), (2) Progressive disclosure (alert details on demand), (3) Swarm-level abstraction (display formation state, not per-aircraft state). Ray's METER-013 validates workload in simulation."
+      },
+      {
+        "risk": "TakeoverLatency (time available to regain control) is < 5 seconds in fast-dynamics scenarios (DAA encounter, geofence breach). Crew reaction time is 1-2 seconds; margin is very thin.",
+        "probability": "medium",
+        "impact": "high",
+        "mitigation": "Implement pre-positioned crew takeover: (1) in encounter scenarios, system proposes resolution maneuver, crew accepts/rejects (0.5s approval cycle), (2) in geofence breach, automatic RTL is armed but crew can override if they recognize nuisance trigger."
+      },
+      {
+        "risk": "Authority preservation for swarm operations is undefined: if one swarm member is incapacitated, does crew manually re-route formation or does autonomy replan? Who decides?",
+        "probability": "medium",
+        "impact": "medium",
+        "mitigation": "Define decision boundary: (1) autonomy replans formation automatically if single member incapacitates, (2) crew retains override (manual re-route), (3) document in ConOps. Train crew on replan scenarios."
+      }
+    ],
+    "value_of_value": "Legal, ethical, and regulatory. Meaningful human control prevents authorization refusal on AI-safety grounds. Demonstrates crew retain operational authority, satisfying DDH policy (preventing unaccountable autonomous systems). Business impact: failure on MHC can trigger regulatory or public challenge to authorization.",
+    "priority_rank": 9,
+    "priority_tier": "critical",
+    "strategic_alignment": "Links to DDH AI oversight policy and JSP 936 Part 1 (RAISO MHC accountability). Supports CAA BVLOS expansion by assuring public that humans retain control. Prerequisite for urban-logistics with mixed autonomy/crew operations.",
+    "keystone_reference": "K8 (crew authority and situational awareness)",
+    "reasoning": "Status (52) vs Tolerable (70) gap of 18 points is significant; swarm workload is the bottleneck. Trend is improving slowly (5-8 points per year) as HMI design matures. Risk is high if crew cannot keep up with swarm events; uncontrolled escalation spiral is possible.",
+    "analyst": "Raj",
+    "byline": "Background Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/a0dcbe3e-5ffa-40f6-b429-bec941531d8f.png"
+  },
+  {
+    "value_tag": "IndependentFlightTermination",
+    "owner": "Applicant (termination system hardware/firmware designer) + CAA flight-ops inspector",
+    "authority": "CAA flight operations and safety assurance team",
+    "motivation": "Independent flight termination is the last-resort safety mechanism. If autonomy or C2 fails, independent termination must fire to prevent uncontrolled descent. Single-point-failure in termination is catastrophic.",
+    "risks": [
+      {
+        "risk": "Termination system shares compute platform with main avionics; fault in avionics could corrupt termination state before trigger fires",
+        "probability": "low",
+        "impact": "very high",
+        "mitigation": "Require independent termination hardware on separate processor, separate power supply, separate trigger logic. Ray's METER-014 (FMEA-derived fault injection) validates termination reliability across 50+ failure scenarios."
+      },
+      {
+        "risk": "Swarm termination is coordinated: if one aircraft terminates while others continue, mid-air collision risk during descent. Termination must be synchronized across swarm.",
+        "probability": "medium",
+        "impact": "very high",
+        "mitigation": "Define termination protocol: (1) trigger fires on one aircraft, (2) broadcast termination command to swarm via inter-vehicle link, (3) all aircraft execute synchronized descent with separation maintained. Test in METER-014."
+      },
+      {
+        "risk": "Status (99.1%) below Tolerable (99.9%) and above Survival (99%); narrow margin for improvement. Further reliability gains require redundancy (expensive, heavy).",
+        "probability": "low",
+        "impact": "medium",
+        "mitigation": "Maintain current testing regime; redundancy investment justified only if trend moves below Tolerable. Continuous post-flight monitoring (like GeofenceContainment) tracks real-world termination reliability."
+      }
+    ],
+    "value_of_value": "Safety-critical last-resort mechanism. If termination fails, uncontrolled flight and possible collision/injury. Regulatory impact: failure on this value means authorization refusal. Non-negotiable for BVLOS.",
+    "priority_rank": 10,
+    "priority_tier": "critical",
+    "strategic_alignment": "Prerequisite for all BVLOS authorization (MAA/CAA trials, Project Alvina, GCAP). Supports Protector RG Mk1 transition by establishing termination assurance baseline.",
+    "keystone_reference": "K1 (independent safety mechanism; single-point-failure mitigation)",
+    "reasoning": "IndependentFlightTermination is a mature safety technology (98-99% effectiveness). Status (99.1%) is already above Tolerable (99.9%); trend is stable (0.5% per year), reflecting diminishing returns on reliability investment. Risk is engineering (synchronization across swarms) rather than technology maturity.",
+    "analyst": "Raj",
+    "byline": "Background Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/a0dcbe3e-5ffa-40f6-b429-bec941531d8f.png"
+  },
+  {
+    "value_tag": "MORForensicCompleteness",
+    "owner": "CAA flight safety investigator (MOR handler) + applicant (data logger owner)",
+    "authority": "CAA flight safety investigation authority; AAIB (investigative interest)",
+    "motivation": "Mandatory Occurrence Reporting (MOR) regulations require complete flight data for post-incident investigation. Data gaps defeat AAIB investigation and block learning from incidents. Forensic provenance ensures data integrity is defensible in incident proceedings.",
+    "risks": [
+      {
+        "risk": "Status (88%) below Tolerable (100%); 12% of incidents have data gaps that may compromise investigation",
+        "probability": "medium",
+        "impact": "high",
+        "mitigation": "Ray's METER-015 (Data Recording Completeness & Integrity Audit) pre-flight checks all logging systems, post-flight validates data integrity (no gaps > 100ms). Redundant logging systems reduce gap probability."
+      },
+      {
+        "risk": "Swarm logging multiplies data volume: 5-aircraft swarm at 10Hz requires ~100+ state variables, generating gigabytes per flight hour. Storage and transmission capacity may be insufficient.",
+        "probability": "medium",
+        "impact": "medium",
+        "mitigation": "Define compressible data schema: (1) full-resolution logging for safety-critical variables (position, velocity, autonomy mode), (2) aggregated logging for non-critical variables (sensor calibration, motor RPM). Compress post-flight for archive."
+      },
+      {
+        "risk": "Forensic provenance (cryptographic hash, timestamp certification) is not yet standardized for UAS. What counts as proof of data integrity?",
+        "probability": "medium",
+        "impact": "medium",
+        "mitigation": "EUROCAE WG6 may develop guidance (check status). Interim: use industry-standard practices (SHA-256 hashing, atomic clock timestamps, digitally signed metadata). METER-015 verifies provenance presence."
+      }
+    ],
+    "value_of_value": "Investigability and regulatory compliance. If MOR obligations are not met, CAA cannot defend authorization decisions post-incident. Business impact: incident without adequate data leads to broad authorization suspension pending investigation.",
+    "priority_rank": 11,
+    "priority_tier": "high",
+    "strategic_alignment": "Mandatory regulatory obligation (CAA Occurrence Reporting Regulations). Supports AAIB investigative capacity (links to JSP 936 Part 1). Prerequisite for any operational trial.",
+    "keystone_reference": "K9 (forensic data preservation for incident investigation)",
+    "reasoning": "MORForensicCompleteness is measured (88% baseline) and relatively mature. Status vs Tolerable gap (12%) is achievable with redundant logging infrastructure. Risk is primarily data-volume management for swarms and standardization of forensic provenance.",
+    "analyst": "Raj",
+    "byline": "Background Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/a0dcbe3e-5ffa-40f6-b429-bec941531d8f.png"
+  },
+  {
+    "value_tag": "CrewCompetencyEvidence",
+    "owner": "Applicant (crew training organization) + CAA licensing inspector",
+    "authority": "CAA licensing and training authority (Part-FCL alignment)",
+    "motivation": "Crew must demonstrate competency across multiple dimensions: certification, training, simulation proficiency, and operational experience. Without documented evidence, pilot-in-charge integrity is unverified and crew cannot legally operate.",
+    "risks": [
+      {
+        "risk": "Status (3.5 competencies) below Tolerable (5); swarm-operations endorsement is nascent and not yet widely deployed",
+        "probability": "high",
+        "impact": "medium",
+        "mitigation": "CAA/JARUS publishes swarm-operations endorsement training curriculum (timeline: 2026). Pilot training providers offer endorsement courses. Grandfather early pilots under alternative competency pathways (e.g., AMLAS trial participation = swarm-ops endorsement equivalent)."
+      },
+      {
+        "risk": "Emergency-procedure simulation proficiency (>= 90% success rate) is rarely systematically measured. What counts as passing a simulation?",
+        "probability": "medium",
+        "impact": "medium",
+        "mitigation": "Publish standard emergency procedures: link loss recovery, geofence breach response, DAA encounter handling, swarm member incapacitation. Ray's METER-016 validates >= 90% success in simulation before authorization."
+      },
+      {
+        "risk": "Operational experience requirement (>= 50 hours for pilot, >= 20 for sensor operator) may be impossible to meet for novel operation types (swarm formation control, multi-aircraft DAA)",
+        "probability": "medium",
+        "impact": "medium",
+        "mitigation": "Allow simulator hours to count toward experience requirement (e.g., 10 hours simulator = 10 hours operational experience). AMLAS trials can serve as operational experience pathway for early operators."
+      }
+    ],
+    "value_of_value": "Baseline crew qualification. If crew lacks demonstrated competency, incident risk increases dramatically. Regulatory impact: failure on crew competency is grounds for authorization refusal or crew restriction (specific pilot qualified, not generic operator license).",
+    "priority_rank": 12,
+    "priority_tier": "medium",
+    "strategic_alignment": "Supports CAA licensing authority and crew training standardization. Enables swarm-operations endorsement adoption. Prerequisites for BVLOS and urban-logistics crew training.",
+    "keystone_reference": "K10 (crew competency baseline)",
+    "reasoning": "CrewCompetencyEvidence is a measured value (3.5 competencies) with clear improvement pathway (swarm-operations endorsement adoption). Status vs Tolerable gap (1.5) is achievable with training curriculum development. Risk is primarily in training standardization and endorsement definition.",
+    "analyst": "Raj",
+    "byline": "Background Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/a0dcbe3e-5ffa-40f6-b429-bec941531d8f.png"
+  },
+  {
+    "value_tag": "CAAMAAApportionmentGapFreeness",
+    "owner": "CAA/MAA liaison team (joint governance)",
+    "authority": "CAA Innovation Hub + MAA RPAS Regulatory Branch (joint authority)",
+    "motivation": "Civil/military regulatory boundary must be clearly defined. Ambiguous responsibility assignments (swarm-specific SORA assessment: CAA or MAA? ML explainability: CAA or RAISO?) create regulatory risk for operators and delay authorization decisions.",
+    "risks": [
+      {
+        "risk": "Status (80%) vs Tolerable (100%); 20% of responsibility assignments are ambiguous or overlapping, particularly for novel domains (swarm coordination, ML explainability)",
+        "probability": "high",
+        "impact": "high",
+        "mitigation": "CAA/MAA joint task force publishes apportionment guidance for swarm-specific domains: (1) swarm-aware SORA assessment = CAA, (2) emergent-behavior assurance = joint CAA/autonomy-reviewer, (3) ML explainability = CAA + AAIB interest (not MAA unless classified). Use METER-017 to verify gap-free apportionment before case opening."
+      },
+      {
+        "risk": "Security classification handling (REQ018) is completely absent from apportionment matrices. If trial involves classified MOD work, how is CAA presented with evidence without compromise?",
+        "probability": "high",
+        "impact": "medium",
+        "mitigation": "CAA/MAA establish classified-apportionment process: (1) sanitized summary suitable for CAA review, (2) classified annex retained by MAA, (3) joint CAA/MAA panel reviews classified evidence in secure facility. Not resolved in current Background scope."
+      },
+      {
+        "risk": "Apportionment boundaries may shift during trial (new risk discovered, new regulations published). Frozen apportionment may become stale.",
+        "probability": "medium",
+        "impact": "medium",
+        "mitigation": "PhasedGateReversibility allows apportionment re-evaluation at phase gates. Maintain apportionment matrix as living document; CAA/MAA approve updates before implementation."
+      }
+    ],
+    "value_of_value": "Regulatory clarity and operational authorization. Ambiguous responsibility blocks authorization (operator doesn't know who to answer to). Business impact: delayed authorization, scope creep as operators pursue dual-path approvals (CAA and MAA both).",
+    "priority_rank": 13,
+    "priority_tier": "high",
+    "strategic_alignment": "Supports MAA/CAA joint governance (MOD/civilian interface). Prerequisite for classified military trials (Protector RG Mk1, GCAP early airframe work) and civilian-military mixed operations (Project Alvina).",
+    "keystone_reference": "K11 (regulatory responsibility clarity)",
+    "reasoning": "CAAMAAApportionmentGapFreeness is a governance issue, not a technical value. Status (80%) vs Tolerable (100%) gap reflects absence of CAA/MAA guidance on novel domains (swarm-specific, ML assurance). Gap closure depends on CAA/MAA collaboration, not operator action. High priority for authorization pathway clarity.",
+    "analyst": "Raj",
+    "byline": "Background Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/a0dcbe3e-5ffa-40f6-b429-bec941531d8f.png"
+  },
+  {
+    "value_tag": "PhasedGateReversibility",
+    "owner": "CAA programme manager (trial governance) + applicant (phased trial execution)",
+    "authority": "CAA Innovation Hub (programme governance authority)",
+    "motivation": "Phased trial gates allow progressive evidence accumulation and rapid learning cycles. Reversibility ensures unexpected findings (emergent-behavior anomaly, higher-than-expected failure rate) trigger phase reversal, not program cancellation, enabling safe innovation.",
+    "risks": [
+      {
+        "risk": "Status (2.5 well-defined gates) far below Tolerable (>= 4 gates); most trials have forward-only progression (pass/fail gates, not reversible)",
+        "probability": "high",
+        "impact": "high",
+        "mitigation": "Publish phased-trial template: Phase 1 (ground), Phase 2 (VLOS single), Phase 3 (VLOS swarm), Phase 4 (BVLOS nominal), Phase 5 (BVLOS swarm). Ray's METER-018 validates reversibility procedures for each gate."
+      },
+      {
+        "risk": "Reversibility procedures are undefined: if Phase 3 discovers emergent-behavior anomaly, what triggers reversal? Criteria for re-entry? Timeline for evidence refresh?",
+        "probability": "high",
+        "impact": "high",
+        "mitigation": "METER-018 requires explicit gate specification: (1) progression criterion (e.g., 10 successful flights, zero emergent-behavior exceedances), (2) exit criterion (e.g., 1 out-of-bounds event detected), (3) re-entry criteria (e.g., 5 additional flights with new geofence design before Phase 2 re-try)."
+      },
+      {
+        "risk": "Data immutability is not enforced; evidence from failed phase can be lost, preventing gate re-evaluation if conditions change",
+        "probability": "medium",
+        "impact": "medium",
+        "mitigation": "Mandate write-once evidence storage or comprehensive audit logging. All phase data preserved indefinitely. METER-018 verifies immutability before phase commences."
+      }
+    ],
+    "value_of_value": "Programme management and safe innovation. Without reversibility, operators fear discovering unanticipable problems (emergent behavior, crew workload spike) will trigger trial cancellation and loss of investment. Reversibility enables operators to take calculated risks knowing evidence is preserved and gates can be re-evaluated.",
+    "priority_rank": 14,
+    "priority_tier": "medium",
+    "strategic_alignment": "Enables MAA/CAA innovation trials (Protector RG Mk1, GCAP early work, Project Alvina). Supports BVLOS expansion by reducing operator risk and acceleration trial schedules. Prerequisite for regulatory learning-by-doing.",
+    "keystone_reference": "K12 (reversible trial progression for safe innovation)",
+    "reasoning": "PhasedGateReversibility is a governance/process value with minimal industry practice (2.5 gates identified vs 6 ideal). Gap closure depends on CAA adoption of reversible-gate paradigm and operator buy-in. Trend is improving as AMLAS/SACE models reversible-gate processes, but progress is slow due to regulatory conservatism.",
+    "analyst": "Raj",
+    "byline": "Background Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/a0dcbe3e-5ffa-40f6-b429-bec941531d8f.png"
+  },
+  {
+    "value_tag": "PublicEngagementCoverage",
+    "owner": "Applicant (community engagement lead) + CAA airspace change team (TDA consultation)",
+    "authority": "CAA Innovation Hub (policy guidance) + CAA airspace team (TDA consultation process)",
+    "motivation": "Community consultation (CAP 1616) and public engagement builds social license for BVLOS swarm operations. Without engagement, public opposition can delay or block trial authorization. GDPR and human rights law require prior notification to affected individuals.",
+    "risks": [
+      {
+        "risk": "Status (2 stakeholder groups engaged) far below Tolerable (5 groups); indicates systematic under-engagement with community",
+        "probability": "high",
+        "impact": "high",
+        "mitigation": "Publish public-engagement template: (1) identify 5+ stakeholder groups (residents, landowners, environmental, aviation, media), (2) issue prior notification >= 30 days before first flight, (3) conduct structured feedback collection (survey, workshop, open forum), (4) document response to all feedback (acceptance, mitigation, or rejection with rationale)."
+      },
+      {
+        "risk": "REQ017 (Public Engagement) has no user story and is explicitly absent from requirements spec. Indicates regulatory deprioritization of public engagement.",
+        "probability": "high",
+        "impact": "medium",
+        "mitigation": "CAA explicitly elevate public engagement to mandatory authorization criterion (not optional). Link to CAP 1616 and social-license risk. Publish public-engagement KPI as part of trial authorization dashboard."
+      },
+      {
+        "risk": "Noise and safety concerns from residents can trigger media campaign against trial. Inadequate engagement leads to misinformation spiral and community opposition.",
+        "probability": "medium",
+        "impact": "high",
+        "mitigation": "Proactive media strategy: (1) early notification to local media, (2) clear safety messaging (independent termination, geofence containment), (3) offer media site visits during trial, (4) publish incident-response protocols. Counter misinformation with fact-based communication."
+      }
+    ],
+    "value_of_value": "Social license and regulatory authorization. Without public engagement, community opposition can block trial approval (political pressure on CAA). Business impact: failure on public engagement is increasingly likely to trigger regulatory refusal or extended consultation timeline.",
+    "priority_rank": 15,
+    "priority_tier": "high",
+    "strategic_alignment": "Supports CAA BVLOS expansion and urban-logistics (priority). Prerequisite for trials in populated areas. Enables CAP 1616 compliance and GDPR data-protection obligations.",
+    "keystone_reference": "K13 (social license and community trust)",
+    "reasoning": "PublicEngagementCoverage is alarmingly low and deprioritized. Status (2 groups) vs Tolerable (5 groups) represents 3-group gap. REQ017 missing from requirements spec indicates regulatory blind spot. Swarm operations will generate significant public interest and concern; current engagement practices are inadequate. Trend is improving but dangerously slowly (0.5 groups/year).",
+    "analyst": "Raj",
+    "byline": "Background Analyst",
+    "component": "B",
+    "image_url": "https://openrequirements.ai/lovable-uploads/a0dcbe3e-5ffa-40f6-b429-bec941531d8f.png"
+  }
+]

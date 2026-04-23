@@ -1,0 +1,512 @@
+[
+  {
+    "value_tag": "PackCompleteness",
+    "type": "Vibe Requirement",
+    "ambition_level": "a complete Operational Authorisation pack",
+    "ambition_source": "REQ001 (requirements-221fbff5.csv)",
+    "source_req": "REQ001",
+    "defospam_finding_refs": [
+      "Dorothy-8: Complete used in two contexts with different implied meanings (CRITICAL)",
+      "Observation-1: REQ001 Incomplete pack rejection outcome undefined"
+    ],
+    "scale": "Percentage of submitted Operational Authorisation packs where all mandatory document types and sections for the classified operation type [OpType] are present and meet acceptance criteria on first Readiness Check, measured across [TimePeriod].",
+    "scale_parameters": {
+      "OpType": "operation-type classification (e.g., PDRA-01 VLOS, BVLOS Swarm SAIL-V, beyond-visual-line-of-sight autonomous swarm)",
+      "TimePeriod": "calendar quarter"
+    },
+    "sub_scales": [
+      "PackDocumentationCoverage - count of mandatory document types (ConOps, SORA, Safety Case, Training Plan, Personnel List, Environmental Assessment) present",
+      "PackSectionCompleteness - percentage of required sections within each document that contain substantive content (not placeholder)",
+      "PackAcceptanceCriteriaMet - count of document-type-specific acceptance gates passed"
+    ],
+    "unit": "percentage",
+    "scale_quality": {
+      "meaningful_numbers": true,
+      "domain_intelligible": true,
+      "stakeholder_reflective": true,
+      "unambiguous": true
+    },
+    "reasoning": "DeFOSPAM finding Dorothy-8 identified that complete has two distinct meanings in REQ001 vs REQ012 and lacks acceptance criteria. This Scale operationalizes complete for application intake (REQ001 context): a pack is complete if it contains all mandatory document types and meets substantive content criteria for the operation type. Confidence: 8.",
+    "analyst": "Alexa",
+    "byline": "Scale Analyst",
+    "component": "S",
+    "image_url": "https://openrequirements.ai/lovable-uploads/alexa-scales-001.png"
+  },
+  {
+    "value_tag": "SwarmAwareSORAEvidence",
+    "type": "Vibe Requirement",
+    "ambition_level": "swarm-aware SORA evidence",
+    "ambition_source": "REQ002 (requirements-221fbff5.csv)",
+    "source_req": "REQ002",
+    "defospam_finding_refs": [
+      "Dorothy-1: Critical term swarm-aware is undefined (CRITICAL)",
+      "Dorothy-6: Defensibly is undefined, vague success criterion for SORA setpoints (CRITICAL)"
+    ],
+    "scale": "Count of SORA risk evidence items that explicitly address swarm-specific failure modes. Target: >= 3 distinct items per aircraft establishing swarm-aware risk factors.",
+    "scale_parameters": {
+      "SwarmSize": "number of coordinated aircraft in the swarm (e.g., 3-aircraft formation)",
+      "RiskDomain": "hazard category (loss-of-separation, loss-of-control, loss-of-coordination, emergent-failure)"
+    },
+    "sub_scales": [
+      "SwarmInterdependencyEvidence - count of SORA items addressing failure cascades",
+      "EmergentBehaviorEvidence - count of SORA items addressing unintended collective behaviors",
+      "CoordinationMechanismEvidence - count of SORA items documenting de-confliction logic"
+    ],
+    "unit": "count of evidence items per aircraft",
+    "scale_quality": {
+      "meaningful_numbers": true,
+      "domain_intelligible": true,
+      "stakeholder_reflective": true,
+      "unambiguous": true
+    },
+    "reasoning": "DeFOSPAM finding Dorothy-1 flagged swarm-aware as undefined. This Scale defines swarm-aware SORA evidence operationally. Confidence: 8.",
+    "analyst": "Alexa",
+    "byline": "Scale Analyst",
+    "component": "S",
+    "image_url": "https://openrequirements.ai/lovable-uploads/alexa-scales-002.png"
+  },
+  {
+    "value_tag": "ConOpsClarity",
+    "type": "Vibe Requirement",
+    "ambition_level": "a clear ConOps and ODD",
+    "ambition_source": "REQ003 (requirements-221fbff5.csv)",
+    "source_req": "REQ003",
+    "defospam_finding_refs": [
+      "Dorothy-7: Worst-credible behaviour lacks credibility boundary definition (CRITICAL)"
+    ],
+    "scale": "Percentage of ConOps sections that explicitly define both nominal and worst-credible behavior boundaries for each operational phase [Phase], such that any two independent safety-case reviewers score the ConOps clarity identically.",
+    "scale_parameters": {
+      "Phase": "operational phase (takeoff, transit, loiter, encounter, landing, termination)",
+      "TimePeriod": "calendar quarter"
+    },
+    "sub_scales": [
+      "NominalBehaviorSpecification - percentage of phases where nominal behavior is documented with quantified parameters",
+      "WorstCredibleBoundaryDefinition - percentage of phases where worst-credible boundaries are explicitly stated",
+      "ReviewerAgreement - inter-rater reliability (kappa >= 0.8) of two independent reviewers scoring clarity"
+    ],
+    "unit": "percentage",
+    "scale_quality": {
+      "meaningful_numbers": true,
+      "domain_intelligible": true,
+      "stakeholder_reflective": true,
+      "unambiguous": true
+    },
+    "reasoning": "DeFOSPAM finding Dorothy-7 identified that worst-credible behaviour is ambiguous. This Scale operationalizes clear ConOps by requiring explicit boundaries. Confidence: 8.",
+    "analyst": "Alexa",
+    "byline": "Scale Analyst",
+    "component": "S",
+    "image_url": "https://openrequirements.ai/lovable-uploads/alexa-scales-003.png"
+  },
+  {
+    "value_tag": "GeofenceContainment",
+    "type": "Vibe Requirement",
+    "ambition_level": "automatic containment so that a fly-away cannot become uncontrolled BVLOS",
+    "ambition_source": "REQ005 (requirements-221fbff5.csv)",
+    "source_req": "REQ005",
+    "defospam_finding_refs": [
+      "Dorothy-3: Containment lacks design and verification criteria (CRITICAL)",
+      "Observation-2: REQ005 Geofence breach action outcome is unspecified (CRITICAL SAFETY)"
+    ],
+    "scale": "Percentage of simulated failure scenarios where the geofence logic correctly prevents boundary exceedance, measured across [NumScenarios] Monte Carlo trials spanning environmental ODD [OddBounds] and single/dual failure modes. Success threshold: >= 99.9% of trials result in zero boundary exceedance.",
+    "scale_parameters": {
+      "NumScenarios": "number of Monte Carlo simulation trials (e.g., 10,000)",
+      "OddBounds": "operational design domain environmental parameters (wind speed, GPS accuracy, GPS denial duration, barometric sensor failure)",
+      "FailureModes": "failure categories (C2 loss, GPS loss, altimeter failure, geofence logic failure, pilot override attempt)"
+    },
+    "sub_scales": [
+      "BoundaryTolerance - horizontal and vertical geofence boundary margin enforced",
+      "FailureModeCoverage - count of single and dual failure scenarios tested",
+      "SurvivalTime - mean time to containment after failure detection"
+    ],
+    "unit": "percentage",
+    "scale_quality": {
+      "meaningful_numbers": true,
+      "domain_intelligible": true,
+      "stakeholder_reflective": true,
+      "unambiguous": true
+    },
+    "reasoning": "DeFOSPAM findings flagged that containment lacks design criteria and failure mode specifications. This Scale operationalizes automatic containment via Monte Carlo evidence. Confidence: 9.",
+    "analyst": "Alexa",
+    "byline": "Scale Analyst",
+    "component": "S",
+    "image_url": "https://openrequirements.ai/lovable-uploads/alexa-scales-004.png"
+  },
+  {
+    "value_tag": "C2LinkResilience",
+    "type": "Vibe Requirement",
+    "ambition_level": "link loss is survivable and non-interfering",
+    "ambition_source": "REQ006 (requirements-221fbff5.csv)",
+    "source_req": "REQ006",
+    "defospam_finding_refs": [
+      "Dorothy-9: Link loss survivable lacks time and failure mode boundaries (CRITICAL)",
+      "Observation-4: REQ006 Link loss outcome undefined (failover vs. crew takeover vs. RTL)"
+    ],
+    "scale": "Time duration (seconds) for which loss of C2 link does not result in loss-of-separation or uncontrolled flight. Target: >= 30 seconds autonomous survival for loss-of-C2; >= 120 seconds if crew manual takeover is available.",
+    "scale_parameters": {
+      "LinkLossScenario": "failure mode (complete C2 loss, partial C2 degradation, inter-vehicle link loss, GPS+C2 combined loss)",
+      "TimePeriod": "calendar quarter of test evidence"
+    },
+    "sub_scales": [
+      "C2LossAutoSurvivalTime - seconds of autonomous flight safety after C2 loss",
+      "C2LossCrewTakeoverLatency - seconds available for crew to detect link loss and regain control",
+      "InterVehicleLinkLossBehavior - documented swarm response to inter-vehicle link loss",
+      "CombinedFailureSurvival - survival time when C2 and GPS are both unavailable"
+    ],
+    "unit": "seconds",
+    "scale_quality": {
+      "meaningful_numbers": true,
+      "domain_intelligible": true,
+      "stakeholder_reflective": true,
+      "unambiguous": true
+    },
+    "reasoning": "DeFOSPAM findings flagged that link loss survivable lacks time boundaries and survival strategy definition. This Scale operationalizes survivable by specifying time windows. Confidence: 8.",
+    "analyst": "Alexa",
+    "byline": "Scale Analyst",
+    "component": "S",
+    "image_url": "https://openrequirements.ai/lovable-uploads/alexa-scales-005.png"
+  },
+  {
+    "value_tag": "DAAPerformance",
+    "type": "Vibe Requirement",
+    "ambition_level": "cooperative and non-cooperative encounters resolved predictably",
+    "ambition_source": "REQ007 (requirements-221fbff5.csv)",
+    "source_req": "REQ007",
+    "defospam_finding_refs": [
+      "Observation-5: REQ007 Detect-and-avoid resolution action undefined (evasion strategy unspecified)"
+    ],
+    "scale": "Percentage of encounter scenarios where the DAA system resolution is consistent with pre-defined decision rules and results in loss-of-separation recovery within [RecoveryTime] seconds, without subsequent secondary conflicts, measured across [NumEncounters] test encounters.",
+    "scale_parameters": {
+      "EncounterType": "encounter class (cooperative with ADS-B-equipped aircraft, non-cooperative with radar-tracked aircraft, pop-up aircraft)",
+      "RecoveryTime": "time to achieve minimum safe separation (e.g., >= 500ft horizontal, >= 100ft vertical)",
+      "NumEncounters": "number of encounter test scenarios (e.g., >= 100)"
+    },
+    "sub_scales": [
+      "CooperativeEncounterResolution - percentage of encounters with ADS-B-equipped intruders where DAA resolution is predictable",
+      "NonCooperativeEncounterResolution - percentage of encounters with non-equipped intruders where DAA resolution follows pre-defined rules",
+      "SwarmCoordinationUponEncounter - percentage of encounters where swarm formation is maintained post-encounter",
+      "DecisionConsistency - inter-test consistency of DAA decisions (same encounter repeated; resolution must be identical >= 95%)"
+    ],
+    "unit": "percentage",
+    "scale_quality": {
+      "meaningful_numbers": true,
+      "domain_intelligible": true,
+      "stakeholder_reflective": true,
+      "unambiguous": true
+    },
+    "reasoning": "DeFOSPAM finding flagged that DAA resolution action is undefined. This Scale operationalizes predictably resolved by requiring consistent decisions, recovery achievement, no secondary conflicts, and decision consistency. Confidence: 8.",
+    "analyst": "Alexa",
+    "byline": "Scale Analyst",
+    "component": "S",
+    "image_url": "https://openrequirements.ai/lovable-uploads/alexa-scales-006.png"
+  },
+  {
+    "value_tag": "SwarmEmergentBoundedness",
+    "type": "Vibe Requirement",
+    "ambition_level": "airborne limits and emergent-behaviour evidence",
+    "ambition_source": "REQ008 (requirements-221fbff5.csv)",
+    "source_req": "REQ008",
+    "defospam_finding_refs": [
+      "Observation-6: REQ008 Emergent swarm behavior deviation - no specification of what happens when behavior deviates from assurance case"
+    ],
+    "scale": "Count of distinct emergent behaviors documented in the swarm decision-making architecture case, each with a defined boundary and a detection/recovery mechanism if boundary is exceeded. A swarm is bounded if: (1) >= 5 emergent behaviors are identified and bounded, (2) each boundary is quantified, (3) test evidence demonstrates the swarm stays within bounds in >= 95% of flight test hours.",
+    "scale_parameters": {
+      "EmergentBehavior": "collective swarm behavior not reducible to single-aircraft logic (formation geometry, coordinated maneuver, flocking, collective decision-making, swarm split/rejoin)",
+      "BoundaryDefinition": "quantified limits on behavior (e.g., formation tolerance +/- 10m, coordination latency <= 2 seconds)",
+      "TestEvidence": "flight test hours accumulating evidence of in-bounds behavior"
+    },
+    "sub_scales": [
+      "EmergentBehaviorInventory - count of distinct emergent behaviors identified and documented",
+      "BoundaryQuantification - percentage of identified emergent behaviors with quantified state limits and detection criteria",
+      "RecoveryCapability - count of out-of-bounds behaviors for which a recovery/abort action is pre-defined",
+      "TestCoverage - percentage of test flight hours where swarm operates within all defined bounds"
+    ],
+    "unit": "count of behaviors with boundaries",
+    "scale_quality": {
+      "meaningful_numbers": true,
+      "domain_intelligible": true,
+      "stakeholder_reflective": true,
+      "unambiguous": true
+    },
+    "reasoning": "DeFOSPAM finding flagged that emergent behavior deviation outcomes are undefined. This Scale operationalizes emergent-behaviour evidence by requiring explicit inventory of emergent behaviors, quantified boundaries for each, and test evidence. Confidence: 7.",
+    "analyst": "Alexa",
+    "byline": "Scale Analyst",
+    "component": "S",
+    "image_url": "https://openrequirements.ai/lovable-uploads/alexa-scales-007.png"
+  },
+  {
+    "value_tag": "MLForensicExplainability",
+    "type": "Vibe Requirement",
+    "ambition_level": "ML components are assurable and forensically explainable",
+    "ambition_source": "REQ009 (requirements-221fbff5.csv)",
+    "source_req": "REQ009",
+    "defospam_finding_refs": [
+      "Dorothy-4: Forensically explainable undefined; unrealistic standard may result (CRITICAL)",
+      "Observation-7: REQ009 ML explainability failure outcome undefined (decision override, logging, abort?)"
+    ],
+    "scale": "Percentage of safety-critical ML model decisions where the explainability evidence allows independent verification of the decision logic. Evidence sufficiency determined by model type: decision trees = 100% requirement; SVMs = feature importance + decision boundary; neural networks = saliency maps + LIME/SHAP with >= 80% decision-path coverage.",
+    "scale_parameters": {
+      "ModelType": "ML model category (decision-tree, linear-SVM, neural-network)",
+      "TestSet": "hold-out test dataset used to evaluate explainability (e.g., 500 representative decision cases)",
+      "SafetyCriticality": "usage context (safety-critical = affects loss-of-separation, termination; non-safety-critical = affects performance optimization)"
+    },
+    "sub_scales": [
+      "ModelTransparencyLevel - by-model-type explainability requirement",
+      "ReviewerReconstruction - percentage of test decisions where independent reviewers can reconstruct the decision",
+      "FrozenModelDocumentation - presence of frozen-model manifest (training data provenance, hyperparameters, validation performance)",
+      "DecisionLogging - presence of runtime logging capturing ML decision inputs, internal states, and explainability evidence"
+    ],
+    "unit": "percentage",
+    "scale_quality": {
+      "meaningful_numbers": true,
+      "domain_intelligible": true,
+      "stakeholder_reflective": true,
+      "unambiguous": true
+    },
+    "reasoning": "DeFOSPAM findings flagged that forensically explainable is unrealistic for neural networks but undefined for other model types. This Scale operationalizes forensically explainable pragmatically with model-type-specific approaches. Confidence: 8.",
+    "analyst": "Alexa",
+    "byline": "Scale Analyst",
+    "component": "S",
+    "image_url": "https://openrequirements.ai/lovable-uploads/alexa-scales-008.png"
+  },
+  {
+    "value_tag": "MeaningfulHumanControl",
+    "type": "Vibe Requirement",
+    "ambition_level": "meaningful human control demonstrated throughout",
+    "ambition_source": "REQ010 (requirements-221fbff5.csv)",
+    "source_req": "REQ010",
+    "defospam_finding_refs": [
+      "Dorothy-2: Meaningful human control lacks measurable definition (CRITICAL)",
+      "Observation-8: REQ010 Crew take-over fails - outcome when crew cannot regain manual control is undefined"
+    ],
+    "scale": "Composite score across four dimensions of human control, each scored 0-100: (1) SituationalAwareness: crew update frequency on swarm state (target >= 2Hz for nominal, >= 10Hz for off-nominal). (2) AuthorityPreservation: percentage of decisions requiring explicit crew authorization (target: 100% for irreversible decisions, >= 80% for reversible). (3) TakeoverLatency: seconds available for crew to regain control before unsafe state (target: >= 10 seconds). (4) WorkloadBounds: maximum concurrent events and duty cycle per hour (target: <= 3 concurrent alarms, <= 6 minutes active control per hour).",
+    "scale_parameters": {
+      "OperationalPhase": "mission phase (pre-flight, takeoff, transit, encounter, termination, recovery)",
+      "DecisionType": "decision category (irreversible such as flight termination, reversible such as re-routing, autonomous such as obstacle avoidance)"
+    },
+    "sub_scales": [
+      "SituationalAwarenessScore - [0-100] based on state update frequency and display comprehensiveness",
+      "AuthorityPreservationScore - [0-100] percentage of decisions requiring crew sign-off",
+      "TakeoverLatencyScore - [0-100] based on time available to regain control",
+      "WorkloadScore - [0-100] based on concurrent event load and duty cycle"
+    ],
+    "unit": "composite score [0-100]",
+    "scale_quality": {
+      "meaningful_numbers": true,
+      "domain_intelligible": true,
+      "stakeholder_reflective": true,
+      "unambiguous": true
+    },
+    "reasoning": "DeFOSPAM findings flagged that meaningful human control is inherently subjective and lacks measurable criteria. This Scale operationalizes meaningful by defining four measurable dimensions (awareness, authority, speed, workload) commonly used in human factors standards. Confidence: 8.",
+    "analyst": "Alexa",
+    "byline": "Scale Analyst",
+    "component": "S",
+    "image_url": "https://openrequirements.ai/lovable-uploads/alexa-scales-009.png"
+  },
+  {
+    "value_tag": "IndependentFlightTermination",
+    "type": "Vibe Requirement",
+    "ambition_level": "independent termination is effective in any off-nominal state",
+    "ambition_source": "REQ011 (requirements-221fbff5.csv)",
+    "source_req": "REQ011",
+    "defospam_finding_refs": [
+      "Observation-9: REQ011 Flight termination post-outcome sub-actions undefined (crew alert, ATSU notify, data preserve, recovery)"
+    ],
+    "scale": "Percentage of simulated off-nominal scenarios where independent flight termination is successfully triggered and executed within [TerminationTime], measured across [NumScenarios] failure and environmental scenarios. Success = swarm reaches safe configuration (motors off, drift ceased) without secondary hazards.",
+    "scale_parameters": {
+      "OffNominalScenario": "failure condition (loss of autonomy, loss of C2, loss of geofence, engine failure, collision threat, environmental extreme)",
+      "TerminationTime": "time from hazard detection to safe configuration (e.g., <= 10 seconds)",
+      "NumScenarios": "number of test scenarios (e.g., >= 50)"
+    },
+    "sub_scales": [
+      "TerminationTriggerReliability - percentage of scenarios where termination is correctly triggered",
+      "TerminationExecutionCompleteness - percentage of triggers that result in complete motor cutoff and safe configuration",
+      "PostTerminationActions - count of defined sub-actions after termination (crew alert, ATSU notification, data preservation, recovery)",
+      "EnvironmentalRobustness - termination success rate across environmental extremes within ODD bounds"
+    ],
+    "unit": "percentage",
+    "scale_quality": {
+      "meaningful_numbers": true,
+      "domain_intelligible": true,
+      "stakeholder_reflective": true,
+      "unambiguous": true
+    },
+    "reasoning": "DeFOSPAM finding flagged that flight termination outcomes are undefined beyond motor cutoff. This Scale operationalizes independent termination by requiring reliable trigger, complete execution, post-termination actions, and environmental robustness. Confidence: 8.",
+    "analyst": "Alexa",
+    "byline": "Scale Analyst",
+    "component": "S",
+    "image_url": "https://openrequirements.ai/lovable-uploads/alexa-scales-010.png"
+  },
+  {
+    "value_tag": "MORForensicCompleteness",
+    "type": "Vibe Requirement",
+    "ambition_level": "complete recorded evidence accepted MOR obligations",
+    "ambition_source": "REQ012 (requirements-221fbff5.csv)",
+    "source_req": "REQ012",
+    "defospam_finding_refs": [
+      "Dorothy-8: Complete used in two contexts with different implied meanings (REQ012 context: data logging)",
+      "Observation-10: REQ012 MOR trigger and action outcomes undefined (mandatory vs voluntary, timing, recipient)"
+    ],
+    "scale": "Percentage of incident events where a complete recorded evidence set is captured: all aircraft state variables sampled at >= 10Hz and logged for >= [RetentionTime] post-incident, with data integrity verified (no gaps > 100ms, checksums valid) and forensic provenance documented.",
+    "scale_parameters": {
+      "StateVariables": "required logging schema (position XYZ, velocity, acceleration, heading, engine status, autonomy mode, sensor inputs, crew inputs, system alerts)",
+      "SamplingRate": "minimum Hz (e.g., >= 10Hz for nominal state, >= 50Hz for high-frequency dynamics)",
+      "RetentionTime": "duration of post-incident data retention (e.g., until MOR investigation closes or 1 year, whichever is longer)",
+      "MORTrigger": "events that mandate MOR reporting (accident, serious incident, incident) per CAA definitions"
+    },
+    "sub_scales": [
+      "DataSchemaCoverage - count of required state variables captured",
+      "DataIntegrity - percentage of logged time intervals with valid data (no gaps > 100ms)",
+      "ForensicProvenance - presence of cryptographic hash, timestamp, source certification for each data file",
+      "RetentionCompliance - percentage of incidents where evidence is retained for full MOR investigation duration"
+    ],
+    "unit": "percentage",
+    "scale_quality": {
+      "meaningful_numbers": true,
+      "domain_intelligible": true,
+      "stakeholder_reflective": true,
+      "unambiguous": true
+    },
+    "reasoning": "DeFOSPAM finding distinguished complete in the MOR context (data logging) from REQ001 (application completeness). This Scale operationalizes complete recorded evidence by specifying data schema, sampling rate, integrity, and provenance. Confidence: 9.",
+    "analyst": "Alexa",
+    "byline": "Scale Analyst",
+    "component": "S",
+    "image_url": "https://openrequirements.ai/lovable-uploads/alexa-scales-011.png"
+  },
+  {
+    "value_tag": "CrewCompetencyEvidence",
+    "type": "Vibe Requirement",
+    "ambition_level": "evidenced competency",
+    "ambition_source": "REQ014 (requirements-221fbff5.csv)",
+    "source_req": "REQ014",
+    "defospam_finding_refs": [
+      "Implicit in REQ014: no DeFOSPAM finding, but scope requires quantification"
+    ],
+    "scale": "Count of documented competencies per crew member, each with evidence of demonstrated proficiency. For each operational role [Role], a crew member is competent if: (1) holds required certification [Certification], (2) completed role-specific training with documented pass/fail result, (3) demonstrated emergency procedure execution in simulation with >= 90% success rate, (4) logged >= [MinFlightHours] flight hours in similar operational conditions.",
+    "scale_parameters": {
+      "Role": "crew position (pilot, sensor operator, safety officer, mission commander)",
+      "Certification": "required license/endorsement (CAA UAS operator, swarm-operations endorsement, type rating)",
+      "MinFlightHours": "minimum logged hours in similar conditions (e.g., >= 50 hours for pilot, >= 20 for sensor operator)"
+    },
+    "sub_scales": [
+      "CertificationCoverage - count of crew members holding all required certifications",
+      "TrainingCompleteness - count of role-specific training courses completed with documented pass/fail",
+      "SimulationProficiency - percentage of emergency procedure simulations executed with >= 90% success",
+      "OperationalExperience - total flight hours logged in similar operational conditions"
+    ],
+    "unit": "count of documented competencies per crew member",
+    "scale_quality": {
+      "meaningful_numbers": true,
+      "domain_intelligible": true,
+      "stakeholder_reflective": true,
+      "unambiguous": true
+    },
+    "reasoning": "REQ014 uses evidenced competency without defining what evidence suffices. This Scale operationalizes competency via four converging criteria: certification, training, simulation, and experience. Confidence: 8.",
+    "analyst": "Alexa",
+    "byline": "Scale Analyst",
+    "component": "S",
+    "image_url": "https://openrequirements.ai/lovable-uploads/alexa-scales-012.png"
+  },
+  {
+    "value_tag": "CAAMAAApportionmentGapFreeness",
+    "type": "Vibe Requirement",
+    "ambition_level": "signed apportionment so that regulatory ownership is gap-free",
+    "ambition_source": "REQ015 (requirements-221fbff5.csv)",
+    "source_req": "REQ015",
+    "defospam_finding_refs": [
+      "Implicit in REQ015: no DeFOSPAM finding, but term gap-free requires quantification"
+    ],
+    "scale": "Percentage of safety-critical design and operational aspects covered by a signed CAA/MAA apportionment matrix, such that responsibility for each aspect is assigned to exactly one regulatory body, with no gaps (unassigned aspects) and no overlaps. Coverage target: >= 100% of hazards identified in SORA, >= 100% of design domains, >= 100% of operational domains.",
+    "scale_parameters": {
+      "Domain": "responsibility domain (design/build/test/authorize/monitor)",
+      "HazardCategory": "hazard type from SORA (loss-of-separation, loss-of-control, loss-of-link, environmental)",
+      "SignatoryStatus": "signature status of apportionment (both CAA and MAA signed, or pending)"
+    },
+    "sub_scales": [
+      "HazardCoverage - count of SORA hazards assigned to CAA or MAA in apportionment matrix",
+      "DesignDomainCoverage - count of design domains with assigned responsibility",
+      "OperationalDomainCoverage - count of operational domains with assigned responsibility",
+      "OverlapDetection - count of aspects assigned to both CAA and MAA (target: 0 overlaps)"
+    ],
+    "unit": "percentage",
+    "scale_quality": {
+      "meaningful_numbers": true,
+      "domain_intelligible": true,
+      "stakeholder_reflective": true,
+      "unambiguous": true
+    },
+    "reasoning": "Gap-free means every safety-critical aspect has a single point of responsibility. This Scale operationalizes gap-free apportionment by measuring coverage and conflict detection. Confidence: 8.",
+    "analyst": "Alexa",
+    "byline": "Scale Analyst",
+    "component": "S",
+    "image_url": "https://openrequirements.ai/lovable-uploads/alexa-scales-013.png"
+  },
+  {
+    "value_tag": "PhasedGateReversibility",
+    "type": "Vibe Requirement",
+    "ambition_level": "phased gates so that evidence builds progressively and is reversible",
+    "ambition_source": "REQ016 (requirements-221fbff5.csv)",
+    "source_req": "REQ016",
+    "defospam_finding_refs": [
+      "Observation-11: REQ016 Phased gate progression criteria undefined (trigger, data handling, re-entry procedure)"
+    ],
+    "scale": "Count of well-defined phased trial gates, where each gate has: (1) Clear Criterion: quantified evidence requirement. (2) Reversibility: documented procedure to exit the current phase if new evidence suggests unacceptable risk. (3) Data Immutability: all evidence data preserved and audit-logged so gates can be re-evaluated. (4) Re-entry Procedure: re-entry criteria and evidence refresh requirements defined.",
+    "scale_parameters": {
+      "PhaseLabel": "trial phase (e.g., phase-1-ground-test, phase-2-vlos-single-aircraft, phase-3-vlos-swarm, phase-4-bvlos-swarm)",
+      "GateCriterion": "evidence threshold for gate progression",
+      "ReversibilityScenario": "conditions triggering phase reversal (unexpected failure mode, environmental change, crew fatigue)"
+    },
+    "sub_scales": [
+      "GateCount - number of distinct phases with explicit gates (target: >= 4)",
+      "CriterionClarity - percentage of gates with quantified progression criteria",
+      "ReversibilityDocumentation - percentage of gates with documented exit criteria and phase-reversal procedures",
+      "DataImmutability - evidence that all phase data is preserved in write-once storage or audit-logged"
+    ],
+    "unit": "count of well-defined gates",
+    "scale_quality": {
+      "meaningful_numbers": true,
+      "domain_intelligible": true,
+      "stakeholder_reflective": true,
+      "unambiguous": true
+    },
+    "reasoning": "DeFOSPAM finding flagged that phased gates lack explicit progression criteria and reversibility procedures. This Scale operationalizes phased gates by requiring clear evidence thresholds, documented exit/reversal procedures, and immutable data. Confidence: 8.",
+    "analyst": "Alexa",
+    "byline": "Scale Analyst",
+    "component": "S",
+    "image_url": "https://openrequirements.ai/lovable-uploads/alexa-scales-014.png"
+  },
+  {
+    "value_tag": "PublicEngagementCoverage",
+    "type": "Vibe Requirement",
+    "ambition_level": "community consultation and media handling (absent-by-default)",
+    "ambition_source": "REQ017 (requirements-221fbff5.csv)",
+    "source_req": "REQ017",
+    "defospam_finding_refs": [
+      "Flo-10: Four Critical Features Have No User Story (REQ017-020)",
+      "Observation-12: REQ017 Public stakeholder engagement outcomes absent (NO USER STORY)"
+    ],
+    "scale": "Count of stakeholder groups engaged prior to trial authorization, with documented consultation evidence. Target: >= 5 stakeholder groups engaged (e.g., local residents, landowners, environmental, aviation community, local media). For each group, engagement completeness measured as: (1) Prior notification (timing >= [NotificationLeadTime] before flight). (2) Documented feedback collection (survey, workshop, or open forum). (3) Response to feedback (acceptance, mitigation, or documented rejection with rationale). (4) Residual concerns (unresolved issues logged and escalated if necessary).",
+    "scale_parameters": {
+      "StakeholderGroup": "community audience (residents within [Radius], landowners, environmental groups, aviation operators, media)",
+      "Radius": "geographic radius around trial area (e.g., 5km)",
+      "NotificationLeadTime": "advance notice before first flight (e.g., >= 30 days)"
+    },
+    "sub_scales": [
+      "StakeholderIdentification - count of stakeholder groups identified and engaged (target: >= 5)",
+      "PriorNotification - percentage of stakeholders receiving advance notice >= [NotificationLeadTime]",
+      "FeedbackCollection - count of distinct feedback mechanisms used and percentage of stakeholders responding",
+      "FeedbackResponseCoverage - percentage of feedback items receiving documented response"
+    ],
+    "unit": "count of engaged stakeholder groups",
+    "scale_quality": {
+      "meaningful_numbers": true,
+      "domain_intelligible": true,
+      "stakeholder_reflective": true,
+      "unambiguous": true
+    },
+    "reasoning": "DeFOSPAM findings flagged that REQ017 (public engagement) has no user story and CAP 1616 compliance criteria are undefined. This Scale operationalizes community consultation by requiring stakeholder identification, prior notification, structured feedback collection, and documented response. Confidence: 7.",
+    "analyst": "Alexa",
+    "byline": "Scale Analyst",
+    "component": "S",
+    "image_url": "https://openrequirements.ai/lovable-uploads/alexa-scales-015.png"
+  }
+]
