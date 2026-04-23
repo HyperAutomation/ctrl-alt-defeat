@@ -107,7 +107,7 @@ function Index() {
             
             <a href="https://github.com/codespaces/probable-space-computing-machine-65w4xx69945hxqj?editor=web" target="_blank" rel="noopener noreferrer" className="hover:text-matrix transition-colors glitch">~/codespace</a>
             <a href="#repos" className="hover:text-matrix transition-colors glitch">~/REPOS</a>
-            <a href="#gallery" className="hover:text-matrix transition-colors glitch">~/gallery</a>
+            <a href="https://harvey-maintaining-nursing-sister.trycloudflare.com" target="_blank" rel="noopener noreferrer" className="hover:text-matrix transition-colors glitch">~/live</a>
             
           </div>
           <Link
