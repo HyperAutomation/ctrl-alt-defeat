@@ -147,6 +147,15 @@ function Index() {
             >
               <span>~/REPOS</span>
             </a>
+            <a
+              href="/decks/TE-COI-Hackathon.pptx"
+              target="_blank"
+              rel="noopener noreferrer"
+              download
+              className="inline-flex items-center gap-3 px-6 py-3 border border-matrix/50 text-matrix font-display tracking-widest text-sm uppercase rounded-sm hover:bg-matrix/10 transition-colors glitch"
+            >
+              ► AI Deck
+            </a>
             <Link
               to="/user-story"
               className="inline-flex items-center gap-3 px-6 py-3 border border-matrix/50 text-matrix font-display tracking-widest text-sm uppercase rounded-sm hover:bg-matrix/10 transition-colors glitch"
