@@ -1,0 +1,982 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>IEEE 830 SRS — Naval USV Perception PSRQ</title><style>
+:root{--bg:#0b0f1a;--panel:#131a2c;--panel2:#1a2240;--ink:#e6ecff;--mute:#9aa7cf;--accent:#4cc9f0;--gold:#f0c060;--pass:#3cd685;--warn:#f0b040;--fail:#f07070;--crit:#ff6b6b;--major:#f0b040;--minor:#7ad1ff;--border:#2a355f}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+.wrap{max-width:1220px;margin:0 auto;padding:28px}
+.header{background:linear-gradient(135deg,#0e1530,#1a2550);border:1px solid var(--border);border-radius:12px;padding:28px;margin-bottom:24px}
+.header h1{margin:0 0 4px 0;font-size:26px}.header h2{margin:0;color:var(--mute);font-weight:500;font-size:16px}
+.badge{display:inline-block;background:var(--panel2);border:1px solid var(--border);padding:4px 10px;border-radius:999px;font-size:12px;color:var(--mute);margin-right:6px;margin-top:10px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:20px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:14px}
+.card .big{font-size:28px;font-weight:700;margin:4px 0 2px}
+.card .lab{color:var(--mute);font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.sec{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:20px 22px;margin-bottom:20px}
+.sec h3{margin-top:0;border-bottom:1px solid var(--border);padding-bottom:8px}
+.nav{position:sticky;top:0;background:var(--bg);padding:8px 0;margin-bottom:18px;border-bottom:1px solid var(--border);z-index:10}
+.nav a{color:var(--accent);text-decoration:none;margin-right:14px;font-size:14px}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:14px}
+th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+th{background:var(--panel2);color:var(--mute);text-transform:uppercase;font-size:11px;letter-spacing:.05em}
+tr:hover{background:#182043}
+.score{display:flex;align-items:center;gap:10px}
+.score-bar{flex:1;height:10px;background:#222b4d;border-radius:6px;overflow:hidden}
+.score-fill{height:100%}
+.s-pass{background:var(--pass)}.s-warn{background:var(--warn)}.s-fail{background:var(--fail)}
+.chip{display:inline-block;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.chip.crit{background:#3a1424;color:#ff9db3;border:1px solid #7a2340}
+.chip.major{background:#3a2a12;color:#f7c37d;border:1px solid #7a5020}
+.chip.minor{background:#12283a;color:#8ccbf0;border:1px solid #254a6f}
+.chip.pass{background:#103027;color:#7de3b5;border:1px solid #1f6a50}
+.chip.warn{background:#3a2a12;color:#f7c37d;border:1px solid #7a5020}
+.chip.fail{background:#3a1424;color:#ff9db3;border:1px solid #7a2340}
+.chip.ess{background:#3a1424;color:#ff9db3}
+.chip.cond{background:#3a2a12;color:#f7c37d}
+.chip.opt{background:#12283a;color:#8ccbf0}
+.req{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin:10px 0}
+.req h4{margin:0 0 6px 0;font-size:15px}
+.req .meta{color:var(--mute);font-size:12px;margin-bottom:6px}
+.req .story{color:#cfd8ff;font-style:italic;margin:8px 0;padding:8px 12px;border-left:3px solid var(--accent);background:#0e1530;border-radius:4px}
+.req .stmt{margin:8px 0}
+.req ul{margin:6px 0 6px 20px;padding:0}
+.finding{border-left:4px solid var(--border);padding:10px 14px;margin:8px 0;background:#0f1530;border-radius:6px}
+.finding.crit{border-color:var(--crit)}.finding.major{border-color:var(--major)}.finding.minor{border-color:var(--minor)}
+.finding .title{font-weight:600;margin-bottom:3px}
+.finding .src{color:var(--mute);font-size:12px;margin-bottom:6px}
+.filters{margin-bottom:10px}
+.filters button{background:var(--panel2);color:var(--ink);border:1px solid var(--border);border-radius:6px;padding:4px 12px;margin-right:4px;cursor:pointer;font-size:12px}
+.filters button:hover,.filters button.on{border-color:var(--accent);color:var(--accent)}
+.small{color:var(--mute);font-size:12px}
+footer{text-align:center;color:var(--mute);padding:24px;font-size:12px}
+</style></head><body>
+<div class="wrap">
+<div class="header">
+  <h1>IEEE 830 Software Requirements Specification</h1>
+  <h2>Naval USV Perception Stack · Robustness Qualification (PSRQ)</h2>
+  <div>
+    <span class="badge">Standard: IEEE Std 830-1998</span>
+    <span class="badge">Source: DeFOSPAM v1.0</span>
+    <span class="badge">Agents: 8</span>
+    <span class="badge">Generated 2026-04-22</span>
+  </div>
+</div>
+<div class="nav">
+  <a href="#scorecard">Scorecard</a>
+  <a href="#intro">1. Introduction</a>
+  <a href="#overall">2. Overall Description</a>
+  <a href="#specific">3. Specific Requirements</a>
+  <a href="#rtm">4. Traceability</a>
+  <a href="#coverage">Section Coverage</a>
+  <a href="#findings">Findings</a>
+  <a href="#glossary">Glossary</a>
+</div>
+
+<div class="grid">
+  <div class="card"><div class="lab">Requirements</div><div class="big">16</div><div class="small">Essential 13 · Conditional 3 · Optional 0</div></div>
+  <div class="card"><div class="lab">Findings</div><div class="big">98</div><div class="small"><span class="chip crit">29 crit</span> <span class="chip major">60 maj</span> <span class="chip minor">9 min</span></div></div>
+  <div class="card"><div class="lab">Overall Quality</div><div class="big">55%</div><div class="small">across 8 IEEE 830 characteristics</div></div>
+  <div class="card"><div class="lab">Section Coverage</div><div class="big">4/18</div><div class="small">8 partial · 6 empty</div></div>
+</div>
+
+<div class="sec" id="scorecard"><h3>IEEE 830 Quality Scorecard</h3>
+<table><thead><tr><th>Characteristic</th><th>Analyst</th><th>Score</th><th>Status</th><th>Findings</th></tr></thead><tbody>
+<tr><td><b>Correct</b></td><td>Chelcie</td><td><div class='score'><div class='score-bar'><div class='score-fill s-warn' style='width:70%'></div></div><b>70%</b></div></td><td><span class='chip warn'>warn</span></td><td>12</td></tr>
+<tr><td><b>Unambiguous</b></td><td>Odin</td><td><div class='score'><div class='score-bar'><div class='score-fill s-fail' style='width:34%'></div></div><b>34%</b></div></td><td><span class='chip fail'>fail</span></td><td>15</td></tr>
+<tr><td><b>Complete</b></td><td>Lucy</td><td><div class='score'><div class='score-bar'><div class='score-fill s-fail' style='width:44%'></div></div><b>44%</b></div></td><td><span class='chip fail'>fail</span></td><td>16</td></tr>
+<tr><td><b>Consistent</b></td><td>Ophellia</td><td><div class='score'><div class='score-bar'><div class='score-fill s-fail' style='width:61%'></div></div><b>61%</b></div></td><td><span class='chip fail'>fail</span></td><td>11</td></tr>
+<tr><td><b>Ranked</b></td><td>Natasha</td><td><div class='score'><div class='score-bar'><div class='score-fill s-fail' style='width:67%'></div></div><b>67%</b></div></td><td><span class='chip fail'>fail</span></td><td>8</td></tr>
+<tr><td><b>Verifiable</b></td><td>Iris</td><td><div class='score'><div class='score-bar'><div class='score-fill s-fail' style='width:43%'></div></div><b>43%</b></div></td><td><span class='chip fail'>fail</span></td><td>15</td></tr>
+<tr><td><b>Modifiable</b></td><td>Amelia</td><td><div class='score'><div class='score-bar'><div class='score-fill s-fail' style='width:58%'></div></div><b>58%</b></div></td><td><span class='chip fail'>fail</span></td><td>11</td></tr>
+<tr><td><b>Traceable</b></td><td>Lewis</td><td><div class='score'><div class='score-bar'><div class='score-fill s-fail' style='width:60%'></div></div><b>60%</b></div></td><td><span class='chip fail'>fail</span></td><td>10</td></tr>
+</tbody></table>
+</div>
+
+<div class="sec" id="intro"><h3>1. Introduction</h3>
+<h4>1.1 Purpose</h4>
+<p>Define an IEEE 830-compliant specification for the AI-assisted T&amp;E pipeline used to qualify perception stacks on Royal Navy USVs.</p>
+<h4>1.2 Scope</h4>
+<p>The system under specification is the Perception Stack Robustness Qualification (PSRQ): a 7-phase pipeline from requirements decomposition through in-service drift monitoring.</p>
+<h4>1.3 Definitions, Acronyms, and Abbreviations</h4>
+<p class="small">Glossary contains <b>55</b> verified terms — see the Glossary section below.</p>
+<h4>1.4 References</h4>
+<p class="small">IEEE Std 830-1998 · AMLAS · SACE · GSN · JSP 520 / JSP 936 / DEFSTAN 00-056 / RA 1600 · UK Defence AI Playbook · NATO STANAG 4297/4439/4496 · Article 36 Additional Protocol I · OpenRequirements.ai DeFOSPAM report (companion)</p>
+<h4>1.5 Overview</h4>
+<p>Sections 2–4 follow the IEEE 830 prototype outline. Section 3 is organised by PSRQ phase (functional hierarchy).</p>
+</div>
+
+<div class="sec" id="overall"><h3>2. Overall Description</h3>
+<h4>2.1 Product Perspective</h4>
+<p>PSRQ integrates with Dstl HAWC, MOD DAIS, Crown Hosting, naval ranges (BUTEC, Portland Harbour, Pentland Firth), and MLOps pipelines producing AMLAS evidence artefacts.</p>
+<h4>2.2 Product Functions (16 requirements)</h4>
+<p class="small">REQ-001 … REQ-016 — see Section 3 for details.</p>
+<h4>2.3 User Characteristics</h4>
+<p class="small">T&amp;E Engineers · Safety Engineers · Data Engineers · Verification Engineers · Test Architects · Threat Modellers · Assurance (Dstl, DAIC, York CfAA) · Human-on-the-loop operators · Article 36 legal · RAISO/DAU sign-off.</p>
+<h4>2.4 Constraints</h4>
+<ul><li>Classified-capable compute (MOD DAIS, AWS TS, Crown Hosting, Dstl HAWC)</li><li>Sovereign synthetic-data provenance policy</li><li>JSP 520, JSP 936, DEFSTAN 00-056, RA 1600 compliance</li><li>Article 36 legal review pathway</li><li>NATO STANAG 4297/4439/4496; AUKUS Pillar II</li></ul>
+<h4>2.5 Assumptions and Dependencies</h4>
+<ul><li>AUVLAB + AUKUS data-sharing agreements</li><li>Isaac Sim / VBS4 maritime stack available</li><li>Human-on-the-loop operating concept with defined escalation</li></ul>
+<h4>2.6 Apportioning of Requirements</h4>
+<p class="small">v1.0 15 · v1.1 1 · future 0</p>
+</div>
+
+<div class="sec" id="specific"><h3>3. Specific Requirements</h3>
+<p class="small">Scheme: <b>by functional hierarchy (PSRQ phases 1-7)</b>. Royal Navy USV perception programme flows through 7 sequential phases (Phase 1: Requirements Decomposition through Phase 7: In-Service Monitoring). Organizing Section 3 by phase aligns with programme lifecycle, supports Dstl audit traceability (monthly reports per phase gate), enables clear assignme</p>
+<h4 style='margin-top:18px'>Phase 1 - Requirements Decomposition</h4>
+<div class='req'><h4>REQ-001 — Automated requirements decomposition to test conditions</h4>
+<div class='meta'><span class='chip ess'>essential</span> <span class='small'>· MoSCoW: must_have · Stability: stable · Version: v1.0</span></div>
+<div class='stmt'><b>Shall statement.</b> The system shall provide a DeFOSPAM-based requirements decomposition tool that accepts ODD, safety, and mission requirements in structured markdown. The tool shall automatically: (1) parse requirements into atomic clauses, (2) map each clause to testable conditions using a 106-technique catalogue, (3) generate a traceability matrix linking each testable condition to a named requirement, (4) output results in AMLAS-compatible SACE XML. Success criterion: T&amp;E Engineer effort shall decrease from 10 engineer-days (manual decomposition baseline) to 2–3 engineer-days for a medium-scale USV perception stack (≤50 top-level requirements). All decomposition decisions shall be auditable (tool rationale logged for each row).</div>
+<div class='story'>As a T&amp;E Engineer, I want to automatically decompose ODD, safety and mission requirements into testable conditions, So that I can achieve 3–5× speedup in requirements analysis and open a traceable traceability matrix.</div>
+<div><b>Acceptance criteria.</b><ul><li><code>SCEN-001</code> — The system shall decompose an ODD requirement with 3+ environmental state boundaries within 10 minutes and output atomic clauses with traceability IDs within 15 minutes, 100% of the time, on a canonical set of 50+ top-level requirements. <span class='small'>(test; ≤15 min total time, 100% success rate)</span></li><li><code>SCEN-002</code> — The system shall generate a traceability matrix within 1 hour of requirements input, with ≥95% of atomic clauses linked to both a source requirement and an AMLAS technique ID, 100% of the time, across 3 independent test runs. <span class='small'>(inspection; ≥95% traceability coverage)</span></li><li><code>SCEN-003</code> — The system shall detect missing ODD sensor-mode specification within 5 minutes of requirement parsing and emit an exception flag in the decomposition audit log within 10 minutes, 100% of the time, with human clarification required and logged before proceeding. <span class='small'>(test; Exception detected ≤5 min, logged ≤10 min, 100% accuracy)</span></li></ul></div>
+<div class='small'><b>Source:</b> Section 7.1 · <b>Standards:</b> AMLAS, SACE, GSN · <b>Tests:</b> SCEN-001, SCEN-002, SCEN-003 · <b>Design:</b> Requirements decomposition service, DeFOSPAM parser</div>
+</div>
+<h4 style='margin-top:18px'>Phase 2 - Data Curation</h4>
+<div class='req'><h4>REQ-002 — Sensor log ingestion and real-world data curation</h4>
+<div class='meta'><span class='chip ess'>essential</span> <span class='small'>· MoSCoW: must_have · Stability: stable · Version: v1.0</span></div>
+<div class='stmt'><b>Shall statement.</b> The system shall ingest binary sensor logs (radar, camera, LiDAR, comms RF) from AUVLAB and classified Dstl sea-trial tapes via a versioned data pipeline. For each log: (1) extract timestamps, sensor type, ODD state (sea state, visibility, vessel class), (2) compute data quality metrics (signal-to-noise ratio, frame rate consistency, sensor health flags), (3) assign each log to an ODD cell in the declared envelope (≤4 key dimensions), (4) store log metadata in MLOps tracking system with git commit hash and SHA256 file hash for auditability. Success criterion: ≥228 ODD cells (out of 240 possible combinations) populated with ≥1 real log each by Phase 2 completion. All logs retained in classified archive per JSP 520.</div>
+<div class='story'>As a Data Engineer, I want to ingest and curate real sensor logs from AUVLAB, MOD sea-trial tapes, and UK maritime corpora, So that I can build an authoritative, classified-capable real-world baseline for model evaluation.</div>
+<div><b>Acceptance criteria.</b><ul><li><code>SCEN-026</code> — The system shall ingest ≥500 GB raw sensor data (AUVLAB corpus, 50,000+ frames, 4 sensor types, 20+ sea trials) within 24 hours, extract metadata (timestamp, sensor ID, ODD state) for 100% of frames, compute quality metrics (SNR, frame rate, sensor health flag <span class='small'>(test; Ingestion ≤24 h, 100% metadata extracted, ≥228/240 ODD cells populated)</span></li></ul></div>
+<div class='small'><b>Source:</b> Section 7.2 · <b>Standards:</b> AMLAS · <b>Tests:</b> SCEN-026 · <b>Design:</b> Sensor data ingestion pipeline, Data quality validator, Metadata extractor · <b>Depends on:</b> REQ-001</div>
+</div>
+<div class='req'><h4>REQ-003 — Synthetic sensor data generation for rare and adversarial conditions</h4>
+<div class='meta'><span class='chip ess'>essential</span> <span class='small'>· MoSCoW: must_have · Stability: volatile · Version: v1.0</span></div>
+<div class='stmt'><b>Shall statement.</b> The system shall generate synthetic sensor data (radar, camera, LiDAR imagery) for ODD cells not sufficiently populated by Phase 2 real data. Generation shall use: (1) Isaac Sim OR Unreal + VBS4 maritime (selected per sensor-fidelity trade-off), (2) NVIDIA TAO domain adaptation for object detection realism, (3) StyleGAN OR diffusion augmentation (selected per realism-vs-diversity trade-off). For each synthetic log: (1) preserve full provenance (tool versions, git commits, hyperparameters, seed, base dataset version, output SHA256), (2) embed provenance in SACE evidence template, (3) conduct visual QA: human reviewer certifies synthetic imagery is physics-plausible and ODD-representative. Success criterion: all 240 ODD cells populated by end of Phase 3. Synthetic data ratio ≥30% of Phase 4 test set (held-out real data ≥70%). All provenance metadata synced to Dstl classified archive within 24 hours of generation.</div>
+<div class='story'>As a Test Architect, I want to generate synthetic sensor data for rare events and adversarial conditions using NVIDIA TAO, StyleGAN, diffusion and maritime-specific rendering, So that I can achieve ≥95% ODD coverage without exhaustive physical trials.</div>
+<div><b>Acceptance criteria.</b><ul><li><code>SCEN-004</code> — The system shall generate ≥10,000 synthetic perturbed images within 24 hours from 1000 real seeds, with full provenance metadata (GAN version, seed, hyperparameters, output SHA256) logged for 100% of generated frames, stored in MLOps tracking system. <span class='small'>(test; ≤24 h generation, ≥10,000 frames, 100% provenance logged)</span></li><li><code>SCEN-005</code> — The system shall detect missing or incomplete provenance metadata and reject synthetic data batch within 5 minutes of ingestion attempt, blocking SACE linkage until full provenance chain (model version, seed, hyperparameters, approval signature) is provided an <span class='small'>(inspection; Rejection ≤5 min, 100% provenance validation before acceptance)</span></li><li><code>SCEN-006</code> — The system shall inpaint masked radar sectors (60° occlusion) within 5 minutes per frame, with inpainting hyperparameters (guidance scale, diffusion steps, random seed) logged and human SME validation (physics-plausible rating ≥4/5 on 5-point scale) achieved o <span class='small'>(test; Inpainting ≤5 min/frame, ≥95% physics-plausible, 100% hyperparameters logged)</span></li></ul></div>
+<div class='small'><b>Source:</b> Section 7.2 · <b>Standards:</b> AMLAS · <b>Tests:</b> SCEN-004, SCEN-005, SCEN-006 · <b>Design:</b> Synthetic data generator, StyleGAN service, Diffusion model trainer, Synthetic data provenance ledger · <b>Depends on:</b> REQ-002</div>
+</div>
+<h4 style='margin-top:18px'>Phase 3 - Verification</h4>
+<div class='req'><h4>REQ-004 — Model-layer accuracy and calibration evaluation</h4>
+<div class='meta'><span class='chip ess'>essential</span> <span class='small'>· MoSCoW: must_have · Stability: stable · Version: v1.0</span></div>
+<div class='stmt'><b>Shall statement.</b> The system shall conduct AMLAS Verification of the object-detection model in Phase 3 on held-out real and synthetic test sets. Verification shall measure: (1) object detection accuracy per class (vessel, buoy, small-object, small-contact, debris) as mAP@IoU=0.5 and mAP@IoU=0.75, (2) calibration error as ECE (Expected Calibration Error) on confidence scores, (3) performance stratified by ODD cell (sea state, visibility, vessel class) to identify weak regions. Success criteria: (a) mAP@IoU=0.5 ≥ 0.85 per class, (b) ECE ≤ 0.05 (confidence well-calibrated), (c) no class exhibits &gt;10% accuracy drop in rare ODD cells. All metrics computed on held-out test set (real logs, unseen during training). Results filed in SACE evidence template and reviewed by Dstl safety engineer before Phase 4 gate.</div>
+<div class='story'>As a Verification Engineer, I want to measure accuracy, calibration, and detection confidence on held-out real and synthetic test sets, So that I can quantify model-layer robustness before system-level integration.</div>
+<div><b>Acceptance criteria.</b><ul><li><code>SCEN-021</code> — The system shall measure model-layer accuracy on ≥5000-image held-out test set (real + synthetic, unseen during training) and pass if: (1) per-class mAP@IoU=0.5 ≥85% for all classes (vessel, buoy, small-object, small-contact, debris), (2) Expected Calibration  <span class='small'>(test; mAP ≥85% per class, ECE ≤0.05, accuracy drop ≤10 pp per ODD cell)</span></li><li><code>SCEN-022</code> — The system shall compare Phase 4 simulation accuracy to Phase 5 real-world trial accuracy for each ODD cell tested in both phases. If accuracy drops &gt;10 pp (e.g., 92% → 71%), a root-cause analysis shall be initiated and filed within 5 working days, document <span class='small'>(analysis; &gt;10 pp drop triggers RCA within 5 working days, 100% coverage)</span></li><li><code>SCEN-023</code> — The system shall measure Expected Calibration Error (ECE) on clean and adversarially perturbed test images (FGSM, PGD, C&amp;W with ε=0.1 and ε=0.2). Pass if ECE on perturbed images ≤0.20 (allowing some degradation). Fail and flag for investigation if ECE &gt; <span class='small'>(test; Perturbed ECE ≤0.20, fail if &gt;0.20, investigation triggered)</span></li></ul></div>
+<div class='small'><b>Source:</b> Section 7.3 · <b>Standards:</b> AMLAS, GSN · <b>Tests:</b> SCEN-021, SCEN-022, SCEN-023 · <b>Design:</b> Model evaluation framework, Accuracy metric calculator, Calibration scorer · <b>Depends on:</b> REQ-003</div>
+</div>
+<div class='req'><h4>REQ-005 — Adversarial robustness testing and bounds filing</h4>
+<div class='meta'><span class='chip ess'>essential</span> <span class='small'>· MoSCoW: must_have · Stability: moderate · Version: v1.0</span></div>
+<div class='stmt'><b>Shall statement.</b> The system shall conduct adversarial robustness testing in Phase 3 using Foolbox and CleverHans libraries. For each object class (vessel, buoy, small-object, small-contact, debris): (1) apply FGSM, PGD, and C&amp;W attacks with perturbation budgets 10% and 20% of pixel range, (2) measure accuracy drop under perturbation, (3) compute 95% confidence interval on degradation, (4) file bounds in SACE template (min/max accuracy under perturbation per class). Success criteria: (a) accuracy drop ≤20% under 10% perturbation, (b) accuracy drop ≤40% under 20% perturbation, (c) all bounds meet Navy-defined robustness margins. Bounds filed in MLOps evidence store by Phase 3 completion. Human approval by Dstl security engineer required before Phase 4 gate opens. Robustness testing shall be repeated on every model release (after retraining).</div>
+<div class='story'>As a Safety Engineer, I want to apply IBM ART, Foolbox and CleverHans to generate adversarial examples and file robustness bounds for every object class, So that I can demonstrate certified resilience to adversarial perception failures.</div>
+<div><b>Acceptance criteria.</b><ul><li><code>SCEN-007</code> — The system shall compute adversarial robustness bounds for each object class (vessel, buoy, small-object, small-contact, debris) under FGSM, PGD, and C&amp;W attacks at ε=0.1 and ε=0.2, and file bounds in SACE XML within 8 hours, with accuracy drop ≤20 pp at ε <span class='small'>(test; Accuracy drop ≤20 pp (ε=0.1), ≤40 pp (ε=0.2), all classes, &lt;8 h filing)</span></li><li><code>SCEN-008</code> — The system shall detect out-of-spec adversarial bounds (accuracy drop &gt;20 pp at ε=0.1 or &gt;40 pp at ε=0.2) and block SACE filing within 30 minutes of bounds computation, triggering a root-cause analysis investigation with resolution (model retraining, ODD <span class='small'>(test; Out-of-spec detection ≤30 min, RCA resolution ≤10 working days)</span></li><li><code>SCEN-009</code> — The system shall measure adversarial robustness in pairwise combinations of ODD conditions (fog + adversarial patch, rain + jamming, etc.) and accept bounds only if combined accuracy drop ≤40 pp for any class, 100% of the time, with all pairwise test results l <span class='small'>(test; Pairwise combined drop ≤40 pp, all combinations tested, 100% logged)</span></li></ul></div>
+<div class='small'><b>Source:</b> Section 7.3 · <b>Standards:</b> AMLAS, GSN · <b>Tests:</b> SCEN-007, SCEN-008, SCEN-009 · <b>Design:</b> Adversarial attack orchestrator, FGSM/PGD/C&amp;W attack engines, Robustness bounds reporter · <b>Depends on:</b> REQ-004</div>
+</div>
+<div class='req'><h4>REQ-006 — Red-teaming and adversarial scenario generation</h4>
+<div class='meta'><span class='chip cond'>conditional</span> <span class='small'>· MoSCoW: should_have · Stability: volatile · Version: v1.0</span></div>
+<div class='stmt'><b>Shall statement.</b> The system shall generate adversarial test scenarios in Phase 3 using Garak and PyRIT red-teaming frameworks to stress-test the perception stack. Scenarios shall include: (1) sensor spoofing (fake radar blips, camera glint), (2) denial-of-service (comms jamming, sensor blackout), (3) occlusion (dense fog, radar clutter spike), (4) object morphing (camouflaged vessels, floating debris mimicking contacts). For each scenario: (1) define ODD preconditions and attack vector, (2) render in Isaac Sim/Unreal digital twin, (3) capture model response (detection miss, false positive, confidence collapse), (4) log findings in adversarial scenario registry. Success criterion: ≥20 unique adversarial scenarios defined and tested. Scenarios that cause accuracy drop &gt;30% shall trigger investigation and potential ODD restriction or algorithm hardening. All scenarios auditable (tool config, seed, output checksum).</div>
+<div class='story'>As a Threat Modeller, I want to use Garak and PyRIT to red-team the perception stack with adversarial scenarios, So that I can identify edge cases and brittleness points before deployment.</div>
+<div><b>Acceptance criteria.</b><ul><li><code>SCEN-027</code> — The system shall execute ≥50 unique adversarial scenarios (spoofing, jamming, occlusion, morphing templates) using PyRIT red-teaming framework. For each scenario, log outcome (accuracy drop, decision time, false positives). Any scenario causing accuracy drop & <span class='small'>(test; ≥50 adversarial scenarios, &gt;30 pp drop triggers RCA ≤3 working days)</span></li><li><code>SCEN-028</code> — The system shall withstand LLM jailbreak attacks (Garak adversarial prompts, &#x27;ignore collision warnings&#x27; and similar) by validating and filtering all LLM outputs before action execution. Pass if LLM safeguard detects jailbreak and blocks unsafe recom <span class='small'>(test; Jailbreak detection ≤500 ms, 100% blocked, ≥10 attack scenarios tested)</span></li></ul></div>
+<div class='small'><b>Source:</b> Section 7.3 · <b>Standards:</b> AMLAS, GSN · <b>Tests:</b> SCEN-027, SCEN-028 · <b>Design:</b> Red-teaming orchestrator, PyRIT/Garak integration, Scenario generation engine · <b>Depends on:</b> REQ-005</div>
+</div>
+<div class='req'><h4>REQ-007 — Explainability and model interpretability reporting</h4>
+<div class='meta'><span class='chip cond'>conditional</span> <span class='small'>· MoSCoW: should_have · Stability: moderate · Version: v1.0</span></div>
+<div class='stmt'><b>Shall statement.</b> The system shall generate explainability reports in Phase 3 for the object-detection model using SHAP, LIME, and Grad-CAM. For each test sample (real or synthetic): (1) compute SHAP feature importance (which image regions drove detection decision), (2) compute attention maps via Grad-CAM (model salience), (3) analyze failure cases: when model missed or mis-classified, which features were absent or misleading. Reports shall include: (a) per-class feature importance ranking, (b) attention heatmaps overlaid on input images, (c) failure-mode clusters (e.g., &#x27;small objects in clutter&#x27; group). Success criterion: explainability audit trail for ≥95% of test samples. Reports filed in SACE evidence template. Human safety engineer shall review explainability findings and assess adequacy of feature space before Phase 4 gate. Any unexplained failure modes (&gt;5% of failure cases) shall trigger model re-training or ODD restriction.</div>
+<div class='story'>As a Certification Authority, I want to generate SHAP, LIME and Grad-CAM explanations for model decisions, So that I can audit and justify the perception stack&#x27;s behaviour to stakeholders and regulators.</div>
+<div><b>Acceptance criteria.</b><ul><li><code>SCEN-024</code> — The system shall generate explainability audit trails (SHAP + Grad-CAM) for ≥95% of all test failures (misclassifications + missed detections) on ≥5000-sample test set. A failure is &#x27;explained&#x27; if SHAP feature importance aligns with causal domain nar <span class='small'>(inspection; ≥95% failures explained, spurious features &lt;5%, SME audit 100%)</span></li><li><code>SCEN-025</code> — The system shall compute Grad-CAM attention heatmaps for all detection predictions and compare against safety-case feature claims (e.g., &#x27;collision risk detected via heading-angle&#x27;). If Grad-CAM saliency shows misalignment (attention on background cl <span class='small'>(inspection; Grad-CAM alignment audited for 100%, misalignment &gt;10% triggers investigation)</span></li></ul></div>
+<div class='small'><b>Source:</b> Section 7.3 · <b>Standards:</b> AMLAS, GSN · <b>Tests:</b> SCEN-024, SCEN-025 · <b>Design:</b> Explainability service, SHAP/LIME/Grad-CAM renderer · <b>Depends on:</b> REQ-006</div>
+</div>
+<div class='req'><h4>REQ-009 — OpenSCENARIO 2.0 and Scenic scenario definition and automation</h4>
+<div class='meta'><span class='chip cond'>conditional</span> <span class='small'>· MoSCoW: should_have · Stability: moderate · Version: v1.0</span></div>
+<div class='stmt'><b>Shall statement.</b> The system shall enable scenario authoring in Phase 3 via Scenic DSL (Python-based probabilistic scenario language) backed by OpenSCENARIO 2.0 executors (Isaac Sim, ROS Gazebo, AirSim). Scenario library shall cover ≥240 ODD cells (sea state, visibility, vessel class, speed combinations) with ≥1 scenario per cell. Scenario design throughput shall increase from baseline ~1 scenario/engineer-day (manual OpenSCENARIO XML) to ≥10 scenarios/engineer-day (AI-assisted Scenic templates + auto-compilation). Template library shall include: vessel-encounter scenarios, traffic regimes (fishing, merchant, nav-hazard), weather transitions, sensor-failure injection. Success criterion: ≥240 scenarios authored, compiled, and executed in Phase 3. Each scenario linked to one or more ODD cells via traceability matrix. Scenarios versioned in git with provenance (template ID, seed, generation date, executor). MLOps telemetry shall track scenario authoring velocity (scenarios/engineer-day).</div>
+<div class='story'>As a Scenario Architect, I want to define parametric test scenarios using OpenSCENARIO 2.0 and Scenic DSL, So that I can generate and vary 10× more scenarios per engineer-day than manual scripting allows.</div>
+<div><b>Acceptance criteria.</b><ul><li><code>SCEN-018</code> — The system shall generate ≥100 scenario variants via pairwise combinatorial coverage (all 2-way interaction pairs covered) from a Scenic script with ≥4 parametric factors (3–4 levels each), compile to OpenSCENARIO 2.0 format within 30 minutes, and execute the  <span class='small'>(test; ≥100 variants generated, ≤30 min compilation, ≤2 h full execution)</span></li><li><code>SCEN-019</code> — The system shall generate ≥18 scenarios (3 sea-states × 3 visibility levels × 2 sensors) via exhaustive 3-way coverage from Scenic script, compile to OpenSCENARIO 2.0 (Isaac Sim/Gazebo compatible) within 30 minutes, and verify all 18 parameter combinations are <span class='small'>(test; ≥18 scenarios generated, ≤30 min compilation, 100% 3-way coverage)</span></li><li><code>SCEN-020</code> — The system shall execute scenarios from a Scenic script with ≥50 parametric factors (5+ dimensions, 3–4 levels per factor) within 4 hours, or gracefully timeout with a completion report (scenarios rendered / total scheduled) after 4 hours, 100% of the time. Pa <span class='small'>(test; Complete ≤4 h OR graceful timeout with ≥10% completion, full logging)</span></li></ul></div>
+<div class='small'><b>Source:</b> Section 7.4 · <b>Standards:</b> AMLAS, JSP 520, JSP 936 · <b>Tests:</b> SCEN-018, SCEN-019, SCEN-020 · <b>Design:</b> Scenario compiler, Scenic-to-OpenSCENARIO transpiler, Parametric scenario generator · <b>Depends on:</b> REQ-008</div>
+</div>
+<h4 style='margin-top:18px'>Phase 4 - Validation</h4>
+<div class='req'><h4>REQ-008 — Hardware-in-the-loop and digital-twin system evaluation</h4>
+<div class='meta'><span class='chip ess'>essential</span> <span class='small'>· MoSCoW: must_have · Stability: stable · Version: v1.0</span></div>
+<div class='stmt'><b>Shall statement.</b> The system shall conduct AMLAS Validation in Phase 4 via hardware-in-the-loop (HIL) and digital-twin simulation. HIL setup: real perception stack connected to simulated USV dynamics, maritime environment (Isaac Sim or ROS Gazebo), and synthetic sensor streams. Scenarios: (1) collision-avoidance reflexes (vessel approach, emergency stop), (2) human-on-the-loop handovers (operator override), (3) degraded-sensor modes (camera loss, radar clutter). For each scenario: (1) measure detection latency (≤500ms), (2) measure collision-avoidance decision time (≤1 second from threat detection to evasion command), (3) measure operator override response (human intervention &lt;2 seconds). Success criteria: (a) ≥98% of collision-avoidance scenarios avoid simulated collision, (b) latencies meet real-time constraints, (c) degraded-sensor modes trigger graceful fallback (increased caution). Simulation results (video, telemetry, event logs) filed in SACE evidence. Dstl safety engineer approval required before Phase 5 physical trials.</div>
+<div class='story'>As a System Integrator, I want to run closed-loop collision-avoidance scenarios in Isaac Sim, ROS Gazebo and AirSim, including human-on-the-loop handovers and degraded-sensor modes, So that I can validate the full decision stack before sea trials.</div>
+<div><b>Acceptance criteria.</b><ul><li><code>SCEN-010</code> — The system shall execute ≥50 collision-avoidance HIL scenarios in Isaac Sim/Gazebo and pass the scenario suite if: (1) ≥98% of scenarios avoid collision (measured as minimum separation distance &gt;0 m after evasion), (2) decision latency ≤1 second from threat <span class='small'>(test; ≥98% collision avoidance, ≤1 s latency, 100% success on 50 scenarios)</span></li><li><code>SCEN-011</code> — The system shall trigger human-on-the-loop handover request within 10 seconds of dual-sensor loss (GPS + LiDAR dropout &gt;30 s), and the operator shall respond and assume control within 2 seconds, 95% of the time, across ≥10 test scenarios. Each handover even <span class='small'>(test; Handover triggered ≤10 s, operator assumes control ≤2 s, 95% success on 10+ scenarios)</span></li><li><code>SCEN-012</code> — The system shall handle sensor dropout (single sensor offline ≤5 seconds) in high-complexity scenarios (≥3 objects) by re-acquiring contacts upon restoration within 3 seconds, with false-positive detection rate ≤5%, 100% of scenarios, and no undetected collisi <span class='small'>(test; Re-acquisition ≤3 s, FP rate ≤5%, 100% scenarios, no collisions)</span></li></ul></div>
+<div class='small'><b>Source:</b> Section 7.4 · <b>Standards:</b> AMLAS, JSP 520, JSP 936 · <b>Tests:</b> SCEN-010, SCEN-011, SCEN-012 · <b>Design:</b> HIL test executor, Isaac Sim/Gazebo bridge, Collision-avoidance validator · <b>Depends on:</b> REQ-007</div>
+</div>
+<h4 style='margin-top:18px'>Phase 5 - Real-World Validation</h4>
+<div class='req'><h4>REQ-010 — Targeted physical trial planning and weather-state validation</h4>
+<div class='meta'><span class='chip ess'>essential</span> <span class='small'>· MoSCoW: must_have · Stability: stable · Version: v1.0</span></div>
+<div class='stmt'><b>Shall statement.</b> The system shall plan targeted Phase 5 physical trials to validate ODD dimensions not fully anchored by Phase 4 simulation. Trial plan shall specify: (1) weather anchors (Beaufort sea states 3–4, rain, fog; conducted at BUTEC or Pentland Firth), (2) littoral traffic anchors (UK shipping corridors; encounter rates, vessel types per local data), (3) sensor drift anchors (post-deployment, hardware aging). Trial success criteria: (a) ≥3 real-world sea-state conditions validated (minimum 2 hours on water per condition), (b) ≥5 real vessel encounters (fishing, merchant, nav-hazard) recorded and benchmarked against simulation predictions, (c) sensor drift measured on ≥3 environment variables over 30-day at-sea mission. Each physical trial shall produce: video, telemetry (perception outputs, collision-avoidance decisions), and comparison against Phase 4 digital-twin predictions. Sim-to-real gap (accuracy drop &gt;10%) triggers investigation: model retraining, ODD restriction, or trial repetition. All physical trial data retained in classified archive per JSP 520. Trials shall be completed before PSRQ Phase 6 (safety case finalization).</div>
+<div class='story'>As a Sea-Trial Manager, I want to plan targeted physical trials that anchor synthetic evidence to real weather, comms and UK-specific littoral traffic, So that I can close the sim-to-real gap and build confidence in the model generalization.</div>
+<div class='small'><b>Source:</b> Section 7.5 · <b>Standards:</b> AMLAS, Article 36 · <b>Design:</b> Physical trial planner, Weather state validator, Sensor calibration checker · <b>Depends on:</b> REQ-009</div>
+</div>
+<h4 style='margin-top:18px'>Phase 6 - Safety Case &amp; Documentation</h4>
+<div class='req'><h4>REQ-011 — AMLAS-structured evidence bundle and GSN safety case auto-generation</h4>
+<div class='meta'><span class='chip ess'>essential</span> <span class='small'>· MoSCoW: must_have · Stability: moderate · Version: v1.0</span></div>
+<div class='stmt'><b>Shall statement.</b> The system shall auto-generate an AMLAS-structured evidence bundle and GSN safety case draft in Phase 6 by consuming Phase 3–5 evidence artifacts (test results, adversarial bounds, simulation logs, physical trial data). Generated artifacts shall include: (1) AMLAS Activity Evidence Summary (AAES) table mapping each of 6 AMLAS activities to evidence items, (2) GSN safety case in D-Case Editor XML format (claims, evidence, strategies per UK Defence standards DEFSTAN 00-056 + JSP 520), (3) traceability matrix linking all test results to named ODD/safety/mission requirements. Success criterion: draft GSN generated within 2 working days post-Phase 5 completion. Draft shall be submitted to Dstl safety engineer for human approval. If approved: proceed to Phase 6 sign-off. If rejected: engineer remediates issues, system re-generates updated draft within 2 working days. After 2 rejection cycles: escalate to RAISO for exception. All GSN drafts (approved and rejected) retained in evidence store. Final approved GSN becomes the single source of truth for collision-avoidance safety argument.</div>
+<div class='story'>As a Safety Case Author, I want to auto-generate AMLAS-structured evidence bundles and draft GSN safety cases using AdvoCATE, D-Case Editor and LLM-GSN, So that I can reduce safety case drafting from weeks to days.</div>
+<div><b>Acceptance criteria.</b><ul><li><code>SCEN-016</code> — The system shall auto-generate a GSN draft (D-Case Editor XML) within 48 hours of Phase 5 completion, with ≥95% of top-level claims (goals) linked to ≥1 evidence item, zero broken traceability links, all 6 AMLAS activities represented in AAES table, and bidire <span class='small'>(inspection; ≥95% claims linked, 0 broken links, 6/6 AMLAS activities, &lt;48 h generation)</span></li><li><code>SCEN-017</code> — The system shall accept human rejection of auto-generated GSN claims and re-generate the rejected claim within 2 working days, with the corrected claim including the missing evidence link(s) identified by the reviewer. Re-generated claim shall pass approval re <span class='small'>(inspection; Re-generation ≤2 working days, 100% approval on iteration 2, full audit trail)</span></li></ul></div>
+<div class='small'><b>Source:</b> Section 7.6 · <b>Standards:</b> AMLAS, GSN, DEFSTAN 00-056, Article 36 · <b>Tests:</b> SCEN-016, SCEN-017 · <b>Design:</b> GSN auto-generator, D-Case Editor integration, Evidence bundler · <b>Depends on:</b> REQ-010</div>
+</div>
+<div class='req'><h4>REQ-012 — Article 36 legal review evidence export and compliance filing</h4>
+<div class='meta'><span class='chip ess'>essential</span> <span class='small'>· MoSCoW: must_have · Stability: stable · Version: v1.0</span></div>
+<div class='stmt'><b>Shall statement.</b> The system shall export safety-case evidence and GSN in Article 36 format in Phase 6 for submission to UK Defence legal office. Export shall include: (1) executive summary of autonomous collision-avoidance decision logic, (2) evidence of testing under ODD envelope (coverage ≥95%), (3) adversarial robustness bounds (accuracy maintained under perturbation), (4) operator override mechanisms and response times, (5) failure modes and mitigation strategies. Export format shall be human-readable PDF + machine-readable SACE XML. Legal review shall assess: (a) compliance with UK autonomous systems frameworks (JSP 520, Defence AI Playbook), (b) adequacy of human oversight and intervention points, (c) liability and attribution for autonomous decisions. Success criterion: export generated by Phase 6, submitted to Defence legal office by Phase 6 completion. Legal review approval gate must be passed before PSRQ sign-off and operational release. Export shall include audit trail (evidence provenance, test dates, approval signatures).</div>
+<div class='story'>As a Legal Reviewer, I want to export machine-readable evidence bundles for collision-avoidance behaviour and submit them for Article 36 review, So that I can ensure regulatory compliance and operational clearance.</div>
+<div class='small'><b>Source:</b> Section 7.6 · <b>Standards:</b> AMLAS, GSN, DEFSTAN 00-056, Article 36 · <b>Design:</b> Article 36 exporter, Legal evidence formatter, Compliance checker · <b>Depends on:</b> REQ-011</div>
+</div>
+<h4 style='margin-top:18px'>Phase 7 - Post-Deployment Monitoring</h4>
+<div class='req'><h4>REQ-013 — Live drift detection and continuous monitoring</h4>
+<div class='meta'><span class='chip ess'>essential</span> <span class='small'>· MoSCoW: must_have · Stability: moderate · Version: v1.1</span></div>
+<div class='stmt'><b>Shall statement.</b> The system shall deploy live drift detection in Phase 7 (post-deployment) on 3 monitored environment variables: (1) Sea State (Beaufort scale, measured via radar backscatter correlation), (2) Visibility (optical fog density, contrast-normalized LiDAR range), (3) Sea-clutter magnitude (RCS dB, radar reference cell). Monitoring: (a) onboard USV computes drift scores every 5 minutes, (b) uploads batches (≤5MB) to Dstl classified evidence server at 6-hour intervals, (c) alert if any variable exceeds ±2σ band for ≥3 consecutive uploads (15-minute window). Upon drift alert: (1) log alert with timestamp and ODD state to evidence server, (2) notify Dstl re-qualification team lead via email within 1 hour, (3) downgrade model confidence in real-time (increase collision-avoidance margins), (4) auto-restrict ODD envelope (conservatively reduce declared operating range), (5) auto-suppress model deployment after 12 hours if no human override provided. Evidence server shall retain ≥30 days live drift telemetry + ≥1 year archive per JSP 520. Re-qualification process: Dstl assesses whether ODD restriction or model retraining required before deployment resumption. All drift logs auditable (timestamp, anomaly score, decision rationale).</div>
+<div class='story'>As an In-Service Monitor, I want to deploy live drift detection on ≥3 environment variables using Evidently AI, Alibi Detect and Arize, So that I can trigger re-qualification and model updates automatically post-deployment.</div>
+<div><b>Acceptance criteria.</b><ul><li><code>SCEN-013</code> — The system shall compute sea-state drift continuously (every 5 minutes) and emit a re-qualification alert within 15 minutes of detecting ≥3 consecutive measurements exceeding baseline ±2σ band, with email notification to Dstl team lead within 1 hour, 100% of t <span class='small'>(test; Alert triggered ≤15 min of threshold crossing, email ≤1 h, FP rate &lt;5%)</span></li><li><code>SCEN-014</code> — The system shall detect SLO threshold crossing (±10% band violation confirmed at 95% CI) for any of 3 ODD variables within 15 minutes of crossing, trigger SLO-yellow alert, and automatically increase collision-avoidance margins (safety buffer +250 m) within 5  <span class='small'>(test; Threshold detection ≤15 min, margin adjustment ≤5 min, 100% success)</span></li><li><code>SCEN-015</code> — The system shall auto-suppress model deployment (disable autonomous collision-avoidance, revert to manual-only operation) after 12 hours of unresolved SLO-red alert (no ODD restriction acknowledged), with auto-suppress decision logged in SACE evidence store. R <span class='small'>(test; Auto-suppress ≤12 h, 100% RAISO logging for override, no silent operation)</span></li></ul></div>
+<div class='small'><b>Source:</b> Section 7.7 · <b>Standards:</b> AMLAS, RA 1600 · <b>Tests:</b> SCEN-013, SCEN-014, SCEN-015 · <b>Design:</b> Drift monitor daemon, Evidently AI/Alibi Detect integration, Alert escalation service · <b>Depends on:</b> REQ-012</div>
+</div>
+<h4 style='margin-top:18px'>Phase 3-7 (Cross-Phase)</h4>
+<div class='req'><h4>REQ-014 — MLOps lineage and automated evidence store update on model change</h4>
+<div class='meta'><span class='chip ess'>essential</span> <span class='small'>· MoSCoW: must_have · Stability: moderate · Version: v1.0</span></div>
+<div class='stmt'><b>Shall statement.</b> The system shall implement MLOps lineage tracking in Phase 3–7 to maintain traceability of evidence artifacts to model versions. Lineage metadata shall include: (1) model version (git commit hash, training date, hyperparameters), (2) dataset version (sensor logs, synthetic batch, base dataset version), (3) evidence artifact ID (test run UUID, result timestamp, output file hash), (4) approval status (pending, approved, rejected, superseded). Lineage stored in MLOps database (MLflow, DVC, or Weights &amp; Biases) + synced to SACE evidence template. Upon model retraining (e.g., adversarial robustness bounds unmet post-deployment): (1) system auto-triggers Phase 3 re-evaluation, (2) new evidence artifacts generated, (3) old evidence marked &#x27;superseded&#x27; (not deleted), (4) AMLAS Activity Evidence Summary auto-updated, (5) GSN safety case re-generated with new evidence citations. Success criterion: all evidence artifacts linked to model version with ≤5-minute sync latency to Dstl evidence server. Model retrain-to-re-evidence-generation cycle completed within 5 working days. All evidence versions (current and historical) retained in archive for audit.</div>
+<div class='story'>As an MLOps Engineer, I want to track model lineage with MLflow, DVC and Weights &amp; Biases, and auto-update the evidence store when the model changes, So that I can maintain auditability and support continuous re-qualification.</div>
+<div class='small'><b>Source:</b> Section 7.7 · <b>Standards:</b> AMLAS, RA 1600 · <b>Design:</b> MLOps lineage tracker, MLflow/DVC bridge, Evidence store updater · <b>Depends on:</b> REQ-013</div>
+</div>
+<h4 style='margin-top:18px'>Phase 1-7 (Cross-Phase)</h4>
+<div class='req'><h4>REQ-015 — Role-based access control and classified data handling</h4>
+<div class='meta'><span class='chip ess'>essential</span> <span class='small'>· MoSCoW: must_have · Stability: stable · Version: v1.0</span></div>
+<div class='stmt'><b>Shall statement.</b> The system shall implement role-based access control (RBAC) and classified data protection in all phases. Access roles: (1) T&amp;E Engineer (reads/writes test configs, scenario definitions, artifact access), (2) Dstl safety engineer (approves evidence, signs off on GSN), (3) RAISO (override authority on exceptions), (4) NavyX operator (reads live drift alerts, can override auto-suppress). Classified data handling: (1) all real sensor logs, physical trial data, synthetic data with MOD lineage stored on MOD-accredited classified infrastructure (DAIS, Crown Hosting), (2) data-at-rest encryption per DEFSTAN 00-056, (3) data-in-transit encrypted over secured networks (approved for classified use), (4) export to external tools (Isaac Sim, NVIDIA TAO) only via approved data-sharing agreements with Dstl oversight. Success criteria: (a) all access logged in audit trail (actor, action, timestamp, data item), (b) no classified data exported without explicit Dstl approval, (c) unclassified synthetic data (no MOD lineage) shareable for publication/training. Role assignments and access logs reviewed monthly by Dstl security officer. Non-compliance triggers access revocation.</div>
+<div class='story'>As an Information Security Officer, I want to enforce role-based access to classified corpora, audit all data access, and ensure integration with MOD DAIS or Crown Hosting, So that I can maintain security classification and compliance with JSP 520.</div>
+<div class='small'><b>Source:</b> Section 10 · <b>Standards:</b> JSP 520, JSP 936, DEFSTAN 00-056, RA 1600, STANAG 4297, STANAG 4439, STANAG 4496, Article 36, UK Defence AI Playbook · <b>Design:</b> RBAC enforcer, Classified data vault, Access control audit logger · <b>Depends on:</b> REQ-014</div>
+</div>
+<div class='req'><h4>REQ-016 — CI/CD pipeline integration and AMLAS artefact traceability</h4>
+<div class='meta'><span class='chip ess'>essential</span> <span class='small'>· MoSCoW: must_have · Stability: moderate · Version: v1.0</span></div>
+<div class='stmt'><b>Shall statement.</b> The system shall integrate AMLAS artifact generation into the CI/CD pipeline (Kubeflow, Jenkins, or GitHub Actions) for automated traceability from requirement to deployment. Pipeline stages: (1) Requirement decomposition (Phase 1), (2) Data curation (Phase 2), (3) Model training + Phase 3 evaluation (accuracy, adversarial robustness, explainability), (4) Phase 4 HIL/digital-twin validation (automated, nightly), (5) Evidence aggregation into SACE XML, (6) GSN auto-generation, (7) Artifact versioning in MLOps database. Success criteria: (a) every model commit triggers automated Phase 3 evaluation, (b) results filed in evidence store within 4 hours, (c) Phase 4 HIL validation results available within 24 hours, (d) GSN updated automatically, (e) full audit trail of requirement → code change → test → evidence → approval maintained. Artifact retention: all SACE/GSN versions retained in classified archive indefinitely. Any Phase 3 gate failure (e.g., adversarial bounds unmet) blocks model deployment to production. Override authority (RAISO) required to proceed with out-of-spec model. Monthly traceability audits by Dstl to verify no evidence artifacts missed in the pipeline.</div>
+<div class='story'>As a DevOps Engineer, I want to integrate AMLAS artefact generation into the CI/CD pipeline with traceability to every requirement, So that I can automate evidence generation and maintain an auditable chain of custody.</div>
+<div class='small'><b>Source:</b> Section 10 · <b>Standards:</b> JSP 520, JSP 936, DEFSTAN 00-056, RA 1600, STANAG 4297, STANAG 4439, STANAG 4496, Article 36, UK Defence AI Playbook · <b>Design:</b> CI/CD orchestrator, Kubeflow/GitHub Actions bridge, AMLAS artefact gatekeeper · <b>Depends on:</b> REQ-015</div>
+</div>
+</div>
+
+<div class="sec" id="rtm"><h3>4.1 Requirements Traceability Matrix</h3>
+<table><thead><tr><th>REQ-ID</th><th>Title</th><th>Phase</th><th>Source</th><th>Priority</th><th>Tests</th><th>Standards</th></tr></thead><tbody>
+<tr><td><b>REQ-001</b></td><td>Automated requirements decomposition to test conditions</td><td>Phase 1 - Requirements Decomposition</td><td>Section 7.1</td><td><span class='chip ess'>must_have</span></td><td class='small'>SCEN-001, SCEN-002, SCEN-003</td><td class='small'>AMLAS, SACE, GSN</td></tr>
+<tr><td><b>REQ-002</b></td><td>Sensor log ingestion and real-world data curation</td><td>Phase 2 - Data Curation</td><td>Section 7.2</td><td><span class='chip ess'>must_have</span></td><td class='small'>SCEN-026</td><td class='small'>AMLAS</td></tr>
+<tr><td><b>REQ-003</b></td><td>Synthetic sensor data generation for rare and adversarial conditions</td><td>Phase 2 - Data Curation</td><td>Section 7.2</td><td><span class='chip ess'>must_have</span></td><td class='small'>SCEN-004, SCEN-005, SCEN-006</td><td class='small'>AMLAS</td></tr>
+<tr><td><b>REQ-004</b></td><td>Model-layer accuracy and calibration evaluation</td><td>Phase 3 - Verification</td><td>Section 7.3</td><td><span class='chip ess'>must_have</span></td><td class='small'>SCEN-021, SCEN-022, SCEN-023</td><td class='small'>AMLAS, GSN</td></tr>
+<tr><td><b>REQ-005</b></td><td>Adversarial robustness testing and bounds filing</td><td>Phase 3 - Verification</td><td>Section 7.3</td><td><span class='chip ess'>must_have</span></td><td class='small'>SCEN-007, SCEN-008, SCEN-009</td><td class='small'>AMLAS, GSN</td></tr>
+<tr><td><b>REQ-006</b></td><td>Red-teaming and adversarial scenario generation</td><td>Phase 3 - Verification</td><td>Section 7.3</td><td><span class='chip cond'>should_have</span></td><td class='small'>SCEN-027, SCEN-028</td><td class='small'>AMLAS, GSN</td></tr>
+<tr><td><b>REQ-007</b></td><td>Explainability and model interpretability reporting</td><td>Phase 3 - Verification</td><td>Section 7.3</td><td><span class='chip cond'>should_have</span></td><td class='small'>SCEN-024, SCEN-025</td><td class='small'>AMLAS, GSN</td></tr>
+<tr><td><b>REQ-008</b></td><td>Hardware-in-the-loop and digital-twin system evaluation</td><td>Phase 4 - Validation</td><td>Section 7.4</td><td><span class='chip ess'>must_have</span></td><td class='small'>SCEN-010, SCEN-011, SCEN-012</td><td class='small'>AMLAS, JSP 520, JSP 936</td></tr>
+<tr><td><b>REQ-009</b></td><td>OpenSCENARIO 2.0 and Scenic scenario definition and automation</td><td>Phase 3 - Verification</td><td>Section 7.4</td><td><span class='chip cond'>should_have</span></td><td class='small'>SCEN-018, SCEN-019, SCEN-020</td><td class='small'>AMLAS, JSP 520, JSP 936</td></tr>
+<tr><td><b>REQ-010</b></td><td>Targeted physical trial planning and weather-state validation</td><td>Phase 5 - Real-World Validation</td><td>Section 7.5</td><td><span class='chip ess'>must_have</span></td><td class='small'></td><td class='small'>AMLAS, Article 36</td></tr>
+<tr><td><b>REQ-011</b></td><td>AMLAS-structured evidence bundle and GSN safety case auto-generation</td><td>Phase 6 - Safety Case &amp; Documentation</td><td>Section 7.6</td><td><span class='chip ess'>must_have</span></td><td class='small'>SCEN-016, SCEN-017</td><td class='small'>AMLAS, GSN, DEFSTAN 00-056, Article 36</td></tr>
+<tr><td><b>REQ-012</b></td><td>Article 36 legal review evidence export and compliance filing</td><td>Phase 6 - Safety Case &amp; Documentation</td><td>Section 7.6</td><td><span class='chip ess'>must_have</span></td><td class='small'></td><td class='small'>AMLAS, GSN, DEFSTAN 00-056, Article 36</td></tr>
+<tr><td><b>REQ-013</b></td><td>Live drift detection and continuous monitoring</td><td>Phase 7 - Post-Deployment Monitoring</td><td>Section 7.7</td><td><span class='chip ess'>must_have</span></td><td class='small'>SCEN-013, SCEN-014, SCEN-015</td><td class='small'>AMLAS, RA 1600</td></tr>
+<tr><td><b>REQ-014</b></td><td>MLOps lineage and automated evidence store update on model change</td><td>Phase 3-7 (Cross-Phase)</td><td>Section 7.7</td><td><span class='chip ess'>must_have</span></td><td class='small'></td><td class='small'>AMLAS, RA 1600</td></tr>
+<tr><td><b>REQ-015</b></td><td>Role-based access control and classified data handling</td><td>Phase 1-7 (Cross-Phase)</td><td>Section 10</td><td><span class='chip ess'>must_have</span></td><td class='small'></td><td class='small'>JSP 520, JSP 936, DEFSTAN 00-056, RA 1600, STANAG 4297, STANAG 4439, STANAG 4496, Article 36, UK Defence AI Playbook</td></tr>
+<tr><td><b>REQ-016</b></td><td>CI/CD pipeline integration and AMLAS artefact traceability</td><td>Phase 1-7 (Cross-Phase)</td><td>Section 10</td><td><span class='chip ess'>must_have</span></td><td class='small'></td><td class='small'>JSP 520, JSP 936, DEFSTAN 00-056, RA 1600, STANAG 4297, STANAG 4439, STANAG 4496, Article 36, UK Defence AI Playbook</td></tr>
+</tbody></table>
+</div>
+
+<div class="sec" id="coverage"><h3>4.2 IEEE 830 Section Coverage</h3>
+<table><thead><tr><th>Section</th><th>Name</th><th>Status</th><th>Source</th><th>Gap Summary</th></tr></thead><tbody>
+<tr><td><b>1.1</b></td><td>Purpose</td><td><span class='chip pass'>populated</span></td><td class='small'>Input MD Section 1 (Epic) + Section 3 (Problem statement): &#x27;AI-assisted Test &amp; Evaluation of autonomous maritim</td><td class='small'>None — purpose clearly stated.</td></tr>
+<tr><td><b>1.2</b></td><td>Scope</td><td><span class='chip warn'>partial</span></td><td class='small'>Input MD Sections 1-7 outline 7 PSRQ phases (Requirements decomposition through In-service monitoring)</td><td class='small'>Scope covers lifecycle phases but does NOT specify: (a) excluded systems (e.g., does this exclude mission planning?), (b) geographic scope (UK-only? NATO partners?), (c) performanc</td></tr>
+<tr><td><b>1.3</b></td><td>Definitions, Acronyms, Abbreviations</td><td><span class='chip pass'>populated</span></td><td class='small'>DeFOSPAM glossary: 55 terms verified (AMLAS, ODD, SACE, GSN, PSRQ, etc.) + 18 unverified but referenced</td><td class='small'>Glossary strong. Minor: 18 terms (XLUUV, DAU, RAISO, etc.) marked &#x27;unverified&#x27; — recommend verification against UK Defence standards.</td></tr>
+<tr><td><b>1.4</b></td><td>References</td><td><span class='chip warn'>partial</span></td><td class='small'>Input MD references UK Defence standards (JSP 520, DEFSTAN 00-056, RA 1600) and AI tooling (Isaac Sim, TAO, Garak, etc.)</td><td class='small'>Key standards cited (JSP 520, Defence AI Playbook) but NOT formally listed with version numbers. Missing: (a) AMLAS source document (York CfAA reference), (b) OpenSCENARIO 2.0 spec</td></tr>
+<tr><td><b>1.5</b></td><td>Overview</td><td><span class='chip pass'>populated</span></td><td class='small'>Input MD Section 8 (&#x27;AI benefits expected&#x27;) outlines expected improvements (3-5× decomposition speed, 10× scen</td><td class='small'>Overview adequate. Minor: does not quantify cost/effort savings (ROI unknown).</td></tr>
+<tr><td><b>2.1</b></td><td>Product Perspective - System Interfaces</td><td><span class='chip fail'>empty</span></td><td class='small'>None. Features assume Isaac Sim/Gazebo/Unreal exist but do not specify interface contracts.</td><td class='small'>Critical gap: No specification of (a) Isaac Sim API binding (Gym? Simready?), (b) ROS 2 DDS interface schema, (c) AUVLAB hardware sensor-bench protocol, (d) comms interface to nava</td></tr>
+<tr><td><b>2.1.1</b></td><td>Product Perspective - User Interfaces</td><td><span class='chip warn'>partial</span></td><td class='small'>Feature 8 mentions &#x27;operator override &lt;2 seconds&#x27;, Feature 12 references &#x27;D-Case Editor XML&#x27;, Fea</td><td class='small'>Features describe workflows but do NOT specify UI/UX: (a) override interface design (button, touchscreen, voice?), (b) GSN authoring UI (form-based? Drag-drop?), (c) dashboard for </td></tr>
+<tr><td><b>2.1.2</b></td><td>Product Perspective - Hardware Interfaces</td><td><span class='chip fail'>empty</span></td><td class='small'>Features reference AUVLAB (MIT dataset) and &#x27;classified GPU compute&#x27; but do not specify hardware requirements.</td><td class='small'>Missing: (a) GPU specifications (NVIDIA A100? V100?), (b) classified-infrastructure specs (MOD DAIS SLA, Crown Hosting region), (c) sensor-bench hardware API (voltage, timing, sign</td></tr>
+<tr><td><b>2.1.3</b></td><td>Product Perspective - Software Interfaces</td><td><span class='chip warn'>partial</span></td><td class='small'>Features reference Isaac Sim, Gazebo, Unreal, NVIDIA TAO, Garak, D-Case Editor, MLflow (18 tools cited in input MD Secti</td><td class='small'>Tools listed but NO interface specifications: (a) API versions (Isaac Sim 4.0+? MLflow 2.0+?), (b) serialization formats (protobuf? JSON?), (c) error handling (timeout handling?), </td></tr>
+<tr><td><b>2.1.4</b></td><td>Product Perspective - Communications Interfaces</td><td><span class='chip fail'>empty</span></td><td class='small'>Features assume &#x27;classified evidence server&#x27; and &#x27;comms jamming&#x27; detection but do NOT specify comms </td><td class='small'>Missing: (a) network protocol (HTTP/S, gRPC, custom TCP?), (b) encryption (TLS 1.3? IPsec VPN?), (c) latency SLAs (drift alert delivery &lt;1 hour to Dstl), (d) bandwidth constrain</td></tr>
+<tr><td><b>2.1.5</b></td><td>Product Perspective - Memory Constraints</td><td><span class='chip fail'>empty</span></td><td class='small'>No mention of memory/storage constraints.</td><td class='small'>Missing: (a) model size (object-detection checkpoint MB), (b) evidence-store size (7-year archive, multi-PB scale?), (c) RAM for real-time inference (onboard USV? ground station?),</td></tr>
+<tr><td><b>2.1.6</b></td><td>Product Perspective - Operations</td><td><span class='chip warn'>partial</span></td><td class='small'>Features 5-16 describe evaluation and deployment workflows; Feature 14 specifies in-service drift monitoring.</td><td class='small'>Partial coverage: Features describe normal operation but missing: (a) backup/restore procedures, (b) disaster recovery (if classified server compromised, what happens?), (c) mainte</td></tr>
+<tr><td><b>2.1.7</b></td><td>Product Perspective - Site Adaptation</td><td><span class='chip fail'>empty</span></td><td class='small'>Features reference UK test ranges (BUTEC, Portland Harbour, Pentland Firth) but do NOT specify adaptation rules.</td><td class='small'>Missing: (a) site-specific ODD calibration (e.g., Pentland Firth tidal flow, Beaufort scale correlation), (b) local traffic models (UK shipping lanes different from other regions),</td></tr>
+<tr><td><b>2.2</b></td><td>Product Functions</td><td><span class='chip pass'>populated</span></td><td class='small'>16 features from Odin unambiguous SRS rewrite + input MD Section 9 (AI tools required)</td><td class='small'>16 features well-articulated with acceptance criteria. Minor: do not specify feature interactions (e.g., if synthetic data generation falls behind Phase 2 schedule, does Phase 3 de</td></tr>
+<tr><td><b>2.3</b></td><td>User Characteristics</td><td><span class='chip warn'>partial</span></td><td class='small'>Input MD Section 2 (&#x27;Principal T&amp;E Engineer, Navy Command working with Dstl&#x27;) + Features 1-16 assume T&amp</td><td class='small'>User roles identified but NOT characterized: (a) T&amp;E Engineer skill level (e.g., requires PhD in ML?), (b) Dstl safety engineer training in AMLAS (assumed vs explicit), (c) ope</td></tr>
+<tr><td><b>2.4</b></td><td>Constraints</td><td><span class='chip warn'>partial</span></td><td class='small'>Features reference classification (SECRET for sea-trial data per JSP 520), timeline (Phase 1-6 in 12 months assumed), bu</td><td class='small'>Constraints partially specified. Missing: (a) formal constraint hierarchy (hard vs soft), (b) cost budget, (c) schedule buffer (contingency for re-work), (d) data-residency rules (</td></tr>
+<tr><td><b>2.5</b></td><td>Assumptions and Dependencies</td><td><span class='chip warn'>partial</span></td><td class='small'>Input MD Section 10 lists &#x27;Non-AI enablers required&#x27; (GPU compute, test-range access, data-sharing agreements,</td><td class='small'>Major dependencies listed but NOT formalized: (a) no SLA for Dstl safety-engineer availability (assumed &lt;5 days per review, unspecified), (b) GPU availability (assumed &#x27;cla</td></tr>
+<tr><td><b>2.6</b></td><td>Apportioning of Requirements</td><td><span class='chip fail'>empty</span></td><td class='small'>Features describe system but do NOT allocate requirements to subsystems.</td><td class='small'>Missing: (a) allocation of object-detection accuracy requirements to model layer vs data-curation layer (which layer owns the 85% mAP target?), (b) latency budget allocation (500ms</td></tr>
+</tbody></table>
+</div>
+
+<div class="sec" id="findings"><h3>4.3 Quality Findings</h3>
+<div class='filters'>
+<button class='on' data-f='all'>All</button><button data-f='C_correct'>C (Correct)</button><button data-f='U'>U (Unambiguous)</button><button data-f='C_complete'>C (Complete)</button><button data-f='C_consistent'>C (Consistent)</button><button data-f='R'>R (Ranked)</button><button data-f='V'>V (Verifiable)</button><button data-f='M'>M (Modifiable)</button><button data-f='T'>T (Traceable)</button>
+</div>
+<div class='finding critical' data-k='R'>
+<div class='title'><span class='chip critical'>critical</span> Phase 7 decomposition incomplete: drift detection, alert escalation, and re-qualification triggering must separate into sub-features <span class='small'>· c=10</span></div>
+<div class='src'>Natasha — Ranking Analyst · R (Ranked)</div>
+<div>REQ-013 (Live drift detection) aggregates three distinct operational concerns: (1) drift metric computation on 3 environment variables (Beaufort scale, visibility, sea clutter), (2) multi-level alert escalation (local threshold breach → Dstl team notification → auto-suppress if unresolved within 12 hours), (3) downstream re-qualification triggering in MLOps pipeline. DeFOSPAM Phase 1 identified decomposition needed. These are separate contracts with different SLOs and governance approvals. Group</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Decompose REQ-013 into: REQ-013a (Drift metric computation), REQ-013b (Alert escalation and suppression SOP), REQ-013c (Re-qualification triggering and evidence auto-sync). Assign to v1.0 (drift sensing only, manual re-qualification), v1.1 (auto-escalation, auto-suppress), and v1.2 (full re-qualification pipeline). Clarify Dstl approval authority for each sub-feature. Update AMLAS Phase 7 decompos</div>
+</div>
+<div class='finding critical' data-k='R'>
+<div class='title'><span class='chip critical'>critical</span> No feature addresses &#x27;Data Lifecycle &amp; Compliance&#x27; (data retention, destruction, re-use policy for synthetic data) — critical gap for regulatory audit <span class='small'>· c=10</span></div>
+<div class='src'>Natasha — Ranking Analyst · R (Ranked)</div>
+<div>DeFOSPAM Phase 3 (Milarna) identified missing non-functional requirement: &#x27;Data lifecycle and evidence retention — no archival, destruction, or re-use policy for classified synthetic data.&#x27; No feature in the 16 explicitly addresses: (a) retention period for classified synthetic training/test data (how long kept on MOD DAIS/Crown Hosting?), (b) destruction SOP when model is retired, (c) re-use permissions across multiple USV programmes (can Programme A synthetic data be transferred to P</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Create new feature REQ-017 (Data Lifecycle &amp; Compliance Management): &#x27;The system shall define and enforce data retention, destruction, and re-use policies for classified synthetic training/test data and evidence artifacts. Policies shall include: (a) Retention: classified synthetic data retained ≤5 years per MOD DAIS/Crown Hosting policy, with extension authority (Dstl Security Officer). </div>
+</div>
+<div class='finding critical' data-k='M'>
+<div class='title'><span class='chip critical'>critical</span> Synthetic Data Provenance Chain Unverifiable Offline — Blocker for Phase 3 Qualification <span class='small'>· c=10</span></div>
+<div class='src'>Amelia — Modifiability Analyst · M (Modifiable)</div>
+<div>REQ-003 (synthetic data generation) and REQ-014 (MLOps lineage) are interdependent but not formally linked. REQ-003 mandates provenance logging (tool versions, git commits, hyperparameters, seeds). REQ-014 mandates MLOps lineage tracking (model version → dataset version → evidence ID). However, REQ-003 does NOT specify MLflow integration or database format. If synthetic data is generated offline (e.g., batch job in Isaac Sim), provenance metadata can drift or become unverifiable when re-imported</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Merge REQ-003 and REQ-014 into a unified &#x27;Provenance-Linked Synthetic Data Pipeline&#x27; requirement. Mandate that every synthetic frame is tagged with immutable provenance metadata (embedded in image EXIF or MLOps database row) before entering evidence store. Define schema for provenance (JSON or protobuf). Require deterministic seed initialization (git commit → seed → frame hash) so re-run</div>
+</div>
+<div class='finding critical' data-k='M'>
+<div class='title'><span class='chip critical'>critical</span> IEEE 830 Section 2 (Overall Description) Severely Underpopulated — Critical Interface &amp; Constraint Gaps <span class='small'>· c=10</span></div>
+<div class='src'>Amelia — Modifiability Analyst · M (Modifiable)</div>
+<div>Lucy&#x27;s coverage report flags 7 empty subsections in Section 2: 2.1 (System Interfaces), 2.1.2 (Hardware), 2.1.4 (Communications), 2.1.5 (Memory Constraints), 2.1.7 (Site Adaptation), 2.6 (Apportioning). Features describe functional behavior but do NOT specify: (a) Isaac Sim API binding schema, (b) ROS 2 DDS interface, (c) classified-data fabric (DAIS/Crown Hosting), (d) GPU hardware specs, (e) network protocols &amp; encryption, (f) memory/storage budgets, (g) subsystem allocation of accura</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Populate Section 2 with detailed subsections: 2.1.1–2.1.7 per IEEE 830 template. For each, trace to features that imply interface or constraint. For example: REQ-008 (HIL) implies Isaac Sim API spec (§2.1); REQ-015 (RBAC) implies classified-data fabric spec (§2.1.4); REQ-002 (sensor curation) implies data-ingestion interface schema (§2.1.1). Create interface control documents (ICDs) for Isaac Sim,</div>
+</div>
+<div class='finding critical' data-k='T'>
+<div class='title'><span class='chip critical'>critical</span> REQ-015 + REQ-016 are regulatory non-negotiables with zero flexibility <span class='small'>· c=10</span></div>
+<div class='src'>Lewis — Traceability Analyst · T (Traceable)</div>
+<div>RBAC (REQ-015) and CI/CD (REQ-016) are marked essential with stable, no CRITICAL findings. These are blocking gates: Dstl cannot approve evidence without RBAC compliance (DEFSTAN 00-056), and monthly audits require automated CI/CD traceability.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Prioritize REQ-015/016 infrastructure in sprints 1-2. Both must be live before Phase 2 data ingestion.</div>
+</div>
+<div class='finding critical' data-k='T'>
+<div class='title'><span class='chip critical'>critical</span> Dependency chain: REQ-001 → REQ-002/003 → REQ-004/005 → REQ-010 → REQ-011/012 forms critical path <span class='small'>· c=10</span></div>
+<div class='src'>Lewis — Traceability Analyst · T (Traceable)</div>
+<div>Phase sequencing is strict: Phase 1 decomposition (REQ-001) must complete before Phase 2 data curation (REQ-002/003); Phase 3 evaluation (REQ-004/005) requires Phase 2 data; Phase 5 validation (REQ-010) requires Phase 4 scenarios (REQ-008/009); Phase 6 evidence bundle (REQ-011/012) requires all prior phases. Any slip cascades.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Create Phase-level dependencies in CI/CD gating. Enforce serial execution of phase gates. Flag critical path in project plan: Phase 1 (T+30d) → Phase 2 (T+60d) → Phase 3 (T+90d) → Phase 4 (T+120d) → Phase 5 (T+150d) → Phase 6 (T+180d).</div>
+</div>
+<div class='finding critical' data-k='C_correct'>
+<div class='title'><span class='chip critical'>critical</span> Feature 15 incompletely specifies standards alignment scope <span class='small'>· c=9</span></div>
+<div class='src'>Chelcie — Correctness Analyst · C (Correct)</div>
+<div>Feature 15&#x27;s story mentions &#x27;integration with MOD DAIS and compliance with JSP 520&#x27;, but source Section 10 explicitly requires alignment with &#x27;JSP 520, JSP 936, DEFSTAN 00-056, RA 1600 and the UK Defence AI Playbook&#x27;. Feature omits four critical MOD standards and the Defence AI Playbook.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Update Feature 15 to explicitly cover all five compliance standards: JSP 520, JSP 936, DEFSTAN 00-056, RA 1600, and UK Defence AI Playbook.</div>
+</div>
+<div class='finding critical' data-k='C_correct'>
+<div class='title'><span class='chip critical'>critical</span> Feature 15 omits NATO STANAG standards alignment requirements <span class='small'>· c=9</span></div>
+<div class='src'>Chelcie — Correctness Analyst · C (Correct)</div>
+<div>Source explicitly states &#x27;NATO STANAG 4297 / 4439 / 4496 alignment; AUKUS Pillar II autonomy workstrand&#x27; as a non-AI enabler, but Feature 15 makes no mention of STANAG compliance. This is critical for international maritime interoperability.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Add explicit feature or acceptance criterion for NATO STANAG 4297/4439/4496 alignment, possibly as a separate feature or as expanded scope in Feature 15.</div>
+</div>
+<div class='finding critical' data-k='U'>
+<div class='title'><span class='chip critical'>critical</span> Vague temporal qualifier in deployment timeline <span class='small'>· c=9</span></div>
+<div class='src'>Odin — Ambiguity Analyst · U (Unambiguous)</div>
+<div>Safety-critical domain requires bounded timelines tied to review gates. &#x27;Days&#x27; is meaningless without minimum/maximum bounds and workday definition.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Define threshold: propose 5 working days to GSN draft approval is realistic for human review. Make it testable.</div>
+<div class='small'><b>Original:</b> GSN safety case drafting reduced from weeks to days</div><div class='small'><b>Rewrite:</b> The system shall auto-generate an AMLAS-structured GSN safety case draft that a qualified human reviewer can approve within 5 working days post-model qualification.</div>
+</div>
+<div class='finding critical' data-k='U'>
+<div class='title'><span class='chip critical'>critical</span> Undefined acceleration multiplier in requirements analysis <span class='small'>· c=9</span></div>
+<div class='src'>Odin — Ambiguity Analyst · U (Unambiguous)</div>
+<div>Multipliers are relative and depend on unmeasured baselines. PSRQ Phase 1 scope must be defined to make &#x27;3-5×&#x27; testable. Propose concrete before/after hours.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Establish baseline manual effort for Requirements decomposition (Phase 1) in hours, then measure achieved reduction. 10→3 engineer-days is reasonable for a medium-scale USV perception stack.</div>
+<div class='small'><b>Original:</b> Requirements decomposition sped up 3-5×</div><div class='small'><b>Rewrite:</b> The system shall reduce human effort to decompose ODD, safety, and mission requirements into Phase 1 testable conditions from an estimated 10 engineer-days (manual baseline) to 2–3 engineer-days via automated decomposition and traceability matrix generation.</div>
+</div>
+<div class='finding critical' data-k='U'>
+<div class='title'><span class='chip critical'>critical</span> Undefined list for &#x27;environment variables&#x27; in drift monitoring <span class='small'>· c=9</span></div>
+<div class='src'>Odin — Ambiguity Analyst · U (Unambiguous)</div>
+<div>Drift detection is a safety-critical post-deployment function. AMLAS requires measurable, repeatable monitoring. Undefined variables make it untestable and unverifiable.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Select 3 ODD dimensions most strongly correlated to perception error (sea state, visibility, clutter) and define measurement methods per variable. 5-frame window prevents transient noise from triggering false alarms.</div>
+<div class='small'><b>Original:</b> Drift monitors live on ≥ 3 environment variables post-deployment</div><div class='small'><b>Rewrite:</b> The system shall deploy live drift detection on these 3 environment variables: (1) Sea State (Beaufort scale 0–6, measured via radar backscatter), (2) Visibility (optical fog density, measured as contrast-normalized LiDAR range), (3) Sea-clutter magnitude (normalized RCS in dB, measured from co-located radar reference). Alert threshold: signal any variable exceeding historical ±2σ band for ≥5 cons</div>
+</div>
+<div class='finding critical' data-k='U'>
+<div class='title'><span class='chip critical'>critical</span> Passive voice obscures actor and trigger for robustness bounds filing <span class='small'>· c=9</span></div>
+<div class='src'>Odin — Ambiguity Analyst · U (Unambiguous)</div>
+<div>Passive voice in safety-critical contexts is a compliance risk. Actor, trigger, artifact format, and approval gate must be explicit to enable traceability and audit.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Define: actor (T&amp;E Engineer), trigger (Phase 3 completion), format (SACE template), approval (Dstl security engineer), gate (before Phase 4). Use Foolbox as the measurement standard.</div>
+<div class='small'><b>Original:</b> Adversarial robustness bounds filed for every class</div><div class='small'><b>Rewrite:</b> The T&amp;E Engineer shall file adversarial robustness bounds for every object class (vessel, buoy, swimmer, debris, small-object, small-contact) in the MLOps evidence store by Phase 3 completion. Bounds shall be formatted per SACE template (min-max accuracy under perturbation, tested via Foolbox, confidence interval ≥95%), and human-approved by Dstl security engineer before PSRQ Phase 4 gate.</div>
+</div>
+<div class='finding critical' data-k='U'>
+<div class='title'><span class='chip critical'>critical</span> Vague acceptance criterion &#x27;95% coverage&#x27; — coverage of which ODD dimensions? <span class='small'>· c=9</span></div>
+<div class='src'>Odin — Ambiguity Analyst · U (Unambiguous)</div>
+<div>Coverage metrics require well-defined denominators. Without specifying which ODD dimensions and how many discrete states per dimension, &#x27;95%&#x27; is unmeasurable. AMLAS requires evidence of ODD boundary closure.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Define ODD envelope explicitly as low-dimensional grid (4–5 key dimensions). Use grid-cell occupancy as coverage metric. 228/240 cells is realistic for Phase 2–3 effort.</div>
+<div class='small'><b>Original:</b> Coverage of declared ODD states ≥ 95 % (physics-accurate sim + synthetic data)</div><div class='small'><b>Rewrite:</b> The system shall cover ≥95% of the declared ODD envelope via combined physics-accurate simulation and synthetic data. ODD envelope is defined as all combinations of: (1) Sea State (Beaufort 0–4), (2) Visibility (contrast ratio 0.1–1.0), (3) Vessel Classes (fishing, merchant, nav-hazard, small-craft), (4) USV Speed (0–3 knots). Coverage measured by grid-cell occupancy: each (sea-state, visibility, </div>
+</div>
+<div class='finding critical' data-k='U'>
+<div class='title'><span class='chip critical'>critical</span> Synonym collision: &#x27;evaluation&#x27; vs. &#x27;validation&#x27; vs. &#x27;verification&#x27; — AMLAS-specific definitions required <span class='small'>· c=9</span></div>
+<div class='src'>Odin — Ambiguity Analyst · U (Unambiguous)</div>
+<div>AMLAS is prescriptive: Verification, Validation, and Fitness-for-use are distinct assurance activities with different evidence types. Using &#x27;evaluation&#x27; generically obscures which AMLAS activity produces which evidence artifact.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Replace generic &#x27;evaluation&#x27; with AMLAS terminology: Verification (Phase 3), Validation (Phase 4), Fitness-for-use (Phase 5). Map each phase to AMLAS Activity checklist. This ensures compliance-ready evidence traceability.</div>
+<div class='small'><b>Original:</b> Model-layer accuracy and calibration evaluation ... System-layer evaluation ... Real-world validation</div><div class='small'><b>Rewrite:</b> Phase 3 (Model-layer) shall conduct AMLAS Verification: measure object-detection accuracy, calibration error, and adversarial robustness on held-out test sets. Phase 4 (System-layer) shall conduct AMLAS Validation: measure closed-loop collision-avoidance performance in digital-twin ODD scenarios. Phase 5 (Physical trials) shall conduct AMLAS Fitness-for-use assessment: measure perception-stack per</div>
+</div>
+<div class='finding critical' data-k='C_complete'>
+<div class='title'><span class='chip critical'>critical</span> Missing performance and latency non-functional requirements <span class='small'>· c=9</span></div>
+<div class='src'>Lucy — Completeness Analyst · C (Complete)</div>
+<div>Feature 1 specifies &#x27;2-3 engineer-days&#x27; but not tool response time. Feature 14 specifies &#x27;1 hour&#x27; notification delay but not system detection latency. Feature 12 specifies &#x27;2 working days&#x27; for GSN generation but no SLA for the AI component (may be days vs hours).</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Add NFR section 3.2 with latency bounds: (i) requirements decomposition &lt;30 min for 50 requirements, (ii) synthetic data generation &lt;4 hours per 50 ODD cells, (iii) drift detection &lt;5 minutes, (iv) GSN auto-generation &lt;2 hours.</div>
+</div>
+<div class='finding critical' data-k='C_complete'>
+<div class='title'><span class='chip critical'>critical</span> Missing security and classified-data handling specifications <span class='small'>· c=9</span></div>
+<div class='src'>Lucy — Completeness Analyst · C (Complete)</div>
+<div>Input MD references JSP 520 (UK Defence security policy) and &#x27;classified AUKUS datasets&#x27; but requirements lack granularity on cryptographic standards, network segmentation, and incident escalation. Feature 16 says &#x27;DEFSTAN 00-056&#x27; compliance but does not specify which controls apply to which components.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Add Security Section 2.4.5 with: (i) classification matrix (ODD metadata = OFFICIAL, sensor logs = SECRET, synthetic data = OFFICIAL if no MOD lineage), (ii) encryption standard (AES-256 GCM for data at-rest and in-transit), (iii) data-residency rules, (iv) audit trail requirements (immutable log, 7-year retention), (v) GDPR/GDPR-UK impacts (sea-trial data may contain ship identifiers).</div>
+</div>
+<div class='finding critical' data-k='C_complete'>
+<div class='title'><span class='chip critical'>critical</span> Missing stakeholder governance, approval authorities, and escalation paths <span class='small'>· c=9</span></div>
+<div class='src'>Lucy — Completeness Analyst · C (Complete)</div>
+<div>Milarna identified &#x27;Stakeholder governance and sign-off authorities&#x27; as a major missing finding. Features assume a approval workflow (Phase 3 gate, Phase 4 gate, Phase 5 completion) but do not define the humans, decision criteria, or timelines.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Add Governance Section 2.3.1 (User Roles) and 2.5.2 (Decision Escalation) with: (i) RACI matrix (Dstl = Responsible, RAISO = Approve/Reject, NavyX = Consulted, Navy = Informed), (ii) approval SLAs (GSN review &lt;5 working days, legal review &lt;10 working days), (iii) escalation triggers (if adversarial robustness unmet, escalate to RAISO), (iv) override authority (RAISO can force deployment desp</div>
+</div>
+<div class='finding critical' data-k='C_complete'>
+<div class='title'><span class='chip critical'>critical</span> Missing deployment readiness gates and operational release criteria <span class='small'>· c=9</span></div>
+<div class='src'>Lucy — Completeness Analyst · C (Complete)</div>
+<div>Milarna identified &#x27;Release readiness criteria and deployment gates&#x27; as missing. Input MD lists phases but does not specify entry/exit criteria. This creates ambiguity for programme scheduling and risk management.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Add Phase Gates Section 2.5.3 with: (i) Phase 3→4 gate: mAP≥0.85 all classes AND ECE≤0.05 AND robustness bounds met AND explainability audit ≥95%, (ii) Phase 4→5 gate: latency ≤500ms AND ≥98% collision-avoid scenarios safe AND fallback modes tested, (iii) Phase 5→6 gate: ≥3 sea-state conditions tested AND sim-to-real accuracy gap ≤10% AND sensor-drift model validated, (iv) Phase 6→operational gate</div>
+</div>
+<div class='finding critical' data-k='C_consistent'>
+<div class='title'><span class='chip critical'>critical</span> Synthetic data provenance inconsistency between Phase 2 and Phase 6 <span class='small'>· c=9</span></div>
+<div class='src'>Ophellia — Consistency Analyst · C (Consistent)</div>
+<div>The input source (Section 10) mentions &#x27;Sovereign synthetic-data provenance policy&#x27; as a non-AI enabler, suggesting post-hoc adoption. Phase 2 feature does not explicitly state provenance capture during generation. DeFOSPAM identifies this as scenario exception but does not flag it as a Phase 2 requirement gap.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Elevate &#x27;Sovereign synthetic-data provenance policy&#x27; to a Phase 2 mandatory acceptance criterion; add lineage tracking to StyleGAN/diffusion generation steps; define what constitutes an &#x27;uncertified model snapshot&#x27;.</div>
+</div>
+<div class='finding critical' data-k='C_consistent'>
+<div class='title'><span class='chip critical'>critical</span> Mutual exclusion: &#x27;autonomous collision-avoidance&#x27; vs &#x27;human-on-the-loop handovers&#x27; <span class='small'>· c=9</span></div>
+<div class='src'>Ophellia — Consistency Analyst · C (Consistent)</div>
+<div>Scenario describes &#x27;human-on-the-loop handover triggered during degraded-sensor mode&#x27; — implying autonomous mode requires full sensor suite. But acceptance criterion and Section 10 list &#x27;human-on-the-loop operating concept with defined escalation&#x27; as standalone requirement, not conditional on sensor degradation. No explicit ODD boundary between autonomous and human-on-loop operation.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Define explicit operating modes: (a) Autonomous mode — conditions (sensor health, ODD bounds); (b) Handover mode — triggers and thresholds; (c) Fallback mode — if handover fails. Map each mode to Phase 4 test scenarios. Add acceptance criterion for mode-transition correctness.</div>
+</div>
+<div class='finding critical' data-k='R'>
+<div class='title'><span class='chip critical'>critical</span> Synthetic data provenance enforcement is missing from v1.0 scope: no hard gate blocks offline generation <span class='small'>· c=9</span></div>
+<div class='src'>Natasha — Ranking Analyst · R (Ranked)</div>
+<div>REQ-003 (Synthetic sensor data generation) specifies full provenance preservation and MLflow integration, but DeFOSPAM finding on &#x27;provenance chain unverifiable when offline generation omits lineage&#x27; (confidence 10, CRITICAL) indicates the enforcement mechanism is unclear. v1.0 lacks a hard gate in the evidence curation pipeline to reject synthetic batches without MLflow tracking. Without this gate, a team member could offline-generate 5000 images (uncertified model, no lineage) and at</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Define a hard validation gate in the evidence curation pipeline (Phase 2/3 boundary) that rejects synthetic batches missing: model ID, version, hyperparameters, seed, generation timestamp, CRC. Integrate this gate into the CI/CD pipeline (REQ-016). Add test case: &#x27;Given uncertified offline synthetic batch, when curation import is attempted, then import rejected with &#x27;synthetic-data-prove</div>
+</div>
+<div class='finding critical' data-k='V'>
+<div class='title'><span class='chip critical'>critical</span> Phase 2 representative data claim lacks ODD coverage definition <span class='small'>· c=9</span></div>
+<div class='src'>Iris — Verifiability Analyst · V (Verifiable)</div>
+<div>&#x27;Fully traced&#x27; is unbounded—it could mean &#x27;all logs have metadata&#x27; or &#x27;all ODD cells covered&#x27;. The requirement specifies ≥228/240 cells, which is quantified and verifiable. Without an explicit ODD envelope, the criterion cannot be binary.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Explicitly define the 4-dimensional ODD envelope (sea-state ∈ {Beaufort 2,3,4}, visibility ∈ {50 m, 200 m, 500 m}, etc.) in Phase 1 requirements. Lock the envelope definition before Phase 2 data ingestion.</div>
+<div class='small'><b>Original:</b> I can ensure Phase 2 datasets are representative and fully traced</div><div class='small'><b>Rewrite:</b> By Phase 2 completion, the system shall populate ≥228 out of 240 declared ODD cells (4 key dimensions: sea-state 2–4, visibility 3 bins, vessel-class 2 variants, sensor-mode 2–3 options) with ≥1 real sensor log each, all tagged with ODD metadata and SHA256 hash.</div>
+</div>
+<div class='finding critical' data-k='V'>
+<div class='title'><span class='chip critical'>critical</span> Adversarial robustness bounds reference undefined Navy baseline <span class='small'>· c=9</span></div>
+<div class='src'>Iris — Verifiability Analyst · V (Verifiable)</div>
+<div>&#x27;Navy-defined&#x27; is a forward reference to a non-existent specification. The requirement must either cite an existing Navy standard (not found in scope) or establish baseline limits in the SRS itself.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Create a separate Dstl/Navy robustness specification document (e.g., &#x27;RAN Perception Stack Robustness Baseline v1.0&#x27;) and reference it by version. Version this document and update the SRS requirement to cite the specific version.</div>
+<div class='small'><b>Original:</b> all bounds meet Navy-defined robustness margins</div><div class='small'><b>Rewrite:</b> Adversarial robustness bounds (accuracy degradation under FGSM, PGD, C&amp;W attacks with perturbation budgets 10% and 20%) shall be filed and reviewed against a pre-agreed Navy baseline. For now, bounds shall satisfy: (1) accuracy drop ≤20% under ε=0.1 (10% pixel range), (2) accuracy drop ≤40% under ε=0.2 (20% pixel range). These limits apply to all 5 object classes.</div>
+</div>
+<div class='finding critical' data-k='V'>
+<div class='title'><span class='chip critical'>critical</span> Article 36 legal review process lacks pass/fail criteria <span class='small'>· c=9</span></div>
+<div class='src'>Iris — Verifiability Analyst · V (Verifiable)</div>
+<div>Legal review is mandatory but criteria are vague (&#x27;adequacy of human oversight&#x27;). Pass/fail must be objective: compliance against a checklist (JSP 520), measurable human response time, and explicit liability assignment in design docs.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Create a &#x27;Legal Review Assessment Checklist&#x27; mapping JSP 520 + Defence AI Playbook requirements to the SRS features. Define PASS as ≥95% checklist items addressed, with cross-references to evidence artifacts (model card, test results, architecture doc).</div>
+<div class='small'><b>Original:</b> Legal review shall assess: (a) compliance with UK autonomous systems frameworks (JSP 520, Defence AI Playbook), (b) adequacy of human oversight and intervention points, (c) liability and attribution for autonomous decisions. Legal review approval gate must be passed before PSRQ sign-off</div><div class='small'><b>Rewrite:</b> Article 36 legal review shall assess three dimensions: (1) Regulatory Compliance: evidence bundle maps to all required JSP 520 + Defence AI Playbook checkpoints (list: model card, data provenance, robustness bounds, human handover points, failure modes). (2) Human Oversight: collision-avoidance stack includes human-in-the-loop override mechanism with response time &lt;2 s; all autonomous decisions</div>
+</div>
+<div class='finding critical' data-k='M'>
+<div class='title'><span class='chip critical'>critical</span> Organizational Scheme Mismatch: Features Scattered Across Phases Without Clear Section 3 Hierarchy <span class='small'>· c=9</span></div>
+<div class='src'>Amelia — Modifiability Analyst · M (Modifiable)</div>
+<div>16 features map naturally to 7 PSRQ phases (Phase 1-7), but current feature decomposition lacks formal hierarchical structure. REQ-001 (decomposition) belongs to Phase 1, REQ-002 (sensor curation) to Phase 2, REQ-011 (GSN auto-generation) to Phase 6. Without phase-based subsection structure (3.1–3.7), traceability is opaque and maintainability suffers. IEEE 830 Section 3 requires &#x27;Specific Requirements&#x27; organized by a coherent scheme; functional hierarchy (phase-based) is most natural </div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Adopt &#x27;by functional hierarchy (PSRQ phases)&#x27; as Section 3 organizational scheme. Create subsections 3.1 (Phase 1)–3.7 (Phase 7), assign REQ-IDs accordingly. Map requirements bidirectionally: requirement → phase → scenarios → acceptance criteria. This aligns with Dstl compliance and supports monthly audit traceability.</div>
+</div>
+<div class='finding critical' data-k='T'>
+<div class='title'><span class='chip critical'>critical</span> REQ-002 synthetic data provenance chain unverifiable offline (CRITICAL in Natasha ranking) <span class='small'>· c=9</span></div>
+<div class='src'>Lewis — Traceability Analyst · T (Traceable)</div>
+<div>REQ-003 (Synthetic data generation) carries CRITICAL finding re: provenance chain. MLflow tracking is non-negotiable blocker. Without REQ-014 (MLOps lineage), provenance is unauditable, blocking Dstl qualification.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Enforce MLflow + DVC tracking on ALL synthetic data jobs. Implement immutable hash store for provenance validation. Integrate in Phase 2 data-ingestion contract.</div>
+</div>
+<div class='finding critical' data-k='T'>
+<div class='title'><span class='chip critical'>critical</span> REQ-004 + REQ-005 metric definition blockers cascade to Phase 3 gate <span class='small'>· c=9</span></div>
+<div class='src'>Lewis — Traceability Analyst · T (Traceable)</div>
+<div>Natasha ranked REQ-004/005 as carrying CRITICAL findings (metric definition, test-set split). Without Navy sign-off on mAP threshold + adversarial epsilon bounds in Phase 1, Phase 3 verification cannot proceed.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Lock Phase 1 requirements outputs before Phase 2 data work begins. Create Dstl-approved metric charter in kickoff meeting.</div>
+</div>
+<div class='finding critical' data-k='U'>
+<div class='title'><span class='chip critical'>critical</span> Ambiguous scope of &#x27;most physical trials&#x27; <span class='small'>· c=8</span></div>
+<div class='src'>Odin — Ambiguity Analyst · U (Unambiguous)</div>
+<div>Safety assurance frameworks (AMLAS, SACE) require risk-driven allocation of simulation vs. real-world. &#x27;Most&#x27; is not a risk criterion. Must define which ODD dimensions require physical anchor tests.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Replace &#x27;most&#x27; with explicit list of scenarios requiring Phase 5 water trials. Recommend: weather, littoral traffic, sensor drift. All other ODD combinations can remain digital-twin validated.</div>
+<div class='small'><b>Original:</b> Closed-loop simulation replaces most physical trials</div><div class='small'><b>Rewrite:</b> The system shall generate synthetic closed-loop scenarios covering ODD envelope such that physical Phase 5 trials are limited to: (a) weather state validation (rain, fog, sea state &gt;3), (b) UK-specific littoral traffic regimes, and (c) sensor drift post-deployment anchoring. All other ODD combinations shall be validated via digital twin (Phase 4) simulation.</div>
+</div>
+<div class='finding critical' data-k='V'>
+<div class='title'><span class='chip critical'>critical</span> Synthetic data realism criterion lacks measurable validation threshold <span class='small'>· c=8</span></div>
+<div class='src'>Iris — Verifiability Analyst · V (Verifiable)</div>
+<div>&#x27;Physics-accurate&#x27; is qualitative. Realism can be measured via human perception studies (Likert scale) and ML-based distribution metrics (FID, LPIPS). Both are binary once thresholds are set.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Run human evaluation studies on a representative sample of synthetic data early in Phase 3. Use FID as a rapid, automated proxy for realism in CI/CD pipeline.</div>
+<div class='small'><b>Original:</b> physics-accurate synthetic sensor data</div><div class='small'><b>Rewrite:</b> Synthetic sensor data (radar echoes, camera images, LiDAR pointclouds) shall pass visual QA: human reviewer shall certify that ≥95% of synthetic frames are indistinguishable from real sensor data in ≥3 out of 4 ODD conditions (fog, calm sea, merchant traffic, daylight). Domain-adaptation realism score (LPIPS or FID) shall be ≤0.15 vs. real reference set.</div>
+</div>
+<div class='finding major' data-k='U'>
+<div class='title'><span class='chip major'>major</span> Passive voice in drift detection escalation — no defined escalation actor or SLA <span class='small'>· c=9</span></div>
+<div class='src'>Odin — Ambiguity Analyst · U (Unambiguous)</div>
+<div>Escalation latency is a safety property. Without an SLA and human actor, alarms can be missed or delayed. MLOps automation must enforce deterministic alert routing.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Define: 1-hour notification SLA, 12-hour auto-suppress if not overridden, re-qualification criteria (ODD restriction vs. model retrain). Make escalation actor explicit (Dstl team lead).</div>
+<div class='small'><b>Original:</b> Drift detection alarm raised and escalated to re-qualification team</div><div class='small'><b>Rewrite:</b> When the drift monitor detects any environment variable exceeding ±2σ band (Phase 7), the MLOps system shall: (1) log alert to evidence store, (2) notify Dstl re-qualification team lead via email within 1 hour, (3) auto-suppress model in-service use after 12 hours if human override not provided. Re-qualification shall assess whether ODD restrictions or model retraining are required before deployme</div>
+</div>
+<div class='finding major' data-k='U'>
+<div class='title'><span class='chip major'>major</span> Vague &#x27;continuous&#x27; in post-deployment monitoring — sampling frequency and retention policy undefined <span class='small'>· c=9</span></div>
+<div class='src'>Odin — Ambiguity Analyst · U (Unambiguous)</div>
+<div>&#x27;Continuous&#x27; in maritime autonomy is resource-constrained. Sampling frequency, communication latency, storage capacity, and archival must be specified. AMLAS and JSP 520 require audit trails.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Define: sampling (5-min onboard), upload (6-hour batches), retention (30-day live + 1-year archive), alert threshold (3 consecutive excursions), escalation (Dstl ops + confidence downgrade). Align with JSP 520 data governance.</div>
+<div class='small'><b>Original:</b> In-service drift monitoring replaces periodic re-qualification</div><div class='small'><b>Rewrite:</b> Post-deployment (Phase 7), the USV shall compute drift scores on the 3 monitored environment variables every 5 minutes (onboard) and upload batches (≤5MB) to the Dstl evidence server at 6-hour intervals over satellite/cellular link. Evidence server shall retain ≥30 days of drift telemetry. If any variable exceeds ±2σ band for ≥3 consecutive uploads (15 minutes), the system shall: (1) alert Dstl op</div>
+</div>
+<div class='finding major' data-k='C_complete'>
+<div class='title'><span class='chip major'>major</span> Missing error-condition and invalid-input handling specifications <span class='small'>· c=9</span></div>
+<div class='src'>Lucy — Completeness Analyst · C (Complete)</div>
+<div>IEEE 830 Section 3 requires explicit specification of error conditions. Features 2 (sensor ingestion), 3 (synthetic generation), and 9 (scenario authoring) ingest external data without defined validation, exception handling, or graceful degradation paths.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Add to each feature: (a) list of invalid-input types and rejection criteria, (b) error recovery procedures (retry logic, fallback pathways), (c) timeout behaviours for long-running operations (synthesis, training).</div>
+</div>
+<div class='finding major' data-k='R'>
+<div class='title'><span class='chip major'>major</span> CI/CD pipeline (REQ-016) depends on MLOps lineage (REQ-014) and evidence store (REQ-011) but dependencies not declared in feature specs <span class='small'>· c=9</span></div>
+<div class='src'>Natasha — Ranking Analyst · R (Ranked)</div>
+<div>REQ-016 (CI/CD pipeline integration) assumes that REQ-014 (MLOps lineage) and REQ-011 (evidence auto-generation) are operational prerequisites. If REQ-014 lineage tracking is delayed or REQ-011 GSN auto-generation produces unvalidated output, the full CI/CD pipeline (Phase 3 automated evaluation → Phase 4 HIL results → evidence aggregation → GSN generation) breaks. However, the ranking does not declare these dependencies or prioritize delivery sequence. Risk: team begins REQ-016 implementation b</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Declare explicit dependency chain: REQ-014 (MLOps lineage) → REQ-011 (evidence aggregation) → REQ-016 (CI/CD pipeline). Sequence implementation in Phase 3: (1) Month 1-2: REQ-014 (MLOps lineage tracking, MLflow integration), (2) Month 2-3: REQ-011 (SACE/GSN auto-generation skeleton), (3) Month 3-4: REQ-016 (full CI/CD pipeline integration). Assign ownership: MLOps Lead (REQ-014), Safety Engineer (</div>
+</div>
+<div class='finding major' data-k='V'>
+<div class='title'><span class='chip major'>major</span> Decomposition effort baseline lacks objective reference <span class='small'>· c=9</span></div>
+<div class='src'>Iris — Verifiability Analyst · V (Verifiable)</div>
+<div>The baseline &#x27;10 engineer-days&#x27; is historical and may vary with team skill, requirement clarity, and tools used. Without an objective, repeatable definition of &#x27;engineer-day&#x27; (e.g., 8-hour shift, task scope), the criterion is not binary pass/fail. Test: measure actual effort on a canonical 50-requirement dataset.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Define &#x27;engineer-day&#x27; as 1 full-time equivalent working on decomposition with standard tools. Establish a reference SRS with 50+ requirements and baseline effort on 3 trials to set repeatable target.</div>
+<div class='small'><b>Original:</b> T&amp;E Engineer effort shall decrease from 10 engineer-days (manual decomposition baseline) to 2–3 engineer-days</div><div class='small'><b>Rewrite:</b> For a medium-scale USV perception stack (≥50 top-level requirements), the decomposition tool shall complete structured requirements parsing in ≤24 elapsed hours, with ≤2 engineer-days of human review effort required</div>
+</div>
+<div class='finding major' data-k='V'>
+<div class='title'><span class='chip major'>major</span> Scenario authoring productivity gain lacks repeatable measurement baseline <span class='small'>· c=9</span></div>
+<div class='src'>Iris — Verifiability Analyst · V (Verifiable)</div>
+<div>&#x27;Baseline ~1 scenario/engineer-day&#x27; is cited but not rigorously defined. Without a canonical test set and repeatable measurement protocol, the claim is not verifiable. The &#x27;10×&#x27; improvement is comparative but lacks context (which tool versions? which engineer skill levels?).</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Establish a &#x27;Scenario Authoring Baseline Study&#x27; in Phase 2: have team members author 10 scenarios manually on the canonical set, measure time, and record variance. Use this as the repeatable baseline for Phase 3 comparison.</div>
+<div class='small'><b>Original:</b> design throughput shall increase from baseline ~1 scenario/engineer-day (manual OpenSCENARIO XML) to ≥10 scenarios/engineer-day</div><div class='small'><b>Rewrite:</b> Scenario authoring throughput shall be measured on a canonical test set: 20 scenario templates (vessel encounters, traffic regimes, weather transitions) covering ≥4 ODD cells each. Baseline: manual OpenSCENARIO XML authoring. Target: AI-assisted Scenic DSL + auto-compilation. Throughput = scenarios completed + accepted per engineer-day (8 h, inclusive of review). Target: ≥10 scenarios/engineer-day</div>
+</div>
+<div class='finding major' data-k='M'>
+<div class='title'><span class='chip major'>major</span> Scenario-to-Feature Mapping Not Bidirectional — 28 Scenarios Scattered Across 16 Features Without Clear Hierarchy <span class='small'>· c=9</span></div>
+<div class='src'>Amelia — Modifiability Analyst · M (Modifiable)</div>
+<div>Iris&#x27;s scenario list (iris-criteria.json) maps each SCEN to a feature name (e.g., SCEN-001 → &#x27;Automated requirements decomposition&#x27;). But mapping is one-way: feature → scenarios. For modifiability, scenario IDs must also be hierarchical within each requirement. Currently SCEN-001, SCEN-002, SCEN-003 all map to REQ-001; SCEN-004–006 to REQ-003. This is correct but not formally expressed in a WBS or sub-requirement numbering scheme. When Section 3 is elaborated, readers will struggl</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Restructure scenario IDs to reflect hierarchy: SCEN-001 → REQ-001.1 (parent requirement + scenario ordinal). In Section 3, nest scenarios under parent requirement as &#x27;Acceptance Scenarios&#x27; sub-subsections. Create traceability matrix in Appendix: REQ-ID → [Scenario IDs] → Acceptance Criteria → Evidence Artifacts. This supports impact analysis (if REQ-005 changes, which SCEN are affected?)</div>
+</div>
+<div class='finding major' data-k='M'>
+<div class='title'><span class='chip major'>major</span> Missing Unique IDs for Sub-Features and Acceptance Criteria — Traceability Matrix Cannot Be Fully Populated <span class='small'>· c=9</span></div>
+<div class='src'>Amelia — Modifiability Analyst · M (Modifiable)</div>
+<div>Odin&#x27;s unambiguous SRS statements are detailed (e.g., REQ-001 lists 4 decomposition activities: parse requirements, map to 106-technique catalogue, generate traceability matrix, output SACE XML). But these sub-activities are not formally IDed as REQ-001.1, REQ-001.2, etc. Similarly, Iris&#x27;s acceptance criteria (measurement units, thresholds, evidence artifacts) are not individually IDed. When Dstl auditors request &#x27;evidence for REQ-001 activity 3&#x27; (traceability matrix), can th</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Assign hierarchical IDs to sub-features and acceptance criteria: REQ-001 (parent) → REQ-001.1 (parse), REQ-001.2 (map), REQ-001.3 (generate matrix), REQ-001.4 (output SACE). Similarly, for each SCEN, assign sub-criterion IDs: SCEN-001.AC1 (timing), SCEN-001.AC2 (coverage), etc. Populate traceability matrix: REQ-001.1 → SCEN-001.AC1 → evidence_artifact_URI. This enables automated impact analysis an</div>
+</div>
+<div class='finding major' data-k='T'>
+<div class='title'><span class='chip major'>major</span> REQ-013 + REQ-014 incomplete; Phase 7 design defers to v1.1 <span class='small'>· c=9</span></div>
+<div class='src'>Lewis — Traceability Analyst · T (Traceable)</div>
+<div>REQ-013 (Live drift detection) and REQ-014 (MLOps lineage) are essential but Natasha ranked them with CRITICAL + MAJOR findings. Drift metric definition and escalation SOP are unfinished. Phase 7 can be implemented post-sea-trial; v1.0 gates on Phase 6 evidence.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Explicitly defer Phase 7 operationalization to v1.1. Lock Phase 6 evidence archival interface (write-once, read-audit). Define drift re-qualification trigger in Phase 7 design review post-sea-trial.</div>
+</div>
+<div class='finding major' data-k='C_correct'>
+<div class='title'><span class='chip major'>major</span> Feature 3 omits Isaac Sim from synthetic data generation scope <span class='small'>· c=8</span></div>
+<div class='src'>Chelcie — Correctness Analyst · C (Correct)</div>
+<div>Source lists &#x27;NVIDIA TAO / Isaac Sim / StyleGAN / diffusion / Unreal + VBS4 maritime for synthetic sensor data&#x27; but Feature 3&#x27;s business story only claims &#x27;NVIDIA TAO, StyleGAN, diffusion and maritime-specific rendering&#x27;. Isaac Sim is a core tool for synthetic sensor generation and its omission reduces scope clarity.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Update Feature 3 business story to explicitly include Isaac Sim alongside TAO, StyleGAN and diffusion.</div>
+</div>
+<div class='finding major' data-k='C_correct'>
+<div class='title'><span class='chip major'>major</span> Feature 8 omits Project Nautilus and CARLA-maritime from digital-twin tools <span class='small'>· c=8</span></div>
+<div class='src'>Chelcie — Correctness Analyst · C (Correct)</div>
+<div>Source lists &#x27;Isaac Sim / ROS Gazebo / AirSim / Project Nautilus / CARLA-maritime for digital twins&#x27;, but Feature 8 only mentions three. Project Nautilus and CARLA-maritime are maritime-specific platforms critical for USV simulation fidelity.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Expand Feature 8 business story to include Project Nautilus and CARLA-maritime for maritime-specific digital-twin scenarios.</div>
+</div>
+<div class='finding major' data-k='C_correct'>
+<div class='title'><span class='chip major'>major</span> Feature 15 incompletely traces security requirements to all MOD defence standards <span class='small'>· c=8</span></div>
+<div class='src'>Chelcie — Correctness Analyst · C (Correct)</div>
+<div>Source requires &#x27;Alignment with JSP 520, JSP 936, DEFSTAN 00-056, RA 1600 and the UK Defence AI Playbook&#x27; plus &#x27;NATO STANAG 4297 / 4439 / 4496 alignment&#x27;. Feature 15 story only mentions &#x27;JSP 520&#x27; implicitly. This scope reduction risks missing critical compliance obligations.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Decompose Feature 15 into sub-features or expand acceptance criteria to cover: JSP 520 (personnel security), JSP 936 (information systems security), DEFSTAN 00-056 (safety management), RA 1600 (AI risk assurance), STANAG requirements.</div>
+</div>
+<div class='finding major' data-k='C_correct'>
+<div class='title'><span class='chip major'>major</span> Feature 16 adds new scope not explicitly decomposed from source epic <span class='small'>· c=8</span></div>
+<div class='src'>Chelcie — Correctness Analyst · C (Correct)</div>
+<div>While source Section 10 lists &#x27;CI/CD for ML with AMLAS artefact pipeline&#x27; as a non-AI enabler, Feature 16 frames this as a distinct feature with acceptance criterion (&#x27;traceability to every requirement&#x27;). This represents a scope addition beyond what&#x27;s explicitly in the source narrative. Source does not describe a specific feature for CI/CD integration as a separate user story.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Verify whether Feature 16 is justified as a separate feature or should be merged into Feature 14 (MLOps lineage). If separate, clarify how &#x27;traceability to every requirement&#x27; differs from standard MLOps lineage.</div>
+</div>
+<div class='finding major' data-k='U'>
+<div class='title'><span class='chip major'>major</span> Conjunction ambiguity: are all AI tools required or candidate list? <span class='small'>· c=8</span></div>
+<div class='src'>Odin — Ambiguity Analyst · U (Unambiguous)</div>
+<div>Slash-lists in requirements create false optionality. Safety-critical data generation requires explicit tool selection and dependency management. Tool choice affects reproducibility and evidence lineage.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Designate required vs. optional tools. For TAO: required (domain adaptation is non-negotiable). For rendering: select one (Isaac Sim for speed, Unreal+VBS4 for realism). For augmentation: select one based on ODD coverage gaps. Document rationale.</div>
+<div class='small'><b>Original:</b> NVIDIA TAO / Isaac Sim / StyleGAN / diffusion / Unreal + VBS4 maritime for synthetic sensor data</div><div class='small'><b>Rewrite:</b> For Phase 3 synthetic sensor data generation, the system shall integrate tool chain: (1) NVIDIA TAO for domain-adaptive object detection model training (required), (2) Isaac Sim OR Unreal + VBS4 for physics-accurate maritime environment rendering (select one based on sensor-fidelity requirements), (3) StyleGAN OR diffusion-based augmentation for texture variation (select one based on realism-vs-di</div>
+</div>
+<div class='finding major' data-k='U'>
+<div class='title'><span class='chip major'>major</span> Negation trap in GSN safety case approval — undefined fallback if rejected <span class='small'>· c=8</span></div>
+<div class='src'>Odin — Ambiguity Analyst · U (Unambiguous)</div>
+<div>Negation (&#x27;not approved&#x27;) is implicit but critical. Safety-case approval is iterative in real projects. Requirement must define fallback loop, retry limit, and escalation to satisfy AMLAS traceability.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Add rejection handling: remediation window (2 days), retry limit (2 cycles), escalation actor (RAISO). Ensure all drafts (pass/fail) are retained in evidence store for compliance audit.</div>
+<div class='small'><b>Original:</b> GSN safety case draft auto-generated and human-approved</div><div class='small'><b>Rewrite:</b> The system shall auto-generate an AMLAS-structured GSN safety case draft by Phase 6. The draft shall be submitted for human approval by Dstl safety engineer. If approved: proceed to Phase 6 sign-off. If rejected: system shall log issues, engineer shall remediate, and system shall re-generate updated draft within 2 working days. After 2 rejection cycles: escalate to RAISO for exception decision. Al</div>
+</div>
+<div class='finding major' data-k='U'>
+<div class='title'><span class='chip major'>major</span> Vague qualifier &#x27;10× more scenarios&#x27; — scenarios per what unit? <span class='small'>· c=8</span></div>
+<div class='src'>Odin — Ambiguity Analyst · U (Unambiguous)</div>
+<div>Multipliers require baseline. Manual scenario authoring via OpenSCENARIO XML is laborious (~1/day). AI-assisted Scenic codegen can plausibly reach 10/day. Testable if we track engineer-hours and scenario count in MLOps telemetry.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Establish baseline: 1 scenario/engineer-day via manual OpenSCENARIO authoring. Target: 10 scenarios/engineer-day via Scenic + AI templates. Track in MLOps metrics dashboard.</div>
+<div class='small'><b>Original:</b> Test case design 10× more scenarios per engineer-day</div><div class='small'><b>Rewrite:</b> The system shall enable T&amp;E Engineers to author ODD-compliant test scenarios via Scenic DSL such that scenario design throughput increases from baseline ~1 scenario/engineer-day (manual OpenSCENARIO) to ≥10 scenarios/engineer-day (AI-assisted template generation + Scenic compilation).</div>
+</div>
+<div class='finding major' data-k='U'>
+<div class='title'><span class='chip major'>major</span> Undefined &#x27;standard&#x27; for adversarial robustness testing <span class='small'>· c=8</span></div>
+<div class='src'>Odin — Ambiguity Analyst · U (Unambiguous)</div>
+<div>&#x27;Becomes standard&#x27; is aspirational but unverifiable. Requirement must specify: activity (Phase 3), tools (Foolbox), metrics (perturbation budget), actors (Dstl reviewer), gate (Phase 4), and frequency (every release).</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Define adversarial testing as mandatory Phase 3 gate with: attack types (FGSM, PGD, C&amp;W), perturbation budgets (10%, 20%), classes (vessel, buoy, small-object), approval actor (Dstl security), frequency (every model release).</div>
+<div class='small'><b>Original:</b> Adversarial robustness testing becomes standard</div><div class='small'><b>Rewrite:</b> Adversarial robustness testing shall be a standard Phase 3 activity in the PSRQ campaign. Every model candidate shall be assessed via Foolbox/CleverHans perturbations (FGSM, PGD, C&amp;W attacks) on object classes (vessel, buoy, small-object) to derive accuracy bounds under 10%-pixel and 20%-pixel perturbation budgets. Bounds shall be filed in evidence store and reviewed by Dstl security engineer </div>
+</div>
+<div class='finding major' data-k='U'>
+<div class='title'><span class='chip major'>major</span> Passive voice and unclear trigger: &#x27;will be filed&#x27; for adversarial bounds — no timestamp or actor <span class='small'>· c=8</span></div>
+<div class='src'>Odin — Ambiguity Analyst · U (Unambiguous)</div>
+<div>Passive voice obscures actor and timing. In MLOps pipelines, &#x27;filing&#x27; should be partially automated (metric export) and partially human (review/approval). Actor (T&amp;E Engineer), trigger (Phase 3 completion), location (evidence store), and approval (Dstl) must be explicit.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Separate system action (auto-write bounds) from human action (upload, approve). Define: trigger (Phase 3 completion), actor (T&amp;E Engineer), artifact (SACE template), approver (Dstl security engineer), gate (Phase 4 entry).</div>
+<div class='small'><b>Original:</b> Adversarial robustness bounds will be filed for every class</div><div class='small'><b>Rewrite:</b> Upon Phase 3 completion, the MLOps system shall automatically write adversarial robustness bounds for every object class to the SACE evidence template (min/max/95%-CI accuracy under perturbation). The T&amp;E Engineer shall then upload the bounds file to the MLOps evidence store and request approval from the Dstl security engineer. Approval must be obtained before the Phase 4 gate can open.</div>
+</div>
+<div class='finding major' data-k='U'>
+<div class='title'><span class='chip major'>major</span> Unclear pronoun &#x27;it&#x27; in synthetic data provenance: what is &#x27;it&#x27;? <span class='small'>· c=8</span></div>
+<div class='src'>Odin — Ambiguity Analyst · U (Unambiguous)</div>
+<div>Provenance is non-negotiable in safety assurance: auditors must verify data authenticity. Unclear pronoun masks the actual requirement: reproducibility of the data generation pipeline.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Define provenance as: tool versions, git commit hashes, hyperparameter JSON, base dataset version, output file hash. Store in SACE evidence artifact and MLOps database. Sync to Dstl within 24 hours.</div>
+<div class='small'><b>Original:</b> Synthetic data provenance chain unverifiable when offline generation omits lineage</div><div class='small'><b>Rewrite:</b> All synthetic data generated in Phase 3 shall include machine-readable provenance metadata: (1) tool version (TAO, Isaac Sim, StyleGAN), (2) algorithm git commit hash, (3) seed and hyperparameter JSON, (4) input dataset version (base sensor logs or prior synthetic batch), (5) output data file SHA256. This metadata shall be embedded in the SACE evidence artifact and used to reconstruct or verify th</div>
+</div>
+<div class='finding major' data-k='C_complete'>
+<div class='title'><span class='chip major'>major</span> Missing hardware and simulator interface specifications <span class='small'>· c=8</span></div>
+<div class='src'>Lucy — Completeness Analyst · C (Complete)</div>
+<div>Features 8, 9, and 14 assume digital-twin simulators and hardware benches exist and are accessible, but do not specify integration points or protocols. This is a coupling risk if simulator APIs change mid-PSRQ.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Add System Interface Section 2.1.2 with: (i) Isaac Sim OpenAI Gym or Simready API binding (with version constraints), (ii) ROS 2 DDS middleware interface (topic/service definitions), (iii) AUVLAB sensor-bench API schema (e.g., binary protocol over Ethernet, timing guarantees), (iv) simulator resource constraints (GPU, CPU, memory), (v) failure recovery (checkpointing, restart procedures).</div>
+</div>
+<div class='finding major' data-k='C_complete'>
+<div class='title'><span class='chip major'>major</span> Missing detailed ODD dimension definitions and coverage strategy <span class='small'>· c=8</span></div>
+<div class='src'>Lucy — Completeness Analyst · C (Complete)</div>
+<div>Input MD mentions &#x27;ODD envelope&#x27; and &#x27;≥95% coverage&#x27; but does not enumerate the ODD dimensions or their discretization. This creates ambiguity in Phase 2 data curation (Feature 2) and Phase 5 trial planning (Feature 10).</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Add ODD Definition Section 2.2.2 with: (i) ODD dimension table (sea state: Beaufort 2-5, visibility: &lt;100m, 100-500m, &gt;500m, vessel class: fishing, merchant, military, buoy, debris), (ii) coverage priority matrix (e.g., Beaufort 4 + visibility &lt;100m = critical), (iii) acceptable gaps (e.g., Beaufort 6 justified as out-of-scope), (iv) geographic variability rules (e.g., UK-specific littora</div>
+</div>
+<div class='finding major' data-k='C_complete'>
+<div class='title'><span class='chip major'>major</span> Missing model rollback, version control, and regression testing specifications <span class='small'>· c=8</span></div>
+<div class='src'>Lucy — Completeness Analyst · C (Complete)</div>
+<div>Features 14 and 15 assume model updates are routine, but naval operations require high availability and determinism. Rollback is critical for safety-critical systems under AMLAS.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Add Model Maintenance Section 3.2.8 with: (i) rollback trigger criteria (if new model mAP drops &gt;5% on held-out test, trigger revert within 1 hour), (ii) regression-test matrix (full Phase 3 suite vs light smoke tests?), (iii) approval authority (Dstl safety engineer or auto-revert?), (iv) maintenance window constraints (only in port? only pre-deployment?), (v) version lock (how many prior vers</div>
+</div>
+<div class='finding major' data-k='C_complete'>
+<div class='title'><span class='chip major'>major</span> Missing cost, effort, and resource estimation for PSRQ lifecycle <span class='small'>· c=8</span></div>
+<div class='src'>Lucy — Completeness Analyst · C (Complete)</div>
+<div>Milarna identified &#x27;Cost and resource estimation&#x27; as a separate missing finding. Features assume sufficient compute and staffing but do not quantify. This is critical for programme approval and budget planning.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Add Resource Planning Section 2.5.4 with: (i) effort estimate per phase (Phase 1: 2 FTE-weeks, Phase 2: 4 FTE-weeks, Phase 3: 8 FTE-weeks, ...), (ii) compute cost estimate (e.g., £50k for synthetic data generation, £30k for GPU rentals per month), (iii) external-dependency costs (e.g., Dstl retainer £200k for 6 safety reviews), (iv) timeline (Phase 1-6: 12 months, Phase 7: ongoing), (v) contingenc</div>
+</div>
+<div class='finding major' data-k='C_complete'>
+<div class='title'><span class='chip major'>major</span> Missing KPIs and programme health tracking metrics <span class='small'>· c=8</span></div>
+<div class='src'>Lucy — Completeness Analyst · C (Complete)</div>
+<div>Milarna flagged &#x27;KPIs and programme health tracking&#x27; as missing. Features specify outputs but not observability for programme managers to track progress.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Add Programme Health Section 3.3 with: (i) ODD coverage tracking (% of 240 cells populated by week), (ii) test velocity (scenarios authored per engineer-day, actual vs target 10/day), (iii) evidence quality (% of findings with &gt;3 supporting data items), (iv) approval SLA adherence (% of GSN reviews completed &lt;5 days), (v) compute efficiency (GPU hours per ODD cell, trends), (vi) risk registe</div>
+</div>
+<div class='finding major' data-k='C_complete'>
+<div class='title'><span class='chip major'>major</span> Missing operator training and human-factors requirements <span class='small'>· c=8</span></div>
+<div class='src'>Lucy — Completeness Analyst · C (Complete)</div>
+<div>Milarna identified &#x27;Operator training and human factors&#x27; as a separate missing finding. Feature 8 assumes &#x27;human intervention &lt;2 seconds&#x27; but does not account for training, UI design, or human error rates.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Add Human Factors Section 2.3.1 with: (i) operator role definition (trained Navy personnel, requires 40-hour PSRQ certification), (ii) override-interface requirements (fail-safe design: always-safe to override, &lt;500ms latency), (iii) situational-awareness requirements (UI must show why auto-stop triggered, confidence levels), (iv) error-rate expectations (assume 5% false-alarms acceptable), (v)</div>
+</div>
+<div class='finding major' data-k='C_complete'>
+<div class='title'><span class='chip major'>major</span> Missing feedback loop from Article 36 legal review to evidence re-evaluation <span class='small'>· c=8</span></div>
+<div class='src'>Lucy — Completeness Analyst · C (Complete)</div>
+<div>Features 12-13 assume Article 36 review approval is final gate, but legal feedback may identify evidence gaps. Current flow is one-way (Phase 6 → legal), not a loop. This creates risk of schedule delay if legal rejection forces Phase 3 re-work.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Add Legal Feedback Loop Section 3.2.9 with: (i) approval criteria (legal must approve all autonomous-decision logic + override mechanisms), (ii) rejection scenarios (e.g., insufficient evidence of human-override responsiveness), (iii) re-evaluation trigger (if legal rejects, escalate to RAISO + Dstl safety engineer for root-cause analysis), (iv) evidence-gap prioritization (e.g., &#x27;override &l</div>
+</div>
+<div class='finding major' data-k='C_consistent'>
+<div class='title'><span class='chip major'>major</span> Coverage metric ambiguity: &#x27;≥95% ODD coverage&#x27; vs Phase 2 &#x27;rare events&#x27; <span class='small'>· c=8</span></div>
+<div class='src'>Ophellia — Consistency Analyst · C (Consistent)</div>
+<div>Coverage metric does not specify what baseline (real-only? sim-only? combined?) achieves 95%. If synthetic addresses rare events and real data is limited, the combined coverage may fall short. Scenario: model trained on AUVLAB + synthetic fog/night — does that prove ≥95% ODD coverage, or only ≥95% of declared ODD + synthetic augmentation?</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Clarify whether ≥95% coverage is measured against (a) declared ODD only, (b) declared ODD + rare-event variants, or (c) the union of all environment variables. Define a quantitative mapping between &#x27;rare events&#x27; and % ODD space.</div>
+</div>
+<div class='finding major' data-k='C_consistent'>
+<div class='title'><span class='chip major'>major</span> Terminology conflict: &#x27;evaluation&#x27; vs &#x27;validation&#x27; vs &#x27;qualification&#x27; across phases <span class='small'>· c=8</span></div>
+<div class='src'>Ophellia — Consistency Analyst · C (Consistent)</div>
+<div>IEEE 1012 / DEFSTAN 00-056 distinguish verification (built right) vs validation (right thing). Phase 3 is verification, Phase 5 is validation, Phase 7 is re-qualification. But glossary defines PSRQ as &#x27;formal evaluation campaign&#x27; without distinguishing these. Safety case (Section 6) requires AMLAS evidence tied to specific lifecycle activities — terminology mismatch may break evidence mapping.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Adopt explicit standards: Phase 3 = Verification (V&amp;V standard), Phase 5 = Validation (per DEFSTAN 00-056 or RA 1600), Phase 7 = Re-qualification. Map each phase name to a specific AMLAS activity and defence standard. Update glossary.</div>
+</div>
+<div class='finding major' data-k='C_consistent'>
+<div class='title'><span class='chip major'>major</span> Logical conflict: &#x27;Closed-loop simulation replaces most physical trials&#x27; vs &#x27;anchor synthetic evidence&#x27; <span class='small'>· c=8</span></div>
+<div class='src'>Ophellia — Consistency Analyst · C (Consistent)</div>
+<div>The 10× scenario productivity claim (Section 8) and &#x27;closed-loop simulation replaces most physical trials&#x27; are aspirational benefits tied to synthetic data. But Phase 5 scenario &#x27;Real-world validation mismatch: model degrades to 71% mAP on unseen sea-trial data&#x27; shows sim-to-real gap is real and requires &#x27;targeted&#x27; real-world trials. &#x27;Most&#x27; ≠ &#x27;all&#x27;; the phrase is ambiguous.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Quantify &#x27;most&#x27;: e.g., &#x27;simulation-based testing can replace 70% of baseline manual trial campaigns, with 30% reserved for coastal-weather and adversarial-scenario anchoring.&#x27; Update Phase 5 acceptance criteria to specify minimum sea-trial scale (e.g., ≥3 weather windows, ≥50 encounter scenarios, ≥2 geographic regions).</div>
+</div>
+<div class='finding major' data-k='C_consistent'>
+<div class='title'><span class='chip major'>major</span> Temporal conflict: &#x27;Drift monitors live on ≥3 environment variables post-deployment&#x27; without Phase 7 baseline definition <span class='small'>· c=8</span></div>
+<div class='src'>Ophellia — Consistency Analyst · C (Consistent)</div>
+<div>Scenario shows &#x27;visibility mean drifts from 300 m to 310 m at 95% CI boundary&#x27; → SLO-yellow alert. But AC does not define SLO thresholds. Is ±10% acceptable? Who sets it? Does re-qualification depend on magnitude or duration of drift? Phase 7 feature mentions &#x27;Evidently AI, Alibi Detect, Arize&#x27; but each tool uses different drift metrics (KS, Kolmogorov-Smirnov, MMD, Jensen-Shannon). AC must specify which metric(s) are authoritative.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Phase 1 must decompose &#x27;drift monitors&#x27; into (a) measurable environment variables with baseline distributions, (b) drift metrics (specify: KS test, MMD, other), (c) thresholds per variable (±10%? σ-based?), (d) escalation rules (yellow → red → halt). Add Phase 7 AC: &#x27;Drift detection SLO ≥95% sensitivity at specified threshold, ≤5% false-positive rate.&#x27; Map to AMLAS Activity 6 (</div>
+</div>
+<div class='finding major' data-k='C_consistent'>
+<div class='title'><span class='chip major'>major</span> Cross-phase scope conflict: System-layer (Phase 4) vs Real-world (Phase 5) — what is tested where? <span class='small'>· c=8</span></div>
+<div class='src'>Ophellia — Consistency Analyst · C (Consistent)</div>
+<div>Scenario &#x27;Real-world validation mismatch: model degrades to 71% mAP on unseen sea-trial data&#x27; shows Phase 4 qualification is not sufficient. But acceptance criteria do not mandate Phase 5 to re-qualify Phase 4 findings. If Phase 4 shows 92% mAP (well-calibrated) and Phase 5 shows 71% mAP, what happens to the safety case? Does Phase 4 evidence become invalidated?</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Define Phase 4 vs Phase 5 scope explicitly: (a) Phase 4 = end-to-end functionality in controlled sim; (b) Phase 5 = subset of Phase 4 scenarios in realistic weather/traffic; (c) Phase 5 must achieve ≥80% of Phase 4 accuracy or trigger design re-work. Add acceptance criterion: &#x27;Phase 5 shall re-qualify ≥3 Phase 4 edge cases (degraded-sensor, high-traffic, extreme weather) with sim-to-real delt</div>
+</div>
+<div class='finding major' data-k='C_consistent'>
+<div class='title'><span class='chip major'>major</span> Adversarial robustness scope inconsistency between Phase 3 and tooling list <span class='small'>· c=8</span></div>
+<div class='src'>Ophellia — Consistency Analyst · C (Consistent)</div>
+<div>If collision-avoidance logic includes an LLM reasoning component (per scenario), robustness bounds must include prompt-injection risks. IBM ART and Foolbox are designed for image classifiers; Garak is for LLMs. The AC &#x27;bounds filed for every class&#x27; does not distinguish object classes (radar/visual objects) from LLM input classes (multi-vessel reasoning, beacon interpretation).</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Split adversarial robustness into two phases: (1) Phase 3 perception layer: IBM ART/Foolbox for sensor-domain adversarial robustness (image patches, sensor spoofing); (2) Phase 3 decision layer: Garak/PyRIT for NLP/reasoning-domain robustness (prompt injection, beacon-text spoofing). Define &#x27;every class&#x27; to include both modalities. Add AC: &#x27;LLM-based decision components tested again</div>
+</div>
+<div class='finding major' data-k='R'>
+<div class='title'><span class='chip major'>major</span> Red-teaming methodology (REQ-006) volatile: Garak/PyRIT frameworks rapidly evolving, v1.0 scope at risk <span class='small'>· c=8</span></div>
+<div class='src'>Natasha — Ranking Analyst · R (Ranked)</div>
+<div>REQ-006 specifies Garak and PyRIT red-teaming frameworks (late 2024 tools). These are high-velocity projects with monthly API updates and new attack vectors emerging (adversarial methods literature growing). While REQ-005 (adversarial robustness) targets stable metrics (Foolbox/CleverHans), REQ-006 relies on frameworks that may introduce breaking changes during Phase 3 (6-month window). If Garak v0.11 API breaks compatibility mid-Phase 3, team must either backport tests or delay red-teaming. Dst</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Classify REQ-006 as &#x27;conditional should_have&#x27; with strict dependency on framework API stability. Define acceptance criteria: &#x27;Red-teaming methodology locked to Garak v0.10+, PyRIT v0.6+ by Phase 3 kick-off. Any framework updates post-lock require safety engineer re-approval.&#x27; Alternatively, defer REQ-006 to v1.1 in-service red-teaming (post-Phase 5, after real-world adversarial</div>
+</div>
+<div class='finding major' data-k='R'>
+<div class='title'><span class='chip major'>major</span> REQ-013 (drift detection) v1.1 target risks delaying continuous re-qualification capability beyond first operational release <span class='small'>· c=8</span></div>
+<div class='src'>Natasha — Ranking Analyst · R (Ranked)</div>
+<div>REQ-013 ranked as &#x27;essential&#x27; but &#x27;v1.1 target&#x27; (in-service monitoring). This creates a gap: v1.0 PSRQ sign-off will not include post-deployment drift monitoring. If the model begins to degrade in the field during Phase 7 (first 6 months at sea), there is no automated alert or re-qualification trigger until v1.1 lands. Manual human monitoring is fallback, but creates operational risk and Dstl liability exposure. UK Defence may refuse to sign off v1.0 without some drift-detect</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Reconsider v1.0 scope: either (a) include simplified drift detection in v1.0 (3-variable monitoring on recorded logs, 6-hour batch uploads, human-triggered re-qualification workflow), or (b) explicitly document in AMLAS Safety Case that Phase 7 is &#x27;manual monitoring only&#x27; pending v1.1 software update. Coordinate with Dstl PSRQ lead to confirm acceptability of v1.0 without live drift dete</div>
+</div>
+<div class='finding major' data-k='V'>
+<div class='title'><span class='chip major'>major</span> Decomposition auditability criterion lacks measurable coverage threshold <span class='small'>· c=8</span></div>
+<div class='src'>Iris — Verifiability Analyst · V (Verifiable)</div>
+<div>&#x27;Auditable&#x27; is subjective—does it mean &#x27;can be traced&#x27; or &#x27;meets regulatory standard&#x27;? A pass/fail criterion requires quantifying coverage and completeness. Inspection of audit logs is the natural verification method.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Mandate a structured audit schema (JSON with required fields: timestamp, clause_id, rule_id, reviewer, decision). Enforce schema validation at write-time in MLOps database.</div>
+<div class='small'><b>Original:</b> All decomposition decisions shall be auditable (tool rationale logged for each row)</div><div class='small'><b>Rewrite:</b> For each atomic clause generated by the decomposition tool, the system shall log and retain a timestamped audit entry including: (1) source requirement ID, (2) clause extraction rule applied, (3) mapping to AMLAS technique, (4) human reviewer approval/rejection with timestamp. Audit completeness ≥99% of rows.</div>
+</div>
+<div class='finding major' data-k='V'>
+<div class='title'><span class='chip major'>major</span> ODD stratification analysis lacks definition of &#x27;rare&#x27; cells <span class='small'>· c=8</span></div>
+<div class='src'>Iris — Verifiability Analyst · V (Verifiable)</div>
+<div>&#x27;Rare&#x27; is undefined—does it mean &lt;5 samples? &lt;20? The specification should quantify the threshold for inclusion in the pass/fail criterion vs. &#x27;monitoring-only&#x27; cells.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Define thresholds: (1) &#x27;rare cell&#x27; = 5–20 samples, (2) &#x27;insufficient data&#x27; = &lt;5 samples (excluded from criterion, included in report as notes), (3) &#x27;nominal cell&#x27; = ≥20 samples. Set a 10 pp tolerance band with confidence intervals.</div>
+<div class='small'><b>Original:</b> no class exhibits &gt;10% accuracy drop in rare ODD cells</div><div class='small'><b>Rewrite:</b> For each object class (vessel, buoy, small-object, small-contact, debris) and each ODD cell where ≥5 test samples exist, the drop in mAP from the macro-average shall not exceed 10 percentage points. Rare cells (containing 5–20 test samples) are flagged for monitoring but included in the pass/fail criterion.</div>
+</div>
+<div class='finding major' data-k='V'>
+<div class='title'><span class='chip major'>major</span> Red-teaming scenario intensity lacks quantified coverage <span class='small'>· c=8</span></div>
+<div class='src'>Iris — Verifiability Analyst · V (Verifiable)</div>
+<div>&#x27;Stress-test&#x27; and &#x27;trigger investigation&#x27; are action-dependent, not binary. The criterion must quantify (1) number of scenarios, (2) what counts as a &#x27;hit&#x27; (&gt;30% drop), (3) investigation process and timeline.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Establish a formal red-teaming process: scenario submission → automated eval → hit detection → root cause analysis → decision → documentation. Assign SLA (3 working days for analysis, 5 for decision).</div>
+<div class='small'><b>Original:</b> scenarios that cause accuracy drop &gt;30% shall trigger investigation</div><div class='small'><b>Rewrite:</b> Adversarial scenarios (sensor spoofing, denial-of-service, occlusion, object morphing) that cause model accuracy to drop &gt;30 pp below baseline clean accuracy shall be logged in the adversarial scenario registry. For each such scenario, the root cause shall be analyzed: (1) was the ODD boundary exceeded? (2) is the failure mode known and acceptable? (3) does algorithm hardening or ODD restrictio</div>
+</div>
+<div class='finding major' data-k='V'>
+<div class='title'><span class='chip major'>major</span> Explainability audit trail completeness lacks failure-mode threshold <span class='small'>· c=8</span></div>
+<div class='src'>Iris — Verifiability Analyst · V (Verifiable)</div>
+<div>&#x27;Unexplained&#x27; is subjective—does it mean &#x27;no SHAP trace&#x27; or &#x27;SHAP trace disagrees with narrative&#x27;? The criterion must specify what constitutes an explanation and who validates it.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Create an &#x27;Explainability Validation Rubric&#x27; (e.g., SHAP feature rank must match causal domain model, Grad-CAM saliency must overlap with object bounding box). Have a domain expert (maritme sensor SME) sign-off on each &#x27;explained&#x27; failure.</div>
+<div class='small'><b>Original:</b> Any unexplained failure modes (&gt;5% of failure cases) shall trigger model re-training or ODD restriction</div><div class='small'><b>Rewrite:</b> Explainability audit trail shall be generated for ≥95% of all test samples (real and synthetic). A failure case is &#x27;explained&#x27; if human safety engineer confirms that SHAP/LIME/Grad-CAM features align with expected causal mechanisms (e.g., &#x27;small boat missed because clutter features dominated&#x27;). If &gt;5% of failure cases lack credible explanation (feature importance does not ju</div>
+</div>
+<div class='finding major' data-k='V'>
+<div class='title'><span class='chip major'>major</span> Degraded-sensor fallback response lacks quantified performance threshold <span class='small'>· c=8</span></div>
+<div class='src'>Iris — Verifiability Analyst · V (Verifiable)</div>
+<div>&#x27;Graceful fallback&#x27; and &#x27;increased caution&#x27; are vague—no target performance or timeline specified. A measurable criterion must define specific thresholds (confidence, range, response latency).</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Establish a Degraded-Sensor Fallback Specification document defining thresholds for each sensor type and failure mode (e.g., &#x27;LiDAR loss &gt;30 s → confidence ≥0.9, margin +250 m, alert ≤500 ms&#x27;). Reference it in the SRS.</div>
+<div class='small'><b>Original:</b> degraded-sensor modes trigger graceful fallback (increased caution)</div><div class='small'><b>Rewrite:</b> When any primary sensor (camera, LiDAR, or radar) is offline or degraded (signal-to-noise ratio &lt;10 dB for radar, pixel dropout &gt;20% for camera, range &lt;100 m for LiDAR), the collision-avoidance stack shall switch to a conservative mode: (1) detection confidence threshold increased to ≥0.9 (was ≥0.5), (2) collision-avoidance safety margin increased from 500 m to 750 m, (3) operator is aler</div>
+</div>
+<div class='finding major' data-k='V'>
+<div class='title'><span class='chip major'>major</span> Sim-to-real validation gap criterion lacks ODD stratification <span class='small'>· c=8</span></div>
+<div class='src'>Iris — Verifiability Analyst · V (Verifiable)</div>
+<div>&#x27;Accuracy drop &gt;10%&#x27; is ambiguous: drop from what baseline? Drop in which metric (mAP, recall, precision)? Drop across all classes or per-class? The criterion must specify the metric, baseline (simulation), and investigation SLA.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Create a &#x27;Sim-to-Real Validation Protocol&#x27; specifying: (1) metric (per-class mAP@IoU=0.5), (2) acceptable gap (±10 pp with 95% CI), (3) ODD cells to validate (representative sample, ≥3 cells), (4) RCA process and SLA (5 working days for initial analysis, 10 for decision).</div>
+<div class='small'><b>Original:</b> Sim-to-real gap (accuracy drop &gt;10%) triggers investigation</div><div class='small'><b>Rewrite:</b> Phase 5 physical trial validation shall compare real-world perception accuracy against Phase 4 digital-twin predictions on the same encounter geometries and ODD conditions. A &#x27;sim-to-real gap&#x27; is defined as accuracy drop &gt;10 pp in any ODD cell that was tested in both simulation and reality. If detected, root-cause investigation shall assess: (1) Is the gap ODD-specific (e.g., fog effe</div>
+</div>
+<div class='finding major' data-k='V'>
+<div class='title'><span class='chip major'>major</span> GSN auto-generation completion criterion lacks quality metrics <span class='small'>· c=8</span></div>
+<div class='src'>Iris — Verifiability Analyst · V (Verifiable)</div>
+<div>&#x27;Within 2 working days&#x27; specifies elapsed time but not quality. A &#x27;generated&#x27; draft could be syntactically valid XML with empty claims—not useful for safety case. Must quantify claim completeness and evidence linkage.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Define &#x27;complete GSN draft&#x27; as: (1) D-Case XML schema validation passes, (2) all AMLAS activities populated, (3) ≥95% of claims have ≥1 evidence link with traceability ID, (4) no &#x27;TBD&#x27; placeholders in top-level claims. Automate validation in the generation pipeline.</div>
+<div class='small'><b>Original:</b> draft GSN generated within 2 working days post-Phase 5 completion</div><div class='small'><b>Rewrite:</b> GSN safety case draft shall be generated automatically by consuming all Phase 3–5 evidence artifacts (test results, bounds, simulation logs, physical trial data, drift logs). Draft shall include: (1) AAES table (6 AMLAS activities × evidence items), (2) GSN claims linked to ≥1 evidence item each, (3) traceability matrix (requirements → test → evidence → claim). Draft completeness: ≥95% of top-leve</div>
+</div>
+<div class='finding major' data-k='V'>
+<div class='title'><span class='chip major'>major</span> Live drift detection thresholds (±2σ band) lack statistical justification <span class='small'>· c=8</span></div>
+<div class='src'>Iris — Verifiability Analyst · V (Verifiable)</div>
+<div>The ±2σ threshold is standard (95% CI) but may be too lenient for safety-critical drift detection. The criterion must validate that this threshold achieves acceptable sensitivity and specificity for the maritime domain (≥90% detection, ≤5% false-positive).</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Run a Phase 7 pre-deployment validation: simulate ODD transitions (calm → rough sea, clear → fog) and measure drift detection rate and false-positive rate. If thresholds are too loose, tighten to ±1.5σ and re-validate. Document threshold selection rationale in the drift monitoring specification.</div>
+<div class='small'><b>Original:</b> alert if any variable exceeds ±2σ band for ≥3 consecutive uploads (15-minute window)</div><div class='small'><b>Rewrite:</b> Live drift monitoring shall compute a baseline distribution of 3 ODD variables (sea-state, visibility, sea-clutter magnitude) from Phase 4 simulation and Phase 5 real trials. For each variable, a band is defined as baseline mean ± 2 standard deviations (95% confidence interval). Drift alert triggers if variable exits band for ≥3 consecutive uploads (15 min window). Alert confidence: ≥95% that true</div>
+</div>
+<div class='finding major' data-k='M'>
+<div class='title'><span class='chip major'>major</span> Adversarial Robustness Bounds Definition Ambiguous — Perturbation Budget Not Aligned Across REQ-005 and Scenarios <span class='small'>· c=8</span></div>
+<div class='src'>Amelia — Modifiability Analyst · M (Modifiable)</div>
+<div>REQ-005 specifies &#x27;perturbation budgets 10% and 20% of pixel range&#x27; and acceptance criteria (accuracy drop ≤20 pp at ε=0.1, ≤40 pp at ε=0.2). But SCEN-007 uses notation &#x27;L-infinity ε=8/255 (which is ~3% pixel range, not 10%). SCEN-009 references &#x27;pairwise robustness&#x27; combining fog + adversarial patch but does NOT define how combined perturbation budgets compose. This ambiguity will cause re-work during Phase 3 gate: are bounds tested individually (ε=0.1 alone) or combina</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Clarify and unify perturbation budget notation in REQ-005 statement: explicitly map ε percentages to pixel-space notation (ε=0.1 → 25.5/255 in standard FGSM libraries). Add sub-requirement for &#x27;Pairwise Robustness Testing&#x27; specifying how composite perturbations (weather + adversarial) interact. Define &#x27;combined accuracy drop&#x27; metric (do they add or compound multiplicatively?). </div>
+</div>
+<div class='finding major' data-k='M'>
+<div class='title'><span class='chip major'>major</span> Red-teaming and Explainability Requirements Conditional but Critical for Safety Case — Unstable Tooling Threatens v1.0 Timeline <span class='small'>· c=8</span></div>
+<div class='src'>Amelia — Modifiability Analyst · M (Modifiable)</div>
+<div>REQ-006 (red-teaming with Garak/PyRIT) and REQ-007 (explainability with SHAP/LIME/Grad-CAM) are marked &#x27;conditional&#x27; and &#x27;should_have&#x27; by Natasha, targetable for v1.1 deferral. However, 6 of 28 scenarios (SCEN-027, SCEN-028, SCEN-024, SCEN-025, etc.) are explicitly built on red-teaming and explainability outputs. If these requirements slip to v1.1, Phase 3 evidence will have gaps that Dstl safety case review will challenge. Natasha notes &#x27;tools rapidly evolving&#x27; (Ga</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Elevate REQ-006 and REQ-007 to &#x27;essential, v1.0&#x27; with explicit risk acceptance or tool-lock strategy. Define tool versions upfront (Garak ≥0.10, PyRIT ≥0.3.0, SHAP ≥0.43). Alternatively, create v1.0 &#x27;lite&#x27; evidence path (model-layer metrics REQ-004/005 only) and v1.1 &#x27;rich assurance path&#x27; (add red-team + explainability). Document decision in Assumptions &amp; Dependen</div>
+</div>
+<div class='finding major' data-k='M'>
+<div class='title'><span class='chip major'>major</span> Live Drift Detection Phase 7 Requirements Incomplete — Alert Escalation SOP Undefined <span class='small'>· c=8</span></div>
+<div class='src'>Amelia — Modifiability Analyst · M (Modifiable)</div>
+<div>REQ-013 specifies drift detection on 3 ODD variables (sea state, visibility, sea-clutter) with alert thresholds (±2σ band). But acceptance criterion does NOT specify: (a) escalation logic (SLO-yellow → SLO-red → auto-suppress after 12 h), (b) who receives alerts (Dstl &#x27;team lead&#x27; named but no distribution list or SLO on response time), (c) how RAISO override is requested and logged. SCEN-013–015 detail these behaviors but are NOT formalized in REQ-013 statement. This creates ambiguity:</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Expand REQ-013 acceptance criteria to include: (1) alert escalation SOP (SLO-yellow timing, SLO-red threshold, auto-suppress delay), (2) notification routing (Dstl distribution list, email SLA &lt;1 hour), (3) RAISO override request process (who submits, signature requirement, audit trail). Cross-reference SCEN-013–015 in requirement statement. Define fallback behavior if primary comms fails (e.g.</div>
+</div>
+<div class='finding major' data-k='M'>
+<div class='title'><span class='chip major'>major</span> Phase 4 and Phase 5 Requirements Entangled — HIL Validation and Physical Trials Lack Clear Gate Criteria <span class='small'>· c=8</span></div>
+<div class='src'>Amelia — Modifiability Analyst · M (Modifiable)</div>
+<div>REQ-008 (HIL &amp; digital-twin evaluation, Phase 4) and REQ-010 (targeted physical trials, Phase 5) both conduct &#x27;collision-avoidance validation&#x27;. REQ-008 specifies ≥98% scenario pass rate, latency ≤1 s, degraded-sensor fallback. REQ-010 specifies &#x27;sim-to-real gap&#x27; closure (accuracy drop &gt;10 pp triggers investigation). But gate criteria are mixed: can Phase 5 start if Phase 4 shows 95% pass rate (below 98% target)? What if Phase 4 HIL and Phase 5 trials conflict (e.g., HI</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Formalize gate criteria and precedence rules in Section 3.4–3.5: (1) Phase 4 gate: HIL must achieve ≥95% scenario pass rate (relaxed from 98% as &#x27;confidence metric&#x27;; 98% is &#x27;target for production&#x27;); go/no-go gate: latency ≤1 s AND degraded-sensor fallback confirmed. (2) Phase 5 gate: real-world trials must confirm sim-to-real accuracy gap ≤10 pp; if &gt;10 pp, RCA required, no </div>
+</div>
+<div class='finding major' data-k='T'>
+<div class='title'><span class='chip major'>major</span> REQ-006 + REQ-009 are should_have and deferrable to v1.1 if Phase 3 schedule slips <span class='small'>· c=8</span></div>
+<div class='src'>Lewis — Traceability Analyst · T (Traceable)</div>
+<div>Red-teaming (REQ-006, volatile) and Scenic automation (REQ-009, moderate) are marked should_have by Natasha. If Phase 3 timeline tightens, both can be deferred; core safety case stands on REQ-004/005 alone.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Define Phase 3 critical path: REQ-001 → REQ-002 → REQ-003 → REQ-004 + REQ-005. Flag REQ-006/009 as optional in Phase 3 PSRQ gate criteria.</div>
+</div>
+<div class='finding major' data-k='T'>
+<div class='title'><span class='chip major'>major</span> REQ-010 (Phase 5 physical trials) depends on REQ-008 (Phase 4 HIL) outcome; circular if trials fail <span class='small'>· c=8</span></div>
+<div class='src'>Lewis — Traceability Analyst · T (Traceable)</div>
+<div>Phase 5 (REQ-010) is validation anchor for Phase 4 (REQ-008) digital-twin results. If Phase 5 trials uncover &gt;10pp sim-to-real gap (SCEN-022), then Phase 4 evidence is downgraded, requiring Phase 3 model retraining (REQ-004). Circular: evidence→validation→evidence.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Define sim-to-real acceptance thresholds in Phase 4 test design. If Phase 5 gap &gt;5pp, trigger Phase 3 RCA immediately (not post-Phase-6). Lock Phase 4 scenarios before Phase 5 planning.</div>
+</div>
+<div class='finding major' data-k='T'>
+<div class='title'><span class='chip major'>major</span> No traceability from standards (AMLAS, SACE, GSN) to specific acceptance criteria <span class='small'>· c=8</span></div>
+<div class='src'>Lewis — Traceability Analyst · T (Traceable)</div>
+<div>Each REQ cites standards (e.g., REQ-001 cites AMLAS Phase 1), but Iris acceptance criteria do not explicitly map to AMLAS activities (A1–A6). GSN claims are auto-generated (REQ-011) but baseline claim structure is not specified.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Create standards-to-PSRQ mapping: AMLAS A1 (specification of acceptable behaviour) → Phase 1 + REQ-001; A2 (training data) → Phase 2 + REQ-002; etc. Validate GSN auto-generation templates against DEFSTAN 00-056 patterns.</div>
+</div>
+<div class='finding major' data-k='C_complete'>
+<div class='title'><span class='chip major'>major</span> Missing GDPR/privacy specification for sea-trial vessel identifiers and personnel <span class='small'>· c=7</span></div>
+<div class='src'>Lucy — Completeness Analyst · C (Complete)</div>
+<div>Sea trials involve real UK vessels and potentially crew communications. Sensor logs are classified as sensitive and archived per JSP 520 (Feature 2), but privacy implications (GDPR, UK GDPR-UK) are not addressed.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Add Privacy Section 2.4.6 with: (i) PII identification in sea-trial data (vessel names, radio callsigns, crew identifiers are PII), (ii) redaction rules (automatic de-identification before publication), (iii) consent tracking (from Navy, participating fishing vessels), (iv) retention policy (keep identifiable data ≤3 years, then anonymise for historical analysis), (v) publication approval (Dstl de</div>
+</div>
+<div class='finding major' data-k='C_complete'>
+<div class='title'><span class='chip major'>major</span> Missing vendor lock-in risks and AI-tool sustainability plan <span class='small'>· c=7</span></div>
+<div class='src'>Lucy — Completeness Analyst · C (Complete)</div>
+<div>Milarna flagged &#x27;Vendor AI-tool sustainability and supply-chain risk&#x27; as a separate missing finding. Input MD lists 18 tools but assumes their continued availability and licence stability.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Add Supply-Chain Risk Section 2.5.6 with: (i) tool risk matrix (Isaac Sim = high criticality, has Unreal/Gazebo fallback; D-Case Editor = medium, has manual XML authoring fallback), (ii) licence-change monitoring (quarterly review of NVIDIA, NVIDIA TAO, Foolbox terms), (iii) open-source mandate (prefer tools with active open-source community), (iv) contingency toolchain (identified replacements fo</div>
+</div>
+<div class='finding major' data-k='C_consistent'>
+<div class='title'><span class='chip major'>major</span> Standards alignment gap: JSP 520 vs DEFSTAN 00-056 vs RA 1600 — no primary standard cited <span class='small'>· c=7</span></div>
+<div class='src'>Ophellia — Consistency Analyst · C (Consistent)</div>
+<div>If DEFSTAN 00-056 and RA 1600 both define &#x27;qualification,&#x27; which applies? If JSP 520 and AMLAS define data governance differently, which takes precedence? SACE is mentioned in glossary as &#x27;methodology for building safety assurance cases&#x27; but is not mapped to any defence standard. DeFOSPAM findings do not flag this.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Create a standards matrix: Phase × Standard → Applicable sections. For example: (Phase 5, DEFSTAN 00-056) = &#x27;Safety management for operational trials&#x27;; (Phase 6, RA 1600) = &#x27;Assurance and risk&#x27;. Designate one standard (likely DEFSTAN 00-056 or RA 1600) as primary for safety evidence. Resolve conflicts explicitly.</div>
+</div>
+<div class='finding major' data-k='C_consistent'>
+<div class='title'><span class='chip major'>major</span> Characteristic conflict: &#x27;rare events&#x27; provenance described as generation problem, not labelling problem <span class='small'>· c=7</span></div>
+<div class='src'>Ophellia — Consistency Analyst · C (Consistent)</div>
+<div>Diffusion inpainting scenario shows inpainted radar sectors must be &#x27;flagged as synthetic and excluded from ground-truth labelling.&#x27; This is a labelling/curation step, not a generation-time provenance issue. But the exception in the previous scenario rejects synthetic data when &#x27;offline generation omits lineage&#x27; — suggesting generation-time provenance is the concern. These are orthogonal issues: (a) generation model certification (is StyleGAN trustworthy?), (b) instance-level</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Separate concerns: (1) Generation Provenance (Phase 2a) — certify model snapshots via MLOps pipeline; (2) Instance Labelling (Phase 2b) — tag synthetic pixels at curation time; (3) Evidence Chain (Phase 6) — link synthetic instances to generation model and confidence bounds. Update Phase 2 acceptance criteria to cover both.</div>
+</div>
+<div class='finding major' data-k='C_consistent'>
+<div class='title'><span class='chip major'>major</span> Logical conflict: &#x27;human-on-the-loop operating concept with defined escalation&#x27; vs automated re-qualification <span class='small'>· c=7</span></div>
+<div class='src'>Ophellia — Consistency Analyst · C (Consistent)</div>
+<div>Phase 7 scenario: &#x27;Negative: human operator ignores drift alert, continues operation beyond SLO&#x27; → Article 36 exception raised. This implies human *can* override automatic escalation, but only if they acknowledge the risk. The feature description says &#x27;automatically post-deployment&#x27; but scenarios show human approval gates. No explicit rule for when automation vs human approval applies.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Define escalation levels: (1) SLO-yellow drift → automatic logging, no action; (2) SLO-red drift → automatic alert + human acknowledgement required within 2 hours; (3) Critical drift (e.g., new sensor malfunction) → automatic system halt pending re-qualification. Update Section 8 to clarify &#x27;automatic&#x27; means &#x27;automatically detected&#x27; not &#x27;automatically remediated without hu</div>
+</div>
+<div class='finding major' data-k='R'>
+<div class='title'><span class='chip major'>major</span> Explainability (REQ-007) ranked &#x27;conditional&#x27; but safety-case narrative may demand it for Dstl approval <span class='small'>· c=7</span></div>
+<div class='src'>Natasha — Ranking Analyst · R (Ranked)</div>
+<div>REQ-007 (explainability/interpretability) ranked as &#x27;conditional should_have&#x27;, implying Dstl can accept a safety case without SHAP/LIME/Grad-CAM reports. However, DeFOSPAM Phase 1 and UK Defence AI Playbook guidance suggest explainability is increasingly expected in safety-critical autonomous systems. If Dstl safety engineer encounters unexplained failure modes in Phase 4 HIL results (e.g., &#x27;model missed small vessel in clutter 8 times&#x27;), they may demand explainability analys</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Conduct early (Phase 2) scoping conversation with Dstl PSRQ lead: &#x27;Is explainability (SHAP/LIME/Grad-CAM) mandatory for AMLAS Phase 4 gate sign-off, or can we substitute with conservative ODD restrictions and manual failure-mode analysis?&#x27; Document decision in AMLAS Activity Evidence Summary template. If mandatory, promote REQ-007 to &#x27;essential must_have v1.0&#x27;. If optional, mai</div>
+</div>
+<div class='finding major' data-k='R'>
+<div class='title'><span class='chip major'>major</span> Article 36 legal review (REQ-012) underspecified: no SLA for legal turnaround or rejection remediation process <span class='small'>· c=7</span></div>
+<div class='src'>Natasha — Ranking Analyst · R (Ranked)</div>
+<div>REQ-012 specifies Article 36 evidence export and Dstl legal office submission but does not define: (a) legal review SLA (e.g., &#x27;UK Defence legal office shall complete review within 10 working days&#x27;), (b) rejection criteria (what legal objections are expected?), (c) remediation SOP (if legal rejects, how quickly must evidence be updated?), (d) re-submission cycles. AMLAS Phase 6 schedule assumes legal approval as a gate, but without SLAs, legal review could block v1.0 indefinitely. Phas</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Revise REQ-012 to include: (a) Legal review SLA: Dstl legal office review completed within 15 working days of submission; (b) Rejection process: if legal objects, provision for up to 2 revision cycles, each with 5-working-day remediation window; (c) Escalation: if legal review unresolved after 2 cycles, escalate to UK Defence General Counsel for expedited review (10-day SLA); (d) Accept/reject dec</div>
+</div>
+<div class='finding major' data-k='V'>
+<div class='title'><span class='chip major'>major</span> HIL sensor simulation realism lacks fidelity metric <span class='small'>· c=7</span></div>
+<div class='src'>Iris — Verifiability Analyst · V (Verifiable)</div>
+<div>&#x27;Physics-realistic&#x27; is subjective without measurement criteria. Fidelity validation requires comparing simulated outputs to real sensor data—domain-specific metrics (RCS, PSNR, range error) are appropriate.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Establish a &#x27;Simulator Validation Plan&#x27; specifying which metrics (RCS, PSNR, RMSE) apply to each sensor type and ODD condition. Run validation on a representative ODD cell sample before Phase 4 begins.</div>
+<div class='small'><b>Original:</b> physics-realistic sensor feedback from Isaac Sim</div><div class='small'><b>Rewrite:</b> Isaac Sim or ROS Gazebo sensor simulation shall produce radar echoes, camera frames, and LiDAR pointclouds that match real sensor characteristics within defined tolerances: (1) radar cross-section (RCS) variance ≤±20% of real reference, (2) camera noise profile (Poisson, read noise) consistent with real sensor models, (3) LiDAR beam divergence and range noise within ±10% of real specifications. Va</div>
+</div>
+<div class='finding major' data-k='M'>
+<div class='title'><span class='chip major'>major</span> Feature Overlap: REQ-005 (Adversarial Bounds) and REQ-006 (Red-teaming) Both Assess Robustness — Boundary Unclear <span class='small'>· c=7</span></div>
+<div class='src'>Amelia — Modifiability Analyst · M (Modifiable)</div>
+<div>REQ-005 conducts &#x27;adversarial robustness testing&#x27; with Foolbox (FGSM, PGD, C&amp;W attacks) and files bounds in SACE. REQ-006 conducts &#x27;red-teaming&#x27; with PyRIT (spoofing, jamming, occlusion, morphing). Both measure &#x27;accuracy drop under adversarial conditions&#x27;. Difference is subtle: REQ-005 is model-layer testing (pixel-space perturbations), REQ-006 is scenario-based testing (system-level stressors). But overlap in scope and tooling creates risk of double-testing or </div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Clarify boundary in requirements: REQ-005 is &#x27;Adversarial Perturbation Testing (model-layer)&#x27; with focus on pixel-space attacks. REQ-006 is &#x27;Adversarial Scenario Testing (system-level)&#x27; with focus on physical-world conditions (fog, jamming, etc.). Add cross-reference: REQ-005 results inform perturbation budgets for REQ-006 scenarios. Define conflict resolution: if REQ-006 scena</div>
+</div>
+<div class='finding major' data-k='M'>
+<div class='title'><span class='chip major'>major</span> RAISO Override Authority and Scope Not Formally Specified — Creates Ambiguity in Exception Handling <span class='small'>· c=7</span></div>
+<div class='src'>Amelia — Modifiability Analyst · M (Modifiable)</div>
+<div>REQ-015 (RBAC) names &#x27;RAISO&#x27; as an access role with &#x27;override authority on exceptions&#x27;. REQ-011 mentions &#x27;RAISO for exception&#x27; in GSN rejection scenarios (SCEN-017). REQ-013 (drift detection) specifies RAISO override for out-of-bounds operation. But requirements do NOT specify: (a) what constitutes an &#x27;exception&#x27; (individual requirement failure? Systemic issue?), (b) RAISO approval criteria (subjective risk assessment? Quantified bounds?), (c) escalation t</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Add explicit &#x27;Exception Handling &amp; RAISO Override&#x27; requirement (e.g., REQ-015.1) specifying: (1) exception categories (e.g., &#x27;test failure&#x27;, &#x27;evidence gap&#x27;, &#x27;ODD exceedance&#x27;), (2) RAISO approval criteria (e.g., &#x27;risk-based justification + schedule impact &lt;5 days&#x27;), (3) override duration limit (e.g., &#x27;override valid for 10 working days; </div>
+</div>
+<div class='finding major' data-k='T'>
+<div class='title'><span class='chip major'>major</span> No requirements trace REQ-012 (Article 36 export) to deployment decision <span class='small'>· c=7</span></div>
+<div class='src'>Lewis — Traceability Analyst · T (Traceable)</div>
+<div>REQ-012 exports evidence for Article 36 legal review, but no forward trace specifies operational decision gates (approved → deployment authorized, conditional → escalate to RAISO, rejected → halt). Evidence bundle exists in abstract; legal signoff is unclear.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Define REQ-012 forward trace to deployment authorization logic. Create decision matrix: Article 36 approval status → deployment SLA. Integrate with REQ-016 (CI/CD gate).</div>
+</div>
+<div class='finding minor' data-k='C_correct'>
+<div class='title'><span class='chip minor'>minor</span> Feature 12 correctly specifies Article 36 legal review scope <span class='small'>· c=9</span></div>
+<div class='src'>Chelcie — Correctness Analyst · C (Correct)</div>
+<div>Feature 12 correctly traces to source Sections 7.6 and 5, which both mention &#x27;Article 36 legal review for collision-avoidance behaviour&#x27; and &#x27;Article 36 legal review evidence&#x27;. Scope is precise and well-bounded.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> No action required. Feature 12 correctly captures Article 36 requirements.</div>
+</div>
+<div class='finding minor' data-k='C_correct'>
+<div class='title'><span class='chip minor'>minor</span> Feature 11 correctly names GSN safety case authoring tools <span class='small'>· c=8</span></div>
+<div class='src'>Chelcie — Correctness Analyst · C (Correct)</div>
+<div>Feature 11 business story mentions &#x27;AdvoCATE, D-Case Editor and LLM-GSN&#x27;, which exactly matches source Section 9 listing. All three tools are real GSN authoring platforms.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> No action required. Feature 11 correctly specifies safety-case authoring tools.</div>
+</div>
+<div class='finding minor' data-k='C_correct'>
+<div class='title'><span class='chip minor'>minor</span> Feature 5 omits TextAttack from adversarial robustness toolkit <span class='small'>· c=7</span></div>
+<div class='src'>Chelcie — Correctness Analyst · C (Correct)</div>
+<div>Source explicitly lists &#x27;IBM ART / Foolbox / CleverHans / TextAttack for adversarial robustness&#x27;, but Feature 5 omits TextAttack. While TextAttack is more NLP-focused, its inclusion in the source suggests completeness for adversarial attack methods is expected.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Verify whether TextAttack is required for this USV perception stack. If yes, add to Feature 5; if no, add a clarification note in traceability explaining the omission.</div>
+</div>
+<div class='finding minor' data-k='C_correct'>
+<div class='title'><span class='chip minor'>minor</span> Feature 13 omits production-SHAP from drift monitoring toolkit <span class='small'>· c=7</span></div>
+<div class='src'>Chelcie — Correctness Analyst · C (Correct)</div>
+<div>Source lists &#x27;Evidently AI / Alibi Detect / Arize / production-SHAP for drift monitoring&#x27;, but Feature 13 omits production-SHAP. This tool provides explainability for drift signals, which is important for regulatory evidence.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Add production-SHAP to Feature 13 business story for drift signal explainability.</div>
+</div>
+<div class='finding minor' data-k='C_correct'>
+<div class='title'><span class='chip minor'>minor</span> Feature 14 omits Kubeflow from MLOps lineage tracking tools <span class='small'>· c=7</span></div>
+<div class='src'>Chelcie — Correctness Analyst · C (Correct)</div>
+<div>Source lists &#x27;MLflow / DVC / Kubeflow / Weights &amp; Biases for MLOps&#x27;, but Feature 14 omits Kubeflow. Kubeflow is a critical component for production ML workflows and AMLAS artefact traceability.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Include Kubeflow in Feature 14 business story as a core MLOps orchestration platform.</div>
+</div>
+<div class='finding minor' data-k='C_correct'>
+<div class='title'><span class='chip minor'>minor</span> Feature 2 correctly traces to Phase 2 but source mentions AUVLAB + MOD sea-trial tapes <span class='small'>· c=7</span></div>
+<div class='src'>Chelcie — Correctness Analyst · C (Correct)</div>
+<div>Feature 2&#x27;s data sources align exactly with source Section 7.2 and Section 11 (Datasets). AUVLAB, MOD sea-trial data, and UK maritime corpora are all listed in source Section 11.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> No action required. Feature 2 correctly captures Phase 2 data sources.</div>
+</div>
+<div class='finding minor' data-k='C_complete'>
+<div class='title'><span class='chip minor'>minor</span> Missing maintainability and decommissioning/transition plan <span class='small'>· c=7</span></div>
+<div class='src'>Lucy — Completeness Analyst · C (Complete)</div>
+<div>Milarna identified &#x27;Transition and decommissioning&#x27; as missing. Features span 7 phases (2+ years) but do not address what happens post-deployment (sustainment, retirement, knowledge transfer).</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Add Transition Section 2.6.3 with: (i) sustainment support model (Dstl retains support through Phase 7+N years at £X/month), (ii) decommissioning trigger (e.g., when USV retired or perception stack replaced), (iii) knowledge-transfer plan (documentation, training handover to successor team), (iv) archive retention (permanent storage of GSN, Phase 1-7 artifacts per JSP 520), (v) tool obsolescence p</div>
+</div>
+<div class='finding minor' data-k='C_complete'>
+<div class='title'><span class='chip minor'>minor</span> Missing NATO/AUKUS interoperability and units/metric harmonisation <span class='small'>· c=7</span></div>
+<div class='src'>Lucy — Completeness Analyst · C (Complete)</div>
+<div>Milarna identified &#x27;Internationalization and NATO/AUKUS data exchange&#x27; as missing. Input MD claims alignment with NATO and AUKUS but does not specify technical interoperability.</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> Add Interoperability Section 2.5.5 with: (i) units specification (all ODD dimensions in SI units: wind speed m/s, distance m, time s), (ii) API standard (GSN and evidence exported as standard SACE XML per York CfAA schema), (iii) AUKUS data-exchange protocol (RESTful API with AUS/CA/UK classification mutual recognition), (iv) test case format (OpenSCENARIO 2.0 + Scenic DSL as lingua franca for mul</div>
+</div>
+<div class='finding minor' data-k='T'>
+<div class='title'><span class='chip minor'>minor</span> REQ-007 (Explainability) is conditional; no forward trace if deferred <span class='small'>· c=7</span></div>
+<div class='src'>Lewis — Traceability Analyst · T (Traceable)</div>
+<div>REQ-007 is marked should_have (conditional necessity). Iris created SCEN-024/025 for explainability, but if REQ-007 is deferred, those scenarios are orphaned. No test cases specify fallback (ODD restriction instead of explainability proof).</div>
+<div class='small' style='margin-top:6px'><b>Recommendation.</b> If REQ-007 deferred, archive SCEN-024/025 as optional evidence. Update Phase 3 acceptance criteria to clarify explainability as optional if model-layer accuracy passes REQ-004/005 alone.</div>
+</div>
+</div>
+
+<div class="sec" id="glossary"><h3>Glossary (55 terms)</h3>
+<table><thead><tr><th style="width:160px">Term</th><th>Definition</th></tr></thead><tbody>
+<tr><td><b>AMLAS</b></td><td>Assurance of Machine Learning for use in Autonomous Systems — a six-activity lifecycle-based assurance framework developed by the University of York Centre for Assuring Autonomy for documenting ML safety evidence</td></tr>
+<tr><td><b>SACE</b></td><td>Safety Assurance Case Environment — a structured methodology for building and documenting safety assurance cases for autonomous systems</td></tr>
+<tr><td><b>GSN</b></td><td>Goal Structuring Notation — a formal graphical notation for documenting safety arguments and assurance cases, showing how claims are supported by evidence</td></tr>
+<tr><td><b>ODD</b></td><td>Operational Design Domain — the specified conditions (weather, sensor types, traffic density, geography, speeds, lighting) under which an autonomous system is designed to operate safely</td></tr>
+<tr><td><b>PSRQ</b></td><td>Perception Stack Robustness Qualification — the formal evaluation campaign a USV perception stack must pass before clearance for sea trials and operational release</td></tr>
+<tr><td><b>Dstl</b></td><td>Defence Science and Technology Laboratory — UK Ministry of Defence scientific research establishment supporting defence and security</td></tr>
+<tr><td><b>DAIC</b></td><td>Defence AI Centre — UK Ministry of Defence organization focused on artificial intelligence capability development and assurance</td></tr>
+<tr><td><b>NavyX</b></td><td>Royal Navy innovation and experimentation hub supporting rapid technology adoption and testing for naval programmes</td></tr>
+<tr><td><b>USV</b></td><td>Uncrewed Surface Vessel — an autonomous maritime platform operated without crew onboard, equipped with sensor and decision-making systems</td></tr>
+<tr><td><b>XLUUV</b></td><td>Extra-Large Uncrewed Underwater Vehicle — a large autonomous underwater platform for extended-range autonomous missions</td></tr>
+<tr><td><b>DAU</b></td><td>Defence Approval Unit — the UK Ministry of Defence body responsible for approving defence capabilities and systems</td></tr>
+<tr><td><b>RAISO</b></td><td>Risk and Assurance Information Security Office — UK Ministry of Defence office providing assurance and risk oversight</td></tr>
+<tr><td><b>JSP 520</b></td><td>Joint Service Publication 520 — UK Defence policy document on defence equipment and support</td></tr>
+<tr><td><b>JSP 936</b></td><td>Joint Service Publication 936 — UK Defence policy document on defence project management and acquisition</td></tr>
+<tr><td><b>DEFSTAN 00-056</b></td><td>Defence Standard 00-056 — UK Defence standard for safety management and assurance in defence systems</td></tr>
+<tr><td><b>STANAG 4297</b></td><td>NATO Standard Agreement 4297 — NATO standardization agreement covering naval craft operations and standards</td></tr>
+<tr><td><b>STANAG 4439</b></td><td>NATO Standard Agreement 4439 — NATO standardization agreement for maritime interoperability</td></tr>
+<tr><td><b>STANAG 4496</b></td><td>NATO Standard Agreement 4496 — NATO standardization agreement for tactical data exchange</td></tr>
+<tr><td><b>AUKUS</b></td><td>Australia-United Kingdom-United States security and technology partnership focused on defence innovation and capability</td></tr>
+<tr><td><b>Article 36</b></td><td>UK protocol for reviewing military capability acquisitions to ensure compliance with international humanitarian law and weapons law</td></tr>
+<tr><td><b>HIL</b></td><td>Hardware-in-the-Loop — testing methodology where control software is tested with real or simulated hardware sensors and actuators</td></tr>
+<tr><td><b>digital twin</b></td><td>Computational model that mirrors a physical system&#x27;s behaviour, used for simulation-based testing and validation before real-world deployment</td></tr>
+<tr><td><b>MLOps</b></td><td>Machine Learning Operations — practices for managing the ML lifecycle including development, testing, deployment, monitoring, and continuous improvement</td></tr>
+<tr><td><b>CI/CD</b></td><td>Continuous Integration / Continuous Deployment — automated practices for frequently integrating code changes and deploying to production</td></tr>
+<tr><td><b>SHAP</b></td><td>SHapley Additive exPlanations — a model-agnostic technique for explaining individual predictions by computing each feature&#x27;s contribution to the output</td></tr>
+<tr><td><b>LIME</b></td><td>Local Interpretable Model-agnostic Explanations — a technique for explaining individual model predictions by approximating local decision boundaries</td></tr>
+<tr><td><b>adversarial robustness</b></td><td>Measure of a model&#x27;s resistance to adversarial examples — intentionally crafted perturbations designed to cause misclassification</td></tr>
+<tr><td><b>drift detection</b></td><td>Continuous monitoring technique for identifying when deployed model performance degrades due to changes in input data distribution or environment</td></tr>
+<tr><td><b>metamorphic testing</b></td><td>Testing approach that defines metamorphic relations between inputs and outputs to generate test cases without requiring explicit expected outputs</td></tr>
+<tr><td><b>synthetic data</b></td><td>Artificially generated data created using simulators, GANs, or diffusion models to augment real sensor data for training and testing</td></tr>
+<tr><td><b>explainability</b></td><td>Capability to interpret and understand how a model produces specific predictions, required for safety-critical systems</td></tr>
+<tr><td><b>traceability matrix</b></td><td>Documentation tool mapping requirements to test cases, evidence, and implementation, establishing chain of evidence for certification</td></tr>
+<tr><td><b>safety case</b></td><td>Structured argument and evidence demonstrating that a system is acceptably safe, typically documented in GSN notation</td></tr>
+<tr><td><b>Isaac Sim</b></td><td>NVIDIA&#x27;s GPU-accelerated simulation platform for robotics and autonomous systems, supporting physics-accurate synthetic sensor data generation</td></tr>
+<tr><td><b>AirSim</b></td><td>Open-source simulator for drones and autonomous vehicles built on Unreal Engine, supporting multi-modal sensor simulation</td></tr>
+<tr><td><b>CARLA</b></td><td>Open-source autonomous driving simulator supporting vehicle physics, sensor simulation, and scenario scripting</td></tr>
+<tr><td><b>VBS4</b></td><td>Virtual Battlespace 4 — military simulation platform supporting realistic terrain, weather, and tactical scenarios for training and testing</td></tr>
+<tr><td><b>IBM ART</b></td><td>IBM Adversarial Robustness Toolbox — open-source library for detecting and defending against adversarial attacks on machine learning models</td></tr>
+<tr><td><b>Foolbox</b></td><td>Python toolbox for building and evaluating adversarial robustness of machine learning models</td></tr>
+<tr><td><b>Garak</b></td><td>Open-source tool for systematic testing and red-teaming of large language models for safety and security vulnerabilities</td></tr>
+<tr><td><b>Evidently AI</b></td><td>Open-source library for monitoring data drift, model performance degradation, and data quality in production ML systems</td></tr>
+<tr><td><b>CVAT</b></td><td>Computer Vision Annotation Tool — open-source platform for labelling and managing datasets for computer vision tasks</td></tr>
+<tr><td><b>FiftyOne</b></td><td>Open-source tool for curating, visualizing, and analyzing computer vision datasets with built-in coverage and quality metrics</td></tr>
+<tr><td><b>Labelbox</b></td><td>Commercial data labelling platform supporting image, video, and text annotation with quality control for ML training</td></tr>
+<tr><td><b>declared ODD states</b></td><td>The explicitly specified operational design domain conditions under which a USV perception system is qualified to operate safely</td></tr>
+<tr><td><b>classes</b></td><td>In adversarial robustness context: distinct categories of objects or environmental conditions for which robustness bounds are computed separately</td></tr>
+<tr><td><b>environment variables</b></td><td>Measurable parameters defining ODD conditions (weather, illumination, sea state, traffic density, etc.) monitored for drift in production</td></tr>
+<tr><td><b>rare events</b></td><td>Low-frequency scenarios or environmental conditions requiring synthetic data augmentation to ensure adequate test coverage</td></tr>
+<tr><td><b>degraded-sensor modes</b></td><td>Operating scenarios where one or more sensor types experience reduced performance (noise, partial occlusion, signal loss)</td></tr>
+<tr><td><b>human-on-the-loop handovers</b></td><td>Transition scenarios where an USV autonomously detects its limits and safely hands control to a human operator</td></tr>
+<tr><td><b>coverage</b></td><td>Measure of the extent to which test cases exercise ODD states, environmental conditions, and adversarial scenarios</td></tr>
+<tr><td><b>MOD DAIS</b></td><td>Ministry of Defence Data &amp; AI Services — secure cloud and compute infrastructure for defence AI applications</td></tr>
+<tr><td><b>Crown Hosting</b></td><td>UK government secure cloud hosting service for classified and sensitive workloads</td></tr>
+<tr><td><b>AUVLAB</b></td><td>Marine perception dataset from MIT containing radar, visual, infrared camera, and LiDAR data from surface vessels</td></tr>
+<tr><td><b>York CfAA</b></td><td>University of York Centre for Assuring Autonomy — research centre developing AMLAS framework and autonomy assurance methodologies</td></tr>
+</tbody></table>
+</div>
+
+<footer>Report by <b>OpenRequirements.ai</b> · Based on IEEE Std 830-1998 · Agents: Chelcie · Odin · Lucy · Ophellia · Natasha · Iris · Amelia · Lewis</footer>
+</div>
+<script>
+document.querySelectorAll('.filters button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.filters button').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    const k=b.getAttribute('data-f');
+    document.querySelectorAll('.finding').forEach(f=>{
+      f.style.display=(k==='all'||f.getAttribute('data-k')===k)?'block':'none';
+    });
+  });
+});
+</script>
+</body></html>

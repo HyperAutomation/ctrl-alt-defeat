@@ -1,0 +1,21 @@
+ID, Name, Description
+REQ001, Application Intake & Completeness Check, As a CAA case officer I want to receive a complete Operational Authorisation pack so that I can open a valid case.
+REQ002, SORA 2.0 Assessment for Swarm, As a CAA SORA assessor I want swarm-aware SORA evidence so that I can set SAIL and OSO requirements defensibly.
+REQ003, ConOps & ODD Review, As a CAA safety-case reviewer I want a clear ConOps and ODD so that I can judge nominal and worst-credible behaviour.
+REQ004, Airspace Change & TDA Coordination, As a CAA airspace regulator I want a TDA and consultation package so that I can segregate the trial from other users.
+REQ005, Geofence / Containment Enforcement, As a CAA airspace regulator I want automatic containment so that a fly-away cannot become uncontrolled BVLOS.
+REQ006, C2 Link and Spectrum Assurance, As a CAA spectrum specialist I want authorised monitored C2 and inter-vehicle links so that link loss is survivable and non-interfering.
+REQ007, Detect-and-Avoid Performance, As a CAA DAA assessor I want DO-365 / F3442-aligned evidence for each aircraft and coordinated swarm de-confliction so that cooperative and non-cooperative encounters are resolved predictably.
+REQ008, Swarm Decision-Making Architecture Review, As a CAA autonomy reviewer I want the decision-making architecture airborne limits and emergent-behaviour evidence so that I can assure what the swarm will do collectively.
+REQ009, ML Assurance Case, As a CAA AI/ML assurance specialist I want an AMLAS / SACE case a frozen-model manifest and explainability evidence so that ML components are assurable and forensically explainable.
+REQ010, Human Oversight and Crew Fitness, As a CAA human factors inspector I want workload duty and take-over evidence so that meaningful human control is demonstrated throughout.
+REQ011, Contingency and Flight Termination, As a CAA flight-ops inspector I want independent termination a contingency matrix and ATSU coordination so that the trial can be made safe in any off-nominal state.
+REQ012, Data MOR & DPIA Obligations, As a CAA flight safety investigator I want complete recorded evidence accepted MOR obligations and a DPIA so that any incident is investigable and privacy is protected.
+REQ013, Insurance & Ground-Environment Survey, As a CAA authorisation officer I want insurance and a ground survey so that third-party risk is both transferable and factually grounded.
+REQ014, Crew Training & Competency, As a CAA licensing inspector I want evidenced competency so that the trial is flown by qualified crew.
+REQ015, CAA/MAA Interface Management, As a CAA/MAA liaison I want a signed apportionment so that regulatory ownership is gap-free.
+REQ016, Phased Trial Build-Up, As a CAA programme manager I want phased gates so that evidence builds progressively and is reversible.
+REQ017, Public and Stakeholder Engagement, No user story covers community consultation press/media handling or prior-notification to landowners. Strongly implied by CAP 1616 and GDPR but absent.
+REQ018, Security Classification Handling, No user story addresses how classified MOD evidence is presented to the CAA under CAP 722H / JSP 440 without compromise to either side.
+REQ019, Environmental Impact, No user story covers noise species disturbance at dusk/night or battery-fire environmental risk on ground.
+REQ020, Post-Trial Assurance & Close-out, No user story covers the post-trial lessons-learned evidence preservation and authorisation close-out.
