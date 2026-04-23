@@ -28,15 +28,19 @@ Environment:
 from __future__ import annotations
 
 import os
+import re
 import sys
 from pathlib import Path
 
 # Make the service/ directory importable when this file is run directly.
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from agent_framework_devui import serve
+from agent_framework_devui import DevServer
 
 from workflow.applicant_graph import build_applicant_workflow
+
+
+UI_TITLE = "CAA/MAA Approval Workbench"
 
 # Instruction strings from the design — imported directly so the DevUI always
 # shows the same system prompt each executor will use when wired to an LLM.
@@ -115,13 +119,66 @@ def _build_inspector_agents() -> list:
     return agents
 
 
+def _load_and_patch_index(ui_dir: Path) -> str:
+    """Read the packaged DevUI index.html and rewrite its <title> and any
+    visible 'Agent Framework Dev UI' branding to our workbench label.
+
+    The DevUI front-end also includes the label in the JS bundle (for the
+    header / tab titles it sets at runtime). We leave that alone — the
+    document.title is the dominant surface and it's the page load a browser
+    will pick up for the tab name and history.
+    """
+    index_path = ui_dir / "index.html"
+    html = index_path.read_text()
+    html = re.sub(r"<title>.*?</title>", f"<title>{UI_TITLE}</title>", html, count=1, flags=re.IGNORECASE | re.DOTALL)
+    html = html.replace("Agent Framework Dev UI", UI_TITLE)
+    return html
+
+
+def _build_app(entities: list):
+    """Build the DevUI FastAPI app with a /-override for the patched index."""
+    from fastapi.responses import HTMLResponse
+
+    server = DevServer(
+        port=int(os.getenv("DEVUI_PORT", "8090")),
+        host=os.getenv("DEVUI_HOST", "127.0.0.1"),
+        cors_origins=["*"],
+        ui_enabled=True,
+    )
+    server.register_entities(entities)
+    app = server.create_app()
+
+    ui_dir = Path(DevServer.__module__.split(".")[0]).parent  # placeholder; overwritten below
+    import agent_framework_devui as _dv_pkg
+    ui_dir = Path(_dv_pkg.__file__).parent / "ui"
+    patched_html = _load_and_patch_index(ui_dir)
+
+    @app.get("/", include_in_schema=False, response_class=HTMLResponse)
+    async def _index_root():
+        return HTMLResponse(patched_html)
+
+    @app.get("/index.html", include_in_schema=False, response_class=HTMLResponse)
+    async def _index_html():
+        return HTMLResponse(patched_html)
+
+    # create_app() has already mounted StaticFiles at '/{path}' before our
+    # routes were added. In Starlette, routes are matched in insertion order,
+    # so the catch-all mount would take precedence. Move our overrides to the
+    # front of the routes list.
+    override_paths = {"/", "/index.html"}
+    overrides = [r for r in app.routes if getattr(r, "path", None) in override_paths]
+    rest = [r for r in app.routes if r not in overrides]
+    app.router.routes = overrides + rest
+
+    return server, app
+
+
 def main() -> None:
     port = int(os.getenv("DEVUI_PORT", "8090"))
     host = os.getenv("DEVUI_HOST", "127.0.0.1")
     auto_open = os.getenv("DEVUI_OPEN", "1") == "1"
 
     workflow = build_applicant_workflow()
-    # Give DevUI something readable in its sidebar.
     try:
         workflow.name = "SORA Approval — Applicant Workflow"  # type: ignore[attr-defined]
     except Exception:
@@ -130,17 +187,16 @@ def main() -> None:
     entities: list = [workflow]
     entities.extend(_build_inspector_agents())
 
+    _, app = _build_app(entities)
+
     print(f"[devui] registered {len(entities)} entities")
-    print(f"[devui] starting server at http://{host}:{port}")
-    print(f"[devui] point your browser there to visualise the Applicant workflow")
-    serve(
-        entities=entities,
-        port=port,
-        host=host,
-        auto_open=auto_open,
-        cors_origins=["*"],
-        ui_enabled=True,
-    )
+    print(f"[devui] starting {UI_TITLE} at http://{host}:{port}")
+    if auto_open:
+        import webbrowser, threading
+        threading.Timer(1.5, lambda: webbrowser.open(f"http://{host}:{port}")).start()
+
+    import uvicorn
+    uvicorn.run(app, host=host, port=port, log_level="info")
 
 
 if __name__ == "__main__":
