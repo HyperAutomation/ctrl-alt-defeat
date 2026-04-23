@@ -1,0 +1,1 @@
+"REQ017.5","User Disregards Airspace Restrictions","['The user plans an operation in restricted airspace. ', 'The user attempts to change flight plan without obtaining necessary permissions or disregarding airspace restrictions. ']","['Assumed that the precondition has been met. ', 'System allows unauthorized action (e.  , no warning, no prevention). ']"

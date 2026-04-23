@@ -1,0 +1,1 @@
+"REQ007.3","Test Case: CAA DAA Assessor Requests Evidence","['Log in as a CAA DAA assessor to the system without DO-365/F3442 evidence generation capability. ', 'Request do-365 / f3442 evidence for each aircraft. ']","['Successfully log in as a CAA DAA assessor. ', 'An error message is displayed indicating that the requested evidence cannot be generated. ']"

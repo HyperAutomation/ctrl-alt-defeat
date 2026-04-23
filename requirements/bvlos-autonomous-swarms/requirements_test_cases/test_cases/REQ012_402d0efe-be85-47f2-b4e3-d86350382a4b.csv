@@ -1,0 +1,1 @@
+"REQ012.1","Verify Integrity of Stored Evidence","['Retrieve the recorded evidence from the specified file path. ', 'Verify that the evidence is authentic by checking its digital signature or hash value. ']","['The retrieved evidence matches the expected content (file_path). ', 'The digital signature/hash value of the retrieved evidence matches the expected one. ']"

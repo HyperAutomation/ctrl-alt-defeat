@@ -1,0 +1,2702 @@
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ001
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:06:30.306312+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 1dcc3b01-95e7-4a2c-945b-8bf34fbd12be
+@TestID: REQ001
+@Persona: general
+
+Scenario: Complete OA Pack Received
+	Given the CAA case officer has access to the applicant's Operational Authorisation (OA) pack
+	When the OA pack is reviewed and found complete according to the compliance checklist
+	Then a valid case can be opened by the CAA case officer
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ001
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:06:30.352173+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 1dcc3b01-95e7-4a2c-945b-8bf34fbd12be
+@TestID: REQ001
+@Persona: general
+
+Scenario: Incomplete OA Pack Received
+	Given the CAA case officer has access to the applicant's incomplete Operational Authorisation (OA) pack
+	When the OA pack is reviewed and found incomplete according to the compliance checklist
+	Then a valid case cannot be opened by the CAA case officer
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ001
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:06:30.437573+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 1dcc3b01-95e7-4a2c-945b-8bf34fbd12be
+@TestID: REQ001
+@Persona: general
+
+Scenario: Missing Information in OA Pack
+	Given the CAA case officer has access to the applicant's Operational Authorisation (OA) pack with missing information
+	When the OA pack is reviewed and found incomplete according to the compliance checklist, but a note from the applicant explaining that they will provide the missing information later is present
+	Then a valid case cannot be opened by the CAA case officer until all required information is provided
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ001
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:06:30.486967+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 1dcc3b01-95e7-4a2c-945b-8bf34fbd12be
+@TestID: REQ001
+@Persona: general
+
+Scenario: Incorrect Documentation in OA Pack
+	Given the CAA case officer has access to the applicant's Operational Authorisation (OA) pack with incorrect or outdated documentation
+	When the OA pack is reviewed and found incomplete according to the compliance checklist due to incorrect or outdated documentation
+	Then a valid case cannot be opened by the CAA case officer until all required documentation is corrected
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ001
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:06:30.531814+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 1dcc3b01-95e7-4a2c-945b-8bf34fbd12be
+@TestID: REQ001
+@Persona: general
+
+Scenario: Missing Compliance Checklist
+	Given the CAA case officer has access to the applicant's Operational Authorisation (OA) pack without a compliance checklist
+	When the OA pack is reviewed and found incomplete according to the compliance checklist because it lacks a compliance checklist
+	Then a valid case cannot be opened by the CAA case officer until a complete compliance checklist is provided
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ001
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:06:30.578795+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 1dcc3b01-95e7-4a2c-945b-8bf34fbd12be
+@TestID: REQ001
+@Persona: general
+
+Scenario: Incorrect Compliance Checklist
+	Given the CAA case officer has access to the applicant's Operational Authorisation (OA) pack with an incorrect or incomplete compliance checklist
+	When the OA pack is reviewed and found incomplete according to the compliance checklist due to errors on the compliance checklist
+	Then a valid case cannot be opened by the CAA case officer until all required information on the compliance checklist is corrected
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ002
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:10:16.821717+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 3cc096a6-037d-4111-8f57-e20cdc485f29
+@TestID: REQ002
+@Persona: general
+
+Scenario: Assessor sets SAIL and OSO requirements with swarm-aware SORA evidence
+	Given the CAA assessor has access to a UAS operational authorization application
+	And given the assessor is using swarm-aware SORA evidence
+	When the assessor reviews the provided swarm-aware SORA evidence
+	And when the assessor sets SAIL and OSO requirements based on that evidence
+	Then the assessor can set SAIL and OSO requirements defensibly
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ002
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:10:16.862883+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 3cc096a6-037d-4111-8f57-e20cdc485f29
+@TestID: REQ002
+@Persona: general
+
+Scenario: Assessor fails to set SAIL and OSO requirements with invalid swarm-aware SORA evidence
+	Given the CAA assessor has access to a UAS operational authorization application
+	And given the assessor is using invalid or incomplete swarm-aware SORA evidence
+	When the assessor reviews the provided invalid or incomplete swarm-aware SORA evidence
+	And when the assessor attempts to set SAIL and OSO requirements based on that evidence
+	Then the assessor cannot set SAIL and OSO requirements defensibly
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ002
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:10:16.904338+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 3cc096a6-037d-4111-8f57-e20cdc485f29
+@TestID: REQ002
+@Persona: general
+
+Scenario: Assessor sets BVLOS requirements with swarm-aware SORA evidence
+	Given the CAA assessor has access to a UAS operational authorization application for BVLOS operations
+	And given the assessor is using swarm-aware SORA evidence
+	When the assessor reviews the provided swarm-aware SORA evidence
+	And when the assessor sets BVLOS requirements based on that evidence
+	Then the assessor can set BVLOS requirements defensibly
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ002
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:10:16.945339+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 3cc096a6-037d-4111-8f57-e20cdc485f29
+@TestID: REQ002
+@Persona: general
+
+Scenario: Assessor fails to set BVLOS requirements with invalid swarm-aware SORA evidence
+	Given the CAA assessor has access to a UAS operational authorization application for BVLOS operations
+	And given the assessor is using invalid or incomplete swarm-aware SORA evidence
+	When the assessor reviews the provided invalid or incomplete swarm-aware SORA evidence
+	And when the assessor attempts to set BVLOS requirements based on that evidence
+	Then the assessor cannot set BVLOS requirements defensibly
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ002
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:10:16.986673+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 3cc096a6-037d-4111-8f57-e20cdc485f29
+@TestID: REQ002
+@Persona: general
+
+Scenario: Assessor sets SA/GR requirements with swarm-aware SORA evidence
+	Given the CAA assessor has access to a UAS operational authorization application for operations with specific air and ground risks
+	And given the assessor is using swarm-aware SORA evidence
+	When the assessor reviews the provided swarm-aware SORA evidence
+	And when the assessor sets SA/GR requirements based on that evidence
+	Then the assessor can set SA/GR requirements defensibly
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ002
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:10:17.026922+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 3cc096a6-037d-4111-8f57-e20cdc485f29
+@TestID: REQ002
+@Persona: general
+
+Scenario: Assessor fails to set SA/GR requirements with invalid swarm-aware SORA evidence
+	Given the CAA assessor has access to a UAS operational authorization application for operations with specific air and ground risks
+	And given the assessor is using invalid or incomplete swarm-aware SORA evidence
+	When the assessor reviews the provided invalid or incomplete swarm-aware SORA evidence
+	And when the assessor attempts to set SA/GR requirements based on that evidence
+	Then the assessor cannot set SA/GR requirements defensibly
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ002
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:10:17.067300+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 3cc096a6-037d-4111-8f57-e20cdc485f29
+@TestID: REQ002
+@Persona: general
+
+Scenario: Assessor sets RSM requirements with swarm-aware SORA evidence
+	Given the CAA assessor has access to a UAS operational authorization application for operations with robust safety measures
+	And given the assessor is using swarm-aware SORA evidence
+	When the assessor reviews the provided swarm-aware SORA evidence
+	And when the assessor sets RSM requirements based on that evidence
+	Then the assessor can set RSM requirements defensibly
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ002
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:10:17.107966+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 3cc096a6-037d-4111-8f57-e20cdc485f29
+@TestID: REQ002
+@Persona: general
+
+Scenario: Assessor fails to set RSM requirements with invalid swarm-aware SORA evidence
+	Given the CAA assessor has access to a UAS operational authorization application for operations with robust safety measures
+	And given the assessor is using invalid or incomplete swarm-aware SORA evidence
+	When the assessor reviews the provided invalid or incomplete swarm-aware SORA evidence
+	And when the assessor attempts to set RSM requirements based on that evidence
+	Then the assessor cannot set RSM requirements defensibly
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ003
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:15:03.992106+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 66fd8664-6c8c-4fdd-b989-13adf036799f
+@TestID: REQ003
+@Persona: general
+
+Scenario: Clear ConOps and ODD provided
+	Given a CAA safety-case reviewer is presented with clear ConOps and ODD for a UAS operation
+	When the reviewer judges nominal and worst-credible behaviour based on the provided ConOps and ODD
+	Then the reviewer can accurately judge nominal and worst-credible behaviour
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ003
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:15:04.033878+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 66fd8664-6c8c-4fdd-b989-13adf036799f
+@TestID: REQ003
+@Persona: general
+
+Scenario: Unclear ConOps and ODD provided
+	Given a CAA safety-case reviewer is presented with unclear or incomplete ConOps and ODD for a UAS operation
+	When the reviewer attempts to judge nominal and worst-credible behaviour based on the provided ConOps and ODD
+	Then the reviewer cannot accurately judge nominal and worst-credible behaviour
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ003
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:15:04.079863+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 66fd8664-6c8c-4fdd-b989-13adf036799f
+@TestID: REQ003
+@Persona: general
+
+Scenario: CAA decision appealed
+	Given a remote pilot is dissatisfied with the way an RAE has conducted their competency assessment
+	When the pilot raises that issue with the CAA and requests a review of conduct of test or exam
+	Then the CAA reviews the conduct of the test or exam
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ003
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:15:04.122791+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 66fd8664-6c8c-4fdd-b989-13adf036799f
+@TestID: REQ003
+@Persona: general
+
+Scenario: CAA decision not appealed
+	Given a remote pilot is dissatisfied with the way an RAE has conducted their competency assessment but does not raise that issue with the CAA
+	When the pilot fails to request a review of conduct of test or exam
+	Then the CAA's decision stands
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ003
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:15:04.171564+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 66fd8664-6c8c-4fdd-b989-13adf036799f
+@TestID: REQ003
+@Persona: general
+
+Scenario: OSC accepted
+	Given applicants provide clear evidence that the Safety risks have been suitably mitigated
+	When the CAA accepts an OSC after reviewing the provided evidence
+	Then the CAA confirms that the Safety risks are both tolerable and ALARP
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ003
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:15:04.215476+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 66fd8664-6c8c-4fdd-b989-13adf036799f
+@TestID: REQ003
+@Persona: general
+
+Scenario: OSC rejected
+	Given applicants provide clear evidence that the Safety risks have been suitably mitigated but the CAA does not accept the OSC
+	When the CAA rejects an OSC despite the provided evidence
+	Then the applicant is informed of the reasons for rejection
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ003
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:15:04.258346+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 66fd8664-6c8c-4fdd-b989-13adf036799f
+@TestID: REQ003
+@Persona: general
+
+Scenario: Impartiality maintained
+	Given trainers and assessors are free of any pressure or incentive that could affect their judgement or the results of their assessments
+	When the remuneration of the persons involved in assessment activities is not affected by financial type incentives
+	Then impartiality and avoiding conflicts of interest are ensured during assessment activities
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ003
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:15:04.299616+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 66fd8664-6c8c-4fdd-b989-13adf036799f
+@TestID: REQ003
+@Persona: general
+
+Scenario: Impartiality compromised
+	Given trainers and assessors have financial incentives that could affect their judgement or the results of their assessments
+	When the remuneration of the persons involved in assessment activities is affected by financial type incentives
+	Then impartiality and avoiding conflicts of interest are not ensured during assessment activities
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ004
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:19:29.693201+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: aae2b0e9-fbc9-4928-9e1e-f6d8e1063678
+@TestID: REQ004
+@Persona: general
+
+Scenario: Valid TDA and Consultation Package
+	Given a valid trial flight request has been submitted to the system
+	When the system creates a TDA and consultation package for the trial flight based on the provided information
+	Then the created TDA and consultation package meets CAA's requirements and is accepted by the CAA
+	And the trial flight can proceed with proper segregation from other users
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ004
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:19:29.736414+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: aae2b0e9-fbc9-4928-9e1e-f6d8e1063678
+@TestID: REQ004
+@Persona: general
+
+Scenario: Invalid TDA and Consultation Package
+	Given an invalid trial flight request has been submitted to the system
+	When the system creates a TDA and consultation package for the trial flight based on the provided information
+	Then the created TDA and consultation package does not meet CAA's requirements
+	And the CAA rejects the TDA and consultation package
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ004
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:19:29.779746+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: aae2b0e9-fbc9-4928-9e1e-f6d8e1063678
+@TestID: REQ004
+@Persona: general
+
+Scenario: Remote Pilot With Equivalent Experience
+	Given a remote pilot with equivalent experience accrued outside of the competence framework submits a trial flight request
+	When the system verifies that the remote pilot meets other criteria (e.g., through personal logbook) and creates a TDA and consultation package for the trial flight based on the provided information
+	Then the created TDA and consultation package is accepted by the CAA
+	And the trial flight can proceed with proper segregation from other users
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ004
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:19:29.824127+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: aae2b0e9-fbc9-4928-9e1e-f6d8e1063678
+@TestID: REQ004
+@Persona: general
+
+Scenario: Remote Pilot Who Does Not Meet Criteria
+	Given a remote pilot who does not meet the criteria set out in the competence framework submits a trial flight request
+	When the system verifies that the remote pilot does not meet all requirements and rejects their TDA and consultation package application
+	Then the remote pilot's TDA and consultation package is rejected
+	And they are informed of the reason for rejection
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ004
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:19:29.867492+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: aae2b0e9-fbc9-4928-9e1e-f6d8e1063678
+@TestID: REQ004
+@Persona: general
+
+Scenario: Inappropriate PFA
+	Given a Practical Flight Assessor (PFA) with inappropriate knowledge, background, or experience submits a trial flight request
+	When the system verifies that the PFA does not meet all requirements and rejects their TDA and consultation package application
+	Then the PFA's TDA and consultation package is rejected
+	And they are informed of the reason for rejection
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ004
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:19:29.910020+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: aae2b0e9-fbc9-4928-9e1e-f6d8e1063678
+@TestID: REQ004
+@Persona: general
+
+Scenario: Lack of Notification
+	Given a trial flight request is submitted without proper notification to other airspace users
+	When the system fails to make the required notifications to other airspace users
+	Then other airspace users are not informed of the trial flight
+	And the CAA may take appropriate action
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ004
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:19:29.953345+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: aae2b0e9-fbc9-4928-9e1e-f6d8e1063678
+@TestID: REQ004
+@Persona: general
+
+Scenario: Significant Change Without Assessment
+	Given a significant change is made to an Applicant's OSC without proper assessment by the CAA or approved organization
+	When the system allows the implementation of the changes without proper assessment
+	Then the changes are not implemented until proper assessment has been conducted
+	And appropriate action may be taken
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ005
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:23:52.358650+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 43f6671d-1686-457a-8b3b-d6b2d5b3cd89
+@TestID: REQ005
+@Persona: general
+
+Scenario: Automatic Containment Enabled
+	Given an unmanned aircraft system (UAS) is operating within Class D controlled airspace
+	When the UAS experiences a fly-away situation and automatic containment is enabled
+	Then the UAS remains contained within the geofence boundaries
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ005
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:23:52.405322+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 43f6671d-1686-457a-8b3b-d6b2d5b3cd89
+@TestID: REQ005
+@Persona: general
+
+Scenario: Automatic Containment Not Triggered
+	Given an unmanned aircraft system (UAS) is operating within Class D controlled airspace
+	When the UAS experiences a fly-away situation and automatic containment is not enabled
+	Then the UAS does not remain contained within the geofence boundaries
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ005
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:23:52.453264+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 43f6671d-1686-457a-8b3b-d6b2d5b3cd89
+@TestID: REQ005
+@Persona: general
+
+Scenario: Manual Containment Triggered
+	Given an unmanned aircraft system (UAS) is operating within Class D controlled airspace
+	When the operator manually triggers containment for a fly-away situation
+	Then the UAS remains contained within the geofence boundaries
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ005
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:23:52.502770+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 43f6671d-1686-457a-8b3b-d6b2d5b3cd89
+@TestID: REQ005
+@Persona: general
+
+Scenario: Manual Containment Not Triggered
+	Given an unmanned aircraft system (UAS) is operating within Class D controlled airspace
+	When the operator does not manually trigger containment for a fly-away situation
+	Then the UAS does not remain contained within the geofence boundaries
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ005
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:23:52.552739+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 43f6671d-1686-457a-8b3b-d6b2d5b3cd89
+@TestID: REQ005
+@Persona: general
+
+Scenario: Automatic Containment Encountering Obstacle
+	Given an unmanned aircraft system (UAS) is operating within Class D controlled airspace with automatic containment enabled
+	When the UAS encounters an obstacle during a fly-away situation
+	Then the UAS remains contained within the geofence boundaries
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ005
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:23:52.601526+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 43f6671d-1686-457a-8b3b-d6b2d5b3cd89
+@TestID: REQ005
+@Persona: general
+
+Scenario: Automatic Containment Not Triggered Encountering Obstacle
+	Given an unmanned aircraft system (UAS) is operating within Class D controlled airspace without automatic containment enabled
+	When the UAS encounters an obstacle during a fly-away situation
+	Then the UAS does not remain contained within the geofence boundaries
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ005
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:23:52.648861+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 43f6671d-1686-457a-8b3b-d6b2d5b3cd89
+@TestID: REQ005
+@Persona: general
+
+Scenario: Manual Containment Triggered Encountering Obstacle
+	Given an unmanned aircraft system (UAS) is operating within Class D controlled airspace
+	When the operator manually triggers containment for a fly-away situation and the UAS encounters an obstacle
+	Then the UAS remains contained within the geofence boundaries
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ005
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:23:52.697428+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 43f6671d-1686-457a-8b3b-d6b2d5b3cd89
+@TestID: REQ005
+@Persona: general
+
+Scenario: Manual Containment Not Triggered Encountering Obstacle
+	Given an unmanned aircraft system (UAS) is operating within Class D controlled airspace
+	When the operator does not manually trigger containment for a fly-away situation and the UAS encounters an obstacle
+	Then the UAS does not remain contained within the geofence boundaries
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ005
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:23:52.744860+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 43f6671d-1686-457a-8b3b-d6b2d5b3cd89
+@TestID: REQ005
+@Persona: general
+
+Scenario: Automatic Containment Enabled Segregated Airspace
+	Given an unmanned aircraft system (UAS) is operating within a designated segregated airspace
+	When the UAS experiences a fly-away situation and automatic containment is enabled
+	Then the UAS remains contained within the geofence boundaries
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ005
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:23:52.791068+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 43f6671d-1686-457a-8b3b-d6b2d5b3cd89
+@TestID: REQ005
+@Persona: general
+
+Scenario: Automatic Containment Not Triggered Segregated Airspace
+	Given an unmanned aircraft system (UAS) is operating within a designated segregated airspace
+	When the UAS experiences a fly-away situation and automatic containment is not enabled
+	Then the UAS does not remain contained within the geofence boundaries
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ006
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:27:53.244716+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 79da0e93-59a6-47bb-b0b7-3e572f4dc9ec
+@TestID: REQ006
+@Persona: general
+
+Scenario: Authorized Monitored C2 Link
+	Given the CAA spectrum specialist is authorized and has access to the system
+	When the CAA spectrum specialist authorizes a monitored C2 link
+	Then the C2 link functions correctly
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ006
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:27:53.290980+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 79da0e93-59a6-47bb-b0b7-3e572f4dc9ec
+@TestID: REQ006
+@Persona: general
+
+Scenario: Functioning Inter-Vehicle Links
+	Given the inter-vehicle links are established
+	When the inter-vehicle links function without loss or interference
+	Then no link loss or interference is detected
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ006
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:27:53.336020+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 79da0e93-59a6-47bb-b0b7-3e572f4dc9ec
+@TestID: REQ006
+@Persona: general
+
+Scenario: Non-Functioning C2 Link
+	Given the CAA spectrum specialist has authorized a monitored C2 link
+	When the C2 link does not function correctly
+	Then an emergency recovery function is triggered and the aircraft returns to home
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ006
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:27:53.380776+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 79da0e93-59a6-47bb-b0b7-3e572f4dc9ec
+@TestID: REQ006
+@Persona: general
+
+Scenario: Harmful Interference
+	Given the RPAS data links are established
+	When harmful interference occurs on the RPAS data links
+	Then pairing, encryption, and backup link mechanisms protect the data links
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ007
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:29:48.609906+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: bcb0db35-a37c-4ad5-a361-f5956e18f932
+@TestID: REQ007
+@Persona: general
+
+Scenario: DO-365 / F3442 Evidence Generation - Positive Case
+	Given the CAA DAA assessor is logged in to the system
+	When the CAA DAA assessor requests DO-365 / F3442 evidence for each aircraft
+	Then the system generates and displays DO-365 / F3442 aligned evidence for each aircraft
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ007
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:29:48.652854+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: bcb0db35-a37c-4ad5-a361-f5956e18f932
+@TestID: REQ007
+@Persona: general
+
+Scenario: DO-365 / F3442 Evidence Generation - Negative Case
+	Given the CAA DAA assessor is logged in to a system with no DO-365 / F3442 evidence generation capability
+	When the CAA DAA assessor requests DO-365 / F3442 evidence for each aircraft
+	Then an error message is displayed indicating that the requested evidence cannot be generated
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ007
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:29:48.698463+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: bcb0db35-a37c-4ad5-a361-f5956e18f932
+@TestID: REQ007
+@Persona: general
+
+Scenario: Coordinated Swarm De-Confliction - Positive Case
+	Given a group of aircraft are in close proximity and need to coordinate their movements
+	When the CAA DAA assessor initiates coordinated swarm de-confliction procedures
+	Then the system predictably resolves cooperative and non-cooperative encounters
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ007
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:29:48.742854+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: bcb0db35-a37c-4ad5-a361-f5956e18f932
+@TestID: REQ007
+@Persona: general
+
+Scenario: Coordinated Swarm De-Confliction - Negative Case
+	Given a group of aircraft are in close proximity and need to coordinate their movements
+	When the CAA DAA assessor initiates coordinated swarm de-confliction procedures but the system fails to resolve encounters predictably
+	Then an error message is displayed indicating that the coordination was not successful
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ008
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:32:40.646193+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 374e35d7-6b4a-462c-8530-217efbe55474
+@TestID: REQ008
+@Persona: general
+
+Scenario: Reviewer can view airborne limits
+	Given the CAA autonomy reviewer is logged in to the system
+	When the reviewer requests the decision-making architecture airborne limits for a swarm
+	Then the requested information about the airborne limits should be displayed
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ008
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:32:40.690918+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 374e35d7-6b4a-462c-8530-217efbe55474
+@TestID: REQ008
+@Persona: general
+
+Scenario: Reviewer cannot view airborne limits
+	Given the CAA autonomy reviewer is logged in to the system
+	When the reviewer requests the decision-making architecture airborne limits for an invalid swarm ID
+	Then a relevant error message should be displayed
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ008
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:32:40.738671+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 374e35d7-6b4a-462c-8530-217efbe55474
+@TestID: REQ008
+@Persona: general
+
+Scenario: Reviewer can view emergent behaviour
+	Given the CAA autonomy reviewer is logged in to the system
+	When the reviewer requests the emergent behaviour evidence for a swarm
+	Then the requested information about the emergent behaviour should be displayed
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ008
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:32:40.785028+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 374e35d7-6b4a-462c-8530-217efbe55474
+@TestID: REQ008
+@Persona: general
+
+Scenario: Reviewer cannot view emergent behaviour
+	Given the CAA autonomy reviewer is logged in to the system
+	When the reviewer requests the emergent behaviour evidence for an invalid swarm ID
+	Then a relevant error message should be displayed
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ008
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:32:40.830308+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 374e35d7-6b4a-462c-8530-217efbe55474
+@TestID: REQ008
+@Persona: general
+
+Scenario: Reviewer can view multiple swarm data
+	Given the CAA autonomy reviewer is logged in to the system
+	When the reviewer requests the decision-making architecture airborne limits and emergent behaviour evidence for multiple valid swarms
+	Then the requested information about all specified swarms should be displayed
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ008
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:32:40.877009+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 374e35d7-6b4a-462c-8530-217efbe55474
+@TestID: REQ008
+@Persona: general
+
+Scenario: Reviewer cannot view multiple invalid swarm data
+	Given the CAA autonomy reviewer is logged in to the system
+	When the reviewer requests the decision-making architecture airborne limits and emergent behaviour evidence for multiple invalid swarm IDs
+	Then a relevant error message should be displayed
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ008
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:32:40.923387+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 374e35d7-6b4a-462c-8530-217efbe55474
+@TestID: REQ008
+@Persona: general
+
+Scenario: Reviewer can filter swarm data
+	Given the CAA autonomy reviewer is logged in to the system
+	When the reviewer requests the decision-making architecture airborne limits and emergent behaviour evidence for multiple valid swarms with specific filtering options
+	Then the requested information about all specified swarms that match the filter criteria should be displayed
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ008
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:32:40.970106+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 374e35d7-6b4a-462c-8530-217efbe55474
+@TestID: REQ008
+@Persona: general
+
+Scenario: Reviewer cannot filter swarm data
+	Given the CAA autonomy reviewer is logged in to the system
+	When the reviewer requests the decision-making architecture airborne limits and emergent behaviour evidence for multiple valid swarms with invalid or missing filtering options
+	Then a relevant error message should be displayed
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ008
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:32:41.016502+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 374e35d7-6b4a-462c-8530-217efbe55474
+@TestID: REQ008
+@Persona: general
+
+Scenario: Reviewer can change swarm data format
+	Given the CAA autonomy reviewer is logged in to the system
+	When the reviewer requests the decision-making architecture airborne limits and emergent behaviour evidence for multiple valid swarms in a specific format (e.g., table, graph)
+	Then the requested information about all specified swarms should be displayed in the chosen format
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ008
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:32:41.062186+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 374e35d7-6b4a-462c-8530-217efbe55474
+@TestID: REQ008
+@Persona: general
+
+Scenario: Reviewer cannot change swarm data format
+	Given the CAA autonomy reviewer is logged in to the system
+	When the reviewer requests the decision-making architecture airborne limits and emergent behaviour evidence for multiple valid swarms in an unsupported format (e.g., text, image)
+	Then a relevant error message should be displayed
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ009
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:37:00.540842+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 51704556-016b-4bd0-8da3-1b2c1d820868
+@TestID: REQ009
+@Persona: general
+
+Scenario: Positive Scenario - Generating Artifacts
+	Given I have a valid frozen-model with all necessary metadata
+	When I request the system to generate AMLAS / SACE case, frozen-model manifest and explainability evidence for the given model
+	Then the system generates the required artifacts (AMLAS/SACE case, frozen-model manifest, and explainability evidence) correctly
+	And I can verify that all generated artifacts are complete and accurate
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ009
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:37:00.588073+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 51704556-016b-4bd0-8da3-1b2c1d820868
+@TestID: REQ009
+@Persona: general
+
+Scenario: Negative Scenario - Failing to Generate Artifacts
+	Given I have an invalid frozen-model with missing metadata
+	When I request the system to generate AMLAS / SACE case, frozen-model manifest and explainability evidence for the given model
+	Then the system fails to generate the required artifacts (AMLAS/SACE case, frozen-model manifest, and explainability evidence) correctly
+	And I can verify that no artifact is generated or an error message is displayed indicating the failure
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ009
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:37:00.633314+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 51704556-016b-4bd0-8da3-1b2c1d820868
+@TestID: REQ009
+@Persona: general
+
+Scenario: Positive Scenario - Tracing HLR to LLR
+	Given I have a specific HLR requirement
+	When I request the system to trace the given HLR requirement back to its corresponding LLR requirements
+	Then the system correctly traces the given HLR requirement back to its corresponding LLR requirements
+	And I can verify that all traced LLR requirements are complete and accurate
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ009
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:37:00.678976+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 51704556-016b-4bd0-8da3-1b2c1d820868
+@TestID: REQ009
+@Persona: general
+
+Scenario: Negative Scenario - Failing to Trace HLR to LLR
+	Given I have an incorrect or incomplete HLR requirement
+	When I request the system to trace the given HLR requirement back to its corresponding LLR requirements
+	Then the system fails to correctly trace the given HLR requirement back to its corresponding LLR requirements
+	And I can verify that no or incorrect LLR requirements are traced
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ009
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:37:00.725879+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 51704556-016b-4bd0-8da3-1b2c1d820868
+@TestID: REQ009
+@Persona: general
+
+Scenario: Positive Scenario - Identifying New Hazards
+	Given I have a new AI component with potential hazards
+	When I request the system to identify and pass any new hazards introduced by this AI component back up to system-level safety processes for mitigation as derived requirements
+	Then the system correctly identifies and passes any new hazards introduced by this AI component back up to system-level safety processes
+	And I can verify that all passed hazards are complete, accurate, and actionable
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ009
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:37:00.770471+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 51704556-016b-4bd0-8da3-1b2c1d820868
+@TestID: REQ009
+@Persona: general
+
+Scenario: Negative Scenario - Failing to Identify New Hazards
+	Given I have a new AI component with potential hazards that the system is not able to identify
+	When I request the system to identify and pass any new hazards introduced by this AI component back up to system-level safety processes for mitigation as derived requirements
+	Then the system fails to correctly identify and pass any new hazards introduced by this AI component
+	And I can verify that no hazard is passed or an error message is displayed indicating the failure
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ010
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:40:24.599569+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 509822f8-d30c-4819-9520-d9fc5b98f8bd
+@TestID: REQ010
+@Persona: general
+
+Scenario: Ongoing Oversight
+	Given the system is configured to allow CAA human factors inspector oversight
+	When a CAA human factors inspector requests ongoing oversight of a specific crew member's workload duty and take-over evidence
+	Then the system allows the inspector to review the requested information
+	And the inspector can verify that the displayed information is accurate
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ010
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:40:24.643475+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 509822f8-d30c-4819-9520-d9fc5b98f8bd
+@TestID: REQ010
+@Persona: general
+
+Scenario: No Ongoing Oversight
+	Given the system is configured to disallow CAA human factors inspector oversight
+	When a CAA human factors inspector requests ongoing oversight of a specific crew member's workload duty and take-over evidence
+	Then an error message is displayed indicating that they are not allowed to perform the requested action
+	And the inspector cannot proceed with their inspection
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ010
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:40:24.686617+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 509822f8-d30c-4819-9520-d9fc5b98f8bd
+@TestID: REQ010
+@Persona: general
+
+Scenario: Adequate Facilities and Conditions
+	Given the Entity has submitted its exposition to the CAA
+	When the CAA reviews the information provided by the Entity regarding facilities, working conditions, equipment, tools, processes, personnel, organization and coordination
+	Then the CAA determines that the Entity's facilities, working conditions, equipment, tools, processes, personnel, organization and coordination are adequate to discharge their obligations under the requirements of the RAE(PC) scheme
+	And the Entity is granted approval for practical flight training
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ010
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:40:24.730623+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 509822f8-d30c-4819-9520-d9fc5b98f8bd
+@TestID: REQ010
+@Persona: general
+
+Scenario: Inadequate Facilities and Conditions
+	Given the Entity has submitted its exposition to the CAA
+	When the CAA reviews the information provided by the Entity regarding facilities, working conditions, equipment, tools, processes, personnel, organization and coordination
+	Then the CAA determines that the Entity's facilities, working conditions, equipment, tools, processes, personnel, organization and coordination are inadequate to discharge their obligations under the requirements of the RAE(PC) scheme
+	And the Entity is denied approval for practical flight training
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ010
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:40:24.510720+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 509822f8-d30c-4819-9520-d9fc5b98f8bd
+@TestID: REQ010
+@Persona: general
+
+Scenario: Valid Workload Duty and Take-Over Evidence
+	Given the CAA human factors inspector is logged in to the system
+	When the inspector requests workload duty and take-over evidence for a specific crew member
+	Then the system displays valid workload duty and take-over evidence for the requested crew member
+	And the inspector can verify that the displayed information is accurate
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ010
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:40:24.554548+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 509822f8-d30c-4819-9520-d9fc5b98f8bd
+@TestID: REQ010
+@Persona: general
+
+Scenario: Incorrect Workload Duty and Take-Over Evidence
+	Given the CAA human factors inspector is logged in to the system
+	When the inspector requests workload duty and take-over evidence for a specific crew member who does not have valid data available
+	Then an error message is displayed indicating that there's no valid workload duty or take-over evidence available
+	And the inspector cannot proceed with their inspection
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ011
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:44:08.349187+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 6086434a-3b60-45b1-bdf8-b921e9589874
+@TestID: REQ011
+@Persona: general
+
+Scenario: Independent Flight Termination System (Positive)
+	Given I am a CAA flight-ops inspector
+	When I verify the RPAS's equipment
+	Then the RPAS is equipped with an independent flight termination system
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ011
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:44:08.038016+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 6086434a-3b60-45b1-bdf8-b921e9589874
+@TestID: REQ011
+@Persona: general
+
+Scenario: Terminate RPAS in Off-Nominal State (Positive)
+	Given I am a CAA flight-ops inspector
+	And the RPAS is in an off-nominal state
+	When I initiate independent termination of the RPAS
+	Then the RPAS safely shuts down
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ011
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:44:08.082022+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 6086434a-3b60-45b1-bdf8-b921e9589874
+@TestID: REQ011
+@Persona: general
+
+Scenario: Terminate RPAS in Off-Nominal State (Negative)
+	Given I am a CAA flight-ops inspector
+	And the RPAS is in an off-nominal state
+	When I attempt to initiate independent termination of the RPAS
+	Then the RPAS does not shut down
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ011
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:44:08.126766+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 6086434a-3b60-45b1-bdf8-b921e9589874
+@TestID: REQ011
+@Persona: general
+
+Scenario: Access Contingency Matrix (Positive)
+	Given I am a CAA flight-ops inspector
+	When I access the RPAS's contingency matrix
+	Then I can view and understand the contingency matrix
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ011
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:44:08.171393+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 6086434a-3b60-45b1-bdf8-b921e9589874
+@TestID: REQ011
+@Persona: general
+
+Scenario: ATSU Coordination (Positive)
+	Given I am a CAA flight-ops inspector
+	When I coordinate with the ATSU for RPAS operations
+	Then the ATSU is able to monitor and provide input on RPAS operations
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ011
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:44:08.216305+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 6086434a-3b60-45b1-bdf8-b921e9589874
+@TestID: REQ011
+@Persona: general
+
+Scenario: ATSU Coordination (Negative)
+	Given I am a CAA flight-ops inspector
+	When I attempt to coordinate with the ATSU for RPAS operations
+	Then the ATSU is unable to monitor or provide input on RPAS operations
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ011
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:44:08.260198+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 6086434a-3b60-45b1-bdf8-b921e9589874
+@TestID: REQ011
+@Persona: general
+
+Scenario: Appropriate Warnings (Positive)
+	Given I am a CAA flight-ops inspector
+	When I observe RPAS operations
+	Then appropriate audible and visible warnings are present
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ011
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:44:08.305029+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 6086434a-3b60-45b1-bdf8-b921e9589874
+@TestID: REQ011
+@Persona: general
+
+Scenario: Appropriate Warnings (Negative)
+	Given I am a CAA flight-ops inspector
+	When I observe RPAS operations without any off-nominal state
+	Then no audible or visible warnings are present
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ011
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:44:08.393261+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 6086434a-3b60-45b1-bdf8-b921e9589874
+@TestID: REQ011
+@Persona: general
+
+Scenario: Independent Flight Termination System (Negative)
+	Given I am a CAA flight-ops inspector
+	When I verify the RPAS's equipment
+	Then the RPAS does not have an independent flight termination system
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ011
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:44:08.438617+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 6086434a-3b60-45b1-bdf8-b921e9589874
+@TestID: REQ011
+@Persona: general
+
+Scenario: Appropriate Conspicuity (Positive)
+	Given I am a CAA flight-ops inspector
+	When I observe RPAS operations from a distance
+	Then the RPAS is easily visible
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ012
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:47:53.055876+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 3f4067ab-608f-4795-8ef8-e09234bf0dff
+@TestID: REQ012
+@Persona: general
+
+Scenario: CAA Flight Safety Investigator Requests Complete Recorded Evidence, MOR Obligations & DPIA
+	Given the CAA flight safety investigator is logged in to the system
+	When the CAA flight safety investigator requests complete recorded evidence for an incident investigation
+	Then the system accepts the request and generates a DPIA along with MOR obligations
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ012
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:47:53.100887+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 3f4067ab-608f-4795-8ef8-e09234bf0dff
+@TestID: REQ012
+@Persona: general
+
+Scenario: System Fails To Generate DPIA & MOR Obligations Upon Request
+	Given the CAA flight safety investigator is logged in to the system
+	When the CAA flight safety investigator requests complete recorded evidence for an incident investigation
+	Then the system does not generate a DPIA or MOR obligations
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ012
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:47:53.144290+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 3f4067ab-608f-4795-8ef8-e09234bf0dff
+@TestID: REQ012
+@Persona: general
+
+Scenario: System Ensures No Damage To Or Tampering Of Records
+	Given the system is storing recorded evidence
+	When the system checks for any damage or tampering of records
+	Then the system ensures no damage to, or tampering of records can occur
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ012
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:47:53.188514+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 3f4067ab-608f-4795-8ef8-e09234bf0dff
+@TestID: REQ012
+@Persona: general
+
+Scenario: System Fails To Prevent Damage To Or Tampering Of Records
+	Given the system is storing recorded evidence
+	When the system checks for any damage or tampering of records
+	Then the system fails to prevent damage to, or tampering of records
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ012
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:47:53.232855+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 3f4067ab-608f-4795-8ef8-e09234bf0dff
+@TestID: REQ012
+@Persona: general
+
+Scenario: System Complies With Requests From Air Accident Investigation Branch Where Required
+	Given the system receives a request from Air Accident Investigation Branch
+	When the system complies with the request
+	Then the system successfully completes any audits and inspections that may be required by the CAA as part of the application process
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ012
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:47:53.276802+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 3f4067ab-608f-4795-8ef8-e09234bf0dff
+@TestID: REQ012
+@Persona: general
+
+Scenario: System Fails To Comply With Requests From Air Accident Investigation Branch
+	Given the system receives a request from Air Accident Investigation Branch
+	When the system fails to comply with the request
+	Then the system does not successfully complete any audits and inspections that may be required by the CAA as part of the application process
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ013
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:50:26.829819+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: ba9467a5-ca38-4759-9750-e431b04e2348
+@TestID: REQ013
+@Persona: general
+
+Scenario: CAA Authorisation Officer Requests Insurance and Ground Survey - Positive Case
+	Given the CAA authorization officer is logged in to the system
+	When the CAA authorization officer requests insurance and ground survey for a UAS operation with acceptable risks
+	Then the system returns an approval message indicating that both insurance and ground survey have been approved
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ013
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:50:26.873737+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: ba9467a5-ca38-4759-9750-e431b04e2348
+@TestID: REQ013
+@Persona: general
+
+Scenario: CAA Authorisation Officer Requests Insurance and Ground Survey - Negative Case
+	Given the CAA authorization officer is logged in to the system
+	When the CAA authorization officer requests insurance and ground survey for a UAS operation with unacceptable risks
+	Then the system returns an error message indicating that both insurance and ground survey have been denied due to high risk
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ013
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:50:26.918926+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: ba9467a5-ca38-4759-9750-e431b04e2348
+@TestID: REQ013
+@Persona: general
+
+Scenario: CAA Authorisation Officer Requests Insurance and Ground Survey - Missing Documents
+	Given the CAA authorization officer is logged in to the system
+	When the CAA authorization officer requests insurance and ground survey for a UAS operation without providing required documents
+	Then the system returns an error message indicating that all necessary documents must be provided before approval can be granted
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ013
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:50:26.963556+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: ba9467a5-ca38-4759-9750-e431b04e2348
+@TestID: REQ013
+@Persona: general
+
+Scenario: CAA Authorisation Officer Requests Insurance and Ground Survey - Equivalent Experience
+	Given the CAA authorization officer is logged in to the system
+	When the CAA authorization officer requests insurance and ground survey for a UAS operation with equivalent remote pilot experience
+	Then the system returns an approval message indicating that both insurance and ground survey have been approved based on the applicant's prior experience
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ014
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:53:02.239293+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 5029e5fb-6750-44d5-ac21-af5c37b27e4f
+@TestID: REQ014
+@Persona: general
+
+Scenario: Verifying Evidenced Competency for Safe Flight Operations (positive)
+	Given the CAA licensing inspector is logged in and has access to the system
+	And the crew member's competency records are available
+	When the CAA licensing inspector reviews the crew member's evidenced competency records
+	Then the CAA licensing inspector can confirm that the crew member is qualified and meets all required competencies for safe flight operations
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ014
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:53:02.284477+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 5029e5fb-6750-44d5-ac21-af5c37b27e4f
+@TestID: REQ014
+@Persona: general
+
+Scenario: Lack of Necessary Qualifications or Competencies (negative)
+	Given the crew member's records show they do not meet all required qualifications and competencies
+	When the CAA licensing inspector reviews the crew member's evidenced competency records
+	Then the CAA licensing inspector cannot approve the crew member for flight operations
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ014
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:53:02.329039+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 5029e5fb-6750-44d5-ac21-af5c37b27e4f
+@TestID: REQ014
+@Persona: general
+
+Scenario: RAE(PC) Approval for Training & Assessment (positive)
+	Given the RAE(PC) has submitted a request for approval
+	When the CAA evaluates the RAE(PC)'s application and determines they meet all requirements
+	Then the CAA approves the RAE(PC) to carry out training and assessment of remote pilots against required competencies
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ014
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:53:02.375160+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 5029e5fb-6750-44d5-ac21-af5c37b27e4f
+@TestID: REQ014
+@Persona: general
+
+Scenario: RAE(PC) Not Approved Due to Lack of Requirements (negative)
+	Given the RAE(PC)'s application is incomplete or does not meet all requirements
+	When the CAA evaluates the RAE(PC)'s application
+	Then the CAA denies the RAE(PC) approval to carry out training and assessment of remote pilots against required competencies
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ014
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:53:02.419855+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 5029e5fb-6750-44d5-ac21-af5c37b27e4f
+@TestID: REQ014
+@Persona: general
+
+Scenario: Remote Pilot Completes Syllabus (positive)
+	Given the remote pilot has enrolled in a training program
+	When the remote pilot completes all required syllabi for their specific use case
+	Then the operator can confirm that the remote pilot has completed all necessary training
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ014
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:53:02.463921+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 5029e5fb-6750-44d5-ac21-af5c37b27e4f
+@TestID: REQ014
+@Persona: general
+
+Scenario: Remote Pilot Fails to Complete Syllabus (negative)
+	Given the remote pilot has enrolled in a training program
+	When the remote pilot fails to complete one or more required syllabi for their specific use case
+	Then the operator cannot confirm that the remote pilot is competent and qualified
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ014
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:53:02.509145+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 5029e5fb-6750-44d5-ac21-af5c37b27e4f
+@TestID: REQ014
+@Persona: general
+
+Scenario: Independent Assessment Meets Requirements (positive)
+	Given the operator has implemented an independent assessment process
+	When the remote pilots undergo regular assessments and meet all requirements
+	Then the operator can confirm that their remote pilots are competent and qualified
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ014
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:53:02.562796+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 5029e5fb-6750-44d5-ac21-af5c37b27e4f
+@TestID: REQ014
+@Persona: general
+
+Scenario: Independent Assessment Does Not Meet Requirements (negative)
+	Given the operator has implemented an independent assessment process
+	When remote pilots fail to meet all competency and currency requirements during assessments
+	Then the operator cannot confirm that their remote pilots are competent and qualified
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ014
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:53:02.608172+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 5029e5fb-6750-44d5-ac21-af5c37b27e4f
+@TestID: REQ014
+@Persona: general
+
+Scenario: FSTD Used for Remote Pilot Skills Acquisition & Maintenance (positive)
+	Given the operator has implemented an FSTD
+	When remote pilots use the FSTD to practice and maintain their skills
+	Then the operator can confirm that remote pilots are maintaining their competency
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ014
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:53:02.654450+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 5029e5fb-6750-44d5-ac21-af5c37b27e4f
+@TestID: REQ014
+@Persona: general
+
+Scenario: FSTD Not Used or Misused for Remote Pilot Skills Acquisition & Maintenance (negative)
+	Given the operator has implemented an FSTD
+	When remote pilots do not use the FSTD, or misuse it during training sessions
+	Then the operator cannot confirm that remote pilots are maintaining their competency
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ015
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:57:50.569507+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: bca53a7d-a026-4baf-a9f2-a330482a5a37
+@TestID: REQ015
+@Persona: general
+
+Scenario: CAA Accepts Remote Pilot Experience
+	Given a CAA/MAA liaison is present
+	And given the remote pilot has equivalent remote pilot experience accrued outside of the competence framework
+	When the remote pilot submits their personal logbook to demonstrate their experience
+	Then the CAA accepts the remote pilot's experience for initial PFA qualification
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ015
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:57:50.612180+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: bca53a7d-a026-4baf-a9f2-a330482a5a37
+@TestID: REQ015
+@Persona: general
+
+Scenario: CAA Withdraws Remote Pilot Experience Provision
+	Given a CAA/MAA liaison is present
+	When the remote pilot submits their personal logbook to demonstrate their experience outside of competence framework after the provision has been withdrawn by amending policy
+	Then the CAA does not accept the remote pilot's experience for initial PFA qualification
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ015
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:57:50.653014+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: bca53a7d-a026-4baf-a9f2-a330482a5a37
+@TestID: REQ015
+@Persona: general
+
+Scenario: CAA Assesses Impartiality
+	Given a trainer or assessor is involved in the assessment activities
+	When they are free of any pressure and incentive that could affect their judgement or results of their assessments
+	Then the CAA ensures impartiality
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ015
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:57:50.694332+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: bca53a7d-a026-4baf-a9f2-a330482a5a37
+@TestID: REQ015
+@Persona: general
+
+Scenario: CAA Assesses Financial Incentives
+	Given a trainer or assessor is involved in the assessment activities
+	When they have financial incentive that could affect their judgement or results of their assessments
+	Then the CAA does not accept the results of their assessments
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ015
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:57:50.735370+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: bca53a7d-a026-4baf-a9f2-a330482a5a37
+@TestID: REQ015
+@Persona: general
+
+Scenario: CAA Approves Variation
+	Given an Entity submits an application for a variation
+	When they demonstrate to the CAA before implementing the change that it will continue to comply with the requirements of the RAE(PC) scheme after implementation
+	Then the CAA approves the variation
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ015
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:57:50.775697+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: bca53a7d-a026-4baf-a9f2-a330482a5a37
+@TestID: REQ015
+@Persona: general
+
+Scenario: CAA Rejects Variation
+	Given an Entity submits an application for a variation
+	When they fail to demonstrate to the CAA before implementing the change that it will continue to comply with the requirements of the RAE(PC) scheme after implementation
+	Then the CAA rejects the variation
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ015
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:57:50.816228+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: bca53a7d-a026-4baf-a9f2-a330482a5a37
+@TestID: REQ015
+@Persona: general
+
+Scenario: CAA Approves Change in Entity Ownership
+	Given a change in Entity ownership
+	When the change is considered significant and requires an approval by the CAA
+	Then the CAA approves the change in Entity ownership
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ015
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:57:50.858816+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: bca53a7d-a026-4baf-a9f2-a330482a5a37
+@TestID: REQ015
+@Persona: general
+
+Scenario: CAA Rejects Change in Entity Ownership
+	Given a change in Entity ownership
+	When the change is not considered significant and does not require an approval by the CAA
+	Then the CAA rejects the change in Entity ownership
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ015
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:57:50.903383+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: bca53a7d-a026-4baf-a9f2-a330482a5a37
+@TestID: REQ015
+@Persona: general
+
+Scenario: CAA Accepts DA for Participant Flying a Civil Registered Aircraft
+	Given an FDD at an MAA-regulated event
+	When the FDD accepts a DA for a Participant flying a civil registered Aircraft where the DA would allow the Participant to breach any part of this RA. In such cases, the FDD should identify the areas where the display routine is not compliant with MAA Regulatory Publications (MRP) and inform the HoE
+	Then the HoE assesses any additional risk caused by non-compliance and ensures that this Risk is ALARP and Tolerable
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ015
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 14:57:50.950345+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: bca53a7d-a026-4baf-a9f2-a330482a5a37
+@TestID: REQ015
+@Persona: general
+
+Scenario: CAA Rejects DA for Participant Flying a Civil Registered Aircraft
+	Given an FDD at an MAA-regulated event
+	When the FDD does not accept a DA for a Participant flying a civil registered Aircraft where the DA would allow the Participant to breach any part of this RA. In such cases, the FDD should identify the areas where the display routine is not compliant with MAA Regulatory Publications (MRP) and inform the HoE
+	Then the HoE does not assess any additional risk caused by non-compliance
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ016
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:03:27.227923+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: cfe4f5f2-bfc6-4e59-b316-8a309315e115
+@TestID: REQ016
+@Persona: general
+
+Scenario: Correct Phased Gates Implementation
+	Given the CAA program manager is logged in to the system
+	When they create a new phased trial build-up with defined gates and evidence requirements
+	Then the system should save the new phased trial build-up with all defined gates and evidence requirements
+	And it should allow for reversible changes at each gate
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ016
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:03:27.271775+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: cfe4f5f2-bfc6-4e59-b316-8a309315e115
+@TestID: REQ016
+@Persona: general
+
+Scenario: Invalid Phased Trial Build-Up
+	Given the CAA program manager is logged in to the system
+	When they try to create a new phased trial build-up without defining any gates or evidence requirements
+	Then the system should not allow them to save the invalid phased trial build-up
+	And it should display an error message indicating missing gate and/or evidence requirement
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ016
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:03:27.316539+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: cfe4f5f2-bfc6-4e59-b316-8a309315e115
+@TestID: REQ016
+@Persona: general
+
+Scenario: Locked Gate Change Failure
+	Given the CAA program manager is logged in to the system and there is an existing phased trial build-up with gates that have been locked
+	When they try to make changes at a locked gate
+	Then the system should not allow them to make changes
+	And it should display an error message indicating the gate has been locked
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ016
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:03:27.361184+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: cfe4f5f2-bfc6-4e59-b316-8a309315e115
+@TestID: REQ016
+@Persona: general
+
+Scenario: Unlocked Gate Change Success
+	Given the CAA program manager is logged in to the system and there is an existing phased trial build-up with gates that have been locked
+	When they unlock a gate and make changes at it
+	Then the system should allow them to make changes
+	And it should save their changes
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ016
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:03:27.404950+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: cfe4f5f2-bfc6-4e59-b316-8a309315e115
+@TestID: REQ016
+@Persona: general
+
+Scenario: Active Phased Trial Build-Up Deletion Failure
+	Given the CAA program manager is logged in to the system and there is an existing active phased trial build-up
+	When they try to delete the active phased trial build-up
+	Then the system should not allow them to delete it
+	And it should display an error message indicating that the phased trial build-up cannot be deleted while it is still active
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ016
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:03:27.449627+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: cfe4f5f2-bfc6-4e59-b316-8a309315e115
+@TestID: REQ016
+@Persona: general
+
+Scenario: Inactive Phased Trial Build-Up Deletion Success
+	Given the CAA program manager is logged in to the system and there is an existing inactive phased trial build-up
+	When they delete the inactive phased trial build-up
+	Then the system should allow them to delete it
+	And it should remove all related data
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ016
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:03:27.494352+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: cfe4f5f2-bfc6-4e59-b316-8a309315e115
+@TestID: REQ016
+@Persona: general
+
+Scenario: Phased Trial Build-Up Details Viewing Success
+	Given the CAA program manager is logged in to the system and there is an existing phased trial build-up
+	When they view details of the existing phased trial build-up
+	Then they should be able to see all relevant information about the phased trial build-up
+	And it should display a clear and comprehensive overview
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ016
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:03:27.538689+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: cfe4f5f2-bfc6-4e59-b316-8a309315e115
+@TestID: REQ016
+@Persona: general
+
+Scenario: Inactive/Deleted Phased Trial Build-Up Details Viewing Failure
+	Given the CAA program manager is logged in to the system and there are existing inactive or deleted phased trial build-ups
+	When they try to view details of an inactive or deleted phased trial build-up
+	Then they should not be able to see any relevant information about the inactive or deleted phased trial build-up
+	And it should display a message indicating that the phased trial build-up is either inactive or has been deleted
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ017
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:07:30.031861+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: c8c08621-87d5-4243-8fda-6cbca6729991
+@TestID: REQ017
+@Persona: general
+
+Scenario: Community Consultation - Positive Case
+	Given a user is planning an operation in a community area
+	When the user initiates press/media handling or prior-notification to landowners as required by CAP 1616 and GDPR
+	Then the system correctly handles press/media requests and notifies landowners
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ017
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:07:30.076638+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: c8c08621-87d5-4243-8fda-6cbca6729991
+@TestID: REQ017
+@Persona: general
+
+Scenario: Community Consultation - Negative Case
+	Given a user is planning an operation in a community area
+	When the user does not initiate press/media handling or prior-notification to landowners as required by CAP 1616 and GDPR
+	Then the system fails to handle press/media requests and does not notify landowners
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ017
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:07:30.119847+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: c8c08621-87d5-4243-8fda-6cbca6729991
+@TestID: REQ017
+@Persona: general
+
+Scenario: Airspace Restrictions - Positive Case
+	Given a user is planning an operation in restricted airspace
+	When the user obtains necessary permissions and adheres to airspace restrictions
+	Then the system correctly identifies and enforces airspace restrictions
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ017
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:07:30.163513+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: c8c08621-87d5-4243-8fda-6cbca6729991
+@TestID: REQ017
+@Persona: general
+
+Scenario: Airspace Restrictions - Negative Case
+	Given a user is planning an operation in restricted airspace
+	When the user does not obtain necessary permissions or disregards airspace restrictions
+	Then the system fails to identify and enforce airspace restrictions
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ017
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:07:30.208131+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: c8c08621-87d5-4243-8fda-6cbca6729991
+@TestID: REQ017
+@Persona: general
+
+Scenario: Industrial Sites - Positive Case
+	Given a user is planning an operation near an industrial site
+	When the user assesses and mitigates risks associated with operations near industrial sites or activities such as live firing, gas venting, high-intensity radio transmissions
+	Then the system correctly identifies and manages risks associated with operations near industrial sites
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ017
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:07:30.251165+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: c8c08621-87d5-4243-8fda-6cbca6729991
+@TestID: REQ017
+@Persona: general
+
+Scenario: Industrial Sites - Negative Case
+	Given a user is planning an operation near an industrial site
+	When the user does not assess or mitigate risks associated with operations near industrial sites or activities such as live firing, gas venting, high-intensity radio transmissions
+	Then the system fails to identify and manage risks associated with operations near industrial sites
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ018
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:10:47.299627+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: b038ec13-6547-42f3-bd6a-fa426c6b04cb
+@TestID: REQ018
+@Persona: general
+
+Scenario: Not Taking Subsequent Actions Incorrectly
+	Given the user is a CAA officer and has received a notification of a finding or an observation
+	When the user does not take subsequent actions as expected (e.g., investigation, communication with Entity approval holder)
+	Then the oversight report and associated findings/observations are not closed
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ018
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:10:46.989885+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: b038ec13-6547-42f3-bd6a-fa426c6b04cb
+@TestID: REQ018
+@Persona: general
+
+Scenario: Presenting Classified Evidence Correctly
+	Given the user is a CAA officer and has access to classified MOD evidence under CAP 722H / JSP 440
+	When the user presents the classified MOD evidence to the CAA
+	Then the CAA receives the classified MOD evidence without compromise
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ018
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:10:47.034185+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: b038ec13-6547-42f3-bd6a-fa426c6b04cb
+@TestID: REQ018
+@Persona: general
+
+Scenario: Presenting Classified Evidence Incorrectly
+	Given the user is a CAA officer and has access to classified MOD evidence under CAP 722H / JSP 440
+	When the user presents the compromised classified MOD evidence to the CAA
+	Then the CAA does not receive the classified MOD evidence without compromise
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ018
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:10:47.079493+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: b038ec13-6547-42f3-bd6a-fa426c6b04cb
+@TestID: REQ018
+@Persona: general
+
+Scenario: Raising Level-One Finding Correctly
+	Given the user is a CAA officer and finds non-compliance with requirements that could lead to an effect on the safety of a UAS operation
+	When the user raises a Level-one finding to the Entity approval holder
+	Then the Entity approval holder receives the Level-one finding
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ018
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:10:47.123412+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: b038ec13-6547-42f3-bd6a-fa426c6b04cb
+@TestID: REQ018
+@Persona: general
+
+Scenario: Raising Non-Level-One Finding Incorrectly
+	Given the user is a CAA officer and finds non-compliance with requirements that does not lead to an effect on the safety of a UAS operation
+	When the user raises a Level-one finding to the Entity approval holder
+	Then the Entity approval holder does not receive the Level-one finding
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ018
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:10:47.166523+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: b038ec13-6547-42f3-bd6a-fa426c6b04cb
+@TestID: REQ018
+@Persona: general
+
+Scenario: Raising Observation Correctly
+	Given the user is a CAA officer and considers that there is potential for future non-compliance or wishes to indicate an opportunity for safety improvement
+	When the user raises an observation to the Entity approval holder
+	Then the Entity approval holder receives the observation
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ018
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:10:47.211856+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: b038ec13-6547-42f3-bd6a-fa426c6b04cb
+@TestID: REQ018
+@Persona: general
+
+Scenario: Not Raising Observation Incorrectly
+	Given the user is a CAA officer and considers that there is potential for future non-compliance or wishes to indicate an opportunity for safety improvement
+	When the user does not raise an observation to the Entity approval holder
+	Then the Entity approval holder does not receive the observation
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ018
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:10:47.255818+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: b038ec13-6547-42f3-bd6a-fa426c6b04cb
+@TestID: REQ018
+@Persona: general
+
+Scenario: Taking Subsequent Actions Correctly
+	Given the user is a CAA officer and has received a notification of a finding or an observation
+	When the user takes subsequent actions as expected (e.g., investigation, communication with Entity approval holder)
+	Then the oversight report and associated findings/observations are closed
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ019
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:14:38.244326+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: d1bb3128-33f5-4a96-9e54-6a1a8e36e15c
+@TestID: REQ019
+@Persona: general
+
+Scenario: No User Story for Noise Species Disturbance at Dusk/Night - Positive
+	Given the system is in operation during dusk or night
+	When a user tries to create a new user story related to noise species disturbance at dusk/night
+	Then the system should not allow the creation of such a user story
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ019
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:14:38.289214+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: d1bb3128-33f5-4a96-9e54-6a1a8e36e15c
+@TestID: REQ019
+@Persona: general
+
+Scenario: No User Story for Noise Species Disturbance at Dusk/Night - Negative
+	Given the system is in operation during dusk or night
+	When a user creates and saves a new user story related to noise species disturbance at dusk/night
+	Then the system should display an error message indicating that such a user story is not allowed
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ019
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:14:38.333614+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: d1bb3128-33f5-4a96-9e54-6a1a8e36e15c
+@TestID: REQ019
+@Persona: general
+
+Scenario: No User Story for Battery-Fire Environmental Risk on Ground - Positive
+	Given the system is in operation
+	When a user tries to create a new user story related to battery-fire environmental risk on ground
+	Then the system should not allow the creation of such a user story
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ019
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:14:38.378889+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: d1bb3128-33f5-4a96-9e54-6a1a8e36e15c
+@TestID: REQ019
+@Persona: general
+
+Scenario: No User Story for Battery-Fire Environmental Risk on Ground - Negative
+	Given the system is in operation
+	When a user creates and saves a new user story related to battery-fire environmental risk on ground
+	Then the system should display an error message indicating that such a user story is not allowed
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ019
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:14:38.423954+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: d1bb3128-33f5-4a96-9e54-6a1a8e36e15c
+@TestID: REQ019
+@Persona: general
+
+Scenario: Multiple User Stories for Noise Species Disturbance at Dusk/Night - Positive
+	Given the system is in operation during dusk or night and there are multiple user stories related to noise species disturbance at dusk/night
+	When a user tries to activate any of these user stories
+	Then the system should not allow activation of such user stories
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ019
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:14:38.468249+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: d1bb3128-33f5-4a96-9e54-6a1a8e36e15c
+@TestID: REQ019
+@Persona: general
+
+Scenario: Multiple User Stories for Battery-Fire Environmental Risk on Ground - Negative
+	Given the system is in operation and there are multiple user stories related to battery-fire environmental risk on ground
+	When a user tries to activate any of these user stories
+	Then the system should display an error message indicating that such activation is not allowed
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ019
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:14:38.512687+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: d1bb3128-33f5-4a96-9e54-6a1a8e36e15c
+@TestID: REQ019
+@Persona: general
+
+Scenario: Active User Stories for Noise Species Disturbance at Dusk/Night and Battery-Fire Environmental Risk on Ground - Positive
+	Given the system is in operation during dusk or night with active user stories related to noise species disturbance at dusk/night and battery-fire environmental risk on ground
+	When a user tries to perform any action that would trigger these user stories
+	Then the system should execute the actions as per the requirements of each active user story
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ019
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:14:38.556681+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: d1bb3128-33f5-4a96-9e54-6a1a8e36e15c
+@TestID: REQ019
+@Persona: general
+
+Scenario: Active User Stories for Noise Species Disturbance at Dusk/Night and Battery-Fire Environmental Risk on Ground - Negative
+	Given the system is in operation during dusk or night with active user stories related to noise species disturbance at dusk/night and battery-fire environmental risk on ground
+	When a user tries to perform any action that would trigger these user stories but the conditions for their execution are not met
+	Then the system should display an error message indicating that the conditions for execution of such user stories are not met
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ020
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:18:58.460182+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 4f496c46-d523-40cd-beb2-e55b8c5e7bcf
+@TestID: REQ020
+@Persona: general
+
+Scenario: Correct Post-Trial Evidence Preservation and Authorization Close-Out
+	Given the trial supervisor is responsible for ensuring post-trial evidence preservation and authorisation close-out
+	And the T&E Activity has been carried out safely iaw the direction of the T&E Approvals Board
+	When the trial supervisor documents the lessons-learned evidence preservation and initiates the authorization close-out process
+	Then the post-trial lessons-learned evidence is preserved correctly
+	And the authorisation close-out process is completed successfully
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ020
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:18:58.505385+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 4f496c46-d523-40cd-beb2-e55b8c5e7bcf
+@TestID: REQ020
+@Persona: general
+
+Scenario: Incorrect Post-Trial Evidence Preservation and Authorization Close-Out
+	Given the trial supervisor is responsible for ensuring post-trial evidence preservation and authorisation close-out
+	And the T&E Activity has been carried out safely iaw the direction of the T&E Approvals Board
+	When the trial supervisor fails to document the lessons-learned evidence preservation or initiate the authorization close-out process
+	Then the post-trial lessons-learned evidence is not preserved correctly
+	And the authorisation close-out process is not completed successfully
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ020
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:18:58.548036+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 4f496c46-d523-40cd-beb2-e55b8c5e7bcf
+@TestID: REQ020
+@Persona: general
+
+Scenario: Correct Use of T&E Qualifications in Annexes B and C
+	Given the T&E qualifications are defined below: Class A Test Pilot (TP), Long Course Test Pilot graduate of Empire Test Pilot School, United States Navy Test Pilot School, United States Air Force Test Pilot School, L’Ecole du Personnel Navigant d’Essais et de Reception
+	And the T&E qualifications are used in Annexes B and C
+	When a user accesses Annexes B and C to find the defined T&E qualifications
+	Then the Class A Test Pilot (TP) qualification is found
+	And other listed qualifications are also present in Annexes B and C
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ020
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:18:58.590052+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 4f496c46-d523-40cd-beb2-e55b8c5e7bcf
+@TestID: REQ020
+@Persona: general
+
+Scenario: Incorrect Use of T&E Qualifications in Annexes B and C
+	Given the T&E qualifications are defined below: Class A Test Pilot (TP), Long Course Test Pilot graduate of Empire Test Pilot School, United States Navy Test Pilot School, United States Air Force Test Pilot School, L’Ecole du Personnel Navigant d’Essais et de Reception
+	And the T&E qualifications are not used in Annexes B and C
+	When a user accesses Annexes B and C to find the defined T&E qualifications
+	Then the Class A Test Pilot (TP) qualification is missing
+	And other listed qualifications are not present in Annexes B and C
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ020
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:18:58.632878+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 4f496c46-d523-40cd-beb2-e55b8c5e7bcf
+@TestID: REQ020
+@Persona: general
+
+Scenario: Correct Implementation of T&E Risk Management Processes
+	Given the trial supervisor is responsible for implementing identification and risk management processes specific to T&E
+	When the trial supervisor follows the identified and implemented risk management processes during a T&E activity
+	Then the risks associated with the T&E activity are managed effectively
+	And any issues or incidents are addressed promptly
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ020
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:18:58.676091+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 4f496c46-d523-40cd-beb2-e55b8c5e7bcf
+@TestID: REQ020
+@Persona: general
+
+Scenario: Incorrect Implementation of T&E Risk Management Processes
+	Given the trial supervisor is responsible for implementing identification and risk management processes specific to T&E
+	When the trial supervisor fails to follow the identified and implemented risk management processes during a T&E activity
+	Then the risks associated with the T&E activity are not managed effectively
+	And any issues or incidents are not addressed promptly
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ020
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:18:58.721798+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 4f496c46-d523-40cd-beb2-e55b8c5e7bcf
+@TestID: REQ020
+@Persona: general
+
+Scenario: Correct Creation of T&E Documentation Set
+	Given the trial supervisor is responsible for creating a range safety/trials documentation set
+	When the trial supervisor creates test plans, flight test cards, post-flight reports and trial reports as part of the T&E activity
+	Then all required documents are created
+	And they address both safe execution of flight trials and ability to achieve trial objectives
+
+
+
+# ----------------------------------------------
+# Test Case/Requirement ID: REQ020
+# ----------------------------------------------
+
+@Version: 1
+@LastUpdated: 2026-04-22 15:18:58.765067+00:00
+@GroupID: d2d7a3f3-976c-405c-8391-bece26e631bf
+@Requirement: 4f496c46-d523-40cd-beb2-e55b8c5e7bcf
+@TestID: REQ020
+@Persona: general
+
+Scenario: Incorrect Creation of T&E Documentation Set
+	Given the trial supervisor is responsible for creating a range safety/trials documentation set
+	When the trial supervisor fails to create test plans, flight test cards, post-flight reports and trial reports as part of the T&E activity
+	Then some or all required documents are missing
+	And they do not address both safe execution of flight trials and ability to achieve trial objectives

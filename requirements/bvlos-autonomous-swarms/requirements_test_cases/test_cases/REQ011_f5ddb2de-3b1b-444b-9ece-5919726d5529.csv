@@ -1,0 +1,1 @@
+"REQ011.8","CAA Flight-Ops Inspector Unable to Coordinate with ATSU for RPAS Operations","['Log in as CAA flight-ops inspector. ', 'Attempt to coordinate with the ATSU for RPAS operations. ']","['Successfully logged in as a CAA flight-ops inspector. ', 'Unable to receive any input or monitoring from the ATSU regarding RPAS operations. ']"
