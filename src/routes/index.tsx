@@ -346,7 +346,15 @@ function Index() {
         <div className="mb-8">
           <div className="text-matrix-dim text-sm font-mono mb-2">// ./playback --stream</div>
           <h2 className="font-display text-4xl md:text-5xl text-foreground tracking-tight">
-            LIVE <span className="text-matrix text-glow">DEMO</span>
+            LIVE{" "}
+            <a
+              href="https://youtu.be/kEfyE35iSqw"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-matrix text-glow hover:underline"
+            >
+              <span>DEMO</span>
+            </a>
           </h2>
           <p className="text-sm text-muted-foreground mt-3 max-w-xl">
             Walkthrough of the system in motion — captured from the field.
