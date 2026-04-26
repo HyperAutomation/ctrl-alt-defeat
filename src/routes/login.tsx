@@ -57,7 +57,7 @@ function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen relative overflow-hidden crt-flicker">
+    <div className="min-h-screen relative overflow-x-hidden crt-flicker">
       <MatrixRain />
 
       <nav className="relative z-20 border-b border-matrix/20 backdrop-blur-md bg-background/40">
